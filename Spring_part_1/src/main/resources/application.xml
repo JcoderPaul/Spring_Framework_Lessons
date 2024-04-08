@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                             http://www.springframework.org/schema/beans/spring-beans.xsd
+                             http://www.springframework.org/schema/context
+                             http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <bean class="spring.oldboy.bean_factory_pp.LogBeanFactoryPostProcessor"/>
+    <bean class="spring.oldboy.bean_factory_pp.VerifyPropertyBeanFactoryPostProcessor"/>
+
+    <!--
+    Для того чтобы подключить файл свойств из которого будет идти внедрение зависимостей (свойств)
+    используем еще один bean, но, т.к. он не будет извлекаться из контекста мы и не будет его именовать.
+    -->
+     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+            <property name="locations" value="classpath:application.properties"/>
+     </bean>
+
+    <!--
+    Несложно увидеть, что сначала, скорее всего будут создаваться bean-ы без зависимостей, далее с одной
+    зависимостью и далее по мере сложности взаимосвязи... см. DOC/BeansLifeCycle/BeansLifeCycle.png
+
+    Bean Definitions - каркас bean-а (его определение), если у нас два bean-а одного класса, необходимо
+    их именовать, чтобы контекст точно знал, что возвращать по требованию 'name' - имя или псевдоним -
+    (alias) и то и другое обязаны быть уникальным.
+    -->
+    <bean id="pool1" name="p1,p2,p3" class="spring.oldboy.pool.StarterConnectionPool"/>
+    <bean id="pool2" name="p4" class="spring.oldboy.pool.StarterConnectionPool"/>
+
+    <!-- Настройка bean_definition класса с конструктором -->
+    <bean id="pool3" name="p5" class="spring.oldboy.pool.AdvancedConnectionPool">
+
+    <!--
+    Ниже приведен пример, как настраивать Bean Definition параметры класса (чертежа) будущего
+    bean-a.
+
+    Если мы сами явно не проиндексируем наши параметры, или не проименуем, ТО УКАЗЫВАЕМ значения
+    параметров строго по-порядку (как в конструкторе), класса (чертежа):
+    spring/oldboy/pool/AdvancedConnectionPool.java.
+
+    ТОЛЬКО В СЛУЧАЕ явного индексирования полей класса, мы можем не следить за порядком настройки
+    нашего будущего bean-a. Существует необязательный параметр настройки будущего bean-a, это type.
+    В основном 'index' и 'type', позволяют не совершать нам ошибок при настройках и модификациях
+    bean-s. ТАКЖЕ существует вероятность, что у нас есть классы с несколькими параметрами и данный
+    вариант настройки позволяет создавать разные bean-s из одного класса, см. ниже 'driver'.
+    -->
+    <constructor-arg index="0" name="username" type="java.lang.String" value="postgres"/>
+    <!-- В конструкторе, мы, также можем ссылаться на другой bean - login -->
+    <constructor-arg index="1" name="login" type="java.lang.String" ref="login"/>
+    <constructor-arg index="2" name="poolSize" type="java.lang.Integer" value="10"/>
+    <constructor-arg index="3" name="args" type="java.util.List">
+        <list>
+            <value>--arg1=value1</value>
+            <value>--arg2=value2</value>
+            <!-- Ссылаемся на bean - driver -->
+            <ref bean="driver"/>
+        </list>
+    </constructor-arg>
+
+    <constructor-arg index="4" name="properties" type="java.util.Map">
+    <!-- Классический MAP содержит entry (запись): key - value -->
+        <map>
+            <entry key="url" value="postgresurl"/>
+            <entry key="password" value="123"/>
+            <!-- Задаем имя ключа "driver" и затем указываем ссылку на наш bean 'driver' -->
+            <entry key="driver" value-ref="driver"/>
+        </map>
+    </constructor-arg>
+    </bean>
+
+    <!--
+    Мы знаем, что у класса String более одного конструктора, но нам нужен, тот,
+    что принимает на вход аргументы типа String, со значением:
+    value - "PostgresDriver"
+    -->
+    <bean id="driver" class="java.lang.String">
+        <constructor-arg type="java.lang.String" value="PostgresDriver"/>
+    </bean>
+
+    <bean id="login" class="java.lang.String">
+        <constructor-arg type="java.lang.String" value="MyStrangeLogin"/>
+    </bean>
+
+    <!--
+    Хорошей практикой считается давать ID название сообразно имени класса.
+
+    Естественно сразу видна зависимость - для начала нам необходимо прописать
+    настройки bean-a от которого зависит текущий bean
+    -->
+    <bean id="firmRepository" class="spring.oldboy.repository.FirmRepository" factory-method="of">
+        <constructor-arg ref="pool3"/>
+    </bean>
+
+    <!--
+    В данном случае у нас есть возможность настроить Bean Definition и через конструктор
+    (constructor-arg), а так же и через сеттер (property).
+    -->
+    <bean id="poolSetIn" name="p6" class="spring.oldboy.pool.SetterInConnectionPool">
+        <constructor-arg index="0" name="username" type="java.lang.String" value="postgres"/>
+        <constructor-arg index="1" name="login" type="java.lang.String" ref="login"/>
+        <constructor-arg index="2" name="poolSize" type="java.lang.Integer" value="10"/>
+        <constructor-arg index="3" name="args" type="java.util.List">
+            <list>
+                <value>--arg1=value1</value>
+                <value>--arg2=value2</value>
+                <ref bean="driver"/>
+            </list>
+        </constructor-arg>
+        <!-- Через конструктор передаем null -->
+        <constructor-arg index="4" name="properties" type="java.util.Map">
+            <null/>
+        </constructor-arg>
+        <!-- Задаем те же параметры через сеттер (как property), что передавали через конструктор -->
+        <property name="properties">
+            <map>
+                <entry key="url" value="postgresurl"/>
+                <entry key="password" value="123"/>
+                <entry key="driver" value-ref="driver"/>
+            </map>
+        </property>
+    </bean>
+
+    <!--
+    Зададим область видимости prototype - это означает, что данный bean не будет
+    храниться в ассоциативном массиве IoC контейнера, а будет создаваться по
+    требованию: логики программы в нужном месте, или связного с ним bean-a.
+    -->
+    <bean id="firmService" class="spring.oldboy.service.FirmService" scope="prototype">
+        <constructor-arg ref="firmRepository"/>
+    </bean>
+
+    <!-- Внедрим InitialisationCallBack, как init-method="init", а в самом классе пропишем это метод -->
+    <bean id="initCallBackPool" name="intCbPool" class="spring.oldboy.pool.InitCallBackPool"
+          init-method="init"
+          destroy-method="destroy"
+          scope="singleton">
+        <constructor-arg index="0" name="username" type="java.lang.String" value="postgres"/>
+        <constructor-arg index="1" name="login" type="java.lang.String" ref="login"/>
+        <constructor-arg index="2" name="poolSize" type="java.lang.Integer" value="10"/>
+        <constructor-arg index="3" name="args" type="java.util.List">
+            <list>
+                <value>--arg1=value1</value>
+                <value>--arg2=value2</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg index="4" name="properties" type="java.util.Map">
+            <map>
+                <entry key="url" value="postgresurl"/>
+                <entry key="password" value="123"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <!-- SPEL-демо -->
+    <bean id="spelDemo" name="intSpelDemoPool" class="spring.oldboy.pool.InitCallBackPool">
+        <constructor-arg index="0" name="username" type="java.lang.String" value="${db.username}"/>
+        <constructor-arg index="1" name="login" type="java.lang.String" ref="login"/>
+        <constructor-arg index="2" name="poolSize" type="java.lang.Integer" value="${db.pool.size}"/>
+        <constructor-arg index="3" name="args" type="java.util.List">
+            <list>
+                <value>--arg1=value1</value>
+                <value>--arg2=value2</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg index="4" name="properties" type="java.util.Map">
+            <!--
+            Фактически, со SPEL, мы можем писать достаточно
+            сложную логику, чуть ли не JAVA код, см. ниже.
+            -->
+            <map>
+                <entry key="url" value="postgresurl"/>
+                <entry key="password" value="123"/>
+                <entry key="driver" value="#{driver.substring(3)}"/>
+                <entry key="test" value="#{driver.length() > 10}"/>
+                <entry key="test1" value="#{driver.length() > T(Math).random() * 10}"/>
+                <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/>
+                <entry key="currentUser" value="#{systemProperties['user.name']}"/>
+                <entry key="currentUser" value="${user.name}"/>
+            </map>
+        </constructor-arg>
+    </bean>
+</beans>
