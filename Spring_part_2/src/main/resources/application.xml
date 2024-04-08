@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                             http://www.springframework.org/schema/beans/spring-beans.xsd
+                             http://www.springframework.org/schema/context
+                             http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <context:annotation-config/>
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <!-- Прописываем наши пост-процессоры -->
+    <bean class="spring.oldboy.bean_post_processor.InjectBeanPostProcessor"/>
+    <bean class="spring.oldboy.bean_post_processor.MyOwnTransactionBeanPostProcessor"/>
+    <bean class="spring.oldboy.bean_post_processor.AuditingBeanPostProcessor"/>
+
+    <!--
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+    -->
+
+    <bean class="spring.oldboy.bean_factory_pp.LogBeanFactoryPostProcessor"/>
+    <bean class="spring.oldboy.bean_factory_pp.VerifyPropertyBeanFactoryPostProcessor"/>
+
+    <bean id="pool2" name="poolchic" class="spring.oldboy.pool.StarterConnectionPool"/>
+    <bean id="poolStarter" name="poolGate" class="spring.oldboy.pool.StarterConnectionPool"/>
+
+    <bean id="stockRepository" name="repick" class="spring.oldboy.repository.StockRepository"/>
+    <bean id="stockSetRepository" name="setRepic" class="spring.oldboy.repository.StockSetRepository"/>
+    <bean id="coolStockRepository" name="setAllPAram" class="spring.oldboy.repository.StockAllInjectRepository"/>
+
+    <!--
+    Внедрение зависимостей в CompanyRepository, FirmRepository
+    и UserRepository пойдут через аннотацию @InjectBean
+    -->
+    <bean id="companyRepository" class="spring.oldboy.repository.CompanyRepository"/>
+    <bean id="userRepository" class="spring.oldboy.repository.UserRepository"/>
+
+    <bean id="pool3" name="p5" class="spring.oldboy.pool.AdvancedConnectionPool">
+    <constructor-arg index="0" name="username" type="java.lang.String" value="postgres"/>
+    <constructor-arg index="1" name="login" type="java.lang.String" ref="login"/>
+    <constructor-arg index="2" name="poolSize" type="java.lang.Integer" value="10"/>
+    <constructor-arg index="3" name="args" type="java.util.List">
+        <list>
+            <value>--arg1=value1</value>
+            <value>--arg2=value2</value>
+            <ref bean="driver"/>
+        </list>
+    </constructor-arg>
+    <constructor-arg index="4" name="properties" type="java.util.Map">
+        <map>
+            <entry key="url" value="postgresurl"/>
+            <entry key="password" value="123"/>
+            <entry key="driver" value-ref="driver"/>
+        </map>
+    </constructor-arg>
+    </bean>
+
+    <bean id="driver" class="java.lang.String">
+        <constructor-arg type="java.lang.String" value="PostgresDriver"/>
+    </bean>
+
+    <bean id="login" class="java.lang.String">
+        <constructor-arg type="java.lang.String" value="MyStrangeLogin"/>
+    </bean>
+
+    <bean id="poolSetIn" name="p6" class="spring.oldboy.pool.SetterInConnectionPool">
+        <constructor-arg index="0" name="username" type="java.lang.String" value="postgres"/>
+        <constructor-arg index="1" name="login" type="java.lang.String" ref="login"/>
+        <constructor-arg index="2" name="poolSize" type="java.lang.Integer" value="10"/>
+        <constructor-arg index="3" name="args" type="java.util.List">
+            <list>
+                <value>--arg1=value1</value>
+                <value>--arg2=value2</value>
+                <ref bean="driver"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg index="4" name="properties" type="java.util.Map">
+            <null/>
+        </constructor-arg>
+        <property name="properties">
+            <map>
+                <entry key="url" value="postgresurl"/>
+                <entry key="password" value="123"/>
+                <entry key="driver" value-ref="driver"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="initCallBackPool" name="intCbPool" class="spring.oldboy.pool.InitCallBackPool">
+        <constructor-arg index="0" name="username" type="java.lang.String" value="postgres"/>
+        <constructor-arg index="1" name="login" type="java.lang.String" ref="login"/>
+        <constructor-arg index="2" name="poolSize" type="java.lang.Integer" value="10"/>
+        <constructor-arg index="3" name="args" type="java.util.List">
+            <list>
+                <value>--arg1=value1</value>
+                <value>--arg2=value2</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg index="4" name="properties" type="java.util.Map">
+            <map>
+                <entry key="url" value="postgresurl"/>
+                <entry key="password" value="123"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="spelDemo" name="intSpelDemoPool" class="spring.oldboy.pool.InitCallBackPool">
+        <constructor-arg index="0" name="username" type="java.lang.String" value="${db.username}"/>
+        <constructor-arg index="1" name="login" type="java.lang.String" ref="login"/>
+        <constructor-arg index="2" name="poolSize" type="java.lang.Integer" value="${db.pool.size}"/>
+        <constructor-arg index="3" name="args" type="java.util.List">
+            <list>
+                <value>--arg1=value1</value>
+                <value>--arg2=value2</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg index="4" name="properties" type="java.util.Map">
+            <map>
+                <entry key="url" value="postgresurl"/>
+                <entry key="password" value="123"/>
+                <entry key="driver" value="#{driver.substring(3)}"/>
+                <entry key="test" value="#{driver.length() > 10}"/>
+                <entry key="test1" value="#{driver.length() > T(Math).random() * 10}"/>
+                <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/>
+                <entry key="currentUser" value="#{systemProperties['user.name']}"/>
+                <entry key="currentUser" value="${user.name}"/>
+            </map>
+        </constructor-arg>
+    </bean>
+</beans>
