@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                             http://www.springframework.org/schema/beans/spring-beans.xsd
+                             http://www.springframework.org/schema/context
+                             http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <context:annotation-config/>
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <!-- Прописываем наши пост-процессоры -->
+    <bean class="spring.oldboy.bean_post_processor.DropBeanBeforeInitialisationPostProcessor"/>
+
+    <bean id="poolYes" name="p4" class="spring.oldboy.pool.StarterConnectionPool"/>
+
+    <!-- Внедрение зависимостей в FirmRepository пойдут через аннотацию @InjectBean -->
+    <bean id="firmRepository" class="spring.oldboy.repository.FirmRepository"/>
+
+    <bean id="firmService" class="spring.oldboy.service.FirmService" scope="prototype">
+        <constructor-arg ref="firmRepository"/>
+    </bean>
+
+</beans>
