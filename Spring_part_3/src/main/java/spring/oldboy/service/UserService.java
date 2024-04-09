@@ -23,7 +23,11 @@ public class UserService {
     */
     private final CrudRepository<Integer, Company> companyRepository;
 
-    /* И внедряем его через конструктор */
+    /*
+    И внедряем его через конструктор. Поскольку у нас может быть несколько bean-ов
+    реализующих CrudRepository, то конкретный bean, Spring будет искать на основании
+    названия параметра переданного в конструктор - companyRepository.
+    */
     public UserService(UserRepository userRepository,
                        CrudRepository<Integer, Company> companyRepository) {
         this.userRepository = userRepository;
