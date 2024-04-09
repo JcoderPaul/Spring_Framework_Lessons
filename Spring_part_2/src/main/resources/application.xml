@@ -7,7 +7,12 @@
                              http://www.springframework.org/schema/context
                              http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
+    <!--
+        <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+        заменяем на:
+    -->
     <context:annotation-config/>
+
     <context:property-placeholder location="classpath:application.properties"/>
 
     <!-- Прописываем наши пост-процессоры -->
@@ -15,9 +20,7 @@
     <bean class="spring.oldboy.bean_post_processor.MyOwnTransactionBeanPostProcessor"/>
     <bean class="spring.oldboy.bean_post_processor.AuditingBeanPostProcessor"/>
 
-    <!--
-    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
-    -->
+
 
     <bean class="spring.oldboy.bean_factory_pp.LogBeanFactoryPostProcessor"/>
     <bean class="spring.oldboy.bean_factory_pp.VerifyPropertyBeanFactoryPostProcessor"/>
