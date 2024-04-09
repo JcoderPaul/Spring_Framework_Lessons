@@ -23,6 +23,7 @@ public class UserService {
     */
     private final CrudRepository<Integer, Company> companyRepository;
 
+    /* И внедряем его через конструктор */
     public UserService(UserRepository userRepository,
                        CrudRepository<Integer, Company> companyRepository) {
         this.userRepository = userRepository;
