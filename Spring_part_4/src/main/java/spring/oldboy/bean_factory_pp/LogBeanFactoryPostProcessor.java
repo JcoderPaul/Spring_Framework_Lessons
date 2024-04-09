@@ -15,10 +15,7 @@ public class LogBeanFactoryPostProcessor implements BeanFactoryPostProcessor, Pr
                                                                                  BeansException {
         System.out.println("1.postProcessBeanFactory - LogBeanFactoryPostProcessor");
     }
-    /*
-    Влияем на порядок инициализации (запуска) порядок
-    запуска этих экземпляров BeanFactoryPostProcessor bean-ов
-    */
+
     @Override
     public int getOrder() {
         return Ordered.LOWEST_PRECEDENCE;
