@@ -1,0 +1,28 @@
+****** Annotation Interface ImportResource ******
+
+Источник: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html
+
+@Retention(RUNTIME)
+@Target(TYPE)
+@Documented
+public @interface ImportResource
+
+Указывает один или несколько ресурсов, содержащих определения компонентов для импорта.
+Как и @Import, эта аннотация предоставляет функциональность, аналогичную <import/>
+элементу в Spring XML. Обычно он используется при разработке @Configuration классов,
+которые будут загружаться с помощью AnnotationConfigApplicationContext, но все же
+необходимы некоторые функции XML, такие, как пространства имен.
+
+По умолчанию аргументы атрибута value() будут обрабатываться с использованием
+GroovyBeanDefinitionReader если заканчиваются на ".groovy"; в противном случае
+XmlBeanDefinitionReader для анализа XML-файлов Spring будет использоваться <beans/>.
+
+При желании reader() атрибут может быть объявлен, что позволит пользователю выбрать
+собственную BeanDefinitionReader реализацию.
+
+*********************************************************************************************************
+Также см.:
+- Configuration - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html
+- Import - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Import.html
+- Class GroovyBeanDefinitionReader - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/groovy/GroovyBeanDefinitionReader.html
+*********************************************************************************************************
