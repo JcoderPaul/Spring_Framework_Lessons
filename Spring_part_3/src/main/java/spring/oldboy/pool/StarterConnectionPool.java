@@ -1,5 +1,7 @@
 package spring.oldboy.pool;
+
 /* Примерный вид bean-a из реального приложения - неизменяем, много аннотаций */
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
