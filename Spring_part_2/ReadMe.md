@@ -133,3 +133,6 @@ ________________________________________________________________________________
 - [StockRepository.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_2/src/main/java/spring/oldboy/repository/StockRepository.java) - внедрение зависимости в поле при помощи вышеуказанных аннотаций;
 - [StockSetRepository.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_2/src/main/java/spring/oldboy/repository/StockSetRepository.java) - внедрение зависимостей при аннотировании сеттера;
 - [StockAllInjectRepository.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_2/src/main/java/spring/oldboy/repository/StockAllInjectRepository.java) - аннотирование коллекций при внедрении зависимостей;
+
+________________________________________________________________________________________________________________________
+#### [Continued in the next section...](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_3)
