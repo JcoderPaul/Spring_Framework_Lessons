@@ -16,10 +16,7 @@ public class VerifyPropertyBeanFactoryPostProcessor implements BeanFactoryPostPr
                                                                                   BeansException {
         System.out.println("2.postProcessBeanFactory - VerifyPropertyBeanFactoryPostProcessor");
     }
-    /*
-    Влияем на порядок инициализации (запуска) порядок
-    запуска этих экземпляров BeanFactoryPostProcessor bean-ов
-    */
+
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE;
