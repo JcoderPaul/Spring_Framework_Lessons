@@ -129,7 +129,7 @@ ________________________________________________________________________________
 #### Lesson 13 - аннотации @Autowired, @Value, @Qualifier
 
 - [AutowiredQualifierDemo.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_2/src/main/java/spring/oldboy/lesson_13/AutowiredQualifierDemo.java) - приложение-демонстратор обращения к bean-ам в которые инъекция зависимостей 
-пошла через аннотации @Autowired (@Resource), @Value, @Qualifier см. классы и комментарии в них:
+пошла через аннотации [@Autowired](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired.html) ([@Resource](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/resource.html)), [@Value](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/value-annotations.html), [@Qualifier](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-qualifiers.html) см. классы и комментарии в них:
 - [StockRepository.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_2/src/main/java/spring/oldboy/repository/StockRepository.java) - внедрение зависимости в поле при помощи вышеуказанных аннотаций;
 - [StockSetRepository.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_2/src/main/java/spring/oldboy/repository/StockSetRepository.java) - внедрение зависимостей при аннотировании сеттера;
 - [StockAllInjectRepository.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_2/src/main/java/spring/oldboy/repository/StockAllInjectRepository.java) - аннотирование коллекций при внедрении зависимостей;
