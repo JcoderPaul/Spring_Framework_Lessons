@@ -2,7 +2,7 @@
 
 [Предыдущий раздел по конфигурированию Spring](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_2) приложения при помощи аннотаций.
 
-В папке DOC sql-скрипты и др. полезные файлы.
+В [папке DOC](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_3/DOC) sql-скрипты и др. полезные файлы.
 
 Док. для изучения:
 - [Spring Framework 3.2.x Reference Documentation](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/index.html) ;
