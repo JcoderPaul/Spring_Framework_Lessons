@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                             http://www.springframework.org/schema/beans/spring-beans.xsd
+                             http://www.springframework.org/schema/context
+                             http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <context:component-scan base-package="spring.oldboy"
+                            annotation-config="true"
+                            resource-pattern="**/*.class"
+                            scoped-proxy="no"
+                            use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+        <context:include-filter type="assignable" expression="spring.oldboy.repository.CrudRepository"/>
+        <context:include-filter type="regex" expression="spring.oldboy\..+Repository"/>
+    </context:component-scan>
+
+    <bean id="driver" class="java.lang.String">
+        <constructor-arg type="java.lang.String" value="${db.driver}"/>
+    </bean>
+
+    <!-- Пока мы не изучили JavaBeanConfig оставим тут один дубликат CompanyRepository -->
+    <bean id="companyRepository" class="spring.oldboy.repository.CompanyRepository"/>
+
+</beans>
