@@ -24,11 +24,18 @@ public class EntityEvent extends EventObject {
     /* Наш Event обладает полями и методами */
     private final AccessType accessType;
 
+    /*
+    Объектом 'СОБЫТИЯ' (event-a) будет некая сущность, т.е. событие обычно происходит с чем-то или кем-то,
+    это некое изменение состояния или обращение к сущности (без внесения изменений) и т.п., другими словами,
+    если с наблюдаемой сущностью ничего не произошло, то и 'СОБЫТИЯ' не было. Поэтому в конструктор передается
+    сущность с которой произошло 'СОБЫТИЕ', ну и в нашем случае само событие (или AccessType).
+    */
     public EntityEvent(Object entity, AccessType accessType) {
         super(entity);
         this.accessType = accessType;
     }
 
+    /* Геттер позволяет получить 'СОБЫТИЕ' или 'название события' произошедшего с 'Event Object-ом' */
     public AccessType getAccessType() {
         return accessType;
     }
