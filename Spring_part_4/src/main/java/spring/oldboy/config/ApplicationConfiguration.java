@@ -13,6 +13,7 @@ import spring.web_demo_config.WebConfiguration;
 
 /* Импортируем настройки из .xml файла */
 @ImportResource("classpath:application.xml")
+
 /*
 Тут мы указываем другие конфигурационные классы, для подключения к нашему приложению,
 мы можем тут указать конфигурации, которые сами автоматически не сканируем. Т.е. наше
@@ -31,6 +32,7 @@ import spring.web_demo_config.WebConfiguration;
                 @Filter(type = FilterType.ASSIGNABLE_TYPE, value = CrudRepository.class),
                 @Filter(type = FilterType.REGEX, pattern = "spring.oldboy\\..+Repository")
         })
+
 /*
 Поскольку наш конфигурационный файл обычный bean (компонент), то инъекцию зависимостей
 (внедрение других bean-ов) мы можем ввести и через поля, и через конструктор, и через
@@ -44,6 +46,7 @@ public class ApplicationConfiguration {
         то в параметр его можно было и не передавать.
         */
         @Bean("pool2")
+
         /*
         С работой области видимости мы уже сталкивались и тут мы задаем,
         что данный bean будет singleton, т.е. попадет в IoC контейнер.
@@ -53,6 +56,7 @@ public class ApplicationConfiguration {
         public StarterConnectionPool pool2(@Value("${db.username}") String username) {
                 return new StarterConnectionPool(username, 20);
         }
+
         /*
         Еще раз, мы можем из набора однотипных bean-ов выбрать конкретный используя,
         как в нашем случае @Qualifier("pool2") или как в нашем же случае имя совпадающее
