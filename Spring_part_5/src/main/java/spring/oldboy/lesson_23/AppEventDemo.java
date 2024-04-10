@@ -8,7 +8,8 @@ import spring.oldboy.service.CompanyService;
 public class AppEventDemo {
     public static void main(String[] args) {
 
-        try (var context = new AnnotationConfigApplicationContext()) {
+        try (AnnotationConfigApplicationContext context =
+                                          new AnnotationConfigApplicationContext()) {
             context.register(ApplicationConfiguration.class);
             context.refresh();
 
