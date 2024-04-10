@@ -1,4 +1,5 @@
 package spring.oldboy.ioc;
+
 /* Более наглядную реализацию принципа см. IoCDemo.java и IoCClasses */
 public class Container {
 
