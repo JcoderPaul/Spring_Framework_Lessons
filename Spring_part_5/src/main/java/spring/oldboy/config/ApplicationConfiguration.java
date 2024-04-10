@@ -15,7 +15,7 @@ import spring.oldboy.repository.UserRepository;
         includeFilters = {
                 @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Component.class),
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = CrudRepository.class),
-                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com\\..+Repository")
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "spring.oldboy\\..+Repository")
         })
 public class ApplicationConfiguration {
 
