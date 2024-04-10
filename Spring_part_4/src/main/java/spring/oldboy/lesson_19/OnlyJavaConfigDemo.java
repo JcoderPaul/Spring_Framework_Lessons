@@ -7,7 +7,7 @@ import spring.oldboy.repository.CrudRepository;
 public class OnlyJavaConfigDemo {
     public static void main(String[] args) {
 
-        /* Получаем контекст из *.xml */
+        /* Теперь получаем контекст из ApplicationConfiguration */
         try(AnnotationConfigApplicationContext myContext =
                     new AnnotationConfigApplicationContext(ApplicationConfiguration.class)){
 
