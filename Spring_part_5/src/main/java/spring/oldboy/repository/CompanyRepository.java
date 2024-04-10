@@ -30,6 +30,11 @@ public class CompanyRepository implements CrudRepository<Integer, Company> {
         System.out.println("init company repository");
     }
 
+    /*
+    В данном случае мы имитируем поиск компании в БД по ID и возвращаем ее ID
+    (для примера достаточно), в данном случае просто создаем ее и все, мы же
+    изучаем работу EventListener-ов, а не реализацию CRUD методов на реальной БД.
+    */
     @Override
     public Optional<Company> findById(Integer id) {
         System.out.println("findById method...");
