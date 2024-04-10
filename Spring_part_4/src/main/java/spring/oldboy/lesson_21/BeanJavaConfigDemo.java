@@ -7,7 +7,7 @@ import spring.oldboy.repository.UserRepository;
 public class BeanJavaConfigDemo {
     public static void main(String[] args) {
 
-        /* Получаем контекст из *.xml */
+        /* Получаем контекст из нашего ApplicationConfiguration */
         try(AnnotationConfigApplicationContext myContext =
                     new AnnotationConfigApplicationContext(ApplicationConfiguration.class)){
 
