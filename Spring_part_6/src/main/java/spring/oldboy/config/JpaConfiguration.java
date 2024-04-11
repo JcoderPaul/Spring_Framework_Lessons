@@ -34,6 +34,8 @@ public class JpaConfiguration {
     }
 
     /*
+    Lesson 30:
+
     Нам нужно получить bean из класса в DatabaseProperties.java,
     ID данного bean-a будет название метода 'databaseProperties'
     */
