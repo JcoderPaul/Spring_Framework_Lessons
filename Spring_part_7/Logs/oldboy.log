@@ -1,0 +1,7 @@
+2024-04-11T20:49:31.393+05:00  INFO 3420 --- [main] spring.oldboy.pool.ConnectionPool        : Init connection pool
+2024-04-11T20:49:31.399+05:00  INFO 3420 --- [main] spring.oldboy.pool.ConnectionPool        : Init connection pool
+2024-04-11T20:49:31.401+05:00  INFO 3420 --- [main] spring.oldboy.pool.ConnectionPool        : Init connection pool
+2024-04-11T20:49:31.405+05:00  WARN 3420 --- [main] s.oldboy.repository.CompanyRepository    : init company repository
+2024-04-11T20:49:31.568+05:00  INFO 3420 --- [SpringApplicationShutdownHook] spring.oldboy.pool.ConnectionPool        : Clean connection pool
+2024-04-11T20:49:31.569+05:00  INFO 3420 --- [SpringApplicationShutdownHook] spring.oldboy.pool.ConnectionPool        : Clean connection pool
+2024-04-11T20:49:31.570+05:00  INFO 3420 --- [SpringApplicationShutdownHook] spring.oldboy.pool.ConnectionPool        : Clean connection pool
