@@ -1,0 +1,43 @@
+# Используем вложенность, когда каждый модуль
+# имеет свой префикс (в нашем случае это 'db:')
+db:
+  username: ${username.value:postgres}
+  password: pass
+  driver: PostgresDriver
+  url: postgres:5432
+  hosts: localhost,127.0.0.1
+  # Тут мы тоже можем использовать общий префикс
+  # 'pool.' при расширенной настройке pool-a:
+  pool:
+    size: 12
+    timeout: 10
+  # Данной настройки в *.properties файле нет,
+  # тут мы исследуем возможности YAML формата
+  # при работе с массивами:
+  pools:
+    - size: 1
+      timeout: 1
+    - size: 2
+      timeout: 2
+    - size: 3
+      timeout: 3
+  # Добавим коллекцию неких свойств, которые
+  # легко представить как Map<String, Object>
+  properties:
+    first: 123
+    second: 567
+    third.value: Third
+
+spring.profiles.active: development,qa
+
+# Префикс для работы с логерами (их настройки)
+logging:
+  # Зададим уровень логирования корневого логера
+  level:
+    # Будем фиксировать сообщения типа WARN (и все что выше ERROR и FATAL)
+    root: WARN
+    # Так же мы можем настроить логер для конкретного класса
+    # Но в данном случае для всех классов пакета pool
+    spring.oldboy.pool: INFO
+  # Записываем лог в файл
+  file.name: Logs/oldboy.log
