@@ -1,0 +1,313 @@
+* - переводная статья
+
+****** Использование Logback со Spring Boot ******
+
+Logback представляет собой отличную среду ведения журналов для корпоративных приложений. Он быстрый, имеет
+простые, но мощные параметры конфигурации и требует небольшого объема памяти. Я представил logback в статье
+DOC/ArticlesAboutLogging/LoggingBegin.txt.
+
+Рассмотрим, как использовать Logback с Spring Boot. Несмотря на то, что для Java существует несколько вариантов
+ведения журнала, Spring Boot решил использовать Logback в качестве средства ведения журнала по умолчанию. Как и
+многие вещи в Spring Boot, Logback по умолчанию настраивается с разумными настройками по умолчанию.
+Spring Boot сразу же упрощает использование Logback.
+
+*** Создание регистраторов ***
+
+Предположим у нас есть веб-приложения созданное с помощью Spring Boot. Настроим Logback для этого приложения.
+Приложение содержит контроллер под названием IndexController, к которому мы добавим логирующий код.
+IndexController выглядит так:
+
+****************************************************************************************************************
+    import spring.oldboy.springframework.helpers.SpringLoggingHelper;
+    import org.slf4j.Logger;
+    import org.slf4j.LoggerFactory;
+    import org.springframework.stereotype.Controller;
+    import org.springframework.web.bind.annotation.RequestMapping;
+
+    @Controller
+    public class IndexController {
+        private final Logger logger = LoggerFactory.getLogger(this.getClass());
+        @RequestMapping("/")
+        String index(){
+            logger.debug("This is a debug message");
+            logger.info("This is an info message");
+            logger.warn("This is a warn message");
+            logger.error("This is an error message");
+            new SpringLoggingHelper().helpMethod();
+            return "index";
+        }
+    }
+****************************************************************************************************************
+
+Добавим SpringLoggingHelper class с кодом регистрации в приложении. Хотя этот класс не делает ничего, кроме
+создания операторов логирования, он поможет нам понять настройку логирования в различных пакетах. Вот код
+SpringLoggingHelper:
+
+****************************************************************************************************************
+    import org.slf4j.Logger;
+    import org.slf4j.LoggerFactory;
+
+    public class SpringLoggingHelper {
+        private final Logger logger = LoggerFactory.getLogger(this.getClass());
+        public void helpMethod(){
+            logger.debug("This is a debug message");
+            logger.info("This is an info message");
+            logger.warn("This is a warn message");
+            logger.error("This is an error message");
+        }
+    }
+****************************************************************************************************************
+
+В обоих приведенных выше классах мы писали код логирования для API SLF4J. SLF4J API - это фасад для часто
+используемых платформ ведения журналов, таких как Java Util Logging, Log4J 2 и Logback. При написании кода
+для SLF4J наш код остается отделенным от Logback, что дает нам возможность подключить другую структуру ведения
+журналов, если это потребуется позже.
+
+Если вас интересуют зависимости SLF4J и Logback, вам не нужно их указывать. Spring Boot тоже их содержит.
+Предполагая, что вы используете Maven или Gradle для управления проектом Spring Boot, необходимые зависимости
+являются частью зависимостей Spring Boot.
+
+Запустите SpringBootWeb-приложение. Когда приложение запустится (на локальной машине), откройте его из браузера
+по URL-адресу http://localhost:8080.
+
+Вывод журнала на консоли IntelliJ IDE см. DOC/ArticlesAboutLogging/ArticlesPictures/LogbackDefaultConsoleView.jpg
+
+Мы не писали никакой конфигурации для Logback. Выход обоих Индексконтроллер и SpringLogging Helper классы взяты
+из корневого регистратора Logback. Обратите внимание, что сообщения отладки не регистрируются. По умолчанию при
+входе в журнал будут записываться сообщения уровня отладки. Однако команда Spring Boot предоставляет нам
+конфигурацию по умолчанию для Logback в файле конфигурации Logback по умолчанию Spring Boot: base.xml.
+Кроме того, Spring Boot предоставляет два предварительно настроенных приложения через console-appender.xml и
+file-appender.xml файлы. Файл base.xml ссылается на них обоих.
+
+Вот код base.xml файл из репозитория github Spring-Boot:
+
+****************************************************************************************************************
+  //404: Not Found
+****************************************************************************************************************
+
+Здесь вы можете видеть, что Spring Boot переопределил уровень ведения журнала по умолчанию для Logback,
+установив для корневого регистратора значение ИНФОРМАЦИЯ (INFO), поэтому мы не увидели отладочные сообщения в
+приведенном выше примере. Как мы увидим в следующем разделе, изменить уровни журнала в Spring Boot очень
+просто.
+
+*** Конфигурация Spring Boot через файл application.properties  ***
+
+В приложении Spring Boot вы можете экспортировать конфигурацию для работы с одним и тем же кодом приложения
+в разных средах. Файл application.properties, вероятно, является самым популярным из нескольких различных
+способов экстернализации свойств конфигурации Spring Boot. В структуре по умолчанию веб-приложения Spring Boot
+вы можете найти файл application.properties в папке Resources. В файле application.properties вы можете
+определить уровни логирования Spring Boot, средства логирования приложений, Hibernate, Thymeleaf и т. д.
+Вы также можете определить файл журнала для записи сообщений журнала в дополнение к консоли.
+
+Вот пример файла application.properties с настройками журналирования:
+
+****************************************************************************************************************
+logging.level.org.springframework.web=INFO
+logging.level.spring.oldboy.springframework.controllers=DEBUG
+logging.level.org.hibernate=ERROR
+logging.file=logs/spring-boot-logging.log
+****************************************************************************************************************
+
+!!! Примечание !!! Также существует свойство logging.path, позволяющее указать путь к файлу журнала.
+                   Если вы его используете, Spring Boot создаст файл spring.log по указанному пути.
+                   Однако вы не можете указать одновременно свойства logging.file и logging.path вместе.
+                   Если это сделано, Spring Boot проигнорирует оба.
+
+Когда вы сейчас запустите основной класс и получаете доступ к приложению, и регистрируете сообщения от
+IndexController и SpringLoggingHelper, т.е. сообщения регистрируются и на консоли и в файле
+logs/spring-boot-logging.log см. DOC/ArticlesAboutLogging/ArticlesPictures/ApplicationPropertiesExampleOutput.jpg
+
+!!! Обратите внимание !!! В выводе отладочные сообщения и сообщения более высокого уровня IndexController
+                          зашел в консоль и файл. Это потому, что в файле application.properties, мы указали
+                          ОТЛАЖИВАТЬ (DEBUG) в качестве уровня журналирования для пакета
+                          spring.oldboy.springframework.controllers, который является частью IndexController.
+                          Поскольку мы не настроили явно SpringLoggingHelper класс, используется конфигурация
+                          по умолчанию из файла base.xml. Поэтому только ИНФОРМАЦИЯ (INFO) и сообщения более
+                          высокого уровня SpringLoggingHelper логируются.
+
+Вы можете видеть, насколько просто это использовать, когда вам нужно получить более подробные сообщения журнала
+для определенного класса или пакета.
+
+*** Конфигурация журнала через внешний файл ***
+
+Настройка журнала через файл application.properties будет достаточно для многих приложений Spring Boot.
+Однако крупные корпоративные приложения, вероятно, будут иметь гораздо более сложные требования к ведению
+журналов. Как я упоминал ранее, Logback поддерживает расширенные конфигурации ведения журнала через файлы
+конфигурации XML, YML и Groovy.
+
+В приложении Spring Boot вы можете указать XML-файл конфигурации Logback в пути к классам проекта logback.xml
+или logback-spring.xml. Однако команда Spring Boot рекомендует использовать постфикс -spring для названия файла
+конфигурации logback-spring.xml предпочтительнее чем logback.xml. Если вы используете в качестве файла
+конфигурации Spring Boot - logback.xml, то можете не иметь возможности полностью контролировать инициализацию
+журнала.
+
+Пример logback-spring.xml файла:
+
+****************************************************************************************************************
+       <?xml version="1.0" encoding="UTF-8"?>
+       <configuration>
+           <include resource="org/springframework/boot/logging/logback/base.xml"/>
+           <logger name="spring.oldboy.springframework.controllers" level="WARN" additivity="false">
+               <appender-ref ref="CONSOLE"/>
+               <appender-ref ref="FILE"/>
+           </logger>
+           <logger name="spring.oldboy.springframework.helpers" level="WARN" additivity="false">
+               <appender-ref ref="CONSOLE"/>
+               <appender-ref ref="FILE"/>
+           </logger>
+        </configuration>
+****************************************************************************************************************
+
+В приведенный выше код конфигурации мы включили base.xml в строке 3. Обратите внимание, что мы не настраивали
+никаких приложений, а полагались на CONSOLE и FILE appender-ы, предоставляемые Spring Boot.
+
+С обновленной конфигурацией Spring Boot Logback наш вывод журнала теперь выглядит как см.
+DOC/ArticlesAboutLogging/ArticlesPictures/ConfigurationExternalFileOutput.jpg
+
+!!! Примечание !!! Spring Boot файл конфигурации logback-spring.xml должен находиться в пути к классам.
+                   Однако вы можете сохранить его в другом месте и указать на него с помощью
+                   logging.config свойств в application.properties.
+
+*** Профили Spring Boot в журнале ***
+
+При разработке на локальном компьютере обычно уровень журнала устанавливается на ОТЛАЖИВАТЬ (DEBUG). Это
+даст вам подробные сообщения журнала для использования в разработке. В рабочей среде обычно уровень журнала
+устанавливается на ПРЕДУПРЕЖДАТЬ (WARN) или выше. Это сделано для того, чтобы избежать заполнения журналов
+излишней отладочной информацией и накладных расходов на ведение журналов во время работы в рабочей среде.
+Хотя ведение журнала очень эффективно, оно все равно требует затрат.
+
+Spring Boot учел эти требования, расширив профили Spring для конфигурации Logback с помощью элемента
+<springProfile>. Используя этот элемент (тэг) в своем файле logback-spring.xml вы можете при желании
+включить или исключить разделы конфигурации журналирования на основе активного профиля (profile) Spring.
+
+!!! Примечание !!! Поддержка конфигурирования Logback при помощи <springProfile> доступна начиная с
+                   версии SpringBoot 1.3.0.M2.
+
+Пример XML конфигурации Logback в Spring с использованием profiles:
+
+****************************************************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <springProfile name="dev,staging">
+        <logger name="spring.oldboy.springframework.controllers" level="DEBUG" additivity="false">
+            <appender-ref ref="CONSOLE" />
+        </logger>>
+    </springProfile>
+    <springProfile name="production">
+        <logger name="spring.oldboy.springframework.controllers" level="WARN" additivity="false">
+            <appender-ref ref="FILE" />
+        </logger>
+    </springProfile>
+ </configuration>
+****************************************************************************************************************
+
+В приведенном выше коде конфигурации для профилей dev и staging, мы настроили регистратор вывода данных
+spring.oldboy.springframework.controllers для фиксации событий ОТЛАЖИВАТЬ (DEBUG) и сообщения более высокого
+уровня на консоль. Для профиля production, мы настроили тот же регистратор для записи событий ПРЕДУПРЕЖДАТЬ
+(WARN) и сообщения более высокого уровня в файл.
+
+Чтобы передать профиль приложению, запустите приложение с командой -Dspring.profiles.active= аргумент JVM.
+
+Для локальной разработки в IntelliJ IDE выберите Run-> Edit Configurations и установите аргумент JVM в
+диалоговом окне Run/Debug Configurations, как показано на картинке см.
+DOC/ArticlesAboutLogging/ArticlesPictures/RunDebugConfig.jpg
+
+Теперь, когда мы запустим приложения с профилем dev, мы увидим следующий лог см.
+DOC/ArticlesAboutLogging/ArticlesPictures/DevProfileOutput.jpg
+
+В выводе DOC/ArticlesAboutLogging/ArticlesPictures/DevProfileOutput.jpg обратите внимание на вывод журнала IndexController. DEBUG
+и более высокие сообщения журнала регистрируются на консоли в зависимости от конфигурации профиля dev. Вы можете
+перезапустить приложение с помощью профиля production, чтобы гарантировать, что ПРЕДУПРЕЖДАТЬ (WARN) и более
+высокие сообщения журнала записываются в файл.
+
+*** Условная обработчика файла конфигурации ***
+
+Logback поддерживает условную обработку файлов конфигурации с помощью библиотеки Janino. Вы можете использовать
+<if>, <then> и <else> теги в файле конфигурации для нескольких сред. Чтобы выполнить условную обработку, добавьте
+зависимость Janino в ваш Maven POM, как показано ниже:
+
+****************************************************************************************************************
+. . .
+<dependency>
+   <groupId>org.codehaus.janino</groupId>
+   <artifactId>janino</artifactId>
+   <version>2.7.8</version>
+</dependency>
+. . .
+****************************************************************************************************************
+
+Файл logback-spring.xml с применением логики условий:
+
+****************************************************************************************************************
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml">
+    <springprofile name="dev,staging">
+        <logger name="spring.oldboy.springframework.controllers" level="DEBUG" additivity="false">
+            <appender-ref ref="CONSOLE">
+        </appender-ref></logger>>
+    </springprofile>
+    <springprofile name="production">
+    <logger name="spring.oldboy.springframework.controllers" level="WARN" additivity="false">
+        <appender-ref ref="FILE">
+    </appender-ref></logger>
+    </springprofile>
+    <if condition="property(&quot;spring.profiles.active&quot;).contains(&quot;dev&quot;)">
+        <then>
+            <logger name="spring.oldboy.springframework.helpers" level="DEBUG" additivity="false">
+                <appender-ref ref="CONSOLE">
+            </appender-ref></logger>
+        </then>
+        <else>
+            <logger name="spring.oldboy.springframework.helpers" level="WARN" additivity="false">
+                <appender-ref ref="FILE">
+            </appender-ref></logger>
+        </else>
+    </if>
+</include>
+</configuration>
+****************************************************************************************************************
+
+В приведенном выше коде мы указали условие в <if> тэге, чтобы проверить, содержит ли текущий активный
+профиль dev. Если условие оценивается как true, код конфигурации внутри <then> тэга выполняется.
+В тэге <then>, мы настроили spring.oldboy.springframework.helpers на логирование ОТЛАЖИВАТЬ (DEBUG) и
+более высокие сообщения на консоль. Мы использовали тэг <else> для настройки регистратора для записи
+ПРЕДУПРЕЖДАТЬ (WARN) и более высокоуровневые сообщения в файл журнала. Тэг <else> выполняется для любых
+профилей, кроме dev.
+
+Когда вы запускаете приложение с профилем production и получаете к нему доступ, оба регистратора будут
+регистрировать ПРЕДУПРЕЖДАТЬ (WARN) и более высокоуровневые сообщения в файл логера. Для профиля dev,
+оба регистратора будут регистрироваться ОТЛАЖИВАТЬ (DEBUG) и более высокоуровневые сообщения на консоль.
+
+*** Проблема автоматического сканирования журнала со Spring Boot ***
+
+В файле logback-spring.xml, вы можете включить автоматическое сканирование конфигурации, установив атрибут
+в scan="true". При включенном автоматическом сканировании Logback сканирует изменения в файле конфигурации.
+При любых изменениях Logback автоматически переконфигурируется с их учетом. Вы можете указать период
+сканирования, передав период времени в атрибут scanPeriod, значение которого указывается в миллисекундах,
+секундах, минутах или часах.
+
+Например, этот код сообщает Logback о необходимости сканирования logback-spring.xml через каждые 10 секунд.
+
+****************************************************************************************************************
+<configuration debug="true" scan="true" scanPeriod="10 seconds" >
+  ...
+</configuration>
+****************************************************************************************************************
+
+Одним из ограничений Spring Boot Logback является то, что с использованием springProfile and springProperty,
+настройка автоматического сканирования приводит к ошибке.
+
+****************************************************************************************************************
+    //Error on using auto-scan with springProfile
+    -ERROR in ch.qos.logback.core.joran.spi.Interpreter@4:39 - no applicable action for [springProfile],
+     current ElementPath  is [[configuration][springProfile]]
+    //Error on using auto-scan with springProperty
+     -ERROR in ch.qos.logback.core.joran.spi.Interpreter@12:125 - no applicable action for [springProperty],
+     current ElementPath  is [[configuration][springProperty]]
+****************************************************************************************************************
+
+Ошибка возникает из-за проблем несовместимости. Spring Boot использует подкласс JoranConfigurator для поддержки
+свойств springProfile и springProperty. К сожалению, Logback's ReconfigureOnChangeTask не предусмотрена связь
+для его подключения.
+
