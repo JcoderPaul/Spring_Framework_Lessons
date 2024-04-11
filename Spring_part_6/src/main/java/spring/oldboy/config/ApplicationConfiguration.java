@@ -15,13 +15,15 @@ import spring.oldboy.repository.UserRepository;
 что они не противоречат и не мешают работе FirstSpringAppRunner.java.
 */
 @PropertySource("classpath:properties_for_lesson_24/application.properties")
+@PropertySource("classpath:properties_for_lesson_24/application-qa.properties")
 @ComponentScan(basePackages = "spring.oldboy")
 public class ApplicationConfiguration {
 
     @Bean("pool2")
     @Scope(BeanDefinition.SCOPE_SINGLETON)
-    public ConnectionPool pool2(@Value("${db.username}") String username) {
-        return new ConnectionPool(username, 20);
+    public ConnectionPool pool2(@Value("${db.username}") String username,
+                                @Value("${db.pool.size}") Integer poolSize) {
+        return new ConnectionPool(username, poolSize);
     }
 
     @Bean
