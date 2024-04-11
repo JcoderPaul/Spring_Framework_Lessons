@@ -1,6 +1,6 @@
 package spring.oldboy.config;
 /*
-Создадим конфигурационный bean на основе application.yml
+Lesson 30: Создадим конфигурационный bean на основе application.yml
 
 DatabaseProperties должен быть POJO и иметь геттеры и сеттеры к полям, а так же
 конструктор без параметров. Поскольку Spring используя ReflectionAPI получает
@@ -10,7 +10,9 @@ DatabaseProperties должен быть POJO и иметь геттеры и с
 
 Для того чтобы передать Spring Boot соответствие данного класса и application.yml
 мы должны тем или иным способом сделать из нашего DatabaseProperties bean и ...
-Первый вариант - создаем соответствующий метод в JpaConfiguration.java
+
+Первый вариант - создаем соответствующий метод в JpaConfiguration.java, это
+*.databaseProperties()
 */
 import lombok.Data;
 import lombok.NoArgsConstructor;
