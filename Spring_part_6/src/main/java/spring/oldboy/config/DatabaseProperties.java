@@ -34,7 +34,8 @@ public class DatabaseProperties {
     private String hosts;
     /*
     Вложенность полей в application.yml имеет значение. Наш объект pool
-    состоит из 2-ух полей - создадим класс для него, см. ниже.
+    состоит из 2-ух полей - создадим класс для него вложенный класс
+    PoolProperties, см. ниже.
     */
     private PoolProperties pool;
     /*
