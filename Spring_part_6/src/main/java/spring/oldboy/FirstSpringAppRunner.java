@@ -22,6 +22,7 @@ import java.util.Map;
 public class FirstSpringAppRunner {
 
     public static void main(String[] args) {
+
         /*
         Тут создается контекст приложения (контейнер bean-ов), но
         не как в прошлых приложениях, когда мы 'сами создавали'
@@ -39,22 +40,25 @@ public class FirstSpringAppRunner {
         System.out.println(context.getBeanDefinitionCount());
 
         System.out.println("\n---------------------------------------------------------\n");
-        /* Получим данные из resources/spring.properties */
+
+        /* Lesson 28 - Получим данные из resources/spring.properties */
         String sp = SpringProperties.getProperty("test.message");
         System.out.println(sp);
 
         System.out.println("\n---------------------------------------------------------\n");
+
         /*
-        В файле application.properties параметр db.pool.size = 12, однако,
-        в файле application-qa.properties, более приоритетном, параметр
-        переназначен на db.pool.size = 24, что мы и видим в консоли или
-        debug-e.
+        В файле application.yml параметр db.pool.size = 12, однако,
+        в файле application-qa.yml, более приоритетном, параметр
+        переназначен на db.pool.size = 24, что мы и видим в консоли
+        или debug-e.
         */
         ConnectionPool poolToGetData = context.getBean("pool2", ConnectionPool.class);
         System.out.println(poolToGetData.getPoolSize());
         System.out.println(poolToGetData.getUsername());
 
         System.out.println("\n---------------------------------------------------------\n");
+
         /* Попробуем получить доступ к bean-у свойств БД */
         DatabaseProperties databaseProperties = context.getBean(DatabaseProperties.class);
         /* Выведем на экран некоторые из них */
@@ -65,6 +69,7 @@ public class FirstSpringAppRunner {
         });
 
         System.out.println("\n---------------------------------------------------------\n");
+
         /* Попробуем получить доступ к bean-у свойств БД */
         ImmutableDatabaseProperties immutableDBProperties =
                 context.getBean(ImmutableDatabaseProperties.class);
