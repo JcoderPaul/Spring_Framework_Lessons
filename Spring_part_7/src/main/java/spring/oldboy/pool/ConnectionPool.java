@@ -1,5 +1,7 @@
 package spring.oldboy.pool;
 
+/* Lesson 31 - Логирование событий приложения, подключение логера */
+
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.Getter;
@@ -7,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+/* Подключили аннотацию, активирующую логирование */
 @Slf4j
 @Component("pool1")
 @RequiredArgsConstructor
@@ -30,6 +34,7 @@ public class ConnectionPool {
 
     @PostConstruct
     private void init() {
+        /* Lesson 31: Передача события (сообщения о событии) в логер */
         log.info("Init connection pool");
     }
 
