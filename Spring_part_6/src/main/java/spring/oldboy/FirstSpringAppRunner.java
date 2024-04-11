@@ -1,5 +1,7 @@
 package spring.oldboy;
 
+/* Lesson 25 - создаем наше первое SpringBoot приложение. */
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
