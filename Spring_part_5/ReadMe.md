@@ -11,6 +11,7 @@
 
 ------------------------------------------------------------------------------------
 Для начала проведем предварительную подготовку:
+
 Шаг 1. - в файле [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_5/build.gradle) добавим необходимые нам зависимости: 
 
     /* Подключим Spring-core и Spring-context. */
