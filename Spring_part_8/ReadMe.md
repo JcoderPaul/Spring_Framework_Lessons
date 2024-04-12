@@ -176,7 +176,7 @@ ________________________________________________________________________________
 через конструктор будет работать (можно просто закомментировать указанную ранее аннотацию и запустить тесты).
 
 ________________________________________________________________________________________________________________________
-#### Lesson 39 - Кэширование ApplicationContext.
+#### [Lesson 39](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_39) - Кэширование ApplicationContext.
 
 Жизненный цикл теста выглядит так:
 1. - Расширение для тестового фреймворка (SpringRunner для JUnit 4 и SpringExtension для JUnit 5) вызывает 
@@ -284,7 +284,7 @@ Mockito) может служить создание файла [TestApplicationR
 стремимся сэкономить ресурсы и время.
 
 ________________________________________________________________________________________________________________________
-#### Lesson 40 - [Аннотация](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-dirtiescontext.html) [@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html).
+#### [Lesson 40](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_40) - [Аннотация](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-dirtiescontext.html) [@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html).
 
 См. док. по использованию @DirtiesContext:
 - (RUS) [DOC/TestContextFramework/TestsAnnotation.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/TestContextFramework/TestsAnnotation.txt) ;
