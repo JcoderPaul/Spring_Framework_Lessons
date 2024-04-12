@@ -1,0 +1,16 @@
+****** Логирование транзакций ******
+
+Spring выполняет логирование практически всех действий с транзакциями: для этого надо включить уровень логирования
+DEBUG для пакета org.springframework.transaction, и если используете hibernate - org.hibernate.transaction.
+
+Пример части application.yml или application.properties:
+******************************************************************************************************************
+logging:
+   level:
+      org.springframework.orm.jpa: DEBUG
+      org.springframework.transaction: DEBUG
+******************************************************************************************************************
+
+Также можно узнать, что происходит с транзакциями программно, обращаясь к ThreadLocal переменным, например:
+- TransactionSynchronizationManager.isActualTransactionActive();
+- TransactionAspectSupport.currentTransactionStatus();
