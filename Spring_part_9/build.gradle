@@ -1,0 +1,36 @@
+plugins {
+    id 'org.springframework.boot' version '3.1.3'
+    id "io.spring.dependency-management" version '1.0.11.RELEASE'
+    id "io.freefair.lombok" version "8.3"
+    id 'java'
+}
+
+group 'spring.oldboy'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    /*
+    Если изучить транзитивные зависимости которые подтягивает spring-boot-starter-data-jpa,
+    то можно заметить, что он тянет за собой и spring-boot-starter, поэтому если вдруг, при
+    настройке проекта мы забудем его указать, он все равно будет подключен.
+    */
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.postgresql:postgresql'
+
+    /* Эта зависимость и все что он за собой тянет нам понадобится на этапе тестирования */
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    /* Для тестирования приложения мы будем использовать JUnit5 */
+    useJUnitPlatform()
+}
+
+wrapper {
+    gradleVersion '7.5'
+}
