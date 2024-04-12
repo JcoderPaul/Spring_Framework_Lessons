@@ -24,8 +24,8 @@ class CompanyServiceTest {
     private static final Integer COMPANY_ID = 1;
     /*
     От классов: CompanyRepository, UserService и ApplicationEventPublisher зависит класс
-    CompanyService поэтому мы помечаем их соответствующей аннотацией т.е. создаем для них
-    mock объекты - заглушки.
+    CompanyService см. его поля, поэтому мы помечаем их соответствующей аннотацией т.е.
+    создаем для них mock объекты - заглушки.
     */
     @Mock
     private CrudRepository<Integer, Company> companyRepository;
@@ -35,11 +35,16 @@ class CompanyServiceTest {
     private ApplicationEventPublisher eventPublisher;
     /*
     При unit-тестировании нам нужен экземпляр CompanyService для тестирования метода *.findById(). Однако,
-    сам данный класс так же зависит от, CompanyRepository, UserService и ApplicationEventPublisher. Значит,
-    нам их нужно откуда-то взять или создать на них некие удобоваримые заглушки ('замокать'), см. выше, а в
-    наш CompanyService внедрить эти 'моки' см. примеры работы с Mockito (там-же раздел DOC):
+    сам данный класс так же зависит от, CompanyRepository, UserService и ApplicationEventPublisher и еще
+    раз см. CompanyService.java. Поэтому, нам их нужно откуда-то взять или создать на них некие удобоваримые
+    заглушки ('замокать'), см. выше, а в наш CompanyService внедрить эти 'моки' см. примеры работы с Mockito
+    (там-же раздел DOC):
     https://github.com/JcoderPaul/Junit5_Tests/tree/master/Junit5_Mockito_lesson_8
     https://github.com/JcoderPaul/Junit5_Tests/tree/master/Junit5_Mockito_lesson_9
+
+    Т.е. в текущий тест-класс мы поместили класс и метод для тестирования, а так же те классы, от которых
+    зависит тестируемый класс (внедряемые классы (поля) пометили, как @Mock, а тот, в который внедряем
+    пометили, как @InjectMocks).
     */
     @InjectMocks
     private CompanyService companyService;
@@ -50,7 +55,7 @@ class CompanyServiceTest {
         Метод ниже, возвращает STUB-объект, который используется mocks и spies для создания ответа
         (Answer) на вызовы методов во время тестов. Если читать строку, то получим, что мы просим
         Mockito вернуть (toBeReturn) - true, (when) когда мы вызовем у CompanyRepository метод
-        *.findById() и передадим в него ID. Т.е Mockito поставит нам объект Company.
+        *.findById() и передадим в него ID. Т.е Mockito поставит нам объект Company с заданным ID.
         */
         doReturn(Optional.of(new Company(COMPANY_ID)))
                 .when(companyRepository).findById(COMPANY_ID);
@@ -74,7 +79,7 @@ class CompanyServiceTest {
             opt.ifPresent(name -> System.out.println(name.length()));
         }
 
-        что мы и реализуем ниже, т.е. при наличии, актуального результата сравниваем его с
+        Что мы и реализуем ниже, т.е. при наличии, актуального результата сравниваем его с
         ожидаемым на эквивалентность.
         */
         actualResult.ifPresent(actual -> assertEquals(expectedResult, actual));
@@ -83,7 +88,8 @@ class CompanyServiceTest {
         а так же взаимодействия с результатами тестов в процессе. Это механизм
         verify - верификации.
 
-        Тут мы проверяем отправлен ли был event (событие зафиксировано)
+        Тут мы проверяем отправлен ли был event (событие зафиксировано), или все
+        mock-и отработали как надо.
         */
         verify(eventPublisher).publishEvent(any(EntityEvent.class));
         verifyNoMoreInteractions(eventPublisher, userService);
