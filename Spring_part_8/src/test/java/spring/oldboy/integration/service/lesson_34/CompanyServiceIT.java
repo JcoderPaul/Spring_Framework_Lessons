@@ -32,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 нам ApplicationContext, а какой именно контекст мы сами указываем с помощью параметров
 @ContextConfiguration.
 
+!!!!!!
 Однако мы в проекте используем настройку при помощи *.YML файлов, и наши bean-ы создаются
 на основе настроек в *.YML файлах, а обычный Spring by default использует properties файлы
 (не Spring Boot). По этому нам нужно явно указать откуда брать настройки наших bean-ов.
@@ -46,6 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 его получаем через инициализатор. Полученный нами инициализатор принадлежит пакету -
 org.springframework.boot.test.context и предназначен специально для тестов, а так же
 ищет *.YML файлы свойств.
+!!!!!!
 */
 public class CompanyServiceIT {
     /* Большую часть тестового кода перенесем из Unit - теста CompanyServiceTest.java */
