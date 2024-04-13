@@ -86,6 +86,7 @@ class CompanyRepositoryTest {
         assertThat(company.getLocales()).hasSize(2);
     }
 
+    /* Естественно перед запуском теста в БД компании с name = "Apple" быть не должно */
     @Test
     void saveCompanyToBase() {
         var company = Company.builder()
