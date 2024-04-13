@@ -1,0 +1,66 @@
+****** Annotation Type EnableEnversRepositories ******
+
+Аннотация для включения репозиториев Envers. По умолчанию будет сканировать пакет аннотированного класса конфигурации на
+наличие репозиториев Spring Data. Эта аннотация является мета-аннотацией для @EnableJpaRepositories переопределения
+repositoryFactoryBeanClass() значения по умолчанию EnversRevisionRepositoryFactoryBean.
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.data.envers.repository.config
+________________________________________________________________________________________________________________________
+@Target(value=TYPE)
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+@EnableJpaRepositories
+public @interface EnableEnversRepositories
+________________________________________________________________________________________________________________________
+Смотрите также: EnableJpaRepositories,
+                AliasFor
+________________________________________________________________________________________________________________________
+*** Дополнительные параметры ***
+
+- Class<?>[] basePackageClasses - Типобезопасная альтернатива basePackages() указанию пакетов для сканирования на
+                                  наличие аннотированных компонентов.
+
+- String[] basePackages - Базовые пакеты для сканирования аннотированных компонентов.
+
+- org.springframework.data.repository.config.BootstrapMode bootstrapMode - Настраивается при инициализации репозиториев
+                                                                           в жизненном цикле начальной загрузки.
+
+- boolean considerNestedRepositories - Настраивает, должны ли вложенные интерфейсы репозитория (например, определенные
+                                       как внутренние классы) обнаруживаться инфраструктурой репозитория.
+
+- boolean enableDefaultTransactions - Настраивает, включать ли транзакции по умолчанию для репозиториев Spring Data JPA.
+
+- String entityManagerFactoryRef - Настраивает имя EntityManagerFactory определения компонента, которое будет
+                                   использоваться для создания репозиториев, обнаруженных с помощью этой
+                                   аннотации.
+
+- char escapeCharacter - Настраивает, какой символ используется для экранирования подстановочных знаков _ и % в
+                         производных запросах с предложениями contains, BeginsWith или EndsWith.
+
+- ComponentScan.Filter[] excludeFilters - Указывает, какие типы не подлежат сканированию компонентов.
+
+- ComponentScan.Filter[] includeFilters - Указывает, какие типы подходят для сканирования компонентов.
+
+- String namedQueriesLocation - Настраивает расположение файла свойств именованных запросов Spring Data.
+
+- org.springframework.data.repository.query.QueryLookupStrategy.Key queryLookupStrategy - Возвращает ключ, который
+                                  QueryLookupStrategy будет использоваться для запросов поиска для методов запроса.
+
+- Class<?> repositoryBaseClass - Настройте базовый класс репозитория, который будет использоваться для создания прокси
+                                 репозитория для этой конкретной конфигурации.
+
+- Class<?> repositoryFactoryBeanClass - Возвращает FactoryBean класс, который будет использоваться для каждого экземпляра
+                                        репозитория.
+
+- String repositoryImplementationPostfix - Возвращает постфикс, который будет использоваться при поиске пользовательских
+                                           реализаций репозитория.
+
+- String transactionManagerRef - Настраивает имя PlatformTransactionManager определения компонента, которое будет
+                                 использоваться для создания репозиториев, обнаруженных с помощью этой аннотации.
+
+- String[] value - Псевдоним атрибута basePackages().
+________________________________________________________________________________________________________________________
+См. офф. док. (ENG):
+https://docs.spring.io/spring-data/envers/docs/current/api/org/springframework/data/envers/repository/config/EnableEnversRepositories.html
+________________________________________________________________________________________________________________________

@@ -1,0 +1,191 @@
+****** Class SimpleJpaRepository<T,ID> ******
+
+Реализация интерфейса по умолчанию CrudRepository. Он предложит вам более сложный интерфейс, чем простой EntityManager.
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.data.jpa.repository.support
+
+java.lang.Object
+    org.springframework.data.jpa.repository.support.SimpleJpaRepository<T,ID>
+
+Типы параметров:
+- T - тип объекта для обработки
+- ID - тип идентификатора сущности
+
+Реализующие методы: JpaRepository<T,ID>,
+                    JpaSpecificationExecutor<T>,
+                    JpaRepositoryImplementation<T,ID>,
+                    CrudRepository<T,ID>,
+                    ListCrudRepository<T,ID>,
+                    ListPagingAndSortingRepository<T,ID>,
+                    PagingAndSortingRepository<T,ID>,
+                    QueryByExampleExecutor<T>,
+                    Repository<T,ID>
+
+Подклассы: QuerydslJpaRepository
+________________________________________________________________________________________________________________________
+@Repository
+@Transactional(readOnly=true)
+public class SimpleJpaRepository<T,ID> extends Object implements JpaRepositoryImplementation<T,ID>
+________________________________________________________________________________________________________________________
+*** Конструкторы ***
+
+- SimpleJpaRepository(Class<T> domainClass, jakarta.persistence.EntityManager entityManager) -
+  Создает новый объект SimpleJpaRepository для управления объектами данного типа домена (domain type).
+
+- SimpleJpaRepository(JpaEntityInformation<T,?> entityInformation, jakarta.persistence.EntityManager entityManager) -
+  Создает новый SimpleJpaRepository для управления объектами данного JpaEntityInformation.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- long count()
+
+- <S extends T> long count(Example<S> example)
+
+- long count(Specification<T> spec) - Возвращает количество экземпляров, которые Specification вернет заданный объект.
+
+- long delete(Specification<T> spec) - Удаляет по Specification и возвращает количество удаленных строк.
+
+- void delete(T entity)
+
+- void deleteAll()
+
+- void deleteAll(Iterable<? extends T> entities)
+
+- void deleteAllById(Iterable<? extends ID> ids)
+
+- void deleteAllByIdInBatch(Iterable<ID> ids) - Удаляет объекты, идентифицированные указанными идентификаторами, с
+                                                помощью одного запроса.
+
+- void deleteAllInBatch() - Удаляет все объекты в пакетном вызове.
+
+- void deleteAllInBatch(Iterable<T> entities) - Удаляет заданные объекты в пакете, что означает, что будет создан
+                                                один запрос.
+
+- void deleteById(ID id)
+
+- <S extends T> boolean exists(Example<S> example)
+
+- boolean exists(Specification<T> spec) - Проверяет, содержит ли хранилище данных элементы, соответствующие заданному
+                                          Specification.
+
+- boolean existsById(ID id)
+
+- List<T> findAll()
+
+- <S extends T> List<S> findAll(Example<S> example)
+
+- <S extends T> Page<S> findAll(Example<S> example,
+                                Pageable pageable)
+
+- <S extends T> List<S> findAll(Example<S> example,
+                                Sort sort)
+
+- Page<T> findAll(Pageable pageable)
+
+- List<T> findAll(Sort sort)
+
+- List<T> findAll(Specification<T> spec) - Возвращает все объекты, соответствующие заданному Specification.
+
+- Page<T> findAll(Specification<T> spec,
+                  Pageable pageable) - Возвращает Page объект, соответствующий заданному Specification.
+
+- List<T> findAll(Specification<T> spec,
+                  Sort sort) - Возвращает все объекты, соответствующие заданным Specification и Sort.
+
+- List<T> findAllById(Iterable<ID> ids)
+
+- <S extends T,R> R findBy(Example<S> example,
+                           Function<FluentQuery.FetchableFluentQuery<S>,R> queryFunction)
+
+- <S extends T,R> R findBy(Specification<T> spec,
+                           Function<FluentQuery.FetchableFluentQuery<S>,R> queryFunction) - Возвращает сущности,
+                           соответствующие заданному, с Specification применением , queryFunction определяющего запрос
+                           и тип его результата.
+
+- Optional<T> findById(ID id)
+
+- <S extends T> Optional<S> findOne(Example<S> example)
+
+- Optional<T> findOne(Specification<T> spec) - Возвращает один объект, соответствующий заданному Specification, или
+                                               Optional.empty() если он не найден.
+
+- void flush() - Сбрасывает все ожидающие изменения в базе данных.
+
+- T getById(ID id) - Устарело.
+
+- protected <S extends T> jakarta.persistence.TypedQuery<Long> getCountQuery(Specification<S> spec,
+                                                                             Class<S> domainClass) - Создает новый
+                                                                             запрос подсчета для данного Specification.
+
+- protected jakarta.persistence.TypedQuery<Long> getCountQuery(Specification<T> spec) - Устарело. Использовать
+                                                      getCountQuery(Specification, Class) вместо данного переопределить
+
+- protected Class<T> getDomainClass()
+
+- T getOne(ID id) - Устарело.
+
+- protected <S extends T> jakarta.persistence.TypedQuery<S> getQuery(Specification<S> spec,
+                                                                     Class<S> domainClass,
+                                                                     Pageable pageable) - Создает новый TypedQuery из
+                                                                                           заданного Specification.
+
+- protected <S extends T> jakarta.persistence.TypedQuery<S> getQuery(Specification<S> spec,
+                                                                     Class<S> domainClass,
+                                                                     Sort sort) - Создает TypedQuery для данного
+                                                                                  Specification и Sort.
+
+- protected jakarta.persistence.TypedQuery<T> getQuery(Specification<T> spec,
+                                                       Pageable pageable) - Создает новый TypedQuery из заданного
+                                                                            Specification.
+
+- protected jakarta.persistence.TypedQuery<T> getQuery(Specification<T> spec, Sort sort) - Создает TypedQuery для
+                                                                                           данного Specification и Sort.
+
+- protected QueryHints getQueryHints() - Возвращает QueryHints подсказки запроса на основе текущей CrudMethodMetadata и
+                                         потенциальной EntityGraph информации.
+
+- protected QueryHints getQueryHintsForCount() - Возвращает QueryHints подсказки по текущему запросу CrudMethodMetadata
+                                                 для подсчета количества запросов.
+
+- T getReferenceById(ID id) - Возвращает ссылку на сущность с заданным идентификатором.
+
+- protected CrudMethodMetadata getRepositoryMethodMetadata()
+
+- protected <S extends T> Page<S> readPage(jakarta.persistence.TypedQuery<S> query,
+                                           Class<S> domainClass,
+                                           Pageable pageable,
+                                           Specification<S> spec) - Считывает данное TypedQuery в Page применение данного
+                                                                    Pageable и Specification.
+
+- protected Page<T> readPage(jakarta.persistence.TypedQuery<T> query,
+                             Pageable pageable,
+                             Specification<T> spec) - Устарело. Использовать readPage(TypedQuery,
+                                                                                      Class,
+                                                                                      Pageable,
+                                                                                      Specification) вместо данного.
+
+- <S extends T> S save(S entity)
+
+- <S extends T> List<S> saveAll(Iterable<S> entities)
+
+- <S extends T> List<S> saveAllAndFlush(Iterable<S> entities) - Сохраняет все объекты и мгновенно удаляет изменения.
+
+- <S extends T> S saveAndFlush(S entity) - Сохраняет объект и мгновенно удаляет изменения.
+
+- void setEscapeCharacter(EscapeCharacter escapeCharacter) - Настраивает EscapeCharacter для использования с
+                                                             репозиторием.
+
+- void setRepositoryMethodMetadata(CrudMethodMetadata crudMethodMetadata) - Настраивает пользовательскую настройку
+                                                                            CrudMethodMetadata, которая будет
+                                                                            использоваться для обнаружения
+                                                                            LockModeTypes и подсказок запросов,
+                                                                            которые будут применяться к запросам.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait, wait, wait
+
+Методы, унаследованные от интерфейса org.springframework.data.jpa.repository.JpaRepository: deleteInBatch
+________________________________________________________________________________________________________________________
+Исходный материал (ENG):
+https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/support/SimpleJpaRepository.html
+________________________________________________________________________________________________________________________

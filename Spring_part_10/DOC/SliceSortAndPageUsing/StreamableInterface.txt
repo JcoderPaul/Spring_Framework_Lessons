@@ -1,0 +1,93 @@
+****** Interface Streamable<T> ******
+
+Это функциональный интерфейс, поэтому его можно использовать в качестве цели назначения для лямбда-выражения или
+ссылки на метод. Простой интерфейс для облегчения потоковой передачи Iterables.
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.data.util
+
+Суперинтерфейсы: Iterable<T>,
+                 Supplier<Stream<T>>
+
+Субинтерфейсы: Page<T>,
+               PersistentPropertyPath<P>,
+               PersistentPropertyPaths<T,P>,
+               Slice<T>,
+               Window<T>
+
+Реализующие классы: DefaultParameters,
+                    EntityProjection,
+                    EntityProjection.ContainerPropertyProjection,
+                    EntityProjection.PropertyProjection,
+                    ExpressionDependencies,
+                    GeoPage,
+                    PageImpl,
+                    Parameters,
+                    PartTree,
+                    PartTree.OrPart,
+                    PersistentEntities,
+                    PropertyPath,
+                    QSort,
+                    RepositoryComposition.RepositoryFragments,
+                    Revisions,
+                    RevisionSort,
+                    SliceImpl,
+                    Sort,
+                    Sort.TypedSort
+________________________________________________________________________________________________________________________
+@FunctionalInterface
+public interface Streamable<T> extends Iterable<T>, Supplier<Stream<T>>
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- default Streamable<T> and(Iterable<? extends T> iterable) - Создает новый Streamable из текущего и объединенного
+                                                              данного Iterable.
+
+- default Streamable<T> and(Supplier<? extends Stream<? extends T>> stream) - Создает новый Streamable из текущего и
+                                                                              объединенного данного Stream.
+
+- default Streamable<T> and(Streamable<? extends T> streamable) - Удобный метод, позволяющий добавлять a Streamable
+                                                                  напрямую, поскольку в противном случае вызов между
+                                                                  and(Iterable) и and(Supplier).
+
+- default Streamable<T> and(T... others) - Создает новый Streamable из текущего и объединенных заданных значений.
+
+- static <T> Streamable<T> empty() - Возвращает пустой Streamable.
+
+- default Streamable<T> filter(Predicate<? super T> predicate) - Возвращает новый фильтр Streamable, который применит
+                                                                 данный фильтр Predicate к текущему.
+
+- default <R> Streamable<R> flatMap(Function<? super T,? extends Stream<? extends R>> mapper) - Возвращает новое
+                                значение Streamable, которое будет применять данное значение Function к текущему.
+
+- default Stream<T> get()
+
+- default boolean isEmpty() - Возвращает, является ли текущий Streamable пустой.
+
+- default <R> Streamable<R> map(Function<? super T,? extends R> mapper) - Возвращает новое значение Streamable, которое
+                                                                          будет применять данное значение Function к
+                                                                          текущему.
+
+- static <T> Streamable<T> of(Iterable<T> iterable) - Возвращает a Streamable для данного Iterable.
+
+- static <T> Streamable<T> of(Supplier<? extends Stream<T>> supplier)
+
+- static <T> Streamable<T> of(T... t) - Возвращает a Streamable с заданными элементами.
+
+- default Stream<T> stream() - Создает непараллельный Stream базовый файл Iterable.
+
+- default List<T> toList() - Создает новый неизменяемый файл List.
+
+- default Set<T> toSet() - Создает новый неизменяемый файл Set.
+
+- static <S> Collector<S,?,Streamable<S>> toStreamable() - Коллектор, который можно легко изготовить Streamable из
+                                                           готового изделия Stream, используя Collectors.toList() в
+                                                           качестве промежуточного коллектора.
+
+- static <S,T extends Iterable<S>> Collector<S,?,Streamable<S>> toStreamable(Collector<S,?,T> intermediate) - Коллектор,
+                                 позволяющий легко изготовить Streamable из a Stream и заданный промежуточный коллектор.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от интерфейса java.lang.Iterable: forEach, iterator, spliterator;
+________________________________________________________________________________________________________________________
+Оригинал см. (ENG):
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/util/Streamable.html
+________________________________________________________________________________________________________________________

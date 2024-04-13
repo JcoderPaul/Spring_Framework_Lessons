@@ -1,0 +1,58 @@
+****** Class Sort.TypedSort<T> ******
+
+Расширение сортировки для использования дескрипторов методов для определения свойств для сортировки.
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.data.domain
+
+java.lang.Object
+    org.springframework.data.domain.Sort
+        org.springframework.data.domain.Sort.TypedSort<T>
+
+Реализованные интерфейсы: Serializable,
+                          Iterable<Sort.Order>,
+                          Supplier<Stream<Sort.Order>>,
+                          Streamable<Sort.Order>
+Включающий класс: Sort
+________________________________________________________________________________________________________________________
+public static class Sort.TypedSort<T> extends Sort
+________________________________________________________________________________________________________________________
+Вложенные классы унаследованные от класса org.springframework.data.domain.Sort:
+- Sort.Direction,
+- Sort.NullHandling,
+- Sort.Order,
+- Sort.TypedSort<T>
+________________________________________________________________________________________________________________________
+Поля, унаследованные от класса org.springframework.data.domain.Sort: DEFAULT_DIRECTION
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- Sort ascending() - Возвращает новый Sort с текущими настройками, но в возрастающем порядке.
+
+- <S> Sort.TypedSort<S> by(Function<T,S> property)
+
+- <S> Sort.TypedSort<S> by(MethodInvocationRecorder.Recorded.ToCollectionConverter<T,S> collectionProperty)
+
+- <S> Sort.TypedSort<S> by(MethodInvocationRecorder.Recorded.ToMapConverter<T,S> mapProperty)
+
+- Sort descending() - Возвращает новое значение Sort с текущими настройками, но в порядке убывания.
+
+- boolean isEmpty() - Возвращает, является ли текущий Streamable пустой.
+
+- Iterator<Sort.Order> iterator()
+
+- String toString()
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.data.domain.Sort: and, by, doReverse, equals, getOrderFor,
+                                                                       hashCode, isSorted, isUnsorted, reverse,
+                                                                       sort, unsorted;
+
+Методы, унаследованные от класса java.lang.Object: clone, finalize, getClass, notify, notifyAll, wait;
+
+Методы, унаследованные от интерфейса java.lang.Iterable: forEach, spliterator;
+
+Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, filter, flatMap, get, map, stream,
+                                                                               toList, toSet;
+________________________________________________________________________________________________________________________
+Оригинал (ENG):
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.TypedSort.html
+________________________________________________________________________________________________________________________
