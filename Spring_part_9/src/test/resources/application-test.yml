@@ -1,0 +1,6 @@
+db:
+  username: test
+  password: test
+  driver: MySqlDriver
+  url: mysql:3306
+  hosts: localhost,127.0.0.1
