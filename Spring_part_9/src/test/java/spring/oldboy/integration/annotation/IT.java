@@ -1,0 +1,22 @@
+package spring.oldboy.integration.annotation;
+
+/*
+Такой способ действий называется мета-аннотированием, см.
+.../Spring_Lessons/Spring_part_8/DOC/TestContextFramework/MetaAnnotationSupportForTesting.txt
+
+*/
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import spring.oldboy.integration.TestApplicationRunner;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@ActiveProfiles("test")
+@SpringBootTest(classes = TestApplicationRunner.class)
+public @interface IT {
+}
