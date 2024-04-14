@@ -1,0 +1,22 @@
+****** Class JdbcTemplateAutoConfiguration ******
+
+Auto-configuration для JdbcTemplate и NamedParameterJdbcTemplate.
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.boot.autoconfigure.jdbc
+________________________________________________________________________________________________________________________
+java.lang.Object
+org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
+________________________________________________________________________________________________________________________
+@AutoConfiguration(after=DataSourceAutoConfiguration.class)
+@ConditionalOnClass({javax.sql.DataSource.class,org.springframework.jdbc.core.JdbcTemplate.class})
+@ConditionalOnSingleCandidate(javax.sql.DataSource.class)
+@EnableConfigurationProperties(JdbcProperties.class)
+@Import({DatabaseInitializationDependencyConfigurer.class,
+         org.springframework.boot.autoconfigure.jdbc.JdbcTemplateConfiguration.class,
+         org.springframework.boot.autoconfigure.jdbc.NamedParameterJdbcTemplateConfiguration.class})
+public class JdbcTemplateAutoConfiguration
+extends Object
+________________________________________________________________________________________________________________________
+См. оф. док (ENG):
+https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/jdbc/JdbcTemplateAutoConfiguration.html
+________________________________________________________________________________________________________________________

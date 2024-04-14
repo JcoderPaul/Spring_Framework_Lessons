@@ -1,0 +1,245 @@
+****** Class NamedParameterJdbcTemplate ******
+
+Класс шаблона с базовым набором операций JDBC, позволяющий использовать именованные параметры вместо традиционного
+знака «?» заполнителя.
+
+Этот класс делегирует обертку JdbcTemplate после замены именованных параметров на стиль JDBC '?' заполнители выполняются
+во время выполнения. Это также позволяет расширить число List значений до соответствующего количества заполнителей.
+
+Экземпляр этого класса шаблона после настройки становится потокобезопасным. Базовая информация JdbcTemplate открыта для
+обеспечения удобного доступа к традиционным JdbcTemplate методам.
+________________________________________________________________________________________________________________________
+Package org.springframework.jdbc.core.namedparam
+
+java.lang.Object
+    org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
+
+Реализованные интерфейсы: NamedParameterJdbcOperations
+________________________________________________________________________________________________________________________
+public class NamedParameterJdbcTemplate extends Object implements NamedParameterJdbcOperations
+________________________________________________________________________________________________________________________
+Так же см.: NamedParameterJdbcOperations,
+            SqlParameterSource,
+            ResultSetExtractor,
+            RowCallbackHandler,
+            RowMapper,
+            JdbcTemplate
+________________________________________________________________________________________________________________________
+*** Поля ***
+
+- static final int DEFAULT_CACHE_LIMIT - Максимальное количество записей по умолчанию для кэша SQL этого шаблона: 256.
+________________________________________________________________________________________________________________________
+*** Конструкторы ***
+
+- NamedParameterJdbcTemplate(DataSource dataSource) - Создайте новый NamedParameterJdbcTemplate для данного файла
+                                                      DataSource.
+
+- NamedParameterJdbcTemplate(JdbcOperations classicJdbcTemplate) - Создайте новый NamedParameterJdbcTemplate для данного
+                                                                   классического Spring JdbcTemplate.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- int[] batchUpdate(String sql,
+                    Map<String,?>[] batchValues) - Выполняет пакет, используя предоставленный оператор SQL с пакетом
+                                                   предоставленных аргументов.
+
+- int[] batchUpdate(String sql,
+                    SqlParameterSource[] batchArgs) - Выполните пакет, используя предоставленный оператор SQL с пакетом
+                                                      предоставленных аргументов.
+
+- <T> T execute(String sql,
+                Map<String,?> paramMap,
+                PreparedStatementCallback<T> action) - Выполнить операцию доступа к данным JDBC, реализованную как
+                                                       действие обратного вызова, работающее с подготовленным
+                                                       оператором JDBC.
+
+- <T> T execute(String sql,
+                SqlParameterSource paramSource,
+                PreparedStatementCallback<T> action) - Выполнить операцию доступа к данным JDBC, реализованную как
+                                                       действие обратного вызова, работающее с подготовленным
+                                                       оператором JDBC.
+
+- <T> T execute(String sql,
+                PreparedStatementCallback<T> action) - Выполнить операцию доступа к данным JDBC, реализованную как
+                                                       действие обратного вызова, работающее с подготовленным
+                                                       оператором JDBC.
+
+- int getCacheLimit() - Возвращает максимальное количество записей для кэша SQL этого шаблона.
+
+- JdbcOperations getJdbcOperations() - Предоставьте классические операции Spring JdbcTemplate, чтобы разрешить вызов
+                                       менее часто используемых методов.
+
+- JdbcTemplate getJdbcTemplate() - Предоставьте сам классический Spring JdbcTemplate, если он доступен, в частности,
+                                   для передачи его другим JdbcTemplate потребителям.
+
+- protected ParsedSql getParsedSql(String sql) - Получите проанализированное представление данного оператора SQL.
+
+- protected PreparedStatementCreator getPreparedStatementCreator(String sql,
+                                                                 SqlParameterSource paramSource) -
+                                                                 Постройте PreparedStatementCreator на основе заданного
+                                                                 SQL и именованных параметров.
+
+- protected PreparedStatementCreator getPreparedStatementCreator(String sql,
+                                                                 SqlParameterSource paramSource,
+                                                                 Consumer<PreparedStatementCreatorFactory> customizer) -
+                                                                 Постройте PreparedStatementCreator на основе заданного
+                                                                 SQL и именованных параметров.
+
+- protected PreparedStatementCreatorFactory getPreparedStatementCreatorFactory(ParsedSql parsedSql,
+                                                                               SqlParameterSource paramSource) -
+                                                                               Постройте PreparedStatementCreatorFactory
+                                                                               на основе заданного SQL и именованных
+                                                                               параметров.
+
+- <T> T query(String sql,
+              Map<String,?> paramMap,
+              ResultSetExtractor<T> rse) - Запросить заданный SQL для создания подготовленного оператора из SQL и
+                                           списка аргументов для привязки к запросу, считывая ResultSet с помощью
+                                           ResultSetExtractor.
+
+- void query(String sql,
+             Map<String,?> paramMap,
+             RowCallbackHandler rch) - Запросить заданный SQL для создания подготовленного оператора из SQL и списка
+                                       аргументов для привязки к запросу, считывая ResultSet для каждой строки с помощью
+                                       RowCallbackHandler.
+
+- <T> List<T> query(String sql,
+                    Map<String,?> paramMap,
+                    RowMapper<T> rowMapper) - Запросить заданный SQL для создания подготовленного оператора из SQL и
+                                              списка аргументов для привязки к запросу, сопоставляя каждую строку с
+                                              объектом Java через RowMapper.
+
+- <T> T query(String sql,
+              SqlParameterSource paramSource,
+              ResultSetExtractor<T> rse) - Запросить заданный SQL для создания подготовленного оператора из SQL и списка
+                                           аргументов для привязки к запросу, считывая ResultSet с помощью
+                                           ResultSetExtractor.
+
+- void query(String sql,
+             SqlParameterSource paramSource,
+             RowCallbackHandler rch) - Запросить заданный SQL для создания подготовленного оператора из SQL и списка
+                                       аргументов для привязки к запросу, считывая ResultSet для каждой строки с помощью
+                                       RowCallbackHandler.
+
+- <T> List<T> query(String sql,
+                    SqlParameterSource paramSource,
+                    RowMapper<T> rowMapper) - Запросить заданный SQL для создания подготовленного оператора из SQL и
+                                              списка аргументов для привязки к запросу, сопоставляя каждую строку с
+                                              объектом Java через RowMapper.
+
+- <T> T query(String sql,
+              ResultSetExtractor<T> rse) - Запросить заданный SQL для создания подготовленного оператора из SQL,
+                                           считывая ResultSet с помощью ResultSetExtractor.
+
+- void query(String sql,
+             RowCallbackHandler rch) - Запросите заданный SQL для создания подготовленного оператора из SQL, считывая
+                                       ResultSet для каждой строки с помощью RowCallbackHandler.
+
+- <T> List<T> query(String sql,
+                    RowMapper<T> rowMapper) - Запросите заданный SQL, чтобы создать подготовленный оператор из SQL,
+                                              сопоставляя каждую строку с объектом Java через RowMapper.
+
+- List<Map<String,Object>> queryForList(String sql,
+                                        Map<String,?> paramMap) - Запрос данного SQL для создания подготовленного
+                                                                  оператора из SQL и списка аргументов для привязки
+                                                                  к запросу с ожиданием списка результатов.
+
+- <T> List<T> queryForList(String sql,
+                           Map<String,?> paramMap,
+                           Class<T> elementType) - Запрос данного SQL для создания подготовленного оператора из SQL и
+                                                   списка аргументов для привязки к запросу с ожиданием списка
+                                                   результатов.
+
+- List<Map<String,Object>> queryForList(String sql,
+                                        SqlParameterSource paramSource) - Запрос данного SQL для создания подготовленного
+                                                                          оператора из SQL и списка аргументов для
+                                                                          привязки к запросу с ожиданием списка
+                                                                          результатов.
+
+- <T> List<T> queryForList(String sql,
+                           SqlParameterSource paramSource,
+                           Class<T> elementType) - Запрос данного SQL для создания подготовленного оператора из SQL и
+                                                   списка аргументов для привязки к запросу с ожиданием списка
+                                                   результатов.
+
+- Map<String,Object> queryForMap(String sql,
+                                 Map<String,?> paramMap)  - Запрос данного SQL для создания подготовленного оператора
+                                                            из SQL и списка аргументов для привязки к запросу с
+                                                            ожиданием результата Map.
+
+- Map<String,Object> queryForMap(String sql,
+                                 SqlParameterSource paramSource) - Запрос данного SQL для создания подготовленного
+                                                                   оператора из SQL и списка аргументов для привязки к
+                                                                   запросу с ожиданием результата Map.
+
+- <T> T queryForObject(String sql,
+                       Map<String,?> paramMap,
+                       Class<T> requiredType) - Запрос данного SQL для создания подготовленного оператора из SQL и
+                                                списка аргументов для привязки к запросу, ожидающего объекта результата.
+
+- <T> T queryForObject(String sql,
+                       Map<String,?> paramMap,
+                       RowMapper<T> rowMapper) - Запросить заданный SQL для создания подготовленного оператора из SQL и
+                                                 списка аргументов для привязки к запросу, сопоставляя одну строку
+                                                 результата с объектом Java через RowMapper.
+
+- <T> T queryForObject(String sql,
+                       SqlParameterSource paramSource,
+                       Class<T> requiredType) - Запрос данного SQL для создания подготовленного оператора из SQL и
+                                                списка аргументов для привязки к запросу, ожидающего объекта результата.
+
+- <T> T queryForObject(String sql,
+                       SqlParameterSource paramSource,
+                       RowMapper<T> rowMapper) - Запросить заданный SQL для создания подготовленного оператора из SQL
+                                                 и списка аргументов для привязки к запросу, сопоставляя одну строку
+                                                 результата с объектом Java через RowMapper.
+
+- SqlRowSet queryForRowSet(String sql,
+                           Map<String,?> paramMap) - Запросить заданный SQL, чтобы создать подготовленный оператор из
+                                                     SQL и список аргументов для привязки к запросу, ожидая SqlRowSet.
+
+- SqlRowSet queryForRowSet(String sql,
+                           SqlParameterSource paramSource) - Запросить заданный SQL, чтобы создать подготовленный
+                                                             оператор из SQL и список аргументов для привязки к запросу,
+                                                             ожидая SqlRowSet.
+
+- <T> Stream<T> queryForStream(String sql,
+                               Map<String,?> paramMap,
+                               RowMapper<T> rowMapper) - Запросить заданный SQL для создания подготовленного оператора
+                                                         из SQL и списка аргументов для привязки к запросу, сопоставляя
+                                                         каждую строку с объектом Java через RowMapper и превращая его
+                                                         в итерируемый и закрывающийся поток Stream.
+
+- <T> Stream<T> queryForStream(String sql,
+                               SqlParameterSource paramSource,
+                               RowMapper<T> rowMapper) - Запросить заданный SQL для создания подготовленного оператора
+                                                         из SQL и списка аргументов для привязки к запросу, сопоставляя
+                                                         каждую строку с объектом Java через RowMapper и превращая его
+                                                         в итерируемый и закрывающийся поток Stream.
+
+- void setCacheLimit(int cacheLimit) - Укажите максимальное количество записей для кэша SQL этого шаблона.
+
+- int update(String sql,
+             Map<String,?> paramMap) - Выпустите обновление через подготовленный оператор, связывая заданные аргументы.
+
+- int update(String sql,
+             SqlParameterSource paramSource) - Выпустите обновление через подготовленный оператор, связывая заданные
+                                               аргументы.
+
+- int update(String sql,
+             SqlParameterSource paramSource,
+             KeyHolder generatedKeyHolder) - Выполните обновление через подготовленный оператор, связывая заданные
+                                             аргументы и возвращая сгенерированные ключи.
+
+- int update(String sql,
+             SqlParameterSource paramSource,
+             KeyHolder generatedKeyHolder,
+             String[] keyColumnNames) - Выполните обновление через подготовленный оператор, связывая заданные аргументы
+                                        и возвращая сгенерированные ключи.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait, wait, wait
+________________________________________________________________________________________________________________________
+См. оригинал (ENG):
+https://docs.spring.io/spring-framework/docs/6.0.13/javadoc-api/org/springframework/jdbc/core/namedparam/NamedParameterJdbcTemplate.html
+________________________________________________________________________________________________________________________
