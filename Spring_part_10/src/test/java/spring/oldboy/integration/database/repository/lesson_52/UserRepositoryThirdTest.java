@@ -75,7 +75,9 @@ class UserRepositoryThirdTest {
         Но даже тут есть маленький недостаток, мы передаем в виде строки поля нашей
         сущности, а нам бы хотелось сделать еще лучше и решение есть см. ниже.
         */
-        Sort sortById = Sort.by("id").and(Sort.by("firstname").and(Sort.by("lastname")));
+        Sort sortById = Sort.by("id").
+                             and(Sort.by("firstname").
+                             and(Sort.by("lastname")));
         /*
         Тут мы получаем и используем вложенный класс TypedSort и оперируем сущностью User и ее
         get-методами. Мы получаем типобезопасный объект TypedSort через который можем делать
