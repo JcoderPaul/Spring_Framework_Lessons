@@ -39,6 +39,8 @@ public interface SecondUserRepository extends JpaRepository<User, Long> {
     @Modifying см. DOC/ModifyingAnnotationInterface.txt, т.е. мы задаем следует ли очищать базовый
     персистентный контекст после / перед выполнением модифицирующего запроса, что бы мы могли увидеть
     внесенные изменения, а в тестах подтвердить их.
+
+    См. схему персистентного контекста см. DOC/PersistenceContextScheme.jpg
     */
     @Modifying(clearAutomatically = true,
                flushAutomatically = true)
