@@ -1,0 +1,6 @@
+ext {
+    versions = [
+            'testcontainers': '1.19.1',
+            'postgres': '42.6.0'
+    ]
+}
