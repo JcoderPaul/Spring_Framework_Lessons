@@ -71,7 +71,7 @@ ________________________________________________________________________________
     implementation 'org.springframework.data:spring-data-envers'
 
 ________________________________________________________________________________________________________________________
-#### Lesson 60 - JDBC-Starter.
+#### [Lesson 60](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_11/src/test/java/spring/oldboy/integration/database/repository/lesson_60) - JDBC-Starter.
 
 Кратко начало работы со Spring JDBC описано в: [DOC/IntroductionSpringDataJDBC.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_11/DOC/IntroductionSpringDataJDBC.txt)
 Для понимая различий между технологиями и их особенностей см. таб. Преимущества Spring Boot JBDC перед Spring JDBC:
@@ -151,7 +151,7 @@ DTO List<[PersonalInfo](https://github.com/JcoderPaul/Spring_Framework_Lessons/b
 - [GitHub org.springframework.boot.autoconfigure.jdbc](https://github.com/spring-projects/spring-boot/tree/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/jdbc) ;
 
 ________________________________________________________________________________________________________________________
-#### Lesson 61 - Batch-size и Fetch-size.
+#### [Lesson 61](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_11/src/test/java/spring/oldboy/integration/database/repository/lesson_61) - Batch-size и Fetch-size.
 
 Пакетная обработка SQL (DML) операторов (BATCH): INSERT, UPDATE, DELETE, одно из возможностей достигнуть увеличения 
 производительности приложения при работе через сеть см. [DOC/BATCH_for_DB_COMMUNICATION.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_11/DOC/BATCH_for_DB_COMMUNICATION.jpg). В отличие от 
