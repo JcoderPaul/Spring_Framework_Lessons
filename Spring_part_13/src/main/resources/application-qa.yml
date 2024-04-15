@@ -1,0 +1,4 @@
+db:
+ username: ${username.value:admin_gress}
+ pool:
+  size: 24
