@@ -572,7 +572,8 @@ ________________________________________________________________________________
     }
 
 В данном случае Spring при обращении к UserRepository и методу *.findAllByFilter(UserFilterDto filter) будет искать 
-имплементацию его родителя [FilterUserRepository с постфиксом Impl](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_10/src/main/java/spring/oldboy/database/repository/user_repository/FilterUserRepositoryImpl.java) (вот почему важно следовать декларации имен).
+имплементацию его родителя [FilterUserRepository с постфиксом Impl](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_10/src/main/java/spring/oldboy/database/repository/user_repository/FilterUserRepositoryImpl.java) (вот почему важно следовать декларации имен 
+см. интерфейс [EnableJpaRepositories метод *.repositoryImplementationPostfix()](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/config/EnableJpaRepositories.html#repositoryImplementationPostfix())).
 
 - Шаг 5. - Напишем тест для нашего кастомного (самописного) метода - [CustomUserRepositoryTest.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_10/src/test/java/spring/oldboy/integration/database/repository/lesson_57/CustomUserRepositoryTest.java) и проверим 
 его работоспособность, см. вывод Hibernate запроса к БД на экран:
