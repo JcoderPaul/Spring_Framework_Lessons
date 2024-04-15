@@ -1,0 +1,16 @@
+db:
+  username: test
+  password: test
+  driver: MySqlDriver
+  url: mysql:3306
+  hosts: localhost,127.0.0.1
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    username:
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    properties.hibernate:
+      hbm2ddl.auto: update
