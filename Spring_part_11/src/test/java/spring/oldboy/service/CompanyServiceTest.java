@@ -10,8 +10,6 @@ import spring.oldboy.database.entity.Company;
 import spring.oldboy.database.repository.company_repository.CompanyRepository;
 import spring.oldboy.dto.CompanyReadDto;
 import spring.oldboy.listener.EntityEvent;
-import spring.oldboy.service.CompanyService;
-import spring.oldboy.service.UserService;
 
 import java.util.Collections;
 import java.util.Optional;
