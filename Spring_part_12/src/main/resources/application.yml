@@ -1,0 +1,63 @@
+# Используем вложенность, когда каждый модуль
+# имеет свой префикс (в нашем случае это 'db:')
+db:
+  username: ${username.value:postgres}
+  password: pass
+  driver: PostgresDriver
+  url: postgres:5432
+  hosts: localhost,127.0.0.1
+  # Тут мы тоже можем использовать общий префикс
+  # 'pool.' при расширенной настройке pool-a:
+  pool:
+    size: 12
+    timeout: 10
+  # Данной настройки в *.properties файле нет,
+  # тут мы исследуем возможности YAML формата
+  # при работе с массивами:
+  pools:
+    - size: 1
+      timeout: 1
+    - size: 2
+      timeout: 2
+    - size: 3
+      timeout: 3
+  # Добавим коллекцию неких свойств, которые
+  # легко представить как Map<String, Object>
+  properties:
+    first: 123
+    second: 567
+    third.value: Third
+
+spring.profiles.active: development,qa
+
+# Префикс для работы с логерами (их настройки)
+logging:
+  # Зададим уровень логирования корневого логера
+  level:
+    # Будем фиксировать сообщения типа WARN (и все что выше ERROR и FATAL)
+    root: INFO
+    # Так же мы можем настроить логер для конкретного класса
+    # Но в данном случае для всех классов пакета pool
+    spring.oldboy.pool: INFO
+    org.springframework.jdbc.core: TRACE
+  # Записываем лог в файл
+  file.name: Logs/oldboy.log
+
+  # Настроим подключение к БД
+spring:
+ datasource:
+  url: jdbc:postgresql://localhost:5432/SpringLessons
+  username: postgres
+  password: testadmin
+  driver-class-name: org.postgresql.Driver
+  # Настроим свойства Hibernate
+ jpa:
+  properties.hibernate:
+    batch_size: 50
+    fetch_size: 50
+    show_sql: true
+    format_sql: true
+    # Проверяем правильно ли мы настроили наши сущности в spring/oldboy/database/entity
+    # См. ее XML аналог в:
+    # https://github.com/JcoderPaul/Hibernate_Lessons/blob/master/Hibernate_part_1/src/main/resources/hibernate.cfg.xml
+    hbm2ddl.auto: validate
