@@ -1,6 +1,6 @@
 ### Spring Boot lessons part 11 - [JDBC](https://spring.io/projects/spring-data-jdbc) Starter
 
-В [папке DOC sql-скрипты](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_10/DOC) и др. полезные файлы.
+В [папке DOC sql-скрипты](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_11/DOC) и др. полезные файлы.
 
 Док. (ссылки) для изучения:
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/) ;
