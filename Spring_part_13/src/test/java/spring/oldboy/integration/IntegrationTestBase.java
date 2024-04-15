@@ -1,5 +1,7 @@
 package spring.oldboy.integration;
+
 /* Lesson 65 - подключение библиотеки TestContainers */
+
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
