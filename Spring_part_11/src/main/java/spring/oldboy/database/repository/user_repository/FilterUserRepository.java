@@ -36,7 +36,7 @@ public interface FilterUserRepository {
     void updateCompanyAndRole(List<User> users);
 
     /*
-    Lesson 61: Чтобы понять отличия запросов с именованными параметрами от параметризированных '?'
+    Lesson 61: Чтобы понять отличия запросов с именованными параметрами от параметризованных '?'
     см. DOC/SpringJDBC/NamedParameterJdbcTemplate.txt
     */
     void updateCompanyAndRoleNamed(List<User> users);
