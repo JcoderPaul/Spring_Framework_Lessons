@@ -1,8 +1,10 @@
 package spring.oldboy.integration.annotation;
+
 /*
 Такой способ действий называется мета-аннотированием, см.
 .../Spring_Lessons/Spring_part_8/DOC/TestContextFramework/MetaAnnotationSupportForTesting.txt
 */
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
