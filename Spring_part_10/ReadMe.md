@@ -607,7 +607,7 @@ ________________________________________________________________________________
 Реализуем аудит в нашем приложении (будем отслеживать изменения в записях User):
 - Шаг 1. - Создадим аудирующую (фиксирующую изменения) сущность [AuditingEntity.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_10/src/main/java/spring/oldboy/database/entity/AuditingEntity.java), это абстрактный класс, все его 
 наследники, смогут использовать его поля для фиксации изменений (создание и модификация, кем и когда), для этого:
-  - Шаг 1.1 - Добавим поля, которые фиксируют соответствующие изменения в БД (createdAt, modifiedAt, createdBy, modifiedBy);
+  - Шаг 1.1 - Добавим поля [класса Instant](https://docs.oracle.com/javase/8/docs/api/java/time/Instant.html) для когда (createdAt, modifiedAt) и для кто/кем (createdBy, modifiedBy) класса String, которые фиксируют соответствующие изменения в БД ;
   - Шаг 1.2 - Либо прямым кодом, либо через аннотации [@Getter и @Setter](https://projectlombok.org/features/GetterSetter), создаем геттеры и сеттеры для полей;
   - Шаг 1.3 - Для того чтобы наследники могли использовать поля родителя добавим аннотацию [@MappedSuperclass](https://jakarta.ee/specifications/persistence/2.2/apidocs/javax/persistence/mappedsuperclass);
   - Шаг 1.4 - Для того чтобы мы фиксировали изменения в сущностях нам нужны слушатели (listeners), поэтому добавляем аннотацию
