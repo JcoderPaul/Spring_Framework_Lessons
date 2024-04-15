@@ -1,9 +1,11 @@
 package spring.oldboy.database.repository.user_repository;
+
 /*
 Lesson 57 - создаем класс реализующий наш кастомный интерфейс FilterUserRepository.java;
 Lesson 60 - применяем JDBC в Spring приложении;
 Lesson 61 - реализация метода для batch запросов в Spring приложении средствами JDBC;
 */
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
