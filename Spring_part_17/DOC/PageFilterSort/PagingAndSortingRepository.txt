@@ -1,0 +1,37 @@
+См. источник (ENG):
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/PagingAndSortingRepository.html
+________________________________________________________________________________________________________________________
+****** Interface PagingAndSortingRepository ******
+
+Пакет: org.springframework.data.repository
+
+Interface PagingAndSortingRepository<T,ID>
+
+Все супер-интерфейсы: Repository<T,ID>
+Все суб-интерфейсы: ListPagingAndSortingRepository<T,ID>
+________________________________________________________________________________________________________________________
+@NoRepositoryBean
+public interface PagingAndSortingRepository<T,ID> extends Repository<T,ID>
+________________________________________________________________________________________________________________________
+
+Фрагмент репозитория, предоставляющий методы для извлечения сущностей с использованием абстракции разбиения на страницы
+и сортировки. Во многих случаях это будет сочетаться с CrudRepository или аналогичным или с добавленными вручную
+методами для обеспечения функциональности CRUD.
+
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- Page<T> findAll(Pageable pageable) - Возвращает несколько Page сущностей, удовлетворяющих ограничению подкачки,
+                                       предусмотренному в Pageable объекте, где объект Pageable - реализует абстрактный
+                                       интерфейс для работы с информацией о страницах., см.
+                                       DOC/PageFilterSort/PageableInterface.txt
+
+- Iterable<T> findAll(Sort sort) - Возвращает все объекты, отсортированные по заданным параметрам, где объект
+                                   Sort - определяет возможность сортировки запросов, см.
+                                   DOC/PageFilterSort/SortClass.txt
+________________________________________________________________________________________________________________________
+
+См. так же Interface Page (RUS): DOC/PageFilterSort/PageInterface.txt
+См. так же Interface Slice (RUS): DOC/PageFilterSort/SliceInterface.txt
+См. так же Class PageImpl (RUS): DOC/PageFilterSort/PageImplClass.txt
+См. так же Class PageRequest (RUS): DOC/PageFilterSort/PageRequestClass.txt

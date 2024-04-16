@@ -1,0 +1,135 @@
+См. исходник (ENG): https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#some-more-pages-for-our-grocery
+________________________________________________________________________________________________________________________
+****** Еще несколько страниц нашей бакалеи / Some more pages for our grocery ******
+
+Теперь мы много знаем об использовании Thymeleaf и можем добавить некоторые новые страницы на наш сайт для управления
+заказами. Обратите внимание, что мы сосредоточимся на HTML-коде, но вы можете посмотреть исходный код, если хотите
+увидеть соответствующие контроллеры.
+
+________________________________________________________________________________________________________________________
+*** 14.1 Список заказов ***
+
+Начнем с создания страницы списка заказов, /WEB-INF/templates/order/list.html:
+
+************************************************************************************************************************
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+  </head>
+  <body>
+    <h1>Order list</h1>
+    <table>
+      <tr>
+        <th>DATE</th>
+        <th>CUSTOMER</th>
+        <th>TOTAL</th>
+        <th></th>
+      </tr>
+      <tr th:each="o : ${orders}" th:class="${oStat.odd}? 'odd'">
+        <td th:text="${#calendars.format(o.date,'dd/MMM/yyyy')}">13 jan 2011</td>
+        <td th:text="${o.customer.name}">Frederic Tomato</td>
+        <td th:text="${#aggregates.sum(o.orderLines.{purchasePrice * amount})}">23.32</td>
+        <td>
+          <a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
+        </td>
+      </tr>
+    </table>
+    <p>
+      <a href="../home.html" th:href="@{/}">Return to home</a>
+    </p>
+  </body>
+</html>
+************************************************************************************************************************
+
+Здесь нет ничего, что могло бы нас удивить, кроме этой маленькой магии OGNL:
+
+************************************************************************************************************************
+
+<td th:text="${#aggregates.sum(o.orderLines.{purchasePrice * amount})}">23.32</td>
+
+************************************************************************************************************************
+
+Для каждой строки заказа (объект OrderLine) умножаем свойства purchasePrice, amount и суммируем (вызывая соответствующие
+методы getPurchasePrice() и getAmount()) и возвращаем результат в список чисел, позже агрегированную функцию
+#aggregates.sum(...), чтобы получить общую стоимость заказа.
+
+Вы должны полюбить силу OGNL.
+
+________________________________________________________________________________________________________________________
+*** 14.2 Детали заказа ***
+
+Теперь на странице сведений о заказе, в которой мы будем сильно использовать синтаксис звездочки:
+
+************************************************************************************************************************
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+  </head>
+  <body th:object="${order}">
+    <h1>Order details</h1>
+    <div>
+      <p><b>Code:</b> <span th:text="*{id}">99</span></p>
+      <p>
+        <b>Date:</b>
+        <span th:text="*{#calendars.format(date,'dd MMM yyyy')}">13 jan 2011</span>
+      </p>
+    </div>
+    <h2>Customer</h2>
+    <div th:object="*{customer}">
+      <p><b>Name:</b> <span th:text="*{name}">Frederic Tomato</span></p>
+      <p>
+        <b>Since:</b>
+        <span th:text="*{#calendars.format(customerSince,'dd MMM yyyy')}">1 jan 2011</span>
+      </p>
+    </div>
+    <h2>Products</h2>
+    <table>
+      <tr>
+        <th>PRODUCT</th>
+        <th>AMOUNT</th>
+        <th>PURCHASE PRICE</th>
+      </tr>
+      <tr th:each="ol,row : *{orderLines}" th:class="${row.odd}? 'odd'">
+        <td th:text="${ol.product.name}">Strawberries</td>
+        <td th:text="${ol.amount}" class="number">3</td>
+        <td th:text="${ol.purchasePrice}" class="number">23.32</td>
+      </tr>
+    </table>
+    <div>
+      <b>TOTAL:</b>
+      <span th:text="*{#aggregates.sum(orderLines.{purchasePrice * amount})}">35.23</span>
+    </div>
+    <p>
+      <a href="list.html" th:href="@{/order/list}">Return to order list</a>
+    </p>
+  </body>
+</html>
+************************************************************************************************************************
+
+Здесь не так уж и много нового, кроме этого выбора вложенных объектов:
+
+************************************************************************************************************************
+
+<body th:object="${order}">
+  <div th:object="*{customer}">
+    <p><b>Name:</b> <span th:text="*{name}">Frederic Tomato</span></p>
+  </div>
+</body>
+
+************************************************************************************************************************
+
+Что делает это - *{name} - эквивалентным:
+
+************************************************************************************************************************
+
+<p><b>Name:</b> <span th:text="${order.customer.name}">Frederic Tomato</span></p>
+
+************************************************************************************************************************

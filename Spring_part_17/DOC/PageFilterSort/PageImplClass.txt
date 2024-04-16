@@ -1,0 +1,99 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/PageImpl.html
+________________________________________________________________________________________________________________________
+****** Class PageImpl<T> ******
+
+Пакет: org.springframework.data.domain
+
+java.lang.Object
+    org.springframework.data.domain.PageImpl<T>
+
+Тип параметра: T - тип, из которого состоит страница.
+
+Все реализуемые интерфейсы: Serializable,
+                            Iterable<T>,
+                            Supplier<Stream<T>>,
+                            Page<T>,
+                            Slice<T>,
+                            Streamable<T>
+Прямой подкласс: GeoPage
+________________________________________________________________________________________________________________________
+public class PageImpl<T>
+                extends Object
+                    implements Page<T>
+________________________________________________________________________________________________________________________
+
+Базовая реализация Page.
+________________________________________________________________________________________________________________________
+*** Конструктор ***
+
+- PageImpl(List<T> content) - Создает новый PageImpl с заданным содержимым.
+
+- PageImpl(List<T> content, Pageable pageable, long total) - Конструктор PageImpl.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- boolean equals(Object obj)
+
+- List<T> getContent() - Возвращает содержимое страницы в формате List.
+
+- protected <U> List<U> getConvertedContent(Function<? super T,? extends U> converter) - Применяет данное значение
+                                                                                         Function к содержимому файла
+                                                                                         Chunk.
+
+- int getNumber() - Возвращает номер текущего Slice.
+
+- int getNumberOfElements() - Возвращает количество элементов, находящихся в данный момент в этом Slice.
+
+- Pageable getPageable() - Возвращает объект Pageable, который использовался для запроса текущего файла Slice.
+
+- int getSize() - Возвращает размер Slice.
+
+- Sort getSort() - Возвращает параметры сортировки для файла Slice.
+
+- long getTotalElements() - Возвращает общее количество элементов.
+
+- int getTotalPages() - Возвращает общее количество страниц.
+
+- boolean hasContent() - Возвращает, Slice есть ли вообще контент.
+
+- int hashCode()
+
+- boolean hasNext() - Возвращает, если есть следующий Slice.
+
+- boolean hasPrevious() - Возвращает, если существует предыдущий Slice.
+
+- boolean isFirst() - Возвращает, является ли текущий Slice первым.
+
+- boolean isLast() - Возвращает, является ли текущий текущий Slice последним.
+
+- Iterator<T> iterator()
+
+- <U> Page<U> map(Function<? super T,? extends U> converter) - Возвращает новый элемент Page с содержимым текущего,
+                                                               сопоставленным данным Function.
+
+- Pageable nextPageable() - Возвращает Pageable запрос следующего Slice.
+
+- Pageable previousPageable() - Возвращает Pageable запрос предыдущего Slice.
+
+- String toString()
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса java.lang.Object: clone, finalize, getClass, notify, notifyAll, wait
+См. тут: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html
+
+Методы, унаследованные от интерфейса java.lang.Iterable: forEach, iterator, spliterator
+См. тут: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html
+
+Методы, унаследованные от интерфейса org.springframework.data.domain.Slice: getContent, getNumber,
+                                                                               getNumberOfElements, getPageable,
+                                                                               getSize, getSort, hasContent,
+                                                                               hasPrevious, isFirst,
+                                                                               nextOrLastPageable, nextPageable,
+                                                                               previousOrFirstPageable,
+                                                                               previousPageable
+См. тут: https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Slice.html
+
+Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, filter, flatMap, get, isEmpty,
+                                                                               stream, toList, toSet
+См. тут: https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/util/Streamable.html
+________________________________________________________________________________________________________________________

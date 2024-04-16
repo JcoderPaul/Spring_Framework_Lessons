@@ -1,0 +1,724 @@
+См. исходник (ENG): https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#appendix-b-expression-utility-objects
+________________________________________________________________________________________________________________________
+****** Приложение B: Полезные выражения ******
+
+________________________________________________________________________________________________________________________
+*** Информация о выполнении ***
+
+- #execInfo: выражения, предоставляющие полезную информацию о шаблоне, обрабатываемом
+             внутри Thymeleaf Standard Expressions
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.ExecutionInfo */
+
+/*
+Вернет имя и режим шаблона "узла". Если кусок кода не находится в корневом шаблоне "A",
+а является вставленным фрагментом в "A" из другого шаблона под названием "B", то вернет
+"B" в качестве имени и режим "B" в качестве режима шаблона.
+*/
+
+${#execInfo.templateName}
+${#execInfo.templateMode}
+
+/*
+Возвращает имя и режим шаблона "родителя". Если кусок кода не находится в корневом шаблоне "A",
+а является вставленным фрагментом в "A" из другого шаблона под названием "B", то будет возвращен
+шаблон "A" и режим шаблона "A".
+*/
+
+${#execInfo.processedTemplateName}
+${#execInfo.processedTemplateMode}
+
+/*
+Вернуть стеки (на самом деле, List<String> или List<TemplateMode>) обрабатываемые шаблоны.
+Первым элементом будет "обработанный шаблон" (корневой), последний будет "узлом",
+а в середине все фрагменты, вставленные во вложенные для получения узла из корня.
+*/
+
+${#execInfo.templateNames}
+${#execInfo.templateModes}
+
+/*
+Вернет стек шаблонов, обрабатываемых аналогично (и в тот же порядок) в 'templateNames' и
+'templateModes', но возвращается List<TemplateData> с полными метаданными шаблонов.
+*/
+
+${#execInfo.templateStack}
+
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Сообщения ***
+
+- #messages: утилиты для получения внешних сообщений внутри выражений, так же как они будут получены с использованием
+             синтаксиса #{...}
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Messages */
+
+/*
+Получить внешние сообщения. Получить один ключ, ключ плюс аргументы, или массив / список / набор ключей
+(в этом случае он вернет массив / список / набор внешних сообщений). Если сообщение не найдено, возвращается
+сообщение по умолчанию (например, '??msgKey??')
+*/
+
+${#messages.msg('msgKey')}
+${#messages.msg('msgKey', param1)}
+${#messages.msg('msgKey', param1, param2)}
+${#messages.msg('msgKey', param1, param2, param3)}
+${#messages.msgWithParams('msgKey', new Object[] {param1, param2, param3, param4})}
+${#messages.arrayMsg(messageKeyArray)}
+${#messages.listMsg(messageKeyList)}
+${#messages.setMsg(messageKeySet)}
+
+/*
+Получить внешние сообщения или null. Null возвращается вместо дефолтного сообщения,
+если сообщение для указанного ключа не найдено.
+*/
+
+${#messages.msgOrNull('msgKey')}
+${#messages.msgOrNull('msgKey', param1)}
+${#messages.msgOrNull('msgKey', param1, param2)}
+${#messages.msgOrNull('msgKey', param1, param2, param3)}
+${#messages.msgOrNullWithParams('msgKey', new Object[] {param1, param2, param3, param4})}
+${#messages.arrayMsgOrNull(messageKeyArray)}
+${#messages.listMsgOrNull(messageKeyList)}
+${#messages.setMsgOrNull(messageKeySet)}
+
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** URIs/URLs ***
+
+- #uris: служебный объект для выполнения операций URI/URL (экранирование / деэкранирование) внутри
+         Thymeleaf Standard Expressions.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Uris */
+
+/* Экранирование/Деэкранирование URI/URL путей */
+
+${#uris.escapePath(uri)}
+${#uris.escapePath(uri, encoding)}
+${#uris.unescapePath(uri)}
+${#uris.unescapePath(uri, encoding)}
+
+/* Экранирование/Деэкранирование URI/URL путей сегментов (между '/' символами) */
+
+${#uris.escapePathSegment(uri)}
+${#uris.escapePathSegment(uri, encoding)}
+${#uris.unescapePathSegment(uri)}
+${#uris.unescapePathSegment(uri, encoding)}
+
+/* Экранирование/Деэкранирование якорей (#frag) */
+
+${#uris.escapeFragmentId(uri)}
+${#uris.escapeFragmentId(uri, encoding)}
+${#uris.unescapeFragmentId(uri)}
+${#uris.unescapeFragmentId(uri, encoding)}
+
+/* Экранирование/Деэкранирование параметров запроса (?var=value) */
+
+${#uris.escapeQueryParam(uri)}
+${#uris.escapeQueryParam(uri, encoding)}
+${#uris.unescapeQueryParam(uri)}
+${#uris.unescapeQueryParam(uri, encoding)}
+
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Конвертация/Conversions ***
+
+- #conversions: который позволяет вызывать Conversion Service в любой точке шаблона.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Conversions */
+
+/* Выполнить желаемое преобразование значения 'object' в указанный класс */
+
+${#conversions.convert(object, 'java.util.TimeZone')}
+${#conversions.convert(object, targetClass)}
+
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Даты/Dates ***
+
+- #dates: утилиты методов java.util.Date objects.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Dates */
+
+/* Формат даты со стандартным языковым форматом. Также работает с arrays, lists или sets */
+
+${#dates.format(date)}
+${#dates.arrayFormat(datesArray)}
+${#dates.listFormat(datesList)}
+${#dates.setFormat(datesSet)}
+
+/* Формат даты стандарта ISO8601. Так же работает с arrays, lists или sets */
+
+${#dates.formatISO(date)}
+${#dates.arrayFormatISO(datesArray)}
+${#dates.listFormatISO(datesList)}
+${#dates.setFormatISO(datesSet)}
+
+/* Формат даты с указанным шаблоном. Так же работает с arrays, lists или sets */
+
+${#dates.format(date, 'dd/MMM/yyyy HH:mm')}
+${#dates.arrayFormat(datesArray, 'dd/MMM/yyyy HH:mm')}
+${#dates.listFormat(datesList, 'dd/MMM/yyyy HH:mm')}
+${#dates.setFormat(datesSet, 'dd/MMM/yyyy HH:mm')}
+
+/* Получить свойства даты. Так же работает с arrays, lists или sets */
+
+${#dates.day(date)}                    // так же arrayDay(...), listDay(...), etc.
+${#dates.month(date)}                  // так же arrayMonth(...), listMonth(...), etc.
+${#dates.monthName(date)}              // так же arrayMonthName(...), listMonthName(...), etc.
+${#dates.monthNameShort(date)}         // так же arrayMonthNameShort(...), listMonthNameShort(...), etc.
+${#dates.year(date)}                   // так же arrayYear(...), listYear(...), etc.
+${#dates.dayOfWeek(date)}              // так же arrayDayOfWeek(...), listDayOfWeek(...), etc.
+${#dates.dayOfWeekName(date)}          // так же arrayDayOfWeekName(...), listDayOfWeekName(...), etc.
+${#dates.dayOfWeekNameShort(date)}     // так же arrayDayOfWeekNameShort(...), listDayOfWeekNameShort(...), etc.
+${#dates.hour(date)}                   // так же arrayHour(...), listHour(...), etc.
+${#dates.minute(date)}                 // так же arrayMinute(...), listMinute(...), etc.
+${#dates.second(date)}                 // так же arraySecond(...), listSecond(...), etc.
+${#dates.millisecond(date)}            // так же arrayMillisecond(...), listMillisecond(...), etc.
+
+/* Создание объекта даты (java.util.Date) */
+
+${#dates.create(year,month,day)}
+${#dates.create(year,month,day,hour,minute)}
+${#dates.create(year,month,day,hour,minute,second)}
+${#dates.create(year,month,day,hour,minute,second,millisecond)}
+
+/* Создание объекта даты (java.util.Date) текущего даты/времени */
+
+${#dates.createNow()}
+
+${#dates.createNowForTimeZone()}
+
+/* Создание объекта даты (java.util.Date) текущего числа (время установлено в 00:00) */
+
+${#dates.createToday()}
+
+${#dates.createTodayForTimeZone()}
+
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Календари/Calendars ***
+
+- #calendars: аналогично #dates, но для java.util.Calendar объектов.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Calendars */
+
+/* Формат календаря со стандартной языковым форматом. Так же работает с arrays, lists или sets */
+
+${#calendars.format(cal)}
+${#calendars.arrayFormat(calArray)}
+${#calendars.listFormat(calList)}
+${#calendars.setFormat(calSet)}
+
+/* Формат календаря стандарта ISO8601. Так же работает с arrays, lists или sets */
+
+${#calendars.formatISO(cal)}
+${#calendars.arrayFormatISO(calArray)}
+${#calendars.listFormatISO(calList)}
+${#calendars.setFormatISO(calSet)}
+
+/* Формат календаря с определенным шаблоном. Так же работает с arrays, lists или sets */
+
+${#calendars.format(cal, 'dd/MMM/yyyy HH:mm')}
+${#calendars.arrayFormat(calArray, 'dd/MMM/yyyy HH:mm')}
+${#calendars.listFormat(calList, 'dd/MMM/yyyy HH:mm')}
+${#calendars.setFormat(calSet, 'dd/MMM/yyyy HH:mm')}
+
+/* Получение свойств календаря. Так же работает с arrays, lists или sets */
+
+${#calendars.day(date)}                // так же arrayDay(...), listDay(...), etc.
+${#calendars.month(date)}              // так же arrayMonth(...), listMonth(...), etc.
+${#calendars.monthName(date)}          // так же arrayMonthName(...), listMonthName(...), etc.
+${#calendars.monthNameShort(date)}     // так же arrayMonthNameShort(...), listMonthNameShort(...), etc.
+${#calendars.year(date)}               // так же arrayYear(...), listYear(...), etc.
+${#calendars.dayOfWeek(date)}          // так же arrayDayOfWeek(...), listDayOfWeek(...), etc.
+${#calendars.dayOfWeekName(date)}      // так же arrayDayOfWeekName(...), listDayOfWeekName(...), etc.
+${#calendars.dayOfWeekNameShort(date)} // так же arrayDayOfWeekNameShort(...), listDayOfWeekNameShort(...), etc.
+${#calendars.hour(date)}               // так же arrayHour(...), listHour(...), etc.
+${#calendars.minute(date)}             // так же arrayMinute(...), listMinute(...), etc.
+${#calendars.second(date)}             // так же arraySecond(...), listSecond(...), etc.
+${#calendars.millisecond(date)}        // так же arrayMillisecond(...), listMillisecond(...), etc.
+
+/* Создание объекта календаря (java.util.Calendar) */
+
+${#calendars.create(year,month,day)}
+${#calendars.create(year,month,day,hour,minute)}
+${#calendars.create(year,month,day,hour,minute,second)}
+${#calendars.create(year,month,day,hour,minute,second,millisecond)}
+
+${#calendars.createForTimeZone(year,month,day,timeZone)}
+${#calendars.createForTimeZone(year,month,day,hour,minute,timeZone)}
+${#calendars.createForTimeZone(year,month,day,hour,minute,second,timeZone)}
+${#calendars.createForTimeZone(year,month,day,hour,minute,second,millisecond,timeZone)}
+
+/* Создание объекта календаря (java.util.Calendar) для текущей даты/времени */
+
+${#calendars.createNow()}
+
+${#calendars.createNowForTimeZone()}
+
+/* Создание объекта календаря (java.util.Calendar) для текущей даты (время установлено в 00:00) */
+
+${#calendars.createToday()}
+
+${#calendars.createTodayForTimeZone()}
+
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Числа ***
+
+- #numbers: методы для числовых объектов.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Numbers */
+
+/* -- Форматирование целых чисел -- */
+
+/* Установка минимального целого числа. Так же работает с arrays, lists или sets */
+
+${#numbers.formatInteger(num,3)}
+${#numbers.arrayFormatInteger(numArray,3)}
+${#numbers.listFormatInteger(numList,3)}
+${#numbers.setFormatInteger(numSet,3)}
+
+/* Установка минимального целого числа и разделителя тысяч: 'POINT',
+                                                            'COMMA',
+                                                            'WHITESPACE',
+                                                            'NONE'
+                                                            'DEFAULT' (как в локали).
+Так же работает с arrays, lists или sets
+*/
+
+${#numbers.formatInteger(num,3,'POINT')}
+${#numbers.arrayFormatInteger(numArray,3,'POINT')}
+${#numbers.listFormatInteger(numList,3,'POINT')}
+${#numbers.setFormatInteger(numSet,3,'POINT')}
+
+/* -- Форматирование десятичных чисел -- */
+
+/* Установка минимальной целой и десятичной частей. Так же работает с arrays, lists или sets */
+
+${#numbers.formatDecimal(num,3,2)}
+${#numbers.arrayFormatDecimal(numArray,3,2)}
+${#numbers.listFormatDecimal(numList,3,2)}
+${#numbers.setFormatDecimal(numSet,3,2)}
+
+/*
+Устанавливает минимальную часть целой и дробной частей,
+а так же разделитель десятичных. Так же работает с arrays,
+lists или sets
+*/
+
+${#numbers.formatDecimal(num,3,2,'COMMA')}
+${#numbers.arrayFormatDecimal(numArray,3,2,'COMMA')}
+${#numbers.listFormatDecimal(numList,3,2,'COMMA')}
+${#numbers.setFormatDecimal(numSet,3,2,'COMMA')}
+
+/*
+Устанавливает минимальную часть целой и дробной частей,
+а так же разделитель десятичных и тысячных. Так же работает
+с arrays, lists или sets
+*/
+
+${#numbers.formatDecimal(num,3,'POINT',2,'COMMA')}
+${#numbers.arrayFormatDecimal(numArray,3,'POINT',2,'COMMA')}
+${#numbers.listFormatDecimal(numList,3,'POINT',2,'COMMA')}
+${#numbers.setFormatDecimal(numSet,3,'POINT',2,'COMMA')}
+
+/* -- Форматирование валют -- */
+
+${#numbers.formatCurrency(num)}
+${#numbers.arrayFormatCurrency(numArray)}
+${#numbers.listFormatCurrency(numList)}
+${#numbers.setFormatCurrency(numSet)}
+
+/* -- Форматирование процентов -- */
+
+${#numbers.formatPercent(num)}
+${#numbers.arrayFormatPercent(numArray)}
+${#numbers.listFormatPercent(numList)}
+${#numbers.setFormatPercent(numSet)}
+
+/* -- Устанавливает минимальные целую и дробные части -- */
+
+${#numbers.formatPercent(num, 3, 2)}
+${#numbers.arrayFormatPercent(numArray, 3, 2)}
+${#numbers.listFormatPercent(numList, 3, 2)}
+${#numbers.setFormatPercent(numSet, 3, 2)}
+
+/* -- Методы утилит -- */
+
+/* Создает последовательность (массив) целых чисел от x до y */
+
+${#numbers.sequence(from,to)}
+${#numbers.sequence(from,to,step)}
+
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Строки/Strings ***
+
+- #strings: полезные методы для строк.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Strings */
+
+/* Null-safe toString() */
+
+${#strings.toString(obj)}    // так же array*, list* and set*
+
+/*
+Проверка String на пустоту (или null).
+Выполняет trim() перед проверкой
+Так же работает с arrays, lists или sets
+*/
+
+${#strings.isEmpty(name)}
+${#strings.arrayIsEmpty(nameArr)}
+${#strings.listIsEmpty(nameList)}
+${#strings.setIsEmpty(nameSet)}
+
+/*
+Выполняет 'isEmpty()' для строки и при false возвращает первое значение,
+или значение по умолчанию при true. Так же работает с arrays, lists или sets
+*/
+
+${#strings.defaultString(text,default)}
+${#strings.arrayDefaultString(textArr,default)}
+${#strings.listDefaultString(textList,default)}
+${#strings.setDefaultString(textSet,default)}
+
+/* Проверяет, содержится ли фрагмент в строке. Так же работает с arrays, lists или sets */
+
+${#strings.contains(name,'ez')}                     // так же array*, list* and set*
+${#strings.containsIgnoreCase(name,'ez')}           // так же array*, list* and set*
+
+/* Проверяет, начинается или оканчивается строка с фрагмента, так же works with arrays, lists or sets */
+
+${#strings.startsWith(name,'Don')}                  // так же array*, list* and set*
+${#strings.endsWith(name,endingFragment)}           // так же array*, list* and set*
+
+/* Строковые операции, так же работает с arrays, lists или sets */
+
+${#strings.indexOf(name,frag)}                      // так же array*, list* and set*
+${#strings.substring(name,3,5)}                     // так же array*, list* and set*
+${#strings.substringAfter(name,prefix)}             // так же array*, list* and set*
+${#strings.substringBefore(name,suffix)}            // так же array*, list* and set*
+${#strings.replace(name,'las','ler')}               // так же array*, list* and set*
+
+/* Дополнение в начале и в конце строки. Так же работает с arrays, lists или sets */
+
+${#strings.prepend(str,prefix)}                     // так же array*, list* and set*
+${#strings.append(str,suffix)}                      // так же array*, list* and set*
+
+/* Меняет строковые и заглавные, так же работает с arrays, lists или sets */
+
+${#strings.toUpperCase(name)}                       // так же array*, list* and set*
+${#strings.toLowerCase(name)}                       // так же array*, list* and set*
+
+/* Соединяет и разделяет строку */
+
+${#strings.arrayJoin(namesArray,',')}
+${#strings.listJoin(namesList,',')}
+${#strings.setJoin(namesSet,',')}
+${#strings.arraySplit(namesStr,',')}                // returns String[]
+${#strings.listSplit(namesStr,',')}                 // returns List<String>
+${#strings.setSplit(namesStr,',')}                  // returns Set<String>
+
+/* Trim - удаление пробелов с обоих концов строки, так же работает с arrays, lists или sets */
+
+${#strings.trim(str)}                               // так же array*, list* and set*
+
+/* Вычисление длины, так же работает с arrays, lists или sets */
+
+${#strings.length(str)}                             // так же array*, list* and set*
+
+/* Обрезает строку до n символов и вставляет указанное окончание. Так же работает с arrays, lists или sets */
+
+${#strings.abbreviate(str,10)}                      // так же array*, list* and set*
+
+/* Конвертирует первый символ в заглавную букву (и наоборот) */
+
+${#strings.capitalize(str)}                         // так же array*, list* and set*
+${#strings.unCapitalize(str)}                       // так же array*, list* and set*
+
+/* Конвертирует первую букву каждого слова в заглавную */
+
+${#strings.capitalizeWords(str)}                    // так же array*, list* and set*
+${#strings.capitalizeWords(str,delimiters)}         // так же array*, list* and set*
+
+/* Экранирует строку */
+
+${#strings.escapeXml(str)}                          // так же array*, list* and set*
+${#strings.escapeJava(str)}                         // так же array*, list* and set*
+${#strings.escapeJavaScript(str)}                   // так же array*, list* and set*
+${#strings.unescapeJava(str)}                       // так же array*, list* and set*
+${#strings.unescapeJavaScript(str)}                 // так же array*, list* and set*
+
+/* Null-safe сравнение и соединение */
+
+${#strings.equals(first, second)}
+${#strings.equalsIgnoreCase(first, second)}
+${#strings.concat(values...)}
+${#strings.concatReplaceNulls(nullValue, values...)}
+
+/* Случайные строки */
+
+${#strings.randomAlphanumeric(count)}
+
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Objects ***
+
+- #objects: полезные методы для объектов в целом.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Objects */
+
+/*
+Возвращает объект, если он не null,
+и дефолтное значение в противном случае.
+Так же работает с arrays, lists или sets
+*/
+
+${#objects.nullSafe(obj,default)}
+${#objects.arrayNullSafe(objArray,default)}
+${#objects.listNullSafe(objList,default)}
+${#objects.setNullSafe(objSet,default)}
+
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Booleans ***
+
+- #bools: полезные методы для работы с булевыми выражениями.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Bools */
+
+/* Анализирует условие аналогично тегу th:if (см. раздел условий). Так же работает с arrays, lists или sets */
+
+${#bools.isTrue(obj)}
+${#bools.arrayIsTrue(objArray)}
+${#bools.listIsTrue(objList)}
+${#bools.setIsTrue(objSet)}
+
+/* Выражение с отрицанием, так же работает с arrays, lists или sets */
+
+${#bools.isFalse(cond)}
+${#bools.arrayIsFalse(condArray)}
+${#bools.listIsFalse(condList)}
+${#bools.setIsFalse(condSet)}
+
+/* Анализ и применение оператора AND. Получить массив, список или набор в качестве параметра */
+
+${#bools.arrayAnd(condArray)}
+${#bools.listAnd(condList)}
+${#bools.setAnd(condSet)}
+
+/* Выполнение оператора OR. Получить массив, список или набор в качестве параметра */
+
+${#bools.arrayOr(condArray)}
+${#bools.listOr(condList)}
+${#bools.setOr(condSet)}
+
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Массивы/Arrays ***
+
+- #arrays: полезные методы для массивов.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Arrays */
+
+/*
+Преобразует в массив, пытаясь вывести класс компонентов массива.
+Если результат пустой или элементы массива принадлежат разным
+классам, метод возвратит Object[].
+*/
+
+${#arrays.toArray(object)}
+
+/* Конвертация массива к определенном классу */
+
+${#arrays.toStringArray(object)}
+${#arrays.toIntegerArray(object)}
+${#arrays.toLongArray(object)}
+${#arrays.toDoubleArray(object)}
+${#arrays.toFloatArray(object)}
+${#arrays.toBooleanArray(object)}
+
+/* Вычисление длины */
+
+${#arrays.length(array)}
+
+/* Является ли массив пустым */
+
+${#arrays.isEmpty(array)}
+
+/* Проверяет наличие одного или нескольких элементов в массиве */
+
+${#arrays.contains(array, element)}
+${#arrays.containsAll(array, elements)}
+
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** Списки/Lists ***
+
+- #lists: полезные методы списков.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Lists */
+
+/* Конвертация в список */
+
+${#lists.toList(object)}
+
+/* Вычисление размера */
+
+${#lists.size(list)}
+
+/* Является ли список пустым */
+
+${#lists.isEmpty(list)}
+
+/* Проверяет наличие одного или нескольких элементов в списке */
+
+${#lists.contains(list, element)}
+${#lists.containsAll(list, elements)}
+
+/*
+Сортировка копии указанного списка. Элементы списка
+должны реализовывать компаратор или компаратор должен
+определяться.
+*/
+
+${#lists.sort(list)}
+${#lists.sort(list, comparator)}
+
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** Множествав/Sets ***
+
+- #sets: полезные методы для множеств.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Sets */
+
+/* Конвертация к множеству */
+
+${#sets.toSet(object)}
+
+/* Вычисление размера */
+
+${#sets.size(set)}
+
+/* Является ли множество пустым */
+
+${#sets.isEmpty(set)}
+
+/* Содержится ли элемент или элементы во множестве */
+
+${#sets.contains(set, element)}
+${#sets.containsAll(set, elements)}
+
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** Карты/Maps ***
+
+- #maps: полезные методы для Map.
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Maps */
+
+/* Вычисление размера */
+
+${#maps.size(map)}
+
+/* Проверка map на пустоту */
+
+${#maps.isEmpty(map)}
+
+/* Содержит ли map ключ или значение */
+
+${#maps.containsKey(map, key)}
+${#maps.containsAllKeys(map, keys)}
+${#maps.containsValue(map, value)}
+${#maps.containsAllValues(map, value)}
+
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** Агрегирование/Aggregates ***
+
+- #aggregates: полезные методы агрегации массивов или коллекций.
+
+************************************************************************************************************************
+
+/* See javadoc API for class org.thymeleaf.expression.Aggregates */
+
+/* Вычисление суммы. Возвращает null, если массив или коллекция пустые */
+
+${#aggregates.sum(array)}
+${#aggregates.sum(collection)}
+
+/* Вычисление среднего. Возвращает null, если массив или коллекция пустые */
+
+${#aggregates.avg(array)}
+${#aggregates.avg(collection)}
+
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** IDs ***
+
+- #ids: утилиты для обработки идентификаторов id, которые могут быть повторены (например, в результате итерации).
+
+************************************************************************************************************************
+
+/* См. javadoc API для класса org.thymeleaf.expression.Ids */
+
+/*
+Обычно используется в атрибутах th: id, для добавления счетчика
+к значению атрибута id, чтобы он оставался уникальным даже в
+процессе итерации.
+*/
+
+${#ids.seq('someId')}
+
+/*
+Обычно используется в th:for атрибутах в тегах <label>, так,
+что эти метки могут ссылаться на идентификаторы сгенерированные
+с помощью функции #ids.seq(...).
+
+В зависимости от того, идет ли <label> до или после элемента
+с #ids.seq(...), "next" (метка идет до "seq") или "prev"
+(метка идет после). Функция "seq" должна быть вызвана.
+*/
+
+${#ids.next('someId')}
+${#ids.prev('someId')}
+
+************************************************************************************************************************

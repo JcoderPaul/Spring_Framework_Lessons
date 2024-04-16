@@ -1,0 +1,61 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html
+________________________________________________________________________________________________________________________
+****** Interface Pageable ******
+
+Пакет: org.springframework.data.domain
+
+Известные реализующие классы:
+AbstractPageRequest - DOC/PageFilterSort/AbstractPageRequestClass.txt;
+PageRequest - DOC/PageFilterSort/PageRequestClass.txt;
+QPageRequest - DOC/PageFilterSort/QPageRequestClass.txt;
+________________________________________________________________________________________________________________________
+public interface Pageable
+________________________________________________________________________________________________________________________
+
+Абстрактный интерфейс для работы с информацией о страницах.
+
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- Pageable first() - Возвращает Pageable запрашивающую первую страницу.
+
+- long getOffset() - Возвращает смещение, которое будет принято в соответствии с базовой страницей и размером страницы.
+
+- int getPageNumber() - Возвращает страницу, которую необходимо вернуть (получить).
+
+- int getPageSize() - Возвращает количество возвращаемых элементов на страницу.
+
+- Sort getSort() - Возвращает параметры сортировки.
+
+- default Sort getSortOr(Sort sort) - Возвращает текущий Sort или заданный, если текущий не отсортирован.
+
+- boolean hasPrevious() - Возвращает, есть ли предыдущая версия, Pageable у которой мы можем получить доступ из текущей.
+
+- default boolean isPaged() - Возвращает, содержит ли текущий Pageable информацию о разбивке на страницы.
+
+- default boolean isUnpaged() - Возвращает, не содержит ли текущий Pageable информацию о нумерации страниц.
+
+- Pageable next() - Возвращает Pageable запрос следующего Page.
+
+- static Pageable ofSize(int pageSize) - Создает новую Pageable для первой страницы (номер страницы 0),
+                                         заданной в pageSize.
+
+- Pageable previousOrFirst() - Возвращает предыдущий Pageable или первый Pageable, если текущий уже является первым.
+
+- default Limit toLimit() - Возвращает Limit из этой страницы, если запрос страницы выгружается, или
+                            Limit.unlimited() в противном случае.
+
+- default Optional<Pageable> toOptional() - Возвращает объект Optional, чтобы его можно было легко сопоставить.
+
+- default OffsetScrollPosition toScrollPosition() - Возвращает OffsetScrollPosition из этой страницы, если запрос
+                                                    страницы is paged, т.е. возвращает, содержит ли текущий Pageable
+                                                    информацию о разбивке на страницы.
+
+- static Pageable unpaged() - Возвращает Pageable экземпляр, не представляющий настройки нумерации страниц.
+
+- static Pageable unpaged(Sort sort) - Возвращает Pageable экземпляр, представляющий отсутствие настройки нумерации
+                                       страниц и имеющий определенный результат order.
+
+- Pageable withPage(int pageNumber) - Создает новый Pageable с заданным pageNumber.
+________________________________________________________________________________________________________________________

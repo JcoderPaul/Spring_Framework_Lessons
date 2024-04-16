@@ -1,0 +1,76 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/querydsl/QPageRequest.html
+________________________________________________________________________________________________________________________
+****** Class QPageRequest ******
+
+Пакет: org.springframework.data.querydsl
+
+java.lang.Object
+    org.springframework.data.domain.AbstractPageRequest
+        org.springframework.data.querydsl.QPageRequest
+
+Все реализуемые интерфейсы: Serializable,
+                            Pageable
+________________________________________________________________________________________________________________________
+public class QPageRequest extends AbstractPageRequest
+________________________________________________________________________________________________________________________
+
+Базовая реализация Java Bean Pageable с поддержкой QueryDSL.
+________________________________________________________________________________________________________________________
+*** Конструкторы (устарели) ***
+
+- QPageRequest(int pageNumber,
+               int pageSize) - Устарело начиная с версии 2.1, используйте of(int, int) вместо этого.
+
+- QPageRequest(int pageNumber,
+               int pageSize,
+               com.querydsl.core.types.OrderSpecifier<?>... orderSpecifiers) - Устарело, начиная с версии 2.1,
+                                                      используйте of(int, int, OrderSpecifier...) вместо этого.
+
+QPageRequest(int pageNumber,
+             int pageSize,
+             QSort sort) - Устарело, начиная с версии 2.1, используйте of(int, int, QSort) вместо этого.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- Pageable first() - Возвращает Pageable запрашивающую первую страницу.
+
+- Sort getSort() - Возвращает параметры сортировки.
+
+- Pageable next() - Возвращает Pageable запрос следующего Page.
+
+- static QPageRequest of(int pageNumber, int pageSize) - Создает новый QPageRequest.
+
+- static QPageRequest of(int pageNumber,
+                         int pageSize,
+                         com.querydsl.core.types.OrderSpecifier<?>... orderSpecifiers) - Создает новый QPageRequest с
+                                                                                применением заданного OrderSpecifiers.
+
+- static QPageRequest of(int pageNumber,
+                         int pageSize,
+                         QSort sort) - Создает новый объект QPageRequest с примененными параметрами сортировки.
+
+- static QPageRequest ofSize(int pageSize) - Создает новую QPageRequest для первой страницы (номер страницы 0), заданной
+                                             pageSize.
+
+- Pageable previous() - Возвращает Pageable запрашивающий предыдущий Page.
+
+- QPageRequest withPage(int pageNumber) - Создает новый QPageRequest с заданным pageNumber.
+
+- QPageRequest withSort(QSort sort) - Создает новый QPageRequest с заданным QSort.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.data.domain.AbstractPageRequest: equals, getOffset, getPageNumber,
+                                                                                      getPageSize, hashCode, hasPrevious,
+                                                                                       previousOrFirst
+См. тут:
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/AbstractPageRequest.html
+
+Методы, унаследованные от класса java.lang.Object: clone, finalize, getClass, notify, notifyAll, toString, wait
+См. тут: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html
+
+Методы, унаследованные от интерфейса org.springframework.data.domain.Pageable (Постраничный): getSortOr, isPaged,
+                                                                                              isUnpaged, toLimit,
+                                                                                              toOptional,
+                                                                                              toScrollPosition
+См. тут: https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html
+________________________________________________________________________________________________________________________

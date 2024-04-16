@@ -1,0 +1,58 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/AbstractPageRequest.html
+________________________________________________________________________________________________________________________
+****** Class AbstractPageRequest ******
+
+Пакет: org.springframework.data.domain
+
+java.lang.Object
+    org.springframework.data.domain.AbstractPageRequest
+
+Все реализуемые интерфейсы: Serializable,
+                            Pageable
+
+Прямые известные подклассы: PageRequest,
+                            QPageRequest
+________________________________________________________________________________________________________________________
+public abstract class AbstractPageRequest
+                                   extends Object
+                                        implements Pageable, Serializable
+________________________________________________________________________________________________________________________
+
+Абстрактная реализация Pageable в Java Bean.
+
+________________________________________________________________________________________________________________________
+*** Конструктор ***
+
+- AbstractPageRequest(int pageNumber, int pageSize) - Создает новый AbstractPageRequest.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- boolean equals(Object obj)
+
+- abstract Pageable first() - Возвращает Pageable запрашивающую первую страницу.
+
+- long getOffset() - Возвращает смещение, которое будет принято в соответствии с базовой страницей и размером страницы.
+
+- int getPageNumber() - Возвращает страницу, которую необходимо вернуть.
+
+- int getPageSize() - Возвращает количество возвращаемых элементов.
+
+- int hashCode()
+
+- boolean hasPrevious() - Возвращает, есть ли предыдущая версия, Pageable к которой мы можем получить доступ из текущей.
+
+- abstract Pageable next() - Возвращает Pageable запрос следующего Page.
+
+- abstract Pageable previous() - Возвращает Pageable запрашивающий предыдущий Page.
+
+- Pageable previousOrFirst() - Возвращает предыдущий Pageable или первый Pageable, если текущий уже является первым.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса java.lang.Object: clone, finalize, getClass, notify, notifyAll, toString, wait
+См. тут: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html
+
+Методы, унаследованные от интерфейса org.springframework.data.domain.Pageable: getSort, getSortOr, isPaged, isUnpaged,
+                                                                               toLimit, toOptional, toScrollPosition,
+                                                                               withPage
+См. тут: https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html
+________________________________________________________________________________________________________________________

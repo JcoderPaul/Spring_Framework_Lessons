@@ -1,0 +1,54 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html
+________________________________________________________________________________________________________________________
+****** Interface Page<T> ******
+
+Пакет: org.springframework.data.domain
+
+Типы параметров: T - сущность список коих будет выводиться на странице.
+
+Все супер-интерфейсы:
+- Iterable<T> - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html;
+- Slice<T> - DOC/PageFilterSort/SliceInterface.txt;
+- Streamable<T> - https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/util/Streamable.html;
+- Supplier<Stream<T>> - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html;
+
+Все известные реализующие классы:
+- GeoPage - https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/geo/GeoPage.html;
+- PageImpl - DOC/PageFilterSort/PageImplClass.txt;
+________________________________________________________________________________________________________________________
+public interface Page<T> extends Slice<T>
+________________________________________________________________________________________________________________________
+
+Страница - это подсписок полного списка объектов. Реализация интерфейса позволяет получить информацию о положении
+станицы в полном списке таковых.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- static <T> Page<T> empty() - Создает новый пустой Page.
+
+- static <T> Page<T> empty(Pageable pageable) - Создает новый пустой объект Page для данного Pageable.
+
+- long getTotalElements() - Возвращает общее количество элементов.
+
+- int getTotalPages() - Возвращает общее количество страниц.
+
+- <U> Page<U> map(Function<? super T,? extends U> converter) - Возвращает новый элемент Page с содержимым текущего,
+                                                               сопоставленным данным Function.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от интерфейса java.lang.Iterable: forEach, iterator, spliterator
+См. тут: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html
+
+Методы, унаследованные от интерфейса org.springframework.data.domain.Slice (срез): getContent, getNumber,
+                                                                                   getNumberOfElements, getPageable,
+                                                                                   getSize, getSort, hasContent, hasNext,
+                                                                                   hasPrevious, isFirst, isLast,
+                                                                                   nextOrLastPageable, nextPageable,
+                                                                                   previousOrFirstPageable,
+                                                                                   previousPageable
+См. тут: https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Slice.html
+
+Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, filter, flatMap, get, isEmpty,
+                                                                               stream, toList, toSet
+См. тут: https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/util/Streamable.html
+________________________________________________________________________________________________________________________
