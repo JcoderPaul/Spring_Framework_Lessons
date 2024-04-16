@@ -1,0 +1,163 @@
+****** Class RequestMappingHandlerMapping ******
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.web.servlet.mvc.method.annotation
+
+java.lang.Object
+  org.springframework.context.support.ApplicationObjectSupport
+    org.springframework.web.context.support.WebApplicationObjectSupport
+      org.springframework.web.servlet.handler.AbstractHandlerMapping
+        org.springframework.web.servlet.handler.AbstractHandlerMethodMapping<RequestMappingInfo>
+          org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping
+            org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+
+Реализованные интерфейсы: Aware,
+                          BeanNameAware,
+                          InitializingBean,
+                          ApplicationContextAware,
+                          EmbeddedValueResolverAware,
+                          Ordered,
+                          ServletContextAware,
+                          MatchableHandlerMapping,
+                          HandlerMapping
+________________________________________________________________________________________________________________________
+public class RequestMappingHandlerMapping
+                     extends RequestMappingInfoHandlerMapping
+                                     implements MatchableHandlerMapping,
+                                                EmbeddedValueResolverAware
+________________________________________________________________________________________________________________________
+Создает RequestMappingInfo экземпляры из аннотаций уровня типа и метода @RequestMapping в @Controller классах.
+
+Примечание об устаревании: В версии 5.2.4 useSuffixPatternMatch и useRegisteredSuffixPatternMatch были объявлены
+                           устаревшими, чтобы препятствовать использованию расширений путей для сопоставления запросов и
+                           согласования содержимого (с аналогичными исключениями в ContentNegotiationManagerFactoryBean).
+________________________________________________________________________________________________________________________
+*** Поля ***
+
+Поля, унаследованные от класса org.springframework.web.servlet.handler.AbstractHandlerMapping: mappingsLogger
+
+Поля, унаследованные от класса org.springframework.context.support.ApplicationObjectSupport: logger
+
+Поля, унаследованные от интерфейса org.springframework.web.servlet.HandlerMapping: BEST_MATCHING_HANDLER_ATTRIBUTE,
+                                                                                   BEST_MATCHING_PATTERN_ATTRIBUTE,
+                                                                                   INTROSPECT_TYPE_LEVEL_MAPPING,
+                                                                                   LOOKUP_PATH,
+                                                                                   MATRIX_VARIABLES_ATTRIBUTE,
+                                                                                   PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE,
+                                                                                   PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE,
+                                                                                   URI_TEMPLATE_VARIABLES_ATTRIBUTE
+
+Поля, унаследованные от интерфейса org.springframework.core.Ordered: HIGHEST_PRECEDENCE,
+                                                                     LOWEST_PRECEDENCE
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- void afterPropertiesSet() - Обнаруживает методы обработчика при инициализации.
+
+- protected RequestMappingInfo createRequestMappingInfo(RequestMapping requestMapping,
+                                                        RequestCondition<?> customCondition) - Создайте RequestMappingInfo
+                                                        из предоставленной @RequestMapping аннотации, которая является либо
+                                                        непосредственно объявленной аннотацией, мета-аннотацией, либо
+                                                        синтезированным результатом слияния атрибутов аннотации в иерархии
+                                                        аннотаций.
+
+- RequestMappingInfo.BuilderConfiguration getBuilderConfiguration() - Получите файл RequestMappingInfo.BuilderConfiguration,
+                                 который может отражать его внутреннюю конфигурацию HandlerMapping и может использоваться
+                                 для установки RequestMappingInfo.Builder.options(RequestMappingInfo.BuilderConfiguration).
+
+- ContentNegotiationManager getContentNegotiationManager() - Верните настроенный ContentNegotiationManager.
+
+- protected RequestCondition<?> getCustomMethodCondition(Method method) - Предоставьте пользовательское условие запроса
+                                                                          на уровне метода.
+
+- protected RequestCondition<?> getCustomTypeCondition(Class<?> handlerType) - Предоставьте пользовательское условие
+                                                                               запроса на уровне типа.
+
+- List<String> getFileExtensions() - Устарело. По состоянию на 5.2.4.
+
+- protected RequestMappingInfo getMappingForMethod(Method method,
+                                                   Class<?> handlerType) - Использует аннотации @ на уровне метода и типа
+                                                                           RequestMapping для создания RequestMappingInfo.
+
+- Map<String,Predicate<Class<?>>> getPathPrefixes() - Настроенный префикс пути представляет собой доступную только для
+                                                      чтения и, возможно, пустую карту.
+
+- protected CorsConfiguration initCorsConfiguration(Object handler,
+                                                    Method method,
+                                                    RequestMappingInfo mappingInfo) - Извлеките и верните конфигурацию
+                                                                                      CORS для сопоставления.
+
+- protected boolean isHandler(Class<?> beanType) - Является ли данный тип обработчиком с методами обработчика.
+
+- RequestMatchResult match(HttpServletRequest request,
+                           String pattern) - Определите, соответствует ли запрос заданному шаблону.
+
+- protected void registerHandlerMethod(Object handler,
+                                       Method method,
+                                       RequestMappingInfo mapping) - Зарегистрируйте метод-обработчик и его уникальное
+                                                                     сопоставление.
+
+- void registerMapping(RequestMappingInfo mapping,
+                       Object handler,
+                       Method method) - Зарегистрируйте данное сопоставление.
+
+- protected String[] resolveEmbeddedValuesInPatterns(String[] patterns) - Разрешите значения заполнителей в заданном
+                                                                          массиве шаблонов.
+
+- void setContentNegotiationManager(ContentNegotiationManager contentNegotiationManager) - Установите
+                             ContentNegotiationManager для использования для определения запрошенных типов мультимедиа.
+
+- void setEmbeddedValueResolver(StringValueResolver resolver) - Установите StringValueResolver, который будет
+                                                                использоваться для разрешения встроенных значений
+                                                                определений.
+
+- void setPathPrefixes(Map<String,
+                       Predicate<Class<?>>> prefixes) - Настройте префиксы путей для применения к методам контроллера.
+
+- void setPatternParser(PathPatternParser patternParser) - Установите параметр PathPatternParser для анализа patterns
+                                                           для сопоставления URL-пути.
+
+- void setUseRegisteredSuffixPatternMatch(boolean useRegisteredSuffixPatternMatch) - Устарело. По состоянию на 5.2.4.
+- void setUseSuffixPatternMatch(boolean useSuffixPatternMatch) - Устарело. По состоянию на 5.2.4.
+- void setUseTrailingSlashMatch(boolean useTrailingSlashMatch) - Устарело. По состоянию на 6.0, см.
+                                                           PathPatternParser.setMatchOptionalTrailingSeparator(boolean)
+- boolean useRegisteredSuffixPatternMatch() - Устарело. По состоянию на 5.2.4.
+- boolean useSuffixPatternMatch() - Устарело. По состоянию на 5.2.4.
+
+- boolean useTrailingSlashMatch() - Соответствовать ли URL-адресам независимо от наличия косой черты в конце.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping:
+getDirectPaths, getHandlerInternal, getMappingComparator, getMappingPathPatterns, getMatchingMapping, handleMatch,
+handleNoMatch
+
+Методы, унаследованные от класса org.springframework.web.servlet.handler.AbstractHandlerMethodMapping:
+createHandlerMethod, detectHandlerMethods, getCandidateBeanNames, getCorsConfiguration, getHandlerMethods,
+getHandlerMethodsForMappingName, getNamingStrategy, handlerMethodsInitialized, hasCorsConfigurationSource,
+initHandlerMethods, lookupHandlerMethod, processCandidateBean, setDetectHandlerMethodsInAncestorContexts,
+setHandlerMethodMappingNamingStrategy, unregisterMapping
+
+Методы, унаследованные от класса org.springframework.web.servlet.handler.AbstractHandlerMapping:
+adaptInterceptor, detectMappedInterceptors, extendInterceptors, formatMappingName, getAdaptedInterceptors,
+getCorsConfigurationSource, getCorsHandlerExecutionChain, getCorsProcessor, getDefaultHandler, getHandler,
+getHandlerExecutionChain, getMappedInterceptors, getOrder, getPathMatcher, getPatternParser, getUrlPathHelper,
+initApplicationContext, initInterceptors, initLookupPath, setAlwaysUseFullPath, setBeanName, setCorsConfigurations,
+setCorsConfigurationSource, setCorsProcessor, setDefaultHandler, setInterceptors, setOrder, setPathMatcher,
+setRemoveSemicolonContent, setUrlDecode, setUrlPathHelper, usesPathPatterns
+
+Методы, унаследованные от класса org.springframework.web.context.support.WebApplicationObjectSupport:
+getServletContext, getTempDir, getWebApplicationContext, initApplicationContext, initServletContext, isContextRequired,
+setServletContext
+
+Методы, унаследованные от класса org.springframework.context.support.ApplicationObjectSupport:
+getApplicationContext, getMessageSourceAccessor, obtainApplicationContext, requiredContextClass, setApplicationContext
+
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait
+
+Методы, унаследованные от интерфейса org.springframework.web.servlet.HandlerMapping: getHandler, usesPathPatterns
+
+Методы, унаследованные от интерфейса org.springframework.web.servlet.handler.MatchableHandlerMapping: getPatternParser
+________________________________________________________________________________________________________________________
+См. оригинал (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerMapping.html
+________________________________________________________________________________________________________________________
+

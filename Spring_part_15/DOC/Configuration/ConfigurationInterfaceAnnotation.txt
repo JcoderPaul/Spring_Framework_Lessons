@@ -1,0 +1,435 @@
+****** Annotation Interface Configuration ******
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.context.annotation
+
+См. так же: Bean,
+            Profile,
+            Import,
+            ImportResource,
+            ComponentScan,
+            Lazy,
+            PropertySource,
+            AnnotationConfigApplicationContext,
+            ConfigurationClassPostProcessor,
+            Environment,
+            ContextConfiguration
+________________________________________________________________________________________________________________________
+@Target(TYPE)
+@Retention(RUNTIME)
+@Documented
+@Component
+public @interface Configuration
+________________________________________________________________________________________________________________________
+Указывает, что класс объявляет один или несколько методов @Bean и может обрабатываться контейнером Spring для создания
+определений компонентов и запросов на обслуживание для этих компонентов во время выполнения, например:
+
+************************************************************************************************************************
+@Configuration
+ public class AppConfig {
+
+     @Bean
+     public MyBean myBean() {
+         // instantiate, configure and return bean ...
+     }
+ }
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** Начальная загрузка классов @Configuration ***
+
+-- Через AnnotationConfigApplicationContext --
+
+Классы помеченные @Configuration обычно загружаются с использованием AnnotationConfigApplicationContext или его
+веб-варианта AnnotationConfigWebApplicationContext. Ниже приведен простой пример первого:
+
+************************************************************************************************************************
+ AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+ ctx.register(AppConfig.class);
+ ctx.refresh();
+ MyBean myBean = ctx.getBean(MyBean.class);
+ // use myBean ...
+************************************************************************************************************************
+
+Дополнительные сведения см. в документации AnnotationConfigApplicationContext -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html,
+а инструкции по веб-конфигурации в контейнере сервлетов см. в разделе AnnotationConfigWebApplicationContext -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/support/AnnotationConfigWebApplicationContext.html.
+
+-- Через Spring <beans> XML --
+
+В качестве альтернативы регистрации классов @Configuration непосредственно в AnnotationConfigApplicationContext классы
+@Configuration могут быть объявлены как обычные определения <bean> в XML-файлах Spring:
+
+************************************************************************************************************************
+ <beans>
+    <context:annotation-config/>
+    <bean class="com.acme.AppConfig"/>
+ </beans>
+************************************************************************************************************************
+
+В приведенном выше примере <context:annotation-config/> требуется для включения ConfigurationClassPostProcessor и других
+постпроцессоров, связанных с аннотациями, которые облегчают обработку классов @Configuration.
+
+-- Через сканирование компонентов --
+
+@Configuration мета-аннотируется с помощью @Component, поэтому классы @Configuration являются кандидатами на сканирование
+компонентов (обычно с использованием элемента <context:comComponent-scan/> Spring XML) и, следовательно, также могут
+использовать преимущества @Autowired/@Inject, как и любой обычный @Component. В частности, если присутствует один
+конструктор, семантика автоматического связывания будет применяться прозрачно для этого конструктора:
+
+************************************************************************************************************************
+@Configuration
+ public class AppConfig {
+
+     private final SomeBean someBean;
+
+     public AppConfig(SomeBean someBean) {
+         this.someBean = someBean;
+     }
+
+     // @Bean definition using "SomeBean"
+
+ }
+************************************************************************************************************************
+
+Классы @Configuration могут не только загружаться с помощью сканирования компонентов, но также могут сами настраивать
+сканирование компонентов с помощью аннотации @ComponentScan:
+
+************************************************************************************************************************
+@Configuration
+ @ComponentScan("com.acme.app.services")
+ public class AppConfig {
+     // various @Bean definitions ...
+ }
+************************************************************************************************************************
+
+Подробности смотрите в документации @ComponentScan -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html
+
+________________________________________________________________________________________________________________________
+*** Работа с внешними значениями ***
+
+-- Использование API среды (окружения) --
+
+Внешние значения можно найти, внедрив среду Spring в класс @Configuration — например, используя аннотацию @Autowired:
+
+************************************************************************************************************************
+ @Configuration
+ public class AppConfig {
+
+     @Autowired Environment env;
+
+     @Bean
+     public MyBean myBean() {
+         MyBean myBean = new MyBean();
+         myBean.setName(env.getProperty("bean.name"));
+         return myBean;
+     }
+ }
+************************************************************************************************************************
+
+Свойства, разрешенные через среду, находятся в одном или нескольких объектах «источника свойств», а классы
+@Configuration могут добавлять источники свойств в объект среды с помощью аннотации @PropertySource:
+
+************************************************************************************************************************
+@Configuration
+ @PropertySource("classpath:/com/acme/app.properties")
+ public class AppConfig {
+
+     @Inject Environment env;
+
+     @Bean
+     public MyBean myBean() {
+         return new MyBean(env.getProperty("bean.name"));
+     }
+ }
+************************************************************************************************************************
+
+Дополнительные сведения:
+см. Environment - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/env/Environment.html
+см. @PropertySource - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/PropertySource.html
+
+-- Использование аннотации @Value --
+
+Внешние значения можно вводить в классы @Configuration с помощью аннотации @Value:
+
+************************************************************************************************************************
+@Configuration
+ @PropertySource("classpath:/com/acme/app.properties")
+ public class AppConfig {
+
+     @Value("${bean.name}") String beanName;
+
+     @Bean
+     public MyBean myBean() {
+         return new MyBean(beanName);
+     }
+ }
+************************************************************************************************************************
+
+Этот подход часто используется в сочетании с Spring PropertySourcesPlaceholderConfigurer, который можно автоматически
+включить в конфигурации XML через <context:property-placeholder/> или явно в классе @Configuration с помощью специального
+статического метода @Bean (см. «примечание о возврате BeanFactoryPostProcessor @Bean методы" в документации @Bean для
+получения подробной информации).
+
+Однако обратите внимание, что явная регистрация PropertySourcesPlaceholderConfigurer с помощью статического метода @Bean
+обычно требуется только в том случае, если вам нужно настроить конфигурацию, такую как синтаксис заполнителя и т. д.
+В частности, если ни один постпроцессор компонента (например, PropertySourcesPlaceholderConfigurer) не зарегистрировал
+встроенный преобразователь значений для ApplicationContext, Spring зарегистрирует встроенный преобразователь значений
+по умолчанию, который разрешает заполнители для источников свойств, зарегистрированных в среде.
+
+См. раздел ниже о создании классов @Configuration с помощью Spring XML с использованием @ImportResource;
+см. @Value - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Value.html;
+см. @Bean - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html;
+см. BeanFactoryPostProcessor - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanFactoryPostProcessor.html;
+см. PropertySourcesPlaceholderConfigurer - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/support/PropertySourcesPlaceholderConfigurer.html;
+
+________________________________________________________________________________________________________________________
+*** Составление классов @Configuration ***
+
+-- С аннотацией @Import --
+
+Классы @Configuration могут быть составлены с использованием аннотации @Import, аналогично тому, как <import> работает в
+Spring XML. Поскольку объекты @Configuration управляются как bean-компоненты Spring внутри контейнера, импортированные
+конфигурации могут быть внедрены — например, посредством внедрения конструктора:
+
+************************************************************************************************************************
+@Configuration
+ public class DatabaseConfig {
+
+     @Bean
+     public DataSource dataSource() {
+         // instantiate, configure and return DataSource
+     }
+ }
+
+ @Configuration
+ @Import(DatabaseConfig.class)
+ public class AppConfig {
+
+     private final DatabaseConfig dataConfig;
+
+     public AppConfig(DatabaseConfig dataConfig) {
+         this.dataConfig = dataConfig;
+     }
+
+     @Bean
+     public MyBean myBean() {
+         // reference the dataSource() bean method
+         return new MyBean(dataConfig.dataSource());
+     }
+ }
+************************************************************************************************************************
+
+Теперь и AppConfig, и импортированный DatabaseConfig можно загрузить, зарегистрировав только AppConfig в контексте Spring:
+
+************************************************************************************************************************
+ new AnnotationConfigApplicationContext(AppConfig.class);
+************************************************************************************************************************
+
+-- С аннотацией @Profile --
+
+Классы помеченные как @Configuration могут быть помечены аннотацией @Profile, чтобы указать, что их следует обрабатывать,
+только если данный профиль или профили активны:
+
+************************************************************************************************************************
+ @Profile("development")
+ @Configuration
+ public class EmbeddedDatabaseConfig {
+
+     @Bean
+     public DataSource dataSource() {
+         // instantiate, configure and return embedded DataSource
+     }
+ }
+
+ @Profile("production")
+ @Configuration
+ public class ProductionDatabaseConfig {
+
+     @Bean
+     public DataSource dataSource() {
+         // instantiate, configure and return production DataSource
+     }
+ }
+************************************************************************************************************************
+
+В качестве альтернативы вы также можете объявить условия профиля на уровне метода @Bean — например, для альтернативных
+вариантов bean-компонента в одном и том же классе конфигурации:
+
+************************************************************************************************************************
+@Configuration
+ public class ProfileDatabaseConfig {
+
+     @Bean("dataSource")
+     @Profile("development")
+     public DataSource embeddedDatabase() { ... }
+
+     @Bean("dataSource")
+     @Profile("production")
+     public DataSource productionDatabase() { ... }
+ }
+************************************************************************************************************************
+
+Дополнительную информацию в документации:
+см. @Profile - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html
+см. @Import - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Import.html
+
+-- С помощью Spring XML с использованием аннотации @ImportResource --
+
+Как упоминалось выше, классы @Configuration могут быть объявлены как обычные определения Spring <bean> в XML-файлах
+Spring. Также можно импортировать файлы конфигурации Spring XML в классы @Configuration с помощью аннотации
+@ImportResource. Определения компонентов, импортированные из XML, можно внедрить, например, с помощью аннотации @Inject:
+
+************************************************************************************************************************
+@Configuration
+ @ImportResource("classpath:/com/acme/database-config.xml")
+ public class AppConfig {
+
+     @Inject DataSource dataSource; // from XML
+
+     @Bean
+     public MyBean myBean() {
+         // inject the XML-defined dataSource bean
+         return new MyBean(this.dataSource);
+     }
+ }
+************************************************************************************************************************
+
+-- С вложенными классами @Configuration --
+
+Классы @Configuration могут быть вложены друг в друга следующим образом:
+
+************************************************************************************************************************
+@Configuration
+ public class AppConfig {
+
+     @Inject DataSource dataSource;
+
+     @Bean
+     public MyBean myBean() {
+         return new MyBean(dataSource);
+     }
+
+     @Configuration
+     static class DatabaseConfig {
+         @Bean
+         DataSource dataSource() {
+             return new EmbeddedDatabaseBuilder().build();
+         }
+     }
+ }
+************************************************************************************************************************
+
+При начальной загрузке такого механизма необходимо зарегистрировать только AppConfig в контексте приложения. Поскольку
+DatabaseConfig является вложенным классом @Configuration, он будет зарегистрирован автоматически. Это позволяет избежать
+необходимости использовать аннотацию @Import, когда связь между AppConfig и DatabaseConfig уже неявно ясна.
+
+Обратите также внимание, что вложенные классы @Configuration можно эффективно использовать с аннотацией @Profile, чтобы
+предоставить два параметра одного и того же компонента для включающего класса @Configuration.
+
+________________________________________________________________________________________________________________________
+*** Настройка ленивой инициализации ***
+
+По умолчанию методы @Bean будут немедленно создаваться во время загрузки контейнера. Чтобы избежать этого, @Configuration
+можно использовать в сочетании с аннотацией @Lazy, чтобы указать, что все методы @Bean, объявленные внутри класса, по
+умолчанию инициализируются лениво.
+
+Обратите внимание, что @Lazy можно использовать и для отдельных методов @Bean.
+
+________________________________________________________________________________________________________________________
+*** Поддержка тестирования классов @Configuration. ***
+
+Платформа Spring TestContext, доступная в модуле Spring-test, предоставляет аннотацию @ContextConfiguration, которая может
+принимать массив ссылок на классы компонентов — обычно классы @Configuration или @Component.
+
+************************************************************************************************************************
+@ExtendWith(SpringExtension.class)
+ @ContextConfiguration(classes = {AppConfig.class, DatabaseConfig.class})
+ class MyTests {
+
+     @Autowired MyBean myBean;
+
+     @Autowired DataSource dataSource;
+
+     @Test
+     void test() {
+         // assertions against myBean ...
+     }
+ }
+************************************************************************************************************************
+
+Подробности смотрите в справочной документации по платформе TestContext:
+https://docs.spring.io/spring-framework/reference/testing/testcontext-framework.html
+
+________________________________________________________________________________________________________________________
+*** Включение встроенных функций Spring с помощью аннотаций @Enable ***
+
+Такие функции Spring, как асинхронное выполнение методов, выполнение задач по расписанию, управление транзакциями на
+основе аннотаций и даже Spring MVC, можно включить и настроить из классов @Configuration, используя соответствующие
+аннотации «@Enable».
+
+Подробности:
+см. @EnableAsync - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableAsync.html
+см. @EnableScheduling - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableScheduling.html
+см. @EnableTransactionManagement - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/EnableTransactionManagement.html
+см. @EnableAspectJAutoProxy - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/EnableAspectJAutoProxy.html
+см. @EnableWebMvc - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html
+
+________________________________________________________________________________________________________________________
+*** Ограничения при создании классов @Configuration ***
+
+1. Классы конфигурации должны предоставляться как классы (т. е. не как экземпляры, возвращаемые фабричными методами),
+   что позволяет вносить улучшения во время выполнения с помощью сгенерированного подкласса.
+
+2. Классы конфигурации не должны быть окончательными (позволяя создавать подклассы во время выполнения), если только
+   для флага proxyBeanMethods не установлено значение false, и в этом случае подкласс, созданный во время выполнения,
+   не требуется.
+
+3. Классы конфигурации не должны быть локальными (т. е. не могут быть объявлены внутри метода).
+
+4. Любые вложенные классы конфигурации должны быть объявлены как статические.
+
+5. Методы @Bean, в свою очередь, не могут создавать дополнительные классы конфигурации (любые такие экземпляры будут
+   рассматриваться как обычные bean-компоненты, а их аннотации конфигурации останутся необнаруженными).
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+***
+- boolean enforceUniqueMethods - Укажите, должны ли методы @Bean иметь уникальные имена методов, в противном случае
+                                 вызывая исключение, чтобы предотвратить случайную перегрузку.
+
+По умолчанию установлено значение true, что предотвращает случайные перегрузки методов, которые интерпретируются как
+перегруженные фабричные методы для одного и того же определения компонента (в отличие от отдельных определений
+компонента с индивидуальными условиями и т.д.). Переключите этот флаг на false, чтобы разрешить перегрузку методов в
+соответствии с этой семантикой, принимая на себя риск случайного перекрытия.
+
+***
+- boolean proxyBeanMethods - Укажите, следует ли использовать методы @Bean для обеспечения поведения жизненного цикла
+                             компонента, например, для возврата общих экземпляров одноэлементного компонента даже в
+                             случае прямых вызовов метода @Bean в пользовательском коде.
+
+Эта функция требует перехвата метода, реализованного через подкласс CGLIB, созданный во время выполнения, который имеет
+такие ограничения, как класс конфигурации и его методы, которым не разрешено объявлять окончательные.
+
+По умолчанию установлено значение true, что позволяет использовать «ссылки между компонентами» посредством прямых
+вызовов методов внутри класса конфигурации, а также внешние вызовы методов @Bean этой конфигурации, например из другого
+класса конфигурации. Если в этом нет необходимости, поскольку каждый из методов @Bean этой конкретной конфигурации
+является автономным и спроектирован как простой фабричный метод для использования в контейнере, переключите этот флаг
+на false, чтобы избежать обработки подкласса CGLIB.
+
+Отключение перехвата метода компонента эффективно обрабатывает методы @Bean индивидуально, как если бы они были
+объявлены в классах, отличных от @Configuration, то есть «@Bean Lite Mode» (см. док. @Bean). Таким образом, с точки
+зрения поведения это эквивалентно устранению стереотипа @Configuration.
+
+***
+- String value - Явно укажите имя определения bean-компонента Spring, связанного с @Configuration классом. Если не
+                 указать (обычный случай), имя компонента будет сгенерировано автоматически.
+
+Пользовательское имя применяется только в том случае, если класс @Configuration получен посредством сканирования
+компонентов или передан непосредственно в AnnotationConfigApplicationContext. Если класс @Configuration зарегистрирован
+как традиционное определение XML-компонента, имя/идентификатор элемента компонента будет иметь приоритет.
+________________________________________________________________________________________________________________________
+См. исходную инф. (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html
+________________________________________________________________________________________________________________________

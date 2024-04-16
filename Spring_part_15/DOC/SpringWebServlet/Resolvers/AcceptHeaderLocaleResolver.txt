@@ -1,0 +1,62 @@
+****** Class AcceptHeaderLocaleResolver ******
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.web.servlet.i18n
+
+java.lang.Object
+  org.springframework.web.servlet.i18n.AbstractLocaleResolver
+    org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver
+
+Все реализованные интерфейсы: LocaleResolver
+
+См. так же: ServletRequest.getLocale()
+________________________________________________________________________________________________________________________
+public class AcceptHeaderLocaleResolver
+            extends AbstractLocaleResolver
+________________________________________________________________________________________________________________________
+Реализация LocaleResolver, которая ищет соответствие между локалями в заголовке Accept-Language и списком настроенных
+поддерживаемых локалей.
+
+Дополнительные сведения о сопоставлении поддерживаемых и запрошенных локалей см. в разделе setSupportedLocales(List).
+
+ПРИМЕЧАНИЕ. Эта реализация не поддерживает setLocale(jakarta.servlet.http.HttpServletRequest,
+                                                     jakarta.servlet.http.HttpServletResponse,
+                                                     java.util.Locale),
+            поскольку заголовок Accept-Language можно изменить только путем изменения настроек
+            локали клиента.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+***
+- List<Locale> getSupportedLocales() - Получите настроенный список поддерживаемых локалей.
+
+***
+- Locale resolveLocale(HttpServletRequest request) - Разрешите текущую локаль с помощью данного запроса.
+
+***
+- void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) - Установите текущую локаль
+                                                                                            на заданную.
+
+***
+- void setSupportedLocales(List<Locale> locales) - Настройте список поддерживаемых локалей для сравнения и сопоставления
+                                                   с запрошенными локалями (requested locales).
+
+Чтобы поддерживаемый языковой стандарт считался совпадающим, он должен совпадать как по стране, так и по языку. Если вы
+хотите поддерживать совпадение только по языку в качестве запасного варианта, вам необходимо явно настроить язык как
+поддерживаемый языковой стандарт.
+
+Например, если поддерживаются языковые стандарты ["de-DE", "en-US"], то запрос "en-GB" не будет соответствовать, как и
+запрос "en". Если вы хотите поддерживать дополнительные локали для данного языка, например «en», необходимо добавить
+его в список поддерживаемых локалей.
+
+Если совпадений нет, то используется defaultLocale, если он настроен, или иным образом возвращается к
+ServletRequest.getLocale().
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.web.servlet.i18n.AbstractLocaleResolver: getDefaultLocale,
+                                                                                              setDefaultLocale
+
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait
+________________________________________________________________________________________________________________________
+См. исходный материал (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/i18n/AcceptHeaderLocaleResolver.html
+________________________________________________________________________________________________________________________

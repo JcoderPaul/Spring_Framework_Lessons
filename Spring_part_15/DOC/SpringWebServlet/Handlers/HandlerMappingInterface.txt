@@ -1,0 +1,83 @@
+****** Interface HandlerMapping ******
+
+Пакет: org.springframework.web.servlet
+
+Суперинтерфейсы: MatchableHandlerMapping
+
+Все реализующие классы: AbstractDetectingUrlHandlerMapping,
+                        AbstractHandlerMapping,
+                        AbstractHandlerMethodMapping,
+                        AbstractUrlHandlerMapping,
+                        BeanNameUrlHandlerMapping,
+                        RequestMappingHandlerMapping,
+                        RequestMappingInfoHandlerMapping,
+                        RouterFunctionMapping,
+                        SimpleUrlHandlerMapping,
+                        WebSocketHandlerMapping
+________________________________________________________________________________________________________________________
+public interface HandlerMapping
+________________________________________________________________________________________________________________________
+Интерфейс, реализуемый объектами, определяющими сопоставление (mapping) между запросами и объектами-обработчиками.
+
+Этот класс может быть реализован разработчиками приложений, хотя в этом нет необходимости, поскольку
+как BeanNameUrlHandlerMapping так и RequestMappingHandlerMapping включены в состав фреймворка. Первый вариант
+используется по умолчанию, если в контексте приложения не зарегистрирован ни один компонент HandlerMapping.
+
+Реализации HandlerMapping могут поддерживать сопоставленные перехватчики, но это не обязательно. Обработчик всегда будет
+заключен в HandlerExecutionChain экземпляр, возможно, сопровождаемый некоторыми HandlerInterceptor экземплярами.
+DispatcherServlet сначала вызовет каждый preHandle метод HandlerInterceptor в заданном порядке, а затем вызовет сам
+обработчик, если все preHandle методы вернули значение true.
+
+Возможность параметризации этого сопоставления — мощная и необычная возможность этой среды MVC. Например, можно написать
+собственное сопоставление на основе состояния сеанса, состояния cookie или многих других переменных. Никакая другая
+структура MVC не кажется столь же гибкой.
+
+ПРИМЕЧАНИЕ. Реализации могут реализовать Ordered интерфейс, позволяющий указать порядок сортировки и, следовательно,
+            приоритет для применения DispatcherServlet. Неупорядоченные экземпляры имеют самый низкий приоритет.
+________________________________________________________________________________________________________________________
+См. так же: Ordered,
+            AbstractHandlerMapping,
+            BeanNameUrlHandlerMapping,
+            RequestMappingHandlerMapping
+________________________________________________________________________________________________________________________
+*** Поля ***
+
+- static final String BEST_MATCHING_HANDLER_ATTRIBUTE - Имя атрибута HttpServletRequest, содержащего сопоставленный
+                                                        обработчик для шаблона наилучшего соответствия.
+
+- static final String BEST_MATCHING_PATTERN_ATTRIBUTE - Имя атрибута HttpServletRequest, который содержит наилучший
+                                                        шаблон соответствия в сопоставлении обработчика.
+
+- static final String INTROSPECT_TYPE_LEVEL_MAPPING - Имя логического HttpServletRequest атрибута, указывающего, следует
+                                                      ли проверять сопоставления на уровне типа.
+
+- static final String LOOKUP_PATH - Устарело. Начиная с 5.3 в пользу UrlPathHelper.PATH_ATTRIBUTE и
+                                                                     ServletRequestPathUtils.PATH_ATTRIBUTE.
+
+- static final String MATRIX_VARIABLES_ATTRIBUTE - Имя атрибута HttpServletRequest, который содержит карту с именами
+                                                   переменных URI и соответствующую карту MultiValueMap переменных
+                                                   матрицы URI для каждой из них.
+
+- static final String PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE - Имя атрибута HttpServletRequest, который содержит путь в
+                                                              сопоставлении обработчика, в случае совпадения с шаблоном,
+                                                              или полный соответствующий URI (обычно в сопоставлении
+                                                              DispatcherServlet), иначе.
+
+- static final String PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE - Имя атрибута HttpServletRequest, содержащего набор производимых
+                                                         MediaTypes, применимых к сопоставленному обработчику.
+
+- static final String URI_TEMPLATE_VARIABLES_ATTRIBUTE - Имя атрибута HttpServletRequest, содержащего карту шаблонов URI,
+                                                         сопоставляющую имена переменных значениям.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- HandlerExecutionChain getHandler(HttpServletRequest request) - Верните обработчик и все перехватчики для этого запроса.
+
+- default boolean usesPathPatterns() - Включено ли для этого экземпляра HandlerMapping использование анализируемых
+                                       PathPatterns; в этом случае DispatcherServlet автоматически анализирует
+                                       RequestPath, чтобы сделать его доступным для доступа в HandlerMappings,
+                                       HandlerInterceptors и другие компоненты.
+________________________________________________________________________________________________________________________
+См. ориг. (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html
+________________________________________________________________________________________________________________________

@@ -1,0 +1,108 @@
+****** Class ContextLoaderListener ******
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.web.context
+
+java.lang.Object
+  org.springframework.web.context.ContextLoader
+    org.springframework.web.context.ContextLoaderListener
+
+Все реализованные интерфейсы: ServletContextListener,
+                              EventListener
+
+См. также : ContextLoader.setContextInitializers(org.springframework.context.ApplicationContextInitializer<?>...),
+            WebApplicationInitializer
+________________________________________________________________________________________________________________________
+public class ContextLoaderListener
+           extends ContextLoader
+                implements ServletContextListener
+________________________________________________________________________________________________________________________
+Прослушиватель начальной загрузки для запуска и завершения работы корневого WebApplicationContext Spring. Просто
+делегирует ContextLoader, а также ContextCleanupListener.
+
+ContextLoaderListener поддерживает внедрение корневого контекста веб-приложения через конструктор
+ContextLoaderListener(WebApplicationContext), что позволяет программно настраивать инициализаторы
+сервлетов.
+
+Примеры использования см. в разделе WebApplicationInitializer.
+________________________________________________________________________________________________________________________
+Поля, унаследованные от класса org.springframework.web.context.ContextLoader: CONFIG_LOCATION_PARAM,
+                                                                              CONTEXT_CLASS_PARAM,
+                                                                              CONTEXT_ID_PARAM,
+                                                                              CONTEXT_INITIALIZER_CLASSES_PARAM,
+                                                                              GLOBAL_INITIALIZER_CLASSES_PARAM
+________________________________________________________________________________________________________________________
+*** Конструкторы ***
+
+***
+- ContextLoaderListener() - Создайте новый ContextLoaderListener контекст, который создаст контекст веб-приложения на
+                            основе контекстных параметров сервлета «contextClass» и «contextConfigLocation».
+
+Подробную информацию о значениях по умолчанию для каждого из них см. в документации суперкласса ContextLoader.
+
+Этот конструктор обычно используется при объявлении ContextLoaderListener как <прослушивателя> в файле web.xml,
+где требуется конструктор без аргументов.
+
+Созданный контекст приложения будет зарегистрирован в ServletContext под именем атрибута
+WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, а контекст приложения Spring
+будет закрыт при вызове метода жизненного цикла contextDestroyed(jakarta.servlet.ServletContextEvent)
+для этого прослушивателя.
+
+Смотрите также:
+ContextLoader,
+ContextLoaderListener(WebApplicationContext),
+contextInitialized(ServletContextEvent),
+contextDestroyed(ServletContextEvent)
+
+***
+- ContextLoaderListener(WebApplicationContext context) - Создайте новый ContextLoaderListener с заданным контекстом
+                                                         приложения.
+
+Этот конструктор полезен в инициализаторах сервлетов, где регистрация прослушивателей на основе экземпляров возможна
+через API ServletContext.addListener(java.lang.String).
+
+Контекст может быть обновлен, а может и не быть обновлен. Если он:
+- (а) - является реализацией конфигурируемого WebApplicationContext;
+- (б) - еще не был обновлен (рекомендуемый подход);
+
+То произойдет следующее:
+- Если данному контексту еще не присвоен идентификатор, он будет присвоен ему.
+- Объекты ServletContext и ServletConfig будут делегированы контексту приложения.
+- Будет вызван ContextLoader.customizeContext(jakarta.servlet.ServletContext,
+                                              org.springframework.web.context.ConfigurableWebApplicationContext);
+- Будут применены любые ApplicationContextInitializer, org.springframework.context.ApplicationContextInitializer,
+  ApplicationContextInitializer, указанные в параметре инициализации «contextInitializerClasses».
+- Будет вызвано *.refresh()
+
+Если контекст уже обновлен или не реализует ConfigurationWebApplicationContext, ничего из вышеперечисленного не
+произойдет при условии, что пользователь выполнил эти действия (или нет) в соответствии со своими конкретными
+потребностями.
+
+Примеры использования см. в разделе WebApplicationInitializer.
+
+В любом случае данный контекст приложения будет зарегистрирован в ServletContext под именем атрибута
+WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, а контекст приложения Spring будет закрыт,
+когда метод жизненного цикла contextDestroyed(jakarta.servlet.ServletContextEvent) вызывается в этом
+прослушивателе.
+
+Параметры: context - контекст приложения для управления;
+
+Смотреть также: contextInitialized (ServletContextEvent),
+                contextDestroyed (ServletContextEvent)
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- void contextDestroyed(ServletContextEvent event) - Закройте контекст корневого веб-приложения.
+
+- void contextInitialized(ServletContextEvent event) - Инициализируйте контекст корневого веб-приложения.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.web.context.ContextLoader: closeWebApplicationContext,
+configureAndRefreshWebApplicationContext, createWebApplicationContext, customizeContext, determineContextClass,
+determineContextInitializerClasses, getCurrentWebApplicationContext, initWebApplicationContext, loadParentContext,
+setContextInitializers
+
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait
+________________________________________________________________________________________________________________________
+См. исходник (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/ContextLoaderListener.html
+________________________________________________________________________________________________________________________

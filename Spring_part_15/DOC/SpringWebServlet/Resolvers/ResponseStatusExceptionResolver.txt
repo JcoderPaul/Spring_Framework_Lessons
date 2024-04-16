@@ -1,0 +1,73 @@
+****** Class ResponseStatusExceptionResolver ******
+________________________________________________________________________________________________________________________
+Пакет: Package org.springframework.web.servlet.mvc.annotation
+
+java.lang.Object
+  org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver
+    org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver
+
+Все реализованные интерфейсы: Aware,
+                              MessageSourceAware,
+                              Ordered,
+                              HandlerExceptionResolver
+
+См. так же: ResponseStatus,
+            ResponseStatusException
+________________________________________________________________________________________________________________________
+public class ResponseStatusExceptionResolver
+                extends AbstractHandlerExceptionResolver
+                         implements MessageSourceAware
+________________________________________________________________________________________________________________________
+HandlerExceptionResolver, который использует аннотацию @ResponseStatus для сопоставления исключений с кодами состояния
+HTTP. Этот преобразователь исключений включен по умолчанию в DispatcherServlet, конфигурации Java MVC и пространстве
+имен MVC.
+
+Начиная с версии 4.2, этот преобразователь также рекурсивно ищет @ResponseStatus, присутствующий в исключениях причин,
+а начиная с версии 4.2.2 этот преобразователь поддерживает переопределение атрибутов для @ResponseStatus в настраиваемых
+аннотациях.
+
+Начиная с версии 5.0 этот преобразователь также поддерживает ResponseStatusException.
+________________________________________________________________________________________________________________________
+Поля, унаследованные от класса org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver: logger
+
+Поля, унаследованные от интерфейса org.springframework.core.Ordered: HIGHEST_PRECEDENCE,
+                                                                     LOWEST_PRECEDENCE
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- protected ModelAndView applyStatusAndReason(int statusCode,
+                                              String reason,
+                                              HttpServletResponse response) - Примените разрешенный код состояния и
+                                                                              причину к ответу.
+
+- protected ModelAndView doResolveException(HttpServletRequest request,
+                                            HttpServletResponse response,
+                                            Object handler,
+                                            Exception ex) - Фактически разрешите данное исключение, возникшее во время
+                                                            выполнения обработчика, вернув ModelAndView при необходимости
+                                                            значение, представляющее конкретную страницу ошибки.
+
+- protected ModelAndView resolveResponseStatus(ResponseStatus responseStatus,
+                                               HttpServletRequest request,
+                                               HttpServletResponse response,
+                                               Object handler,
+                                               Exception ex) - Метод шаблона, обрабатывающий @ResponseStatus аннотацию.
+
+- protected ModelAndView resolveResponseStatusException(ResponseStatusException ex,
+                                                        HttpServletRequest request,
+                                                        HttpServletResponse response,
+                                                        Object handler) - Метод шаблона, который обрабатывает файл
+                                                                          ResponseStatusException.
+
+- void setMessageSource(MessageSource messageSource) - Установите параметр MessageSource, в котором работает этот объект.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver:
+buildLogMessage, getOrder, hasHandlerMappings, logException, prepareResponse, preventCaching, resolveException,
+setMappedHandlerClasses, setMappedHandlers, setOrder, setPreventResponseCaching, setWarnLogCategory, shouldApplyTo
+
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait
+________________________________________________________________________________________________________________________
+См. оригинал (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/annotation/ResponseStatusExceptionResolver.html
+________________________________________________________________________________________________________________________

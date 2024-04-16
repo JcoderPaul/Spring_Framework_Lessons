@@ -1,0 +1,102 @@
+****** Class SpringServletContainerInitializer ******
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.web
+
+java.lang.Object
+  org.springframework.web.SpringServletContainerInitializer
+
+Реализованные интерфейсы: ServletContainerInitializer
+
+См. так же: метод *.onStartup(Set, ServletContext),
+            WebApplicationInitializer
+________________________________________________________________________________________________________________________
+public class SpringServletContainerInitializer
+            extends Object
+                  implements ServletContainerInitializer
+________________________________________________________________________________________________________________________
+Предоставляемый Spring ServletContainerInitializer, предназначен для поддержки настройки контейнера сервлетов на основе
+кода с использованием SPI Spring WebApplicationInitializer в отличие от традиционного подхода на основе web.xml (или,
+возможно, в сочетании с ним).
+
+-- Механизм работы --
+
+Этот класс будет загружен и создан, а его метод *.onStartup(java.util.Set<java.lang.Class<?>>,
+                                                            jakarta.servlet.ServletContext)
+будет вызываться любым сервлет-совместимым контейнером во время запуска контейнера, предполагая, что spring-web модуль
+JAR присутствует в пути к классам. Это происходит с помощью метода JAR Services API ServiceLoader.load(Class),
+обнаруживающего файл конфигурации поставщика услуг META-INF/services/jakarta.servlet.ServletContainerInitializer модуля
+Spring-Web.
+
+-- В сочетании с web.xml --
+
+Веб-приложение может ограничить объем сканирования пути к классам, которое контейнер сервлетов выполняет при запуске,
+либо с помощью атрибута метаданных в web.xml, который управляет сканированием аннотаций сервлета, либо с помощью
+элемента <absolute-ordering> также в web.xml, который контролирует, каким веб-фрагментам (т. е. jar-файлам) разрешено
+выполнять сканирование ServletContainerInitializer.
+
+При использовании этой функции SpringServletContainerInitializer можно включить, добавив «spring_web» в список
+именованных веб-фрагментов в файле web.xml следующим образом:
+
+************************************************************************************************************************
+ <absolute-ordering>
+   <name>some_web_fragment</name>
+   <name>spring_web</name>
+ </absolute-ordering>
+************************************************************************************************************************
+
+-- Связь с Spring WebApplicationInitializer --
+
+Spring WebApplicationInitializer SPI состоит всего из одного метода: WebApplicationInitializer.onStartup(ServletContext).
+Подпись намеренно очень похожа на ServletContainerInitializer.onStartup(Set, ServletContext) - проще говоря,
+SpringServletContainerInitializer отвечает за создание экземпляра и делегирование ServletContext-а любым пользовательским
+реализациям WebApplicationInitializer. В этом случае каждый WebApplicationInitializer несет ответственность за выполнение
+фактической работы по инициализации ServletContext.
+
+Точный процесс делегирования подробно описан в документации onStartup ниже.
+
+-- Главные примечания --
+
+В общем, этот класс следует рассматривать как вспомогательную инфраструктуру для более важного и ориентированного на
+пользователя SPI WebApplicationInitializer. Использование преимуществ этого инициализатора контейнера также совершенно
+необязательно: хотя этот инициализатор действительно будет загружаться и вызываться во всех средах выполнения сервлетов,
+за пользователем остается выбор, делать ли какие-либо реализации WebApplicationInitializer доступными в пути к классам.
+
+Если типы WebApplicationInitializer не обнаружены, этот инициализатор контейнера не будет иметь никакого эффекта.
+
+Обратите внимание, что использование этого инициализатора контейнера и WebApplicationInitializer никоим образом не
+«привязано» к Spring MVC, за исключением того факта, что типы поставляются в JAR модуля Spring-Web. Скорее, их можно
+считать универсальными, поскольку они способны облегчить удобную настройку ServletContext на основе кода. Другими
+словами, любой сервлет, прослушиватель или фильтр может быть зарегистрирован в WebApplicationInitializer, а не только
+компоненты Spring MVC.
+
+Этот класс не предназначен для расширения и не предназначен для того, чтобы его расширяли. Его следует рассматривать
+как внутренний тип, при этом WebApplicationInitializer является общедоступным SPI.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- void onStartup(Set<Class<?>> webAppInitializerClasses,
+                 ServletContext servletContext) - Делегируйте ServletContext любые WebApplicationInitializer реализации,
+                                                  присутствующие в пути к классам приложения.
+
+Поскольку этот класс объявляет @HandlesTypes(WebApplicationInitializer.class), контейнеры сервлетов автоматически
+сканируют путь к классам на наличие реализаций интерфейса Spring WebApplicationInitializer и предоставляют набор всех
+таких типов в параметр webAppInitializerClasses этого метода.
+
+Если в пути к классам не найдены реализации WebApplicationInitializer, этот метод фактически не используется. Будет
+выдано сообщение журнала уровня INFO, уведомляющее пользователя о том, что ServletContainerInitializer действительно
+был вызван, но реализации WebApplicationInitializer не найдены.
+
+Предполагая, что обнаружен один или несколько типов WebApplicationInitializer, они будут созданы (и отсортированы, если
+присутствует аннотация @Order или реализован интерфейс Ordered). Затем для каждого экземпляра будет вызываться метод
+WebApplicationInitializer.onStartup(ServletContext), делегирующий ServletContext, чтобы каждый экземпляр мог
+регистрировать и настраивать сервлеты, такие как Spring DispatcherServlet, прослушиватели, такие как Spring
+ContextLoaderListener, или любые другие функции API сервлетов, такие как фильтры.
+
+Где, параметры: webAppInitializerClasses — все реализации WebApplicationInitializer, найденные в пути к классам
+                                           приложения;
+                servletContext - контекст сервлета, который будет инициализирован;
+     исключения: ServletException
+________________________________________________________________________________________________________________________
+См. оригинал (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/SpringServletContainerInitializer.html
+________________________________________________________________________________________________________________________

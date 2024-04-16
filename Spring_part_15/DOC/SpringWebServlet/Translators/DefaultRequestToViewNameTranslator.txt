@@ -1,0 +1,63 @@
+****** Class DefaultRequestToViewNameTranslator ******
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.web.servlet.view
+
+java.lang.Object
+  org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator
+
+Все реализованные интерфейсы: RequestToViewNameTranslator
+
+См. также: RequestToViewNameTranslator,
+           ViewResolver
+________________________________________________________________________________________________________________________
+public class DefaultRequestToViewNameTranslator
+              extends Object
+                     implements RequestToViewNameTranslator
+________________________________________________________________________________________________________________________
+RequestToViewNameTranslator, который просто преобразует URI входящего запроса в имя представления.
+
+Может быть явно определен как bean-компонент viewNameTranslator в контексте DispatcherServlet. В противном случае будет
+использоваться простой экземпляр по умолчанию.
+
+Преобразование по умолчанию просто удаляет начальную и конечную косую черту, а также расширение файла URI и возвращает
+результат в виде имени представления с настроенным префиксом и суффиксом, добавленным соответствующим образом.
+
+Удаление косой черты и расширения файла можно отключить с помощью свойств StripLeadingSlash и StripExtension
+соответственно.
+
+Ниже вы найдете несколько примеров запроса на просмотр перевода имени:
+- http://localhost:8080/gamecast/display.html » display
+- http://localhost:8080/gamecast/displayShoppingCart.html » displayShoppingCart
+- http://localhost:8080/gamecast/admin/index.html » admin/index
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- String getViewName(HttpServletRequest request) - Преобразует URI запроса входящего запроса HttpServletRequest в имя
+                                                   представления на основе настроенных параметров.
+
+- void setPrefix(String prefix) - Установите префикс, который будет добавляться к сгенерированным именам представлений.
+
+- void setSeparator(String separator) - Установите значение, которое заменит '/' в качестве разделителя в имени
+                                        представления.
+
+- void setStripExtension(boolean stripExtension) - Установите, следует ли удалять расширения файлов из URI при создании
+                                                   имени представления.
+
+- void setStripLeadingSlash(boolean stripLeadingSlash) - Установите, следует ли удалять начальные косые черты из URI при
+                                                         создании имени представления.
+
+- void setStripTrailingSlash(boolean stripTrailingSlash) - Установите, следует ли удалять конечные косые черты из URI
+                                                           при создании имени представления.
+
+- void setSuffix(String suffix) - Установите суффикс для добавления к созданным именам представлений.
+
+- protected String transformPath(String lookupPath) - Преобразуйте URI запроса (в контексте веб-приложения), удалив
+                                                      косые черты и расширения и заменив разделитель по мере
+                                                      необходимости.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait
+________________________________________________________________________________________________________________________
+См. оригинал (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/DefaultRequestToViewNameTranslator.html
+________________________________________________________________________________________________________________________

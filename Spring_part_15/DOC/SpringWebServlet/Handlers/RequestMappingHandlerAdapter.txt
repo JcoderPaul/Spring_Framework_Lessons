@@ -1,0 +1,208 @@
+****** Class RequestMappingHandlerAdapter ******
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.web.servlet.mvc.method.annotation
+
+java.lang.Object
+  org.springframework.context.support.ApplicationObjectSupport
+    org.springframework.web.context.support.WebApplicationObjectSupport
+      org.springframework.web.servlet.support.WebContentGenerator
+        org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter
+          org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
+
+Все реализованные интерфейсы: Aware,
+                              BeanFactoryAware,
+                              InitializingBean,
+                              ApplicationContextAware,
+                              Ordered,
+                              ServletContextAware,
+                              HandlerAdapter
+
+См. так же: HandlerMethodArgumentResolver,
+            HandlerMethodReturnValueHandler
+________________________________________________________________________________________________________________________
+public class RequestMappingHandlerAdapter
+                 extends AbstractHandlerMethodAdapter
+                             implements BeanFactoryAware,
+                                        InitializingBean
+________________________________________________________________________________________________________________________
+Расширение AbstractHandlerMethodAdapter, которое поддерживает аннотированные HandlerMethods @RequestMapping.
+
+Поддержка пользовательских типов аргументов и возвращаемых значений может быть добавлена через:
+setCustomArgumentResolvers(java.util.List<org.springframework.web.method.support.HandlerMethodArgumentResolver>)
+и
+setCustomReturnValueHandlers(java.util.List<org.springframework.web.method. support.HandlerMethodReturnValueHandler>)
+или,
+альтернативно, чтобы перенастроить все типы аргументов и возвращаемых значений, используйте:
+setArgumentResolvers(java.util.List<org.springframework.web.method.support.HandlerMethodArgumentResolver>)
+и
+setReturnValueHandlers(java.util.List <org.springframework.web.method.support.HandlerMethodReturnValueHandler>).
+________________________________________________________________________________________________________________________
+*** Поля ***
+
+- static final ReflectionUtils.MethodFilter INIT_BINDER_METHODS - MethodFilter, соответствующий @InitBinder методам.
+
+- static final ReflectionUtils.MethodFilter MODEL_ATTRIBUTE_METHODS - MethodFilter, соответствующий @ModelAttribute методам.
+________________________________________________________________________________________________________________________
+Поля, унаследованные от класса org.springframework.web.servlet.support.WebContentGenerator: HEADER_CACHE_CONTROL,
+                                                                                            METHOD_GET,
+                                                                                            METHOD_HEAD,
+                                                                                            METHOD_POST
+
+Поля, унаследованные от класса org.springframework.context.support.ApplicationObjectSupport: logger
+
+Поля, унаследованные от интерфейса org.springframework.core.Ordered: HIGHEST_PRECEDENCE,
+                                                                     LOWEST_PRECEDENCE
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- void afterPropertiesSet() - Вызывается содержащимся BeanFactory после того, как он установил все свойства
+                              bean-компонента и выполнил их BeanFactoryAware и ApplicationContextAware и т. д.
+
+- protected InitBinderDataBinderFactory createDataBinderFactory(List<InvocableHandlerMethod> binderMethods) -
+                                               Метод шаблона для создания нового экземпляра InitBinderDataBinderFactory.
+
+- protected ServletInvocableHandlerMethod createInvocableHandlerMethod(HandlerMethod handlerMethod) -
+                                            Создайте ServletInvocableHandlerMethod из данного HandlerMethod определения.
+
+- List<HandlerMethodArgumentResolver> getArgumentResolvers() - Верните настроенные преобразователи аргументов или,
+                                                               возможно, null если они еще не инициализированы, через
+                                                               afterPropertiesSet().
+
+- protected ConfigurableBeanFactory getBeanFactory() - Верните фабрику-владельца этого экземпляра компонента или, null
+                                                       если ее нет.
+
+- List<HandlerMethodArgumentResolver> getCustomArgumentResolvers() - Верните специальные преобразователи аргументов или
+                                                                     null.
+
+- List<HandlerMethodReturnValueHandler> getCustomReturnValueHandlers() - Верните пользовательские обработчики
+                                                                         возвращаемого значения или null.
+
+- List<HandlerMethodArgumentResolver> getInitBinderArgumentResolvers() - Верните преобразователи аргументов для
+                   @InitBinder методов или, возможно, null если они еще не инициализированы, через afterPropertiesSet().
+
+- protected long getLastModifiedInternal(HttpServletRequest request,
+                                         HandlerMethod handlerMethod) - Эта реализация всегда возвращает -1.
+
+- List<HttpMessageConverter<?>> getMessageConverters() - Верните настроенные преобразователи тела сообщения.
+
+- List<ModelAndViewResolver> getModelAndViewResolvers() - Верните настроенный ModelAndViewResolvers, или null.
+
+- ReactiveAdapterRegistry getReactiveAdapterRegistry() - Верните настроенный реестр адаптеров реактивного типа.
+
+- List<HandlerMethodReturnValueHandler> getReturnValueHandlers() - Верните настроенные обработчики или, возможно, null
+                                                                   если они еще не инициализированы, через
+                                                                   afterPropertiesSet().
+
+- WebBindingInitializer getWebBindingInitializer() - Верните настроенный WebBindingInitializer или, null если его нет.
+
+- protected ModelAndView handleInternal(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        HandlerMethod handlerMethod) - Используйте данный метод обработчика для
+                                                                       обработки запроса.
+
+- protected ModelAndView invokeHandlerMethod(HttpServletRequest request,
+                                             HttpServletResponse response,
+                                             HandlerMethod handlerMethod) - Вызовите RequestMapping метод обработчика,
+                                                                            подготавливающий ModelAndView разрешение
+                                                                            представления, если требуется.
+
+- void setArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) - Настройте полный список поддерживаемых
+                                                                                     типов аргументов, переопределяя
+                                                                                     преобразователи, которые в противном
+                                                                                     случае были бы настроены по умолчанию.
+
+- void setAsyncRequestTimeout(long timeout) - Укажите время в миллисекундах, по истечении которого параллельная
+                                              обработка должна истечь.
+
+- void setBeanFactory(BeanFactory beanFactory) - Ожидается, что ConfigurableBeanFactory для разрешения выражений в
+                                                 значениях аргументов метода по умолчанию.
+
+- void setCacheSecondsForSessionAttributeHandlers(int cacheSecondsForSessionAttributeHandlers) - Кэшируйте содержимое,
+                      созданное @SessionAttributes аннотированными обработчиками, в течение заданного количества секунд.
+
+- void setCallableInterceptors(List<CallableProcessingInterceptor> interceptors) - Настройте CallableProcessingInterceptor
+                                                                                   для регистрации асинхронных запросов.
+
+- void setContentNegotiationManager(ContentNegotiationManager contentNegotiationManager) - Установите
+                              ContentNegotiationManager для использования для определения запрошенных типов мультимедиа.
+
+- void setCustomArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) - Предоставьте преобразователи
+                                                                                  для пользовательских типов аргументов.
+
+- void setCustomReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) - Предоставьте обработчики
+                                                                       для пользовательских типов возвращаемых значений.
+
+- void setDeferredResultInterceptors(List<DeferredResultProcessingInterceptor> interceptors) - Настройте
+                                               DeferredResultProcessingInterceptor для регистрации асинхронных запросов.
+
+- void setIgnoreDefaultModelOnRedirect(boolean ignoreDefaultModelOnRedirect) - Устарело. По состоянию на 6.0 без замены;
+                                     после удаления модель по умолчанию всегда будет игнорироваться при перенаправлении.
+
+- void setInitBinderArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) - Настройте поддерживаемые
+                                                                                  типы аргументов в @InitBinder методах.
+
+- void setMessageConverters(List<HttpMessageConverter<?>> messageConverters) - Предоставьте преобразователи для
+                               использования в преобразователях аргументов и обработчиках возвращаемых значений,
+                               которые поддерживают чтение и/или запись в текст запроса и ответа.
+
+- void setModelAndViewResolvers(List<ModelAndViewResolver> modelAndViewResolvers) - Предоставить индивидуальный
+                                                                                    ModelAndViewResolvers.
+
+- void setParameterNameDiscoverer(ParameterNameDiscoverer parameterNameDiscoverer) - Установите параметр NameDiscoverer,
+                                который будет использоваться для разрешения имен параметров метода, если это необходимо.
+
+- void setReactiveAdapterRegistry(ReactiveAdapterRegistry reactiveAdapterRegistry) - Настройте реестр для поддержки типов
+                                           реактивных библиотек в качестве возвращаемых значений из методов контроллера.
+
+- void setRequestBodyAdvice(List<RequestBodyAdvice> requestBodyAdvice) - Добавьте один или несколько RequestBodyAdvice
+                                       экземпляров для перехвата запроса до того, как он будет прочитан и преобразован
+                                       для @RequestBody аргументов HttpEntity метода.
+
+- void setResponseBodyAdvice(List<ResponseBodyAdvice<?>> responseBodyAdvice) - Добавьте один или несколько
+                                      ResponseBodyAdvice экземпляров для перехвата ответа до @ResponseBody
+                                      записи ResponseEntity возвращаемых значений в тело ответа.
+
+- void setReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) - Настройте полный список
+                               поддерживаемых типов возвращаемых значений, переопределив таким образом обработчики,
+                               которые в противном случае были бы настроены по умолчанию.
+
+- void setSessionAttributeStore(SessionAttributeStore sessionAttributeStore) - Укажите стратегию хранения атрибутов сеанса.
+
+- void setSynchronizeOnSession(boolean synchronizeOnSession) - Установите, если выполнение контроллера должно быть
+                                                синхронизировано в сеансе, чтобы сериализовать параллельные вызовы
+                                                от одного и того же клиента.
+
+- void setTaskExecutor(AsyncTaskExecutor taskExecutor) - Установите значение по умолчанию AsyncTaskExecutor, которое
+                                                         будет использоваться, когда метод контроллера возвращает файл
+                                                         Callable.
+
+- void setWebBindingInitializer(WebBindingInitializer webBindingInitializer) - Предоставьте WebBindingInitializer с
+                                                           «глобальной» инициализацией, которая будет применяться к
+                                                           каждому экземпляру DataBinder.
+
+- protected boolean supportsInternal(HandlerMethod handlerMethod) - Всегда возвращайте значение true, поскольку любой
+                                                                    аргумент метода и тип возвращаемого значения будут
+                                                                    каким-либо образом обработаны.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter:
+getLastModified, getOrder, handle, setOrder, supports
+
+Методы, унаследованные от класса org.springframework.web.servlet.support.WebContentGenerator: applyCacheControl,
+applyCacheSeconds, applyCacheSeconds, cacheForSeconds, cacheForSeconds, checkAndPrepare, checkRequest, getAllowHeader,
+getCacheControl, getCacheSeconds, getSupportedMethods, getVaryByRequestHeaders, isAlwaysMustRevalidate, isRequireSession,
+isUseCacheControlHeader, isUseCacheControlNoStore, isUseExpiresHeader, prepareResponse, preventCaching,
+setAlwaysMustRevalidate, setCacheControl, setCacheSeconds, setRequireSession, setSupportedMethods,
+setUseCacheControlHeader, setUseCacheControlNoStore, setUseExpiresHeader, setVaryByRequestHeaders
+
+Методы, унаследованные от класса org.springframework.web.context.support.WebApplicationObjectSupport: getServletContext,
+getTempDir, getWebApplicationContext, initApplicationContext, initServletContext, isContextRequired, setServletContext
+
+Методы, унаследованные от класса org.springframework.context.support.ApplicationObjectSupport: getApplicationContext,
+getMessageSourceAccessor, initApplicationContext, obtainApplicationContext, requiredContextClass, setApplicationContext
+
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait
+________________________________________________________________________________________________________________________
+См. оригинал (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerAdapter.html
+________________________________________________________________________________________________________________________

@@ -1,0 +1,40 @@
+****** Class SimpleControllerHandlerAdapter ******
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.web.servlet.mvc
+
+java.lang.Object
+  org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter
+
+Реализованные интерфейсы: HandlerAdapter
+
+Так же см.: DispatcherServlet,
+            Controller,
+            HttpRequestHandlerAdapter
+________________________________________________________________________________________________________________________
+public class SimpleControllerHandlerAdapter
+                           extends Object
+                                    implements HandlerAdapter
+________________________________________________________________________________________________________________________
+Адаптер для использования простого Controller интерфейса рабочего процесса с общим DispatcherServlet. Поддерживает
+обработчики, реализующие LastModified интерфейс.
+
+Это класс SPI, который не используется напрямую кодом приложения.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- long getLastModified(HttpServletRequest request,
+                       Object handler) - Тот же контракт, что и для метода HttpServlet getLastModified.
+
+- ModelAndView handle(HttpServletRequest request,
+                      HttpServletResponse response,
+                      Object handler) - Используйте данный обработчик для обработки этого запроса.
+
+- boolean supports(Object handler) - Учитывая экземпляр обработчика, сообщите, HandlerAdapter может ли он его
+                                     поддерживать.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait
+________________________________________________________________________________________________________________________
+См. оригинал (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/SimpleControllerHandlerAdapter.html
+________________________________________________________________________________________________________________________

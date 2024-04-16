@@ -1,0 +1,86 @@
+****** Class InternalResourceViewResolver ******
+________________________________________________________________________________________________________________________
+Пакет: org.springframework.web.servlet.view
+
+java.lang.Object
+  org.springframework.context.support.ApplicationObjectSupport
+    org.springframework.web.context.support.WebApplicationObjectSupport
+      org.springframework.web.servlet.view.AbstractCachingViewResolver
+        org.springframework.web.servlet.view.UrlBasedViewResolver
+          org.springframework.web.servlet.view.InternalResourceViewResolver
+
+Все реализованные интерфейсы: Aware,
+                              ApplicationContextAware,
+                              Ordered,
+                              ServletContextAware,
+                              ViewResolver
+
+См. так же: UrlBasedViewResolver.setViewClass(java.lang.Class<?>),
+            UrlBasedViewResolver.setPrefix(java.lang.String),
+            UrlBasedViewResolver.setSuffix(java.lang.String),
+            UrlBasedViewResolver.setRequestContextAttribute(java.lang.String),
+            InternalResourceView,
+            JstlView
+________________________________________________________________________________________________________________________
+public class InternalResourceViewResolver
+                   extends UrlBasedViewResolver
+________________________________________________________________________________________________________________________
+*** Вложенные классы ***
+
+Вложенные классы/интерфейсы, унаследованные от класса org.springframework.web.servlet.view.AbstractCachingViewResolver:
+AbstractCachingViewResolver.CacheFilter
+________________________________________________________________________________________________________________________
+Поля, унаследованные от класса org.springframework.web.servlet.view.UrlBasedViewResolver: FORWARD_URL_PREFIX,
+                                                                                          REDIRECT_URL_PREFIX
+
+Поля, унаследованные от класса org.springframework.web.servlet.view.AbstractCachingViewResolver: DEFAULT_CACHE_LIMIT
+
+Поля, унаследованные от класса org.springframework.context.support.ApplicationObjectSupport: logger
+
+Поля, унаследованные от интерфейса org.springframework.core.Ordered: HIGHEST_PRECEDENCE,
+                                                                     LOWEST_PRECEDENCE
+________________________________________________________________________________________________________________________
+*** Конструкторы ***
+
+- InternalResourceViewResolver() - Устанавливает значение view class по умолчанию requiredViewClass(): по умолчанию
+                                   InternalResourceView или, JstlView если присутствует JSTL API.
+
+- InternalResourceViewResolver(String prefix,
+                               String suffix) - Удобный конструктор, позволяющий указывать prefix и suffix в качестве
+                                                аргументов конструктора.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- protected AbstractUrlBasedView buildView(String viewName) - Создает новый экземпляр представления указанного класса
+                                                              представления (view) и настраивает его.
+
+- protected AbstractUrlBasedView instantiateView() - Создайте экземпляр указанного класса представления (view).
+
+- protected Class<?> requiredViewClass() - Верните требуемый тип представления (view) для этого преобразователя.
+
+- void setAlwaysInclude(boolean alwaysInclude) - Укажите, следует ли всегда включать представление, а не пересылать его.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.web.servlet.view.UrlBasedViewResolver: applyLifecycleMethods,
+canHandle, createView, getAttributesMap, getCacheKey, getContentType, getExposeContextBeansAsAttributes,
+getExposedContextBeanNames, getExposePathVariables, getOrder, getPrefix, getRedirectHosts, getRequestContextAttribute,
+getSuffix, getViewClass, getViewNames, initApplicationContext, isRedirectContextRelative, isRedirectHttp10Compatible,
+loadView, setAttributes, setAttributesMap, setContentType, setExposeContextBeansAsAttributes,
+setExposedContextBeanNames, setExposePathVariables, setOrder, setPrefix, setRedirectContextRelative, setRedirectHosts, setRedirectHttp10Compatible, setRequestContextAttribute, setSuffix, setViewClass, setViewNames
+
+Методы, унаследованные от класса org.springframework.web.servlet.view.AbstractCachingViewResolver: clearCache,
+getCacheFilter, getCacheLimit, isCache, isCacheUnresolved, removeFromCache, resolveViewName, setCache, setCacheFilter,
+setCacheLimit, setCacheUnresolved
+
+Методы, унаследованные от класса org.springframework.web.context.support.WebApplicationObjectSupport:
+getServletContext, getTempDir, getWebApplicationContext, initApplicationContext, initServletContext, isContextRequired,
+setServletContext
+
+Методы, унаследованные от класса org.springframework.context.support.ApplicationObjectSupport:
+getApplicationContext, getMessageSourceAccessor, obtainApplicationContext, requiredContextClass, setApplicationContext
+
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait
+________________________________________________________________________________________________________________________
+См. оригинал (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/InternalResourceViewResolver.html
+________________________________________________________________________________________________________________________
