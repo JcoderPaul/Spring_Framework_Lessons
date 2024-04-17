@@ -1,0 +1,95 @@
+См. исходный (ENG):
+https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/test/web/servlet/result/MockMvcResultMatchers.html
+________________________________________________________________________________________________________________________
+****** Class MockMvcResultMatchers ******
+
+Пакет: org.springframework.test.web.servlet.result
+
+java.lang.Object
+    org.springframework.test.web.servlet.result.MockMvcResultMatchers
+
+public abstract class MockMvcResultMatchers
+                                    extends Object
+________________________________________________________________________________________________________________________
+Статические фабричные методы для действий с результатами на основе ResultMatcher см.:
+https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/test/web/servlet/ResultMatcher.html
+________________________________________________________________________________________________________________________
+*** Конструктор ***
+
+public MockMvcResultMatchers()
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- static ContentResultMatchers content() - Доступ к утверждениям тела ответа.
+
+- static CookieResultMatchers cookie() - Доступ к ответным утверждениям файлов cookie.
+
+- static FlashAttributeResultMatchers flash() - Доступ к утверждениям флэш-атрибутов.
+
+- static ResultMatcher forwardedUrl(String expectedUrl) - Утверждает, что запрос был перенаправлен на указанный
+                                                          URL-адрес.
+
+- static ResultMatcher forwardedUrlPattern(String urlPattern) - Утверждает, что запрос был перенаправлен на указанный
+                                                                URL-адрес.
+
+- static ResultMatcher forwardedUrlTemplate(String urlTemplate,
+                                            Object... uriVars) - Утверждает, что запрос был перенаправлен на данный
+                                                                 шаблон URL.
+
+- static HandlerResultMatchers handler() - Доступ к утверждениям обработчика, обработавшего запрос.
+
+- static HeaderResultMatchers header() - Доступ к утверждениям заголовка ответа.
+
+- static JsonPathResultMatchers jsonPath(String expression,
+                                         Object... args) - Доступ к утверждениям тела ответа с использованием выражения
+                                                           JsonPath для проверки определенного подмножества тела ответа.
+
+- static <T> ResultMatcher jsonPath(String expression,
+                                    Matcher<? super T> matcher) - Оцените данное выражение JsonPath по телу ответа и
+                                                                  утвердите полученное значение с помощью данного
+                                                                  Hamcrest Matcher.
+
+- static <T> ResultMatcher jsonPath(String expression,
+                                    Matcher<? super T> matcher,
+                                    Class<T> targetType) - Оцените данное выражение JsonPath по телу ответа и утвердите
+                                                           полученное значение с помощью данного Hamcrest Matcher,
+                                                           приведя полученное значение к заданному целевому типу перед
+                                                           применением средства сопоставления.
+
+- static ModelResultMatchers model() - Доступ к утверждениям, связанным с моделью.
+
+- static ResultMatcher redirectedUrl(String expectedUrl) - Утверждает, что запрос был перенаправлен на указанный
+                                                           URL-адрес.
+
+- static ResultMatcher redirectedUrlPattern(String urlPattern) - Утверждает, что запрос был перенаправлен на указанный
+                                                                 URL-адрес.
+
+- static ResultMatcher redirectedUrlTemplate(String urlTemplate,
+                                             Object... uriVars) - Утверждает, что запрос был перенаправлен на данный
+                                                                  шаблон URL.
+
+- static RequestResultMatchers request() - Доступ к утверждениям, связанным с запросом.
+
+- static StatusResultMatchers status() - Доступ к утверждениям статуса ответа.
+
+- static ViewResultMatchers view() - Доступ к утверждениям в выбранном представлении.
+
+- static XpathResultMatchers xpath(String expression,
+                                   Object... args) - Доступ к утверждениям тела ответа с использованием выражения
+                                                     XPath для проверки определенного подмножества тела ответа.
+
+- static XpathResultMatchers xpath(String expression,
+                                   Map<String,String> namespaces,
+                                   Object... args) - Доступ к утверждениям тела ответа с использованием выражения
+                                                     XPath для проверки определенного подмножества тела ответа.
+
+Методы, унаследованные от класса java.lang.Object: clone,
+                                                   equals,
+                                                   finalize,
+                                                   getClass,
+                                                   hashCode,
+                                                   notify,
+                                                   notifyAll,
+                                                   toString,
+                                                   wait
+________________________________________________________________________________________________________________________

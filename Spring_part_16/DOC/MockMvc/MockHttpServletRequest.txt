@@ -1,0 +1,257 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/mock/web/MockHttpServletRequest.html
+________________________________________________________________________________________________________________________
+****** Class MockHttpServletRequest ******
+
+Пакет: org.springframework.mock.web
+
+java.lang.Object
+    org.springframework.mock.web.MockHttpServletRequest
+
+Все реализованные интерфейсы:
+HttpServletRequest - https://jakarta.ee/specifications/platform/9/apidocs/jakarta/servlet/http/httpservletrequest;
+ServletRequest - https://jakarta.ee/specifications/platform/9/apidocs/jakarta/servlet/servletrequest;
+
+Прямые известные подклассы:
+MockMultipartHttpServletRequest -
+https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/mock/web/MockMultipartHttpServletRequest.html;
+
+public class MockHttpServletRequest
+                          extends Object
+                            implements HttpServletRequest
+________________________________________________________________________________________________________________________
+Макет реализации интерфейса HttpServletRequest.
+
+По умолчанию предпочтительным Locale для сервера, имитируемого этим запросом, является Locale.ENGLISH. Это значение
+можно изменить с помощью addPreferredLocale(java.util.Locale) или setPreferredLocales(java.util.List<java.util.Locale>).
+
+Начиная с Spring 6.0, этот набор макетов разработан на основе базовой версии Servlet 6.0.
+________________________________________________________________________________________________________________________
+*** Поля ***
+
+- static final String DEFAULT_PROTOCOL - Протокол по умолчанию: «HTTP/1.1».
+- static final String DEFAULT_REMOTE_ADDR - Удаленный адрес по умолчанию: «127.0.0.1».
+- static final String DEFAULT_REMOTE_HOST - Удаленный хост по умолчанию: «localhost».
+- static final String DEFAULT_SCHEME - Схема по умолчанию: «http».
+- static final String DEFAULT_SERVER_ADDR - Адрес сервера по умолчанию: «127.0.0.1».
+- static final String DEFAULT_SERVER_NAME - Имя сервера по умолчанию: «localhost».
+- static final int DEFAULT_SERVER_PORT - Порт сервера по умолчанию: «80».
+
+Поля, унаследованные от интерфейса jakarta.servlet.http.HttpServletRequest: BASIC_AUTH,
+                                                                            CLIENT_CERT_AUTH,
+                                                                            DIGEST_AUTH,
+                                                                            FORM_AUTH
+________________________________________________________________________________________________________________________
+*** Конструктор ***
+
+- MockHttpServletRequest() - Создайте новый MockHttpServletRequest со значением по умолчанию MockServletContext.
+
+- MockHttpServletRequest(ServletContext servletContext) - Создайте новый MockHttpServletRequest с предоставленным
+                                                          файлом ServletContext.
+
+- MockHttpServletRequest(ServletContext servletContext,
+                         String method,
+                         String requestURI) - Создайте новый MockHttpServletRequest с предоставленными ServletContext,
+                                              method и requestURI.
+
+- MockHttpServletRequest(String method,
+                         String requestURI) - Создайте новый MockHttpServletRequest со значением по умолчанию
+                                              MockServletContext.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- void addHeader(String name, Object value) - Добавьте запись заголовка HTTP для данного имени.
+
+- void addParameter(String name, String value) - Добавьте одно значение для указанного параметра HTTP.
+
+- void addParameter(String name, String... values) - Добавьте массив значений для указанного параметра HTTP.
+
+- void addParameters(Map<String,?> params) - Добавьте все предоставленные параметры , не заменяя существующие значения.
+
+- void addPart(Part part)
+
+- void addPreferredLocale(Locale locale) - Добавьте новый предпочтительный языковой стандарт перед любыми существующими
+                                           языковыми стандартами.
+
+- void addUserRole(String role)
+- boolean authenticate(HttpServletResponse response)
+
+- String changeSessionId() - Реализация этого метода (Servlet 3.1+) вызывается, MockHttpSession.changeSessionId()
+                             если сеанс является имитационным сеансом.
+
+protected void checkActive() - Проверьте, активен ли этот запрос (то есть еще не завершен), выдав исключение 
+                               IllegalStateException, если он больше не активен.
+                               
+- void clearAttributes() - Очистите все атрибуты этого запроса. 
+
+- void close() - Отметьте этот запрос как выполненный, сохранив его состояние. 
+
+- AsyncContext getAsyncContext()
+- Object getAttribute(String name)
+- Enumeration<String> getAttributeNames()
+- String getAuthType()
+- String getCharacterEncoding()
+
+- byte[] getContentAsByteArray() - Получите содержимое тела запроса в виде массива байтов. 
+
+- String getContentAsString() - Получите содержимое тела запроса в виде файла String, используя настроенную кодировку 
+                                символов.
+                                
+- int getContentLength()
+- long getContentLengthLong()
+- String getContentType()
+- String getContextPath()
+- Cookie[] getCookies()
+ 
+- long getDateHeader(String name) - Возвращает длинную временную метку для заголовка даты с заданным расширением name.
+
+- DispatcherType getDispatcherType()
+- String getHeader(String name)
+- Enumeration<String> getHeaderNames()
+- Enumeration<String> getHeaders(String name)
+- HttpServletMapping getHttpServletMapping()
+- ServletInputStream getInputStream()
+- int getIntHeader(String name)
+- String getLocalAddr()
+
+- Locale getLocale() - Верните первый предпочтительный языковой стандарт , настроенный в этом макетном запросе.
+
+- Enumeration<Locale> getLocales() - Верните перечисление предпочтительных языковых стандартов, настроенных в этом 
+                                     ложном запросе.
+                                     
+- String getLocalName()
+- int getLocalPort()
+- String getMethod()
+- String getParameter(String name)
+- Map<String,String[]> getParameterMap()
+- Enumeration<String> getParameterNames()
+- String[] getParameterValues(String name)
+- Part getPart(String name)
+- Collection<Part> getParts()
+- String getPathInfo()
+- String getPathTranslated()
+- String getProtocol()
+- String getProtocolRequestId()
+- String getQueryString()
+- BufferedReader getReader()
+- String getRemoteAddr()
+- String getRemoteHost()
+- int getRemotePort()
+- String getRemoteUser()
+- RequestDispatcher getRequestDispatcher(String path)
+- String getRequestedSessionId()
+- String getRequestId()
+- String getRequestURI()
+- StringBuffer getRequestURL()
+- String getScheme()
+- String getServerName()
+- int getServerPort()
+- ServletConnection getServletConnection()
+ 
+- ServletContext getServletContext() - Верните ServletContext, с которым связан этот запрос.
+
+- String getServletPath()
+ 
+- HttpSession getSession()
+- HttpSession getSession(boolean create)
+- Principal getUserPrincipal()
+ 
+- void invalidate() - Сделайте этот запрос недействительным, очистив его состояние.
+
+- boolean isActive() - Возвращает информацию о том, активен ли этот запрос (то есть еще не завершен).
+
+- boolean isAsyncStarted()
+- boolean isAsyncSupported()
+- boolean isRequestedSessionIdFromCookie()
+- boolean isRequestedSessionIdFromURL()
+- boolean isRequestedSessionIdValid()
+
+- boolean isSecure() - Возвращает значение true, если secureфлаг установлен trueили schemeравен https.
+
+- boolean isUserInRole(String role)
+- void login(String username, String password)
+- void logout()
+
+- void removeAllParameters() - Удалите все существующие параметры.
+
+- void removeAttribute(String name)
+ 
+- void removeHeader(String name) - Удалить уже зарегистрированные записи для указанного заголовка HTTP, если таковые
+                                   имеются.
+
+- void removeParameter(String name) - Удалите уже зарегистрированные значения для указанного параметра HTTP, если
+                                      таковые имеются.
+
+- void setAsyncContext(MockAsyncContext asyncContext)
+- void setAsyncStarted(boolean asyncStarted)
+- void setAsyncSupported(boolean asyncSupported)
+- void setAttribute(String name, Object value)
+- void setAuthType(String authType)
+- void setCharacterEncoding(String characterEncoding)
+ 
+- void setContent(byte[] content) - Задайте содержимое тела запроса в виде массива байтов.
+
+- void setContentType(String contentType)
+- void setContextPath(String contextPath)
+- void setCookies(Cookie... cookies)
+- void setDispatcherType(DispatcherType dispatcherType)
+- void setHttpServletMapping(HttpServletMapping httpServletMapping)
+- void setLocalAddr(String localAddr)
+- void setLocalName(String localName)
+- void setLocalPort(int localPort)
+- void setMethod(String method)
+
+- void setParameter(String name,
+                    String value) - Установите одно значение для указанного параметра HTTP.
+
+- void setParameter(String name,
+                    String... values) - Задайте массив значений для указанного параметра HTTP.
+
+- void setParameters(Map<String,?> params) - Установите все предоставленные параметры, заменив любые существующие
+                                             значения для указанных имен параметров.
+
+- void setPathInfo(String pathInfo)
+ 
+- void setPreferredLocales(List<Locale> locales) - Установите список предпочтительных локалей в порядке убывания,
+                                                   эффективно заменяя любые существующие локали.
+
+- void setProtocol(String protocol)
+- void setQueryString(String queryString)
+- void setRemoteAddr(String remoteAddr)
+- void setRemoteHost(String remoteHost)
+- void setRemotePort(int remotePort)
+- void setRemoteUser(String remoteUser)
+- void setRequestedSessionId(String requestedSessionId)
+- void setRequestedSessionIdFromCookie(boolean requestedSessionIdFromCookie)
+- void setRequestedSessionIdFromURL(boolean requestedSessionIdFromURL)
+- void setRequestedSessionIdValid(boolean requestedSessionIdValid)
+- void setRequestURI(String requestURI)
+- void setScheme(String scheme)
+
+- void setSecure(boolean secure) - Установите логический secure флаг, указывающий, был ли фиктивный запрос выполнен с
+                                   использованием безопасного канала, например HTTPS.
+
+- void setServerName(String serverName)
+- void setServerPort(int serverPort)
+- void setServletPath(String servletPath)
+- void setSession(HttpSession session)
+- void setUserPrincipal(Principal userPrincipal)
+- AsyncContext startAsync()
+- AsyncContext startAsync(ServletRequest request, ServletResponse response)
+- <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass)
+
+Методы, унаследованные от класса java.lang.Object: clone,
+                                                   equals,
+                                                   finalize,
+                                                   getClass,
+                                                   hashCode,
+                                                   notify,
+                                                   notifyAll,
+                                                   toString,
+                                                   wait
+
+Методы, унаследованные от интерфейса jakarta.servlet.http.HttpServletRequest: getTrailerFields,
+                                                                              isTrailerFieldsReady,
+                                                                              newPushBuilder
+________________________________________________________________________________________________________________________
+

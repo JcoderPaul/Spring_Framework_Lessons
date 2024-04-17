@@ -1,0 +1,94 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/test/web/servlet/request/MockMvcRequestBuilders.html
+________________________________________________________________________________________________________________________
+****** Class MockMvcRequestBuilders ******
+
+Пакет: org.springframework.test.web.servlet.request
+
+java.lang.Object
+    org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+
+public abstract class MockMvcRequestBuilders extends Object
+________________________________________________________________________________________________________________________
+Статические фабричные методы для RequestBuilders.
+
+Интеграция с Spring TestContext Framework:
+Методы этого класса будут повторно использовать объект MockServletContext , созданный Spring TestContext Framework.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- static RequestBuilder asyncDispatch(MvcResult mvcResult) - Создайте RequestBuilder для асинхронной отправки запрос
+                                                             MvcResult, который начал асинхронную обработку.
+
+- static MockHttpServletRequestBuilder delete(String urlTemplate,
+                                              Object... uriVariables) - Создайте MockHttpServletRequestBuilder запрос
+                                                                        на удаление.
+
+- static MockHttpServletRequestBuilder delete(URI uri) - Создайте MockHttpServletRequestBuilder запрос на удаление.
+
+- static MockHttpServletRequestBuilder get(String urlTemplate,
+                                           Object... uriVariables) - Создайте MockHttpServletRequestBuilder запрос GET.
+
+- static MockHttpServletRequestBuilder get(URI uri) - Создайте MockHttpServletRequestBuilderзапрос GET.
+
+- static MockHttpServletRequestBuilder head(String urlTemplate,
+                                            Object... uriVariables) - Создайте MockHttpServletRequestBuilder запрос HEAD.
+
+- static MockHttpServletRequestBuilder head(URI uri) - Создайте MockHttpServletRequestBuilder запрос HEAD.
+
+- static MockMultipartHttpServletRequestBuilder multipart(String urlTemplate,
+                                                          Object... uriVariables) - Создайте MockMultipartHttpServletRequestBuilder
+                                                                                    составной запрос, используя POST в
+                                                                                    качестве метода HTTP.
+
+- static MockMultipartHttpServletRequestBuilder multipart(URI uri) - Вариант multipart(String, Object...)с URI.
+
+- static MockMultipartHttpServletRequestBuilder multipart(HttpMethod httpMethod,
+                                                          String urlTemplate,
+                                                          Object... uriVariables) - Вариант multipart(String, Object...)
+                                                                                    этого также принимает HttpMethod.
+
+- static MockMultipartHttpServletRequestBuilder multipart(HttpMethod httpMethod,
+                                                          URI uri) - Вариант multipart(String, Object...) с URI
+                                                                     и HttpMethod.
+
+- static MockHttpServletRequestBuilder options(String urlTemplate,
+                                               Object... uriVariables) - Создайте MockHttpServletRequestBuilder
+                                                                         запрос OPTIONS.
+
+- static MockHttpServletRequestBuilder options(URI uri) - Создайте MockHttpServletRequestBuilder запрос OPTIONS.
+
+- static MockHttpServletRequestBuilder patch(String urlTemplate,
+                                             Object... uriVariables) - Создайте MockHttpServletRequestBuilder
+                                                                       запрос PATCH.
+
+- static MockHttpServletRequestBuilder patch(URI uri) - Создайте MockHttpServletRequestBuilder запрос PATCH.
+
+- static MockHttpServletRequestBuilder post(String urlTemplate,
+                                            Object... uriVariables) - Создайте MockHttpServletRequestBuilder запрос POST.
+
+- static MockHttpServletRequestBuilder post(URI uri) - Создайте MockHttpServletRequestBuilder запрос POST.
+
+- static MockHttpServletRequestBuilder put(String urlTemplate,
+                                           Object... uriVariables) - Создайте MockHttpServletRequestBuilder запрос PUT.
+
+- static MockHttpServletRequestBuilder put(URI uri) - Создайте MockHttpServletRequestBuilder запрос PUT.
+
+- static MockHttpServletRequestBuilder request(String httpMethod,
+                                               URI uri) - Альтернативный фабричный метод, позволяющий использовать
+                                                          собственные HTTP-глаголы.
+
+- static MockHttpServletRequestBuilder request(HttpMethod method,
+                                               String urlTemplate,
+                                               Object... uriVariables) - Создайте MockHttpServletRequestBuilder запрос
+                                                                         с указанным методом HTTP.
+
+- static MockHttpServletRequestBuilder request(HttpMethod httpMethod,
+                                               URI uri) - Создайте MockHttpServletRequestBuilder запрос с указанным
+                                                          методом HTTP.
+
+________________________________________________________________________________________________________________________
+*** Конструктор ***
+
+public MockMvcRequestBuilders()
+________________________________________________________________________________________________________________________

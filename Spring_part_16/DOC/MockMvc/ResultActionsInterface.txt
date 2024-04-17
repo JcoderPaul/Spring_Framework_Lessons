@@ -1,0 +1,80 @@
+См. исходник(ENG):
+https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/test/web/servlet/ResultActions.html
+________________________________________________________________________________________________________________________
+****** Interface ResultActions ******
+
+Пакет: org.springframework.test.web.servlet
+
+public interface ResultActions
+________________________________________________________________________________________________________________________
+Позволяет применять действия, например ожидания, к результату выполненного запроса.
+
+См. статические фабричные методы в:
+- MockMvcResultMatchers - https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/test/web/servlet/result/MockMvcResultMatchers.html
+- MockMvcResultHandlers - https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/test/web/servlet/result/MockMvcResultHandlers.html
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+________________________________________________________________________________________________________________________
+- ResultActions andDo(ResultHandler handler) - Выполните общее действие.
+
+Пример:
+
+************************************************************************************************************************
+ static imports: MockMvcRequestBuilders.*,
+                 MockMvcResultMatchers.*
+
+ mockMvc.perform(get("/form")).andDo(print());
+************************************************************************************************************************
+
+Исключения: Exception
+
+________________________________________________________________________________________________________________________
+- ResultActions andExpect(ResultMatcher matcher) - Оправдать ожидание.
+
+Вы можете вызывать andExpect() несколько раз, как показано в примере ниже:
+
+************************************************************************************************************************
+ // static imports: MockMvcRequestBuilders.*,
+                    MockMvcResultMatchers.*
+
+ mockMvc.perform(get("/person/1"))
+   .andExpect(status().isOk())
+   .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+   .andExpect(jsonPath("$.person.name").value("Jason"));
+************************************************************************************************************************
+
+Исключения: Exception
+См. так же: andExpectAll(ResultMatcher...)
+
+________________________________________________________________________________________________________________________
+- default ResultActions andExpectAll(ResultMatcher... matchers) - Выполняйте несколько ожиданий с гарантией того,
+                                                                  что все ожидания оправдаются, даже если одно или
+                                                                  несколько ожиданий с исключением окажутся неудачными.
+
+Если выброшен одиночный Error или Exception, он будет выброшен повторно. Если выдается несколько исключений, этот метод
+выдаст AssertionError сообщение об ошибке, представляющее собой сводку всех исключений. Кроме того, каждое исключение
+будет добавлено как подавленное исключение в файл AssertionError.
+
+Эта функция аналогична поддержке SoftAssertions в AssertJ и assertAll() поддержке в JUnit Jupiter.
+
+Вместо andExpect() многократного вызова вы можете вызвать andExpectAll(), как показано в следующем примере:
+
+************************************************************************************************************************
+// static imports: MockMvcRequestBuilders.*,
+                   MockMvcResultMatchers.*
+
+ mockMvc.perform(get("/person/1"))
+   .andExpectAll(status().isOk(),
+       content().contentType(MediaType.APPLICATION_JSON),
+       jsonPath("$.person.name").value("Jason")
+   );
+************************************************************************************************************************
+
+Исключения: Exception
+См. так же: andExpect(ResultMatcher)
+
+________________________________________________________________________________________________________________________
+- MvcResult andReturn() - Вернуть результат выполненного запроса для прямого доступа к результатам.
+
+________________________________________________________________________________________________________________________

@@ -1,0 +1,58 @@
+См. источник (ENG):
+https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/test/web/servlet/MockMvc.html
+________________________________________________________________________________________________________________________
+****** Class MockMvc *******
+
+Пакет: org.springframework.test.web.servlet
+________________________________________________________________________________________________________________________
+java.lang.Object
+    org.springframework.test.web.servlet.MockMvc
+
+public final class MockMvc extends Object
+________________________________________________________________________________________________________________________
+Основная точка входа для поддержки тестирования Spring MVC на стороне сервера.
+
+Пример:
+
+************************************************************************************************************************
+ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+
+ // ...
+
+ WebApplicationContext wac = ...;
+
+ MockMvc mockMvc = webAppContextSetup(wac).build();
+
+ mockMvc.perform(get("/form"))
+     .andExpectAll(status().isOk(),
+         content().contentType("text/html"),
+         forwardedUrl("/WEB-INF/layouts/main.jsp")
+     );
+************************************************************************************************************************
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+________________________________________________________________________________________________________________________
+- DispatcherServlet getDispatcherServlet() - Верните базовый DispatcherServlet экземпляр, с помощью которого это MockMvc
+                                             было инициализировано.
+
+Предназначен для использования в сценарии пользовательской обработки запросов, где компонент обработки запросов
+делегируется во время DispatcherServlet выполнения и поэтому его необходимо внедрить вместе с ним.
+
+Для большинства сценариев обработки просто используйте perform(org.springframework.test.web.servlet.RequestBuilder),
+а если вам нужно настроить DispatcherServlet, укажите DispatcherServletCustomizer для MockMvcBuilder.
+
+________________________________________________________________________________________________________________________
+- ResultActions perform(RequestBuilder requestBuilder) - Выполните запрос и верните тип, который позволяет связывать
+                                                         дальнейшие действия, такие как утверждение ожиданий, с
+                                                         результатом.
+
+Параметры: requestBuilder - используется для подготовки запроса к исполнению;
+                            см. статические фабричные методы в MockMvcRequestBuilders.
+Возвращает: экземпляр ResultActions (никогда null)
+Исключения: Exception
+См. также: MockMvcRequestBuilders - https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/test/web/servlet/request/MockMvcRequestBuilders.html
+           MockMvcResultMatchers - https://docs.spring.io/spring-framework/docs/6.1.2/javadoc-api/org/springframework/test/web/servlet/result/MockMvcResultMatchers.html
+________________________________________________________________________________________________________________________
