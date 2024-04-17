@@ -485,6 +485,11 @@ HttpServletRequest-у. В Spring-e для установки атрибутов 
 
 Так же мы можем запустить приложение в режиме отладки и следить за состоянием атрибутов из среды разработки.
 
+См. док.:
+- [Annotation Interface SessionAttributes](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/SessionAttributes.html) ;
+- [Annotation Interface SessionAttribute](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/SessionAttribute.html) ;
+- [Пакет org.springframework.web.bind.annotation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/package-summary.html) ;
+
 ________________________________________________________________________________________________________________________
 #### Lesson 75 - Model и установка атрибутов через параметры в URL или теле сообщения (без обращения к ModelAndView).
 
