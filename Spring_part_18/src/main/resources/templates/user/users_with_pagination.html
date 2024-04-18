@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!-- Определяем применение нотаций Thymeleaf -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<!--
+Урок 88:
+Мы создали отельную стр. для пагинации только в качестве демонстрации процесса.
+
+К простой форме фильтрации на список выводимых на экран user-ов, добавим форму с
+двумя полями: page - номер страницы, size - количество выводимых на этой стр.
+записей из БД.
+
+Параметры 'name' внутри тегов 'input' должен соответствовать именам полей в record
+UserFilterDto
+-->
+<<form action="/users/pagination">
+    <label for="firstname">Firstname:
+        <input id="firstname" type="text" name="firstname" th:value="${filter.firstname()}">
+    </label>
+    <label for="lastname">Lastname:
+        <input id="lastname" type="text" name="lastname" th:value="${filter.lastname()}">
+    </label>
+    <label for="birthDate">Birthdate:
+        <input id="birthDate" type="date" name="birthDate" th:value="${filter.birthDate()}">
+    </label>
+    <div>
+        <label for="page">Page:
+            <input id="page" type="number" name="page" th:value="${users.metadata.page}">
+        </label>
+        <label for="size">Size:
+            <input id="size" type="number" name="size" th:value="${users.metadata.size}">
+        </label>
+    </div>
+    <button type="submit">Filter</button>
+</form>
+<!--
+Тег <div> определяет раздел или секцию в HTML-документе. Это контейнер, который используется
+для группировки других элементов, таких как текст, изображения или другие теги, в разделы или
+блоки.
+
+Нотация th:each описывает перебор строк в цикле см.
+DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_6_Iterations.txt
+
+Теперь все, что находится внутри тегов <div> будет продублировано и отражено на экране столько
+раз, сколько записей users у нас есть в БД. Данное отображение отвечает за вывод данных из
+переменной 'users', метода *.findAll(Model model) из класса UserController. Если еще более
+точно, то, данное отображение позволит вывести на экран список данных из методов имеющих доступ
+к переменной 'users' и возможность обратиться к это странице для отображения.
+-->
+<div th:each="user : ${users.content}">
+    <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.id}. ${user.username}|">User</a>
+</div>
+</body>
+</html>
