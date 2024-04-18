@@ -1,0 +1,97 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/BindingResult.html
+________________________________________________________________________________________________________________________
+****** Interface BindingResult ******
+
+Пакет: org.springframework.validation
+
+Все супер-интерфейсы: Errors
+
+Все реализующие классы: AbstractBindingResult,
+                        AbstractPropertyBindingResult,
+                        BeanPropertyBindingResult,
+                        BindException,
+                        DirectFieldBindingResult,
+                        MapBindingResult,
+                        MethodArgumentNotValidException,
+                        WebExchangeBindException
+________________________________________________________________________________________________________________________
+public interface BindingResult extends Errors
+________________________________________________________________________________________________________________________
+
+Общий интерфейс, представляющий результаты привязки. Расширяет интерфейс ошибок для возможностей регистрации ошибок,
+позволяя применять валидатор, а также добавляет анализ привязки и построение модели.
+
+Служит держателем результатов для DataBinder, полученных с помощью метода DataBinder.getBindingResult(). Реализации
+BindingResult также можно использовать напрямую, например, для вызова валидатора (например, как часть модульного теста).
+
+См. так же:
+- DataBinder:
+  https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/DataBinder.html
+
+- Errors:
+  https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/Errors.html
+
+- Validator:
+  https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/Validator.html
+
+- BeanPropertyBindingResult:
+  https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/BeanPropertyBindingResult.html
+
+- DirectFieldBindingResult:
+  https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/DirectFieldBindingResult.html
+
+- MapBindingResult:
+  https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/MapBindingResult.html
+________________________________________________________________________________________________________________________
+*** Поля ***
+
+- static final String MODEL_KEY_PREFIX - Префикс имени экземпляра BindingResult в модели, за которым следует имя объекта.
+
+Поля, унаследованные от интерфейса org.springframework.validation.Errors:
+- static final String NESTED_PATH_SEPARATOR - Разделитель между элементами пути во вложенном пути, например в
+                                              «customer.name» или «customer.address.street».
+                                              "." = то же, что и nested property separator в пакете beans.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- void addError(ObjectError error) - Добавить кастом ObjectError или FieldError в список ошибок.
+
+- PropertyEditor findEditor(String field, Class<?> valueType) - Найдите редактор настраиваемых свойств для данного
+                                                                типа и свойства.
+
+- Map<String,Object> getModel() - Возвращает карту модели для полученного состояния, предоставляя экземпляр
+                                  BindingResult как « MODEL_KEY_PREFIX+ objectName», а сам объект — как «objectName».
+
+- PropertyEditorRegistry getPropertyEditorRegistry() - Верните базовый PropertyEditorRegistry.
+
+- Object getRawFieldValue(String field) - Извлеките необработанное значение поля для данного поля.
+
+- default String[] getSuppressedFields() - Верните список полей, которые были подавлены во время процесса привязки.
+
+- Object getTarget() - Верните обернутый целевой объект, который может быть bean-компонентом, объектом с общедоступными
+                       полями или картой — в зависимости от конкретной стратегии привязки.
+
+- default void recordFieldValue(String field,
+                                Class<?> type,
+                                Object value) - Запишите заданное значение для указанного поля.
+
+- default void recordSuppressedField(String field) - Отметьте указанное запрещенное поле как подавленное.
+
+- String[] resolveMessageCodes(String errorCode) - Преобразуйте данный код ошибки в коды сообщений.
+
+- String[] resolveMessageCodes(String errorCode,
+                               String field) - Преобразуйте данный код ошибки в коды сообщений для данного поля.
+________________________________________________________________________________________________________________________
+Методы, унаследованные от интерфейса org.springframework.validation.Errors: addAllErrors, failOnError, getAllErrors,
+                                                                            getErrorCount, getFieldError, getFieldError,
+                                                                            getFieldErrorCount, getFieldErrorCount,
+                                                                            getFieldErrors, getFieldErrors,
+                                                                            getFieldType, getFieldValue, getGlobalError,
+                                                                            getGlobalErrorCount, getGlobalErrors,
+                                                                            getNestedPath, getObjectName, hasErrors,
+                                                                            hasFieldErrors, hasFieldErrors,
+                                                                            hasGlobalErrors, popNestedPath,
+                                                                            pushNestedPath, reject, rejectValue,
+                                                                            setNestedPath, toString
+________________________________________________________________________________________________________________________

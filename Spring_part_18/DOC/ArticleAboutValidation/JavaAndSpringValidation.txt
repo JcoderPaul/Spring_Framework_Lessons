@@ -1,0 +1,786 @@
+См. исходник, чуть переработанный (RUS): https://habr.com/ru/articles/424819/
+________________________________________________________________________________________________________________________
+****** Проверка данных — Java & Spring Validation ******
+
+Проверка данных класса (bean) в Java тема не новая, но актуальная и здесь я объединю различные аспекты: валидацию данных
+в рамках JSR-303, покажу как это сделать чисто в Java и с использованием Spring, как делать в стандартном приложении и в
+Web.
+
+________________________________________________________________________________________________________________________
+*** Validation в стандартном Java приложении ***
+
+Для проверки объекта используются аннотации на полях класса, т.е. декларативная модель. Аннотации есть уже готовые:
+Null, @DecimalMin, @Digits, Pattern, Email и т.д. Естественно существует возможность делать и собственные аннотации.
+
+И так, пример, есть класс (bean):
+
+************************************************************************************************************************
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
+
+public class Person {
+
+    @Size(min=2, max=50)
+    private String Name;
+
+    @Digits(integer=3, fraction=0, message = "Не более 3-х знаков")
+    @PersonAgeConstraint
+    private Integer age;
+
+    public Person(String name, Integer age) {
+        Name = name;
+        this.age = age;
+    }
+}
+************************************************************************************************************************
+
+В данном примере @Size и @Digits готовые аннотации из пакета javax.validation, а @PersonAgeConstraint собственная
+(самописная).
+
+Пример того, как сделать собственную (собственную, кастомную) аннотацию:
+
+************************************************************************************************************************
+@Target({ElementType.METHOD, ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy=PersonAgeConstraintValidator.class)
+public @interface PersonAgeConstraint {
+    String message() default "{value.negative}";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+}
+************************************************************************************************************************
+
+В message() указываем ключ (value.negative) из файла ресурса (ValidationMessages.properties) для сообщения:
+value.negative=Отрицательное\u0020значение.
+
+Пример реализации класса проверки (PersonAgeConstraintValidator.class):
+
+************************************************************************************************************************
+public class PersonAgeConstraintValidator implements ConstraintValidator<PersonAgeConstraint, Integer> {
+    @Override
+    public boolean isValid(Integer age, ConstraintValidatorContext constraintValidatorContext) {
+        return age > 0;
+    }
+}
+************************************************************************************************************************
+
+Собственная (кастомная) аннотация готова, добавляем ее к полю и уже можно проверить, все поля на которых есть аннотации
+будут проверены соответствующими правилами.
+
+************************************************************************************************************************
+import javax.validation.Validator;
+
+/* Test Validation  */
+
+public class DemoJValidationApplicationTests {
+
+    // Инициализация Validator
+    private static Validator validator;
+    static {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.usingContext().getValidator();
+    }
+
+    @Test
+    public void testValidators() {
+        final Person person = new Person("Иван Петров", -4500);
+
+        Set<ConstraintViolation<Person>> validates = validator.validate(person);
+        Assert.assertTrue(validates.size() > 0);
+        validates.stream().map(v -> v.getMessage())
+                .forEach(System.out::println);
+    }
+}
+************************************************************************************************************************
+
+Сообщения для стандартных аннотаций можно указать в файле сообщений, по правилу:
+
+************************************************************************************************************************
+AnnotationName.entity.fieldname = сообщение
+************************************************************************************************************************
+
+Структура POM файла
+
+************************************************************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.example</groupId>
+	<artifactId>DemoJSRvalidation</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>DemoJSRvalidation</name>
+	<description>Demo project for Spring Boot JSR-303 validation</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.5.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>
+************************************************************************************************************************
+
+* Поэтапная проверка *
+
+Для Class<?>[] groups() можно указывать типы классов по которым можно потом группировать, ограничивать список проверок,
+т.е. использовать как фильтр. Таким образом проверку можно сделать по этапам. Например, разделим проверку Person:
+1. по состоянию здоровья;
+2. по профессиональным данным;
+
+Подготовим две аннотации HealthConstraint и ProfessionalConstraint и реализации для них. Первым проверим соответствие
+здоровью, а затем если проходит по здоровью, проверим на профессиональные данные. Пример:
+
+************************************************************************************************************************
+public class Person {
+
+    @HealthConstraint(groups = Health.class)
+    private Documents healthDocuments;
+
+    @ProfessionalConstraint(groups = Professional.class)
+    private Documents ProfessionalDocuments;
+    //...
+}
+************************************************************************************************************************
+
+Пример аннотации HealthConstraint:
+
+************************************************************************************************************************
+@Target({ElementType.METHOD, ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy=HealthConstraintValidator.class)
+public @interface HealthConstraint {
+    String message() default "{health.documents}";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+}
+************************************************************************************************************************
+
+Пример реализации HealthConstraintValidator:
+
+************************************************************************************************************************
+public class HealthConstraintValidator implements ConstraintValidator<HealthConstraint, Documents> {
+    @Override
+    public boolean isValid(Documents documents, ConstraintValidatorContext constraintValidatorContext) {
+        return documents.contains("справка 1");
+    }
+}
+************************************************************************************************************************
+
+Для ProfessionalConstraint все аналогично выше описанному, теперь проверять так:
+
+************************************************************************************************************************
+@Test
+public void healthAndProfessionalValidators() {
+   final Person person = new Person("Иван Петров", 45);
+   person.setHealthDocuments(new Documents(Arrays.asList("справка 1", "справка 3")));
+   person.setProfessionalDocuments(new Documents(Arrays.asList("тест 1", "тест 4")));
+
+   /* проверка на здоровье */
+   Set<ConstraintViolation<Person>> validates = validator.validate(person, Health.class);
+   Assert.assertTrue(validates.size() == 0);
+
+   /* и если здоровье Ок, то проф. тест */
+   validates = validator.validate(person, Professional.class);
+   Assert.assertTrue(validates.size() == 0);
+
+}
+************************************************************************************************************************
+
+Подобные проверки, например, нужны когда мы загружаем данные из файла, web service и др. источников.
+
+Класс Documents
+
+************************************************************************************************************************
+public class Documents {
+
+    private List<String> tests = new ArrayList();
+
+    public Documents(List<String> tests) {
+        this.tests.addAll(tests);
+    }
+
+    public boolean contains(String test) {
+        return this.tests.contains(test);
+    }
+}
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** Validation c использованием Spring ***
+
+В Spring есть свой Validator - org.springframework.validation.Validator, как и в Java - javax.validation.Validator и
+именно его имплементация выполняет проверку данных. Это уже не декларативный подход, в нем есть своя гибкость и
+расширяемость. Для того же bean-a, сделаю туже проверку возраста.
+
+Переопределив два метода, делаем валидацию:
+
+************************************************************************************************************************
+@Service
+public class PersonValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return Person.class.equals(aClass);
+    }
+
+    @Override
+    public void validate(Object obj, Errors errors) {
+        Person p = (Person) obj;
+        if (p.getAge() < 0) {
+            errors.rejectValue("age", "value.negative");
+        }
+    }
+}
+************************************************************************************************************************
+
+'value.negative' - так же является ключом в файле сообщений, 'public boolean supports' - определяет тип поддерживаемого
+класса. Проверка запускается через DataBinder, пример:
+
+************************************************************************************************************************
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class DemoJValidationApplicationTests {
+
+/* указываем файл сообщений */
+private static final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+    static {
+        messageSource.setBasename("message");
+    }
+
+       @Autowired
+       private PersonValidator personValidator;
+
+	@Test
+	public void testValidators() {
+		final Person person = new Person("Иван Петров", -4500);
+
+		final DataBinder dataBinder = new DataBinder(person);
+		dataBinder.addValidators(personValidator);
+		dataBinder.validate();
+
+                Assert.assertTrue(dataBinder.getBindingResult().hasErrors());
+
+		if (dataBinder.getBindingResult().hasErrors()) {
+			dataBinder.getBindingResult().getAllErrors().stream().
+					forEach(e -> System.out.println(messageSource
+							.getMessage(e, Locale.getDefault())));
+		}
+	}
+}
+************************************************************************************************************************
+
+Будут выполнены все проверки которые имплементировали org.springframework.validation.Validator для класса Person.
+
+Можно добавить так же несколько валидаторов, dataBinder.addValidators, можно сделать композицию правил (вызов из одного
+правила, другого), пример:
+
+************************************************************************************************************************
+public class OtherValidator implements Validator {
+
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return Person.class.equals(aClass);
+    }
+
+    @Override
+    public void validate(Object obj, Errors errors) {
+        // ...
+    }
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+@Service
+public class PersonValidator implements Validator {
+
+    /* Другое правила */
+    @Autowired
+    private OtherValidator otherValidator;
+
+    @Override
+    public void validate(Object obj, Errors errors) {
+        Person p = (Person) obj;
+        if (p.getAge() < 0) {
+            errors.rejectValue("age", "value.negative");
+        }
+        /* Из одного правила, вызываем другое */
+        otherValidator.validate(obj, errors);
+    }
+}
+************************************************************************************************************************
+
+!!! Внимание !!! Я почему-то ожидал, что Spring будет выполнять также проверки указанные в аннотациях, но нет, этот
+                 вызов надо делать самостоятельно.
+
+POM файл:
+
+************************************************************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.example</groupId>
+	<artifactId>DemoJSRvalidation</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>DemoJSRvalidation</name>
+	<description>Demo project for Spring Boot JSR-303 validation</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.5.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** Java & Spring ***
+
+Очевидно я захочу использовать два подхода в проверки данных и Java и Spring, объединить их можно, а именно добавить в
+Spring validator вызов javax.validation.Validator, например так:
+
+************************************************************************************************************************
+import javax.validation.Validator;
+
+@Service
+public class PersonValidator implements org.springframework.validation.Validator {
+
+    /* javax.validation.Validator */
+    @Autowired
+    private Validator validator;
+
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return Person.class.equals(aClass);
+    }
+
+    @Override
+    public void validate(Object obj, Errors errors) {
+        Set<ConstraintViolation<Object>> validates = validator.validate(obj);
+
+        for (ConstraintViolation<Object> constraintViolation : validates) {
+            String propertyPath = constraintViolation.getPropertyPath().toString();
+            String message = constraintViolation.getMessage();
+            errors.rejectValue(propertyPath, "", message);
+        }
+
+        Person p = (Person) obj;
+        if (p.getAge() < 0) {
+            errors.rejectValue("age", "only.positive.numbers");
+        }
+    }
+}
+************************************************************************************************************************
+
+С помощью spring делаем injection javax.validation.Validator:
+
+************************************************************************************************************************
+@Autowired
+private Validator validator;
+************************************************************************************************************************
+
+Далее в методе public void validate(Object obj, Errors errors) выполняем декларативные проверки java, а затем выполняем
+все проверки для класса Person на spring org.springframework.validation.Validator. Запускаем проверку также через Spring:
+
+************************************************************************************************************************
+    @Test
+    public void testValidators() {
+        final Person person = new Person("Иван", -4500);
+
+        final DataBinder dataBinder = new DataBinder(person);
+        dataBinder.addValidators(personValidator);
+        dataBinder.validate();
+
+        if (dataBinder.getBindingResult().hasErrors()) {
+           dataBinder.getBindingResult().getAllErrors()
+         // ....
+************************************************************************************************************************
+
+Теперь в коллекции будут проверки от аннотаций Java и Spring (org.springframework.validation.Validator) для Person.
+
+________________________________________________________________________________________________________________________
+*** Spring MVC ***
+
+Конечно теперь это все можно применить в web приложении. Добавляем в проект Controller, jsp страницу (тут кстати могут и
+другие варианты, например генерация страниц с помощью freeMarker, и т.п.), css стили, pom зависимость.
+
+И так, MVC Controller:
+
+************************************************************************************************************************
+import org.springframework.validation.Validator;
+
+@Controller
+public class DemoJValidationController {
+
+    @Autowired
+    @Qualifier("personValidator") // spring validator
+    private Validator personValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(personValidator);
+    }
+
+    @GetMapping("/")
+    public String savePersonAction(ModelMap model) {
+        model.addAttribute("person", new Person(null, null));
+        return "personEdit";
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String savePersonAction(
+            @Valid @ModelAttribute("person") Person person,
+            BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "personEdit"; // to person.jsp page
+        }
+
+        model.addAttribute("name", person.getName());
+        model.addAttribute("age", person.getAge());
+        return "saveSuccess"; // to saveSuccess.jsp page
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String editPersonAction(ModelMap model) {
+        model.addAttribute("person", new Person(null, null));
+        return "personEdit"; // to personEdit.jsp page;
+    }
+
+}
+************************************************************************************************************************
+
+Здесь с помощью Spring Injection подключен PersonValidator:
+
+************************************************************************************************************************
+@Autowired
+@Qualifier("personValidator") // spring validator
+private Validator personValidator;
+************************************************************************************************************************
+
+Устанавливаем PersonValidator в initBinder:
+
+************************************************************************************************************************
+@InitBinder
+protected void initBinder(WebDataBinder binder) {
+binder.setValidator(personValidator);
+}
+************************************************************************************************************************
+
+Проверка инициируется с помощью аннотации @Valid. В этом случае выполнится только Spring проверка, декларативные
+проверки будут проигнорированы. Если убрать из кода:
+
+************************************************************************************************************************
+@InitBinder
+protected void initBinder(WebDataBinder binder)
+************************************************************************************************************************
+
+То наоборот, выполнятся все декларативные проверки, а Spring проверки будут проигнорированы. Чтобы выполнить все
+проверки и декларативные и Spring, можно убрать @InitBinder, оставить Injection:
+
+************************************************************************************************************************
+@Autowired
+@Qualifier("personValidator") // spring validator
+private Validator personValidator;
+************************************************************************************************************************
+
+И добавить вызов Spring проверки вручную:
+
+************************************************************************************************************************
+// spring validate
+personValidator.validate(person, bindingResult);
+************************************************************************************************************************
+
+Пример кода:
+
+************************************************************************************************************************
+@Controller
+public class DemoJValidationController {
+
+    @Autowired
+    @Qualifier("personValidator") // spring validator
+    private Validator personValidator;
+    //...
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String savePersonAction(
+            @Valid @ModelAttribute("person") Person person,
+            BindingResult bindingResult, Model model) {
+        // spring validate
+        personValidator.validate(person, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "personEdit"; // to person.jsp page
+        }
+
+        model.addAttribute("name", person.getName());
+        model.addAttribute("age", person.getAge());
+        return "saveSuccess"; // to saveSuccess.jsp page
+    }
+}
+************************************************************************************************************************
+
+Т.е. в bindingResult будут добавлены еще проверки от Spring, что и хотелось!
+
+Привязка данных в jsp и модели, осуществляется атрибутом - modelAttribute="person"
+
+В примере подключена SpringMVC’s Form Tag Library.
+
+________________________________________________________________________________________________________________________
+*** Остальной код данного приложения ***
+
+- DemoJValidationApplication.java:
+
+************************************************************************************************************************
+@SpringBootApplication
+@ImportResource("classpath:configuration.xml")
+public class DemoJValidationApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DemoJValidationApplication.class, args);
+	}
+}
+************************************************************************************************************************
+
+Spring configuration configuration.xml:
+
+************************************************************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:message"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <mvc:annotation-driven/>
+    <mvc:resources mapping="/resources/**" location="classpath:/META-INF/resources/"/>
+</beans>
+************************************************************************************************************************
+
+- personEdit.jsp:
+
+************************************************************************************************************************
+<%@ page language="java"
+         contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <link href="<c:url value="/resources/my.css" />" rel="stylesheet">
+    <title>Person</title>
+</head>
+<body>
+<h3>
+    Enter Person.
+</h3>
+
+    <form:form method="POST" modelAttribute="person" action="save">
+        <div>
+        Name:
+        <form:input path="name"/>
+        <form:errors path="name" cssClass="error"/>
+        </div>
+
+        <div>
+        Age:
+        <form:input path="age"/>
+        <form:errors path="age" cssClass="error"/>
+        </div>
+
+        <button type="submit">Registration</button>
+    </form:form>
+
+</body>
+</html>
+************************************************************************************************************************
+
+- saveSuccess.jsp:
+
+************************************************************************************************************************
+<%@ page language="java"
+         contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <link href="<c:url value="/resources/my.css" />" rel="stylesheet">
+    <title>Person Saved Successfully</title>
+</head>
+<body>
+<h3>
+    Person Saved Successfully.
+</h3>
+
+<form:form method="POST" modelAttribute="person" action="edit">
+    <div>
+        ${name}
+    </div>
+    <div>
+        ${age}
+    </div>
+    <button type="submit">Edit</button>
+</form:form>
+</body>
+</html>
+************************************************************************************************************************
+
+my.css:
+
+************************************************************************************************************************
+span.error {
+    color: red;
+}
+form div{
+    margin: 5px;
+}
+************************************************************************************************************************
+
+- POM файл:
+
+************************************************************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.example</groupId>
+	<artifactId>DemoJSRvalidation</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>DemoJSRvalidation</name>
+	<description>Demo project for Spring Boot JSR-303 validation</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.5.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.1.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>
+************************************************************************************************************************
+
+Структура проекта см. DOC/ArticleAboutValidation/ProjectStructure.jpg
