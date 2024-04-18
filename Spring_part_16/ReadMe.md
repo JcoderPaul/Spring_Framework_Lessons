@@ -82,6 +82,8 @@
 [User](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/database/entity/User.java), который будет реализовывать CRUD операции - [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java). Для создания и редактирования полей User-ов нам
 нужен DTO - [UserCreateEditDto.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/UserCreateEditDto.java).
 
+Еще раз освежим в памяти ['послойную схему MVC'](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg).
+
 ---------------------------------------------------------------------------------------------------------------
 #### Lesson 78 - CRUD - API Design на уровне Service.
 
