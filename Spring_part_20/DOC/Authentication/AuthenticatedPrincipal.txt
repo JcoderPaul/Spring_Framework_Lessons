@@ -1,0 +1,39 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/AuthenticatedPrincipal.html
+________________________________________________________________________________________________________________________
+****** Interface AuthenticatedPrincipal ******
+
+Пакет: org.springframework.security.core
+
+Все под-интерфейсы: OAuth2AuthenticatedPrincipal,
+                    OAuth2User,
+                    OidcUser,
+                    Saml2AuthenticatedPrincipal
+
+Все реализующие классы: DefaultOAuth2AuthenticatedPrincipal,
+                        DefaultOAuth2User,
+                        DefaultOidcUser,
+                        DefaultSaml2AuthenticatedPrincipal,
+                        OAuth2IntrospectionAuthenticatedPrincipal
+________________________________________________________________________________________________________________________
+public interface AuthenticatedPrincipal
+________________________________________________________________________________________________________________________
+Представление проверенного участника после успешной аутентификации запроса на аутентификацию с помощью метода
+AuthenticationManager.authenticate(Authentication). Разработчики обычно предоставляют собственное представление
+принципала, которое обычно содержит информацию, описывающую объект принципала, например имя/отчество/фамилию,
+адрес, адрес электронной почты, телефон, идентификатор и т. д.
+
+Этот интерфейс позволяет разработчикам предоставлять определенные атрибуты своего пользовательского объекта или
+представление принципала в общем виде.
+________________________________________________________________________________________________________________________
+См. так же:
+- Authentication.getPrincipal() -
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html
+
+- UserDetails -
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetails.html
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- String getName() - Возвращает имя аутентифицированного файла Principal.
+________________________________________________________________________________________________________________________

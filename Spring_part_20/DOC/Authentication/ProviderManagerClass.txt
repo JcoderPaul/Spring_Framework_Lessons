@@ -1,0 +1,117 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/ProviderManager.html
+________________________________________________________________________________________________________________________
+****** Class ProviderManager ******
+
+Пакет: org.springframework.security.authentication
+
+java.lang.Object
+    org.springframework.security.authentication.ProviderManager
+
+Все реализованные интерфейсы: org.springframework.beans.factory.Aware,
+                              org.springframework.beans.factory.InitializingBean,
+                              org.springframework.context.MessageSourceAware,
+                              AuthenticationManager
+________________________________________________________________________________________________________________________
+public class ProviderManager
+                     extends Object
+                          implements AuthenticationManager,
+                                     org.springframework.context.MessageSourceAware,
+                                     org.springframework.beans.factory.InitializingBean
+________________________________________________________________________________________________________________________
+Выполняет запрос аутентификации по списку AuthenticationProviders см.
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AuthenticationProvider.html
+
+Поставщики аутентификации обычно проверяются по порядку, пока не будет получен ненулевой ответ. Ненулевой ответ
+указывает на то, что у провайдера были полномочия принять решение по запросу аутентификации, и дальнейшие провайдеры
+не пробуются.
+
+- Если последующий поставщик успешно аутентифицирует запрос, более раннее исключение аутентификации игнорируется и будет
+  использоваться успешная аутентификация.
+- Если ни один из последующих поставщиков не предоставляет ненулевой ответ или новое исключение AuthenticationException,
+  будет использоваться последнее полученное исключение AuthenticationException.
+- Если ни один поставщик не возвращает ненулевой ответ или не указывает, что он может даже обработать аутентификацию,
+  ProviderManager выдаст исключение ProviderNotFoundException.
+
+Также можно установить родительский AuthenticationManager, и это также будет предпринято, если ни один из настроенных
+поставщиков не сможет выполнить аутентификацию. Однако это предназначено для поддержки параметров конфигурации
+пространства имен и не является функцией, которая обычно требуется.
+
+Исключением из этого процесса является случай, когда поставщик выдает исключение AccountStatusException см.
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AccountStatusException.html,
+и в этом случае дальнейшие поставщики в списке запрашиваться не будут. После аутентификации учетные данные будут удалены
+из возвращенного объекта аутентификации, если он реализует интерфейс CredentialsContainer см.
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/CredentialsContainer.html.
+Этим поведением можно управлять, изменяя свойство EraseCredentialsAfterAuthentication.
+
+Event Publishing (Публикация событий)
+
+Публикация событий аутентификации делегируется настроенному AuthenticationEventPublisher см.
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AuthenticationEventPublisher.html,
+который по умолчанию имеет нулевую реализацию и не публикует события, поэтому, если вы настраиваете компонент
+самостоятельно, вам необходимо внедрить компонент-издатель, если вы хотите получать события.
+
+Стандартной реализацией является DefaultAuthenticationEventPublisher, который сопоставляет распространенные исключения
+с событиями (в случае сбоя аутентификации) и публикует событие AuthenticationSuccessEvent, если аутентификация прошла
+успешно.
+
+Если вы используете пространство имен, то экземпляр этого bean-компонента будет автоматически использоваться
+конфигурацией <http>, поэтому вы будете автоматически получать события из веб-части вашего приложения.
+
+!!! Обратите внимание !!! Реализация также публикует события сбоя аутентификации, когда она получает результат
+                          аутентификации (или исключение) от «родительского» AuthenticationManager, если таковой
+                          был установлен. Поэтому в этой ситуации родительский элемент обычно не должен быть
+                          настроен на публикацию событий, иначе будут дублироваться.
+________________________________________________________________________________________________________________________
+См. так же:
+- DefaultAuthenticationEventPublisher -
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/DefaultAuthenticationEventPublisher.html
+
+- AuthenticationSuccessEvent -
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/event/AuthenticationSuccessEvent.html
+________________________________________________________________________________________________________________________
+*** Поля ***
+
+- protected org.springframework.context.support.MessageSourceAccessor messages
+________________________________________________________________________________________________________________________
+*** Конструкторы ***
+
+- ProviderManager(List<AuthenticationProvider> providers) - Построить ProviderManager используя заданное
+                                                            AuthenticationProviders;
+- ProviderManager(List<AuthenticationProvider> providers,
+                  AuthenticationManager parent) - Постройте ProviderManager используя предоставленные параметры;
+
+- ProviderManager(AuthenticationProvider... providers) - Построить ProviderManager используя заданное
+                                                         AuthenticationProviders;
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- void afterPropertiesSet()
+- List<AuthenticationProvider> getProviders()
+- boolean isEraseCredentialsAfterAuthentication()
+- void setAuthenticationEventPublisher(AuthenticationEventPublisher eventPublisher)
+- void setMessageSource(org.springframework.context.MessageSource messageSource)
+
+- void setEraseCredentialsAfterAuthentication(boolean eraseSecretData) - Если установлено значение, результат
+                                                                         Authentication, реализующий CredentialsContainer
+                                                                         интерфейс, будет eraseCredentials вызывать свой
+                                                                         метод до того, как он будет возвращен из
+                                                                         authenticate() метода.
+
+- Authentication authenticate(Authentication authentication) - Пытается аутентифицировать переданный Authentication
+                                                               объект.
+
+Список AuthenticationProvider будет последовательно проверяться до тех пор, пока не AuthenticationProvider будет указано,
+что он способен аутентифицировать тип Authentication переданного объекта. Затем будет предпринята попытка аутентификации
+с этим файлом AuthenticationProvider.
+
+Если переданный объект AuthenticationProvider поддерживается более чем одним Authentication, первый, способный успешно
+аутентифицировать Authentication объект, определяет result, переопределяя любые возможные AuthenticationException
+варианты, созданные ранее поддерживающими AuthenticationProviders. При успешной аутентификации последующие
+AuthenticationProvider попытки выполняться не будут. Если аутентификация не была успешной ни при какой поддержке,
+AuthenticationProvider последний брошенный запрос AuthenticationException будет выдан повторно.
+
+Параметры: authentication - объект запроса аутентификации.
+Возвращает: полностью аутентифицированный объект, включая учетные данные.
+Исключения: AuthenticationException- если аутентификация не удалась.
+________________________________________________________________________________________________________________________

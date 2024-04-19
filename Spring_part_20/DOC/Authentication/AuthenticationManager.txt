@@ -1,0 +1,49 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AuthenticationManager.html
+________________________________________________________________________________________________________________________
+****** Interface AuthenticationManager ******
+
+Пакет: org.springframework.security.authentication
+
+Известные реализующие классы: ObservationAuthenticationManager,
+                              ProviderManager
+
+________________________________________________________________________________________________________________________
+public interface AuthenticationManager
+________________________________________________________________________________________________________________________
+
+Обрабатывает запрос аутентификации см.
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html
+или
+DOC/Authentication/AuthenticationInterface.txt
+
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- Authentication authenticate(Authentication authentication) - Пытается аутентифицировать переданный Authentication
+                                                               объект, возвращая полностью заполненный Authentication
+                                                               объект (включая предоставленные права доступа) в случае
+                                                               успеха.
+
+AuthenticationManager должен соблюдать следующий контракт, касающийся исключений:
+- DisabledException должно быть выдано, если учетная запись отключена и AuthenticationManager может проверить это
+  состояние см.
+  https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/DisabledException.html
+- Исключение LockedException должно быть выдано, если учетная запись заблокирована и AuthenticationManager может
+  проверить блокировку учетной записи см.
+  https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/LockedException.html
+- При предоставлении неверных учетных данных должно быть выброшено исключение BadCredentialsException. Хотя приведенные
+  выше исключения являются необязательными, AuthenticationManager всегда должен проверять учетные данные см.
+  https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/BadCredentialsException.html
+
+Исключения должны быть проверены и, если применимо, выбраны в порядке, указанном выше (т.е. если учетная запись
+отключена или заблокирована, запрос на аутентификацию немедленно отклоняется и процесс проверки учетных данных не
+выполняется). Это предотвращает проверку учетных данных на отключенных или заблокированных учетных записях.
+
+Параметры: authentication - объект запроса аутентификации;
+
+Возвращает: полностью аутентифицированный объект, включая учетные данные;
+
+Исключения: AuthenticationException — если аутентификация не удалась см.
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/AuthenticationException.html;
+________________________________________________________________________________________________________________________

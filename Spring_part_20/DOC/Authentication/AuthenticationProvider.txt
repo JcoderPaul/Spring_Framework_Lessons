@@ -1,0 +1,63 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AuthenticationProvider.html
+________________________________________________________________________________________________________________________
+****** Interface AuthenticationProvider ******
+
+Пакет: org.springframework.security.authentication
+
+Известные реализующие классы: AbstractJaasAuthenticationProvider,
+                              AbstractLdapAuthenticationProvider,
+                              AbstractUserDetailsAuthenticationProvider,
+                              ActiveDirectoryLdapAuthenticationProvider,
+                              AnonymousAuthenticationProvider,
+                              AuthenticationManagerBeanDefinitionParser.NullAuthenticationProvider,
+                              CasAuthenticationProvider,
+                              DaoAuthenticationProvider,
+                              DefaultJaasAuthenticationProvider,
+                              JaasAuthenticationProvider,
+                              JwtAuthenticationProvider,
+                              LdapAuthenticationProvider,
+                              OAuth2AuthorizationCodeAuthenticationProvider,
+                              OAuth2LoginAuthenticationProvider,
+                              OidcAuthorizationCodeAuthenticationProvider,
+                              OpaqueTokenAuthenticationProvider,
+                              OpenSaml4AuthenticationProvider,
+                              PreAuthenticatedAuthenticationProvider,
+                              RememberMeAuthenticationProvider,
+                              RunAsImplAuthenticationProvider,
+                              TestingAuthenticationProvider
+
+________________________________________________________________________________________________________________________
+public interface AuthenticationProvider
+________________________________________________________________________________________________________________________
+
+Указывает, что класс может обрабатывать определенную реализацию аутентификации.
+
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- Authentication authenticate(Authentication authentication) - Выполняет аутентификацию с помощью того же контракта,
+                                                               что и AuthenticationManager.authenticate(Authentication).
+
+Параметры: authentication- объект запроса аутентификации.
+Возвращает: полностью аутентифицированный объект, включая учетные данные. Может вернуться null, если
+            AuthenticationProvider не может поддерживать аутентификацию переданного Authentication объекта.
+            В таком случае будет опробован следующий класс AuthenticationProvider, поддерживающий представленный
+            Authentication класс.
+Исключения: AuthenticationException- если аутентификация не удалась.
+
+________________________________________________________________________________________________________________________
+- boolean supports(Class<?> authentication) - Возвращает, true если это AuthenticationProvider поддерживает указанный
+                                              Authentication объект.
+
+Возврат true не гарантирует, что AuthenticationProvider-у удастся аутентифицировать представленный экземпляр класса
+Authentication. Это просто указывает на то, что он может поддержать более тщательную оценку этого вопроса. Из
+AuthenticationProvider все еще может вернуться null из метода authenticate(Authentication), чтобы указать,
+AuthenticationProvider-у, что следует попробовать другой.
+
+Выбор AuthenticationProvider способного выполнить аутентификацию проводится во время выполнения ProviderManager.
+
+Параметры: authentication - поддерживаемый класс.
+Возвращает: true если реализация может более внимательно оценить Authentication представленный класс.
+
+________________________________________________________________________________________________________________________
