@@ -1,0 +1,149 @@
+См. исходники (RUS): https://habr.com/ru/articles/115718/
+________________________________________________________________________________________________________________________
+****** REST-сервис на Java — это просто ******
+
+Многим программистам Java-технологии могут показаться монструозными и сложными для понимания. В этой небольшой статье я
+бы хотел показать, что при желании можно собрать приложение из довольно простых компонентов, не прибегая к
+мега-фреймворкам.
+
+В качестве примера я выбрал простенький REST-сервис. Для описания ресурсов будет использоваться Jersey. Как бонус, будет
+показано использование Dependency Injection фреймворка Google Guice. Можно было бы и без него, но я не хочу, что бы
+пример показался слишком игрушечным и оторванным от жизни.
+
+Весь пример я постараюсь уложить в примерно 50 строк в одном файле и не будет использовано ни строчки XML.
+
+Итак, поехали:
+
+1. Опишем простенький класс, который будет предоставлять доступ к некоторой информации. Пусть это будет счетчик вызовов:
+
+************************************************************************************************************************
+ @Singleton
+ public static class Counter {
+  private final AtomicInteger counter = new AtomicInteger(0);
+  public int getNext() {
+   return counter.incrementAndGet();
+  }
+ }
+************************************************************************************************************************
+
+Аннотация Singleton нужна для указания джуйсу, что объект должен быть синглтоном.
+
+2. Опишем сервис, который будет возращать нам что-то, попутно дергая counter:
+
+************************************************************************************************************************
+ @Path("/hello")
+ public static class Resource {
+
+  @Inject Counter counter;
+
+  @GET
+  public String get() {
+   return "Hello, User number " + counter.getNext();
+  }
+ }
+************************************************************************************************************************
+
+3. Теперь подружим Jersey и Guice. Я воспользовался готовой интеграцией, она называется jersey-guice. Интеграция
+осуществляется через сервлет/фильтр GuiceContainer, для использования которого нужно объявить ServletModule из
+расширения guice-servlet-module и указать, что нужные нам запросы будут обрабатываться GuiceContainer, что позволит
+объявлять Jersey ресурсы в контексте Guice.
+
+************************************************************************************************************************
+ public static class Config extends GuiceServletContextListener {
+  @Override
+  protected Injector getInjector() {
+   return Guice.createInjector(new ServletModule() {
+    @Override
+    protected void configureServlets() {
+     bind(Resource.class);
+     bind(Counter.class);
+     serve("*").with(GuiceContainer.class);
+    }
+   });
+  }
+ }
+************************************************************************************************************************
+
+Там же мы забайндили Counter и Resource.
+
+4. Осталось запустить все это добро, используя сервлет-контейнер. Для этого нам совершенно не обязательно собирать
+war-ку и деплоить в какой-нибудь Tomcat. Можно воспользоваться встраиваемым контейнером. На ум приходят Jetty и Grizzly.
+Я выбрал последний. Вот код, который запускает сервер:
+
+************************************************************************************************************************
+ public static void main(String[] args) throws Exception {
+  int port = Integer.valueOf(System.getProperty("port"));
+  GrizzlyWebServer server = new GrizzlyWebServer(port);
+  ServletAdapter adapter = new ServletAdapter(new DummySevlet());
+  adapter.addServletListener(Config.class.getName());
+  adapter.addFilter(new GuiceFilter(), "GuiceFilter", null);
+  server.addGrizzlyAdapter(adapter, new String[]{ "/" });
+  server.start();
+ }
+************************************************************************************************************************
+
+Обратите внимание, что пришлось объявить пустой сервлет:
+
+************************************************************************************************************************
+ @SuppressWarnings("serial")
+ public static class DummySevlet extends HttpServlet { }
+************************************************************************************************************************
+
+Он нужен, что бы Guice-фильтр сработал. Если не будет ни одного сервлета, Grizzly не будет передавать запрос никаким
+фильтрам.
+
+Вот пожалуй и все. Далее приведу весь код:
+
+************************************************************************************************************************
+public class App {
+
+  @Path("/hello")
+  public static class Resource {
+
+    @Inject Counter counter;
+
+    @GET
+    public String get() {
+      return "Hello, User number " + counter.getNext();
+    }
+  }
+
+  @Singleton
+  public static class Counter {
+    private final AtomicInteger counter = new AtomicInteger(0);
+    public int getNext() {
+      return counter.incrementAndGet();
+    }
+  }
+
+  public static class Config extends GuiceServletContextListener {
+    @Override
+    protected Injector getInjector() {
+      return Guice.createInjector(new ServletModule(){
+        @Override
+        protected void configureServlets() {
+          bind(Resource.class);
+          bind(Counter.class);
+          serve("*").with(GuiceContainer.class);
+        }
+      });
+    }
+  }
+
+  @SuppressWarnings("serial")
+  public static class DummySevlet extends HttpServlet { }
+
+  public static void main(String[] args) throws Exception {
+    int port = Integer.valueOf(System.getProperty("port"));
+    GrizzlyWebServer server = new GrizzlyWebServer(port);
+    ServletAdapter adapter = new ServletAdapter(new DummySevlet());
+    adapter.addServletListener(Config.class.getName());
+    adapter.addFilter(new GuiceFilter(), "GuiceFilter", null);
+    server.addGrizzlyAdapter(adapter, new String[]{ "/" });
+    server.start();
+  }
+}
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+См. комментарии к статье в исходнике.

@@ -1,0 +1,152 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html
+________________________________________________________________________________________________________________________
+****** Class ResponseEntity<T> ******
+
+Пакет: org.springframework.http
+
+java.lang.Object
+    org.springframework.http.HttpEntity<T>
+        org.springframework.http.ResponseEntity<T>
+
+Тип параметра: T - тип возвращаемого класса
+________________________________________________________________________________________________________________________
+public class ResponseEntity<T> extends HttpEntity<T>
+________________________________________________________________________________________________________________________
+
+Расширение HttpEntity, добавляющее код состояния HttpStatusCode. Используется в RestTemplate, а также в методах
+@Controller. В RestTemplate этот класс возвращается методами getForEntity() и Exchange():
+
+************************************************************************************************************************
+ ResponseEntity<String> entity = template.getForEntity("https://example.com", String.class);
+ String body = entity.getBody();
+ MediaType contentType = entity.getHeaders().getContentType();
+ HttpStatus statusCode = entity.getStatusCode();
+************************************************************************************************************************
+
+Это также можно использовать в Spring MVC как возвращаемое значение метода @Controller:
+
+************************************************************************************************************************
+@RequestMapping("/handle")
+ public ResponseEntity<String> handle() {
+   URI location = ...;
+   HttpHeaders responseHeaders = new HttpHeaders();
+   responseHeaders.setLocation(location);
+   responseHeaders.set("MyResponseHeader", "MyValue");
+   return new ResponseEntity<String>("Hello World", responseHeaders, HttpStatus.CREATED);
+ }
+************************************************************************************************************************
+
+Или, используя сборщик, доступный через статические методы:
+
+************************************************************************************************************************
+@RequestMapping("/handle")
+ public ResponseEntity<String> handle() {
+   URI location = ...;
+   return ResponseEntity.created(location).header("MyResponseHeader", "MyValue").body("Hello World");
+ }
+************************************************************************************************************************
+
+См. так же:
+- getStatusCode();
+
+В https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestOperations.html:
+- RestOperations.getForEntity(String, Class, Object...);
+- RestOperations.getForEntity(String, Class, java.util.Map);
+- RestOperations.getForEntity(URI, Class);
+
+См. так же:
+- RequestEntity -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/RequestEntity.html
+________________________________________________________________________________________________________________________
+*** Вложенные классы ***
+
+- static interface ResponseEntity.BodyBuilder - Определяет построитель, который добавляет тело к сущности ответа.
+
+- static interface ResponseEntity.HeadersBuilder<B extends ResponseEntity.HeadersBuilder<B>> - Определяет построитель,
+                                                                         который добавляет заголовки к объекту ответа.
+________________________________________________________________________________________________________________________
+*** Поля ***
+
+Поля, унаследованные от класса org.springframework.http.HttpEntity - EMPTY -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpEntity.html
+________________________________________________________________________________________________________________________
+*** Конструкторы ***
+
+- ResponseEntity(HttpStatusCode status) - Создайте ResponseEntity только код состояния.
+Где, параметры: status - код состояния;
+
+- ResponseEntity(MultiValueMap<String,String> headers,
+                 HttpStatusCode status) - Создайте файл ResponseEntity с заголовками и кодом состояния.
+Где, параметры: headers - заголовки объектов;
+                status - код состояния;
+
+- ResponseEntity(T body,
+                 HttpStatusCode status) - Создайте файл ResponseEntity с телом и кодом состояния.
+Где, параметры: body - тело сущности @Nullable;
+                status - код состояния;
+
+- ResponseEntity(T body,
+                 MultiValueMap<String,String> headers,
+                 int rawStatus) - Создайте файл ResponseEntity с телом, заголовками и необработанным кодом состояния.
+Где, параметры: body - тело сущности @Nullable;
+                headers - заголовки объектов;
+                status - код состояния;
+
+- ResponseEntity(T body,
+                 MultiValueMap<String,String> headers,
+                 HttpStatusCode statusCode) - Создайте файл ResponseEntityс телом, заголовками и кодом состояния.
+Где, параметры: body - тело сущности @Nullable;
+                headers - заголовки объектов;
+                statusCode - код состояния;
+
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- static ResponseEntity.BodyBuilder accepted() - Создайте застройщик со статусом ПРИНЯТО (ACCEPTED).
+
+- static ResponseEntity.BodyBuilder badRequest() - Создайте сборщик со статусом BAD_REQUEST .
+
+- static ResponseEntity.BodyBuilder created(URI location) - Создайте новый построитель со статусом CREATED и заголовком
+                                                            местоположения, установленным для данного URI.
+
+- boolean equals(Object other)
+- int hashCode()
+- String toString()
+
+- HttpStatusCode getStatusCode() - Верните код состояния HTTP ответа.
+
+- int getStatusCodeValue() - Устарело. Начиная с версии 6.0, в пользу getStatusCode().
+                             Планируется удалить в версии 7.0
+
+- static ResponseEntity.BodyBuilder internalServerError() - Создайте построитель со статусом INTERNAL_SERVER_ERROR .
+
+- static ResponseEntity.HeadersBuilder<?> noContent() - Создайте конструктор со статусом NO_CONTENT .
+
+- static ResponseEntity.HeadersBuilder<?> notFound() - Создайте построитель со статусом NOT_FOUND .
+
+- static <T> ResponseEntity<T> of(Optional<T> body) - Ярлык для создания ResponseEntity с заданным телом и статусом ОК
+                                                      или пустым телом и статусом НЕ НАЙДЕНО (NOT_FOUND) в случае
+                                                      параметра Optional.empty() .
+- static ResponseEntity.HeadersBuilder<?> of(ProblemDetail body) - Создайте новый файл ResponseEntity.HeadersBuilder со
+                                                                   статусом ProblemDetail.getStatus() и телом
+                                                                   ProblemDetail.
+
+- static <T> ResponseEntity<T> ofNullable(T body) - Ярлык для создания ResponseEntity с заданным телом и статусом ОК
+                                                    или пустым телом и статусом НЕ НАЙДЕНО (NOT_FOUND) в случае null
+                                                    параметра.
+
+- static ResponseEntity.BodyBuilder ok() - Создайте построитель со статусом ОК .
+
+- static <T> ResponseEntity<T> ok(T body) - Ярлык для создания ResponseEntity с заданным телом и статусом OK .
+
+- static ResponseEntity.BodyBuilder status(int status) - Создайте застройщика с заданным статусом.
+
+- static ResponseEntity.BodyBuilder status(HttpStatusCode status) - Создайте застройщика с заданным статусом.
+
+- static ResponseEntity.BodyBuilder unprocessableEntity() - Создайте построитель со статусом UNPROCESSABLE_ENTITY .
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.http.HttpEntity: getBody, getHeaders, hasBody
+
+Методы, унаследованные от класса java.lang.Object: clone, finalize, getClass, notify, notifyAll, wait
+________________________________________________________________________________________________________________________

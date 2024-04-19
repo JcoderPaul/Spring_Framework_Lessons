@@ -1,0 +1,119 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.HeadersBuilder.html
+________________________________________________________________________________________________________________________
+****** Interface ResponseEntity.HeadersBuilder<B extends ResponseEntity.HeadersBuilder<B>> ******
+
+Пакет:  org.springframework.http
+
+Типовые параметры: B - подкласс строителя (Builder)
+
+Все известные субинтерфейсы: ResponseEntity.BodyBuilder
+
+Включающий класс: ResponseEntity<T>
+________________________________________________________________________________________________________________________
+
+public static interface ResponseEntity.HeadersBuilder<B extends ResponseEntity.HeadersBuilder<B>>
+________________________________________________________________________________________________________________________
+
+Определяет построитель (builder), который добавляет заголовки к объекту ответа (response entity).
+
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- B allow(HttpMethod... allowedMethods) - Установите набор разрешенных HTTP methods, как указано в Allow заголовке.
+
+См. так же: HttpHeaders.setAllow(Set) -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html
+
+________________________________________________________________________________________________________________________
+- <T> ResponseEntity<T> build() - Создайте объект ответа без тела.
+
+________________________________________________________________________________________________________________________
+- B cacheControl(CacheControl cacheControl) - Установите директивы кэширования для ресурса, как указано в Cache-Control
+                                              заголовке HTTP 1.1. Экземпляр CacheControl может быть построен как
+                                              CacheControl.maxAge(3600).cachePublic().noTransform().
+
+                                              Параметры: cacheControl- построитель заголовков HTTP-ответов, связанных с
+                                              кешем.
+________________________________________________________________________________________________________________________
+
+- B eTag(String etag) - Установите тег сущности тела, как указано в ETag заголовке.
+
+См. так же: HttpHeaders.setETag(String) -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html
+
+________________________________________________________________________________________________________________________
+- B header(String headerName,
+           String... headerValues) - Добавьте заданное одно значение заголовка под заданным именем.
+
+                                     Параметры: headerName - название заголовка;
+                                                headerValues - значение(я) заголовка;
+
+См. так же: HttpHeaders.add(String, String) -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html
+
+________________________________________________________________________________________________________________________
+- B headers(Consumer<HttpHeaders> headersConsumer) - Управляйте заголовками этого объекта с помощью данного потребителя.
+
+                                                     Заголовки, предоставляемые потребителю, являются «живыми», поэтому
+                                                     потребитель может использоваться для перезаписи существующих
+                                                     значений заголовков, удаления значений или использования любых
+                                                     других HttpHeaders методов.
+
+                                                     Параметры: headersConsumer- функция, которая потребляет HttpHeaders;
+
+________________________________________________________________________________________________________________________
+- B headers(HttpHeaders headers) - Скопируйте данные заголовки в карту заголовков объекта.
+
+                                   Параметры: headers - существующие HttpHeaders для копирования;
+
+См. так же: HttpHeaders.add(String, String) -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html
+
+________________________________________________________________________________________________________________________
+- B lastModified(long lastModified) - Устанавливает время последнего изменения ресурса, как указано в Last-Modified
+                                      заголовке. Дата должна быть указана как количество миллисекунд с 1 января 1970 г.
+                                      по Гринвичу.
+
+                                      Параметры: lastModified - дата последнего изменения;
+
+См. так же: HttpHeaders.setLastModified(long) -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html
+
+________________________________________________________________________________________________________________________
+- B lastModified(Instant lastModified) - Установите время последнего изменения ресурса, как указано в Last-Modified
+                                         заголовке.
+
+                                         Параметры: lastModified - дата последнего изменения;
+
+См. так же: HttpHeaders.setLastModified(Instant) -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html
+
+________________________________________________________________________________________________________________________
+- B lastModified(ZonedDateTime lastModified) - Установите время последнего изменения ресурса, как указано в
+                                               Last-Modified заголовке.
+
+                                               Параметры: lastModified - дата последнего изменения;
+
+См. так же: HttpHeaders.setLastModified(ZonedDateTime) -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html
+
+________________________________________________________________________________________________________________________
+- B location(URI location) - Установите расположение ресурса, указанное в заголовке Location.
+
+                             Параметры: location - Местоположение (локаль);
+
+См. так же: HttpHeaders.setLocation(URI) -
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html
+
+________________________________________________________________________________________________________________________
+- B varyBy(String... requestHeaders) - Настройте одно или несколько имен заголовков запроса (например,
+                                       «Accept-Language»), чтобы добавить их к заголовку ответа «Vary»,
+                                       чтобы информировать клиентов о том, что ответ подлежит согласованию
+                                       содержимого и отклонениям в зависимости от значения заданных заголовков
+                                       запроса. Настроенные имена заголовков запроса добавляются, только если
+                                       они еще не присутствуют в заголовке ответа «Vary».
+
+                                       Параметры: requestHeaders - запросить имена заголовков;
+
+________________________________________________________________________________________________________________________

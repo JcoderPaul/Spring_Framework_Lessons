@@ -1,0 +1,35 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.BodyBuilder.html
+________________________________________________________________________________________________________________________
+****** Interface ResponseEntity.BodyBuilder ******
+
+Пакет: org.springframework.http
+
+Все супер-интерфейсы: ResponseEntity.HeadersBuilder<ResponseEntity.BodyBuilder>
+
+Включающий класс: ResponseEntity<T>
+________________________________________________________________________________________________________________________
+public static interface ResponseEntity.BodyBuilder
+                            extends ResponseEntity.HeadersBuilder<ResponseEntity.BodyBuilder>
+________________________________________________________________________________________________________________________
+
+Определяет построитель, который добавляет тело к сущности ответа (response entity).
+
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- <T> ResponseEntity<T> body(T body) - Устанавливает тело объекта ответа и возвращает его.
+
+- ResponseEntity.BodyBuilder contentLength(long contentLength) - Устанавливает длину тела в байтах, указанную в заголовке
+                                                                 Content-Length.
+
+- ResponseEntity.BodyBuilder contentType(MediaType contentType) - Устанавливает тип носителя тела, указанный в
+                                                                  Content-Type заголовке.
+
+________________________________________________________________________________________________________________________
+Методы, унаследованные от интерфейса org.springframework.http.ResponseEntity.HeadersBuilder: allow, build, cacheControl,
+                                                                                             eTag, header, headers,
+                                                                                             headers, lastModified,
+                                                                                             lastModified, lastModified,
+                                                                                             location, varyBy
+________________________________________________________________________________________________________________________
