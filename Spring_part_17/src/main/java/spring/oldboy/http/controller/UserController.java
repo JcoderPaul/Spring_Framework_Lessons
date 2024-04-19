@@ -156,9 +156,10 @@ public class UserController {
     @PostMapping
     public String create(@ModelAttribute UserCreateEditDto user,
                                          RedirectAttributes redirectAttributes) {
+        /* Пока без внесения в БД */
         if (true) {
            redirectAttributes.addFlashAttribute("user", user);
-            return "redirect:/users/registration";
+           return "redirect:/users/registration";
         }
         /*
         Перенаправление на метод *.findById(), который возвращает заполненную
