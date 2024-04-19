@@ -1,0 +1,7 @@
+ext {
+    versions = [
+            'testcontainers': '1.17.6',
+            'postgres': '42.5.4',
+            'springdoc': '2.3.0'
+    ]
+}
