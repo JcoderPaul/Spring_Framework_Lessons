@@ -156,17 +156,10 @@ public class UserController {
     @PostMapping
     public String create(@ModelAttribute UserCreateEditDto user,
                                          RedirectAttributes redirectAttributes) {
-
-        /*
-        Вариант с регистрацией:
         if (true) {
-           redirectAttributes.addAttribute("username", user.getUsername());
-           redirectAttributes.addAttribute("firstname", user.getFirstname());
            redirectAttributes.addFlashAttribute("user", user);
             return "redirect:/users/registration";
         }
-        */
-
         /*
         Перенаправление на метод *.findById(), который возвращает заполненную
         стр. user.html, а та в свою очередь позволяет редактировать данные по
