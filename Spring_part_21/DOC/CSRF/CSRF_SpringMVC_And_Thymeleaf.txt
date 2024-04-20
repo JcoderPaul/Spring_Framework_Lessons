@@ -1,0 +1,262 @@
+См. исходник (ENG):
+https://www.baeldung.com/csrf-thymeleaf-with-spring-security
+________________________________________________________________________________________________________________________
+****** Защита CSRF с помощью Spring MVC и Thymeleaf ******
+
+Thymeleaf — это шаблонизатор Java для обработки и создания HTML, XML, JavaScript, CSS и открытого текста. Знакомство с
+Thymeleaf и Spring можно найти в этой статье - https://www.baeldung.com/thymeleaf-in-spring-mvc.
+
+В этой статье мы обсудим, как предотвратить атаки межсайтовой подделки запросов (CSRF) в Spring MVC с помощью приложения
+Thymeleaf. В частности, мы протестируем CSRF-атаку для метода HTTP POST.
+
+CSRF — это атака, которая вынуждает конечного пользователя выполнять нежелательные действия в веб-приложении, которое в
+данный момент аутентифицировано.
+
+________________________________________________________________________________________________________________________
+*** Зависимости Maven ***
+
+Сначала давайте посмотрим конфигурации, необходимые для интеграции Thymeleaf с Spring. В наших зависимостях требуется
+библиотека thymeleaf-spring:
+
+************************************************************************************************************************
+<dependency>
+    <groupId>org.thymeleaf</groupId>
+    <artifactId>thymeleaf</artifactId>
+    <version>3.0.11.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.thymeleaf</groupId>
+    <artifactId>thymeleaf-spring5</artifactId>
+    <version>3.0.11.RELEASE</version>
+</dependency>
+************************************************************************************************************************
+
+Обратите внимание, что для проекта Spring 4, вместо thymeleaf-spring5 необходимо использовать библиотеку
+thymeleaf -spring4. Последнюю версию зависимостей можно найти здесь -
+https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
+
+Более того, чтобы использовать Spring Security, нам необходимо добавить следующие зависимости:
+
+************************************************************************************************************************
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+    <version>5.7.3</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+    <version>5.7.3</version>
+</dependency>
+************************************************************************************************************************
+
+Последние версии двух библиотек, связанных со Spring Security, доступны:
+- Spring Security Web - https://mvnrepository.com/artifact/org.springframework.security/spring-security-web ;
+и
+- Spring Security Config - https://mvnrepository.com/artifact/org.springframework.security/spring-security-config ;
+
+________________________________________________________________________________________________________________________
+*** Конфигурация Java ***
+
+В дополнение к конфигурации Thymeleaf, описанной здесь - https://www.baeldung.com/thymeleaf-in-spring-mvc, нам нужно
+добавить конфигурацию для Spring Security. Для этого нам нужно создать класс:
+
+************************************************************************************************************************
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+public class WebMVCSecurity {
+
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        UserDetails user = User.withUsername("user1")
+                              .password("{noop}user1Pass")
+                              .authorities("ROLE_USER")
+                              .build();
+
+        return new InMemoryUserDetailsManager(user);
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                           .antMatchers("/resources/**");
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .httpBasic();
+
+        return http.build();
+    }
+}
+************************************************************************************************************************
+
+Более подробную информацию и описание конфигурации безопасности можно найти в серии «Безопасность с помощью Spring» -
+https://www.baeldung.com/security-spring.
+
+Защита CSRF включена по умолчанию в конфигурации Java. Чтобы отключить эту полезную функцию, нам нужно добавить это в
+метод configure(…):
+
+************************************************************************************************************************
+.csrf().disable()
+************************************************************************************************************************
+
+В конфигурации XML нам необходимо указать защиту CSRF вручную, в противном случае это не сработает:
+
+************************************************************************************************************************
+<security:http
+  auto-config="true"
+  disable-url-rewriting="true"
+  use-expressions="true">
+    <security:csrf />
+
+    <!-- Remaining configuration ... -->
+</security:http>
+************************************************************************************************************************
+
+Также обратите внимание, что если мы используем страницу входа или выхода из системы с формой, которая содержит
+какие-либо HTTP-глаголы PATCH, POST, PUT или DELETE, нам нужно всегда вручную включать в код токен CSRF в качестве
+скрытого параметра.
+
+Пример использования токена csrf в форме входа:
+
+************************************************************************************************************************
+<form name="login" th:action="@{/login}" method="post">
+...
+<input type="hidden"
+th:name="${_csrf.parameterName}"
+th:value="${_csrf.token}" />
+</form>
+************************************************************************************************************************
+
+Для остальных форм токен CSRF будет автоматически добавлен в формы со скрытым вводом, если вы используете th:action :
+
+************************************************************************************************************************
+<input
+  type="hidden"
+  name="_csrf"
+  value="32e9ae18-76b9-4330-a8b6-08721283d048" />
+<!-- Example token -->
+************************************************************************************************************************
+
+________________________________________________________________________________________________________________________
+*** Конфигурация представлений ***
+
+Перейдем к основной части HTML-файлов с действиями формы и созданием процедуры тестирования. В первом представлении мы
+пытаемся добавить в список новых студентов:
+
+************************************************************************************************************************
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add Student</title>
+</head>
+<body>
+    <h1>Add Student</h1>
+        <form action="#" th:action="@{/saveStudent}" th:object="${student}"
+          method="post">
+            <ul>
+                <li th:errors="*{id}" />
+                <li th:errors="*{name}" />
+                <li th:errors="*{gender}" />
+                <li th:errors="*{percentage}" />
+            </ul>
+    <!-- Remaining part of HTML -->
+    </form>
+</body>
+</html>
+************************************************************************************************************************
+
+В этом представлении мы добавляем учащегося в список, указывая его идентификатор, имя, пол и процент (необязательно,
+как указано в форме проверки). Прежде чем мы сможем выполнить эту форму, нам необходимо предоставить пользователя и
+пароль для аутентификации в веб-приложении.
+
+________________________________________________________________________________________________________________________
+*** Тестирование CSRF-атак браузера ***
+
+Теперь мы переходим ко второму представлению HTML. Цель — попытаться провести CSRF-атаку:
+
+************************************************************************************************************************
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<form action="http://localhost:8080/spring-thymeleaf/saveStudent" method="post">
+    <input type="hidden" name="payload" value="CSRF attack!"/>
+    <input type="submit" />
+</form>
+</body>
+</html>
+************************************************************************************************************************
+
+Мы знаем, что URL-адрес действия — http://localhost:8080/spring-thymeleaf/saveStudent. Хакер хочет получить доступ к
+этой странице для проведения атаки. Для проверки откроем HTML-файл в другом браузере без входа в приложение. При попытке
+отправить форму мы получим страницу см. DOC/CSRF/Image/CSRF_VERIFY_403.jpg
+
+Наш запрос был отклонен, поскольку мы отправили запрос без токена CSRF.
+
+Обратите внимание, что сеанс HTTP используется для хранения токенов CSRF. Когда запрос отправляется, Spring сравнивает
+сгенерированный токен с токеном, хранящимся в сеансе, чтобы подтвердить, что пользователь не взломан.
+
+________________________________________________________________________________________________________________________
+*** Тестирование атак JUnit CSRF ***
+
+Если вы не хотите тестировать атаку CSRF с помощью браузера, вы также можете сделать это с помощью быстрого
+интеграционного теста; давайте начнем с конфигурации Spring для этого теста:
+
+************************************************************************************************************************
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration(classes = {WebApp.class,
+                                 WebMVCConfig.class,
+                                 WebMVCSecurity.class,
+                                 InitSecurity.class })
+public class CsrfEnabledIntegrationTest {
+
+    // configuration
+
+}
+************************************************************************************************************************
+
+И переходим к реальным тестам:
+
+************************************************************************************************************************
+@Test
+public void addStudentWithoutCSRF() throws Exception {
+    mockMvc.perform(post("/saveStudent")
+           .contentType(MediaType.APPLICATION_JSON)
+           .param("id", "1234567")
+           .param("name", "Joe")
+           .param("gender", "M")
+           .with(testUser()))
+           .andExpect(status().isForbidden());
+}
+
+@Test
+public void addStudentWithCSRF() throws Exception {
+    mockMvc.perform(post("/saveStudent")
+           .contentType(MediaType.APPLICATION_JSON)
+           .param("id", "1234567")
+           .param("name", "Joe")
+           .param("gender", "M")
+           .with(testUser())
+           .with(csrf()))
+           .andExpect(status().isOk());
+}
+************************************************************************************************************************
+
+Первый тест приведет к запрещенному статусу из-за отсутствия токена CSRF, тогда как второй будет выполнен правильно.
+
+________________________________________________________________________________________________________________________
+*** ИТОГ ***
+
+В этой статье мы обсудили, как предотвратить атаки CSRF с помощью Spring Security и платформы Thymeleaf.
+Код с примерами на GitHub - https://github.com/eugenp/tutorials/tree/master/spring-web-modules/spring-thymeleaf-5

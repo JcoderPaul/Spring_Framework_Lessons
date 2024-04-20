@@ -1,0 +1,34 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContextHolderStrategy.html
+________________________________________________________________________________________________________________________
+****** Interface SecurityContextHolderStrategy ******
+
+Пакет: org.springframework.security.core.context
+
+Реализующие классы: ListeningSecurityContextHolderStrategy,
+                    TestSecurityContextHolderStrategyAdapter
+
+________________________________________________________________________________________________________________________
+public interface SecurityContextHolderStrategy
+________________________________________________________________________________________________________________________
+
+Стратегия хранения информации о контексте безопасности в потоке.
+Предпочтительная стратегия загружается SecurityContextHolder.
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- void clearContext() - Очищает текущий контекст.
+
+- SecurityContext createEmptyContext() - Создает новую пустую реализацию контекста для использования реализациями
+                                         SecurityContextRepository при первом создании нового контекста.
+
+- SecurityContext getContext() - Получает текущий контекст.
+
+- default Supplier<SecurityContext> getDeferredContext() - Получает объект Supplier, который возвращает текущий
+                                                           контекст.
+
+- void setContext(SecurityContext context) - Устанавливает текущий контекст.
+
+- default void setDeferredContext(Supplier<SecurityContext> deferredContext) - Устанавливает объект Supplier, который
+                                                                               вернет текущий контекст.
+________________________________________________________________________________________________________________________

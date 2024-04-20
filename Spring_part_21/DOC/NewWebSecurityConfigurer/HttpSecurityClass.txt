@@ -1,0 +1,280 @@
+См. исходник (ENG):
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/HttpSecurity.html
+________________________________________________________________________________________________________________________
+****** Class HttpSecurity ******
+
+Пакет: org.springframework.security.config.annotation.web.builders
+
+java.lang.Object
+    org.springframework.security.config.annotation.AbstractSecurityBuilder<O>
+        org.springframework.security.config.annotation.AbstractConfiguredSecurityBuilder<DefaultSecurityFilterChain,
+                                                                                         HttpSecurity>
+            org.springframework.security.config.annotation.web.builders.HttpSecurity
+
+Все реализованные интерфейсы: SecurityBuilder<DefaultSecurityFilterChain>,
+                              HttpSecurityBuilder<HttpSecurity>
+
+________________________________________________________________________________________________________________________
+public final class HttpSecurity
+    extends AbstractConfiguredSecurityBuilder<DefaultSecurityFilterChain,HttpSecurity>
+        implements SecurityBuilder<DefaultSecurityFilterChain>,
+                   HttpSecurityBuilder<HttpSecurity>
+________________________________________________________________________________________________________________________
+
+HttpSecurity аналогичен элементу XML <http> Spring Security в конфигурации пространства имен. Он позволяет настраивать
+веб-безопасность для определенных HTTP-запросов. По умолчанию он будет применяться ко всем запросам, но его можно
+ограничить с помощью #requestMatcher(RequestMatcher) или других подобных методов.
+
+Пример использования:
+
+Самую базовую конфигурацию на основе формы можно увидеть ниже. Конфигурация потребует, чтобы для любого запрошенного
+URL-адреса требовался пользователь с ролью «ROLE_USER». Он также определяет схему аутентификации в памяти с
+пользователем, имеющим имя пользователя «user», пароль «password» и роль «ROLE_USER». Дополнительные примеры см. в
+документации Java по отдельным методам HttpSecurity.
+
+************************************************************************************************************************
+ @Configuration
+ @EnableWebSecurity
+ public class FormLoginSecurityConfig {
+
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http.authorizeHttpRequests().requestMatchers("/**").hasRole("USER").and().formLogin();
+                return http.build();
+        }
+
+        @Bean
+        public UserDetailsService userDetailsService() {
+                UserDetails user = User.withDefaultPasswordEncoder()
+                        .username("user")
+                        .password("password")
+                        .roles("USER")
+                        .build();
+                return new InMemoryUserDetailsManager(user);
+        }
+ }
+************************************************************************************************************************
+
+См. так же: EnableWebSecurity -
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/EnableWebSecurity.html
+________________________________________________________________________________________________________________________
+*** Вложенный класс ***
+
+- class HttpSecurity.RequestMatcherConfigurer - Позволяет сопоставлять HTTP-запросы, HttpSecurity для которых это будет
+                                                использоваться.
+________________________________________________________________________________________________________________________
+*** Конструктор ***
+
+- HttpSecurity(ObjectPostProcessor<Object> objectPostProcessor,
+               AuthenticationManagerBuilder authenticationBuilder,
+               Map<Class<?>,Object> sharedObjects) - Создает новый экземпляр.
+
+Где, параметры: objectPostProcessor - ObjectPostProcessor, который следует использовать;
+                authenticationBuilder - AuthenticationManagerBuilder использовать для дополнительных обновлений;
+                sharedObjects - общие объекты для инициализации HttpSecurity с помощью;
+
+Смотрите также: WebSecurityConfiguration -
+https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.html
+
+________________________________________________________________________________________________________________________
+*** Методы ***
+
+- HttpSecurity addFilter(jakarta.servlet.Filter filter) - Добавляет объект Filter, который должен быть экземпляром или
+                                                          расширением одного из фильтров, предоставляемых в рамках
+                                                          платформы безопасности.
+
+- HttpSecurity addFilterAfter(jakarta.servlet.Filter filter,
+                              Class<? extends jakarta.servlet.Filter> afterFilter) - Позволяет добавить Filter после
+                                                                                     одного из известных Filter классов.
+
+- HttpSecurity addFilterAt(jakarta.servlet.Filter filter,
+                           Class<? extends jakarta.servlet.Filter> atFilter) - Добавляет фильтр в расположение
+                                                                               указанного класса фильтра.
+
+- HttpSecurity addFilterBefore(jakarta.servlet.Filter filter,
+                               Class<? extends jakarta.servlet.Filter> beforeFilter) - Позволяет добавить Filter перед
+                                                                                       одним из известных Filter классов.
+
+- HttpSecurity anonymous(Customizer<AnonymousConfigurer<HttpSecurity>> anonymousCustomizer) - Позволяет настроить
+                                                                            представление анонимного пользователя.
+
+- HttpSecurity authenticationManager(AuthenticationManager authenticationManager) - Настройте значение по умолчанию
+                                                                                    AuthenticationManager.
+
+- HttpSecurity authenticationProvider(AuthenticationProvider authenticationProvider) - Позволяет добавить дополнительный
+                                                                                AuthenticationProvider для использования.
+
+- HttpSecurity authorizeHttpRequests(Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>
+                                     .AuthorizationManagerRequestMatcherRegistry> authorizeHttpRequestsCustomizer) -
+                        Позволяет ограничить доступ на основе HttpServletRequest используемых RequestMatcher реализаций.
+
+
+- protected void beforeConfigure() - Вызывается перед вызовом каждого SecurityConfigurer.configure(SecurityBuilder)
+                                     метода.
+
+- HttpSecurity cors(Customizer<CorsConfigurer<HttpSecurity>> corsCustomizer) - Добавляет элемент CorsFilter для
+                                                                               использования.
+
+- HttpSecurity csrf(Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer) - Включает защиту CSRF.
+
+- HttpSecurity exceptionHandling(Customizer<ExceptionHandlingConfigurer<HttpSecurity>> exceptionHandlingCustomizer) -
+                                                                               Позволяет настроить обработку исключений.
+
+- HttpSecurity formLogin(Customizer<FormLoginConfigurer<HttpSecurity>> formLoginCustomizer) - Указывает на поддержку
+                                                                                       аутентификации на основе форм.
+
+- HttpSecurity headers(Customizer<HeadersConfigurer<HttpSecurity>> headersCustomizer) - Добавляет заголовки безопасности
+                                                                                        в ответ.
+
+- HttpSecurity httpBasic(Customizer<HttpBasicConfigurer<HttpSecurity>> httpBasicCustomizer) - Настраивает базовую
+                                                                                              аутентификацию HTTP.
+
+- HttpSecurity jee(Customizer<JeeConfigurer<HttpSecurity>> jeeCustomizer) - Настраивает предварительную аутентификацию
+                                                                            на основе контейнера.
+
+- HttpSecurity logout(Customizer<LogoutConfigurer<HttpSecurity>> logoutCustomizer) - Обеспечивает поддержку выхода из
+                                                                                     системы.
+
+- HttpSecurity oauth2Client(Customizer<OAuth2ClientConfigurer<HttpSecurity>> oauth2ClientCustomizer) - Настраивает
+                                                                                       поддержку клиента OAuth 2.0.
+
+- HttpSecurity oauth2Login(Customizer<OAuth2LoginConfigurer<HttpSecurity>> oauth2LoginCustomizer) - Настраивает поддержку
+                                            аутентификации с использованием поставщика OAuth 2.0 и/или OpenID Connect 1.0.
+
+- HttpSecurity oauth2ResourceServer(Customizer<OAuth2ResourceServerConfigurer<HttpSecurity>> oauth2ResourceServerCustomizer) -
+Настраивает поддержку сервера ресурсов OAuth 2.0.
+
+- OidcLogoutConfigurer<HttpSecurity> oidcLogout()
+- HttpSecurity oidcLogout(Customizer<OidcLogoutConfigurer<HttpSecurity>> oidcLogoutCustomizer)
+
+- HttpSecurity passwordManagement(Customizer<PasswordManagementConfigurer<HttpSecurity>> passwordManagementCustomizer) -
+                                                                                Добавляет поддержку управления паролями.
+
+- protected DefaultSecurityFilterChain performBuild() - Подклассы должны реализовать этот метод для построения
+                                                        возвращаемого объекта.
+
+- HttpSecurity portMapper(Customizer<PortMapperConfigurer<HttpSecurity>> portMapperCustomizer) - Позволяет настроить
+                             файл PortMapper, доступный из AbstractConfiguredSecurityBuilder.getSharedObject(Class).
+
+- HttpSecurity rememberMe(Customizer<RememberMeConfigurer<HttpSecurity>> rememberMeCustomizer) - Позволяет настроить
+                                                                                     аутентификацию «Запомнить меня».
+
+- HttpSecurity requestCache(Customizer<RequestCacheConfigurer<HttpSecurity>> requestCacheCustomizer) - Позволяет
+                                                                                          настроить кэш запросов.
+
+- HttpSecurity requiresChannel(Customizer<ChannelSecurityConfigurer<HttpSecurity>
+                               .ChannelRequestMatcherRegistry> requiresChannelCustomizer) - Настраивает безопасность
+                                                                                            канала.
+
+- HttpSecurity saml2Login(Customizer<Saml2LoginConfigurer<HttpSecurity>> saml2LoginCustomizer) - Настраивает поддержку
+                                                                    аутентификации с помощью поставщика услуг SAML 2.0.
+
+- HttpSecurity saml2Logout(Customizer<Saml2LogoutConfigurer<HttpSecurity>> saml2LogoutCustomizer) - Настраивает
+                                                   поддержку выхода из системы для проверяющей стороны SAML 2.0.
+
+- HttpSecurity saml2Metadata(Customizer<Saml2MetadataConfigurer<HttpSecurity>> saml2MetadataConfigurer) - Настраивает
+  конечную точку метаданных SAML 2.0, которая представляет конфигурации проверяющей стороны в <md:EntityDescriptor>
+  полезных данных.
+
+- HttpSecurity securityContext(Customizer<SecurityContextConfigurer<HttpSecurity>> securityContextCustomizer) -
+                         Настраивает управление SecurityContext на SecurityContextHolder промежутках HttpServletRequest.
+
+- HttpSecurity securityMatcher(String... patterns) - Позволяет настроить HttpSecurity вызов только при совпадении с
+                                                                                           предоставленным шаблоном.
+
+- HttpSecurity securityMatcher(RequestMatcher requestMatcher) - Позволяет настроить HttpSecurity вызов только при
+                                                                совпадении с предоставленным файлом RequestMatcher.
+
+- HttpSecurity securityMatchers(Customizer<HttpSecurity.RequestMatcherConfigurer> requestMatcherCustomizer) - Позволяет
+                                    указать, для каких HttpServletRequest экземпляров это HttpSecurity будет вызываться.
+
+- HttpSecurity servletApi(Customizer<ServletApiConfigurer<HttpSecurity>> servletApiCustomizer) - Интегрирует
+                                 HttpServletRequest методы со значениями, найденными в файле SecurityContext.
+
+- HttpSecurity sessionManagement(Customizer<SessionManagementConfigurer<HttpSecurity>> sessionManagementCustomizer) -
+                                                                                Позволяет настроить управление сеансами.
+
+- <C> void setSharedObject(Class<C> sharedType,
+                           C object) - Устанавливает объект, который используется несколькими SecurityConfigurer.
+
+- HttpSecurity userDetailsService(UserDetailsService userDetailsService) - Позволяет добавить дополнительный
+                                                                        UserDetailsService для использования.
+
+- HttpSecurity x509(Customizer<X509Configurer<HttpSecurity>> x509Customizer) - Настраивает предварительную
+                                                                            аутентификацию на основе X509.
+
+________________________________________________________________________________________________________________________
+*** Устаревшие методы ***
+
+- AnonymousConfigurer<HttpSecurity> anonymous() - Устарело, подлежит удалению: этот элемент API может быть удален в
+                                                  будущей версии. Для удаления в 7.0.
+- AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizeHttpRequests() -
+                                       Устарело, подлежит удалению: этот элемент API может быть удален в будущей версии.
+                                       Для удаления в 7.0.
+- CorsConfigurer<HttpSecurity> cors() - Устарело, подлежит удалению: этот элемент API может быть удален в будущей
+                                        версии. Для удаления в 7.0.
+- CsrfConfigurer<HttpSecurity> csrf() - Устарело, подлежит удалению: этот элемент API может быть удален в будущей
+                                        версии. Для удаления в 7.0.
+- ExceptionHandlingConfigurer<HttpSecurity> exceptionHandling() - Устарело, подлежит удалению: этот элемент API может
+                                                                  быть удален в будущей версии. Для удаления в 7.0.
+- FormLoginConfigurer<HttpSecurity> formLogin() - Устарело, подлежит удалению: этот элемент API может быть удален в
+                                                  будущей версии. Для удаления в 7.0.
+- HeadersConfigurer<HttpSecurity> headers() - Устарело, подлежит удалению: этот элемент API может быть удален в будущей
+                                              версии. Для удаления в 7.0.
+- HttpBasicConfigurer<HttpSecurity> httpBasic() - Устарело, подлежит удалению: этот элемент API может быть удален в
+                                                  будущей версии. Для удаления в 7.0.
+- JeeConfigurer<HttpSecurity> jee() - Устарело, подлежит удалению: этот элемент API может быть удален в будущей версии.
+                                      Для удаления в 7.0.
+- LogoutConfigurer<HttpSecurity> logout() - Устарело, подлежит удалению: этот элемент API может быть удален в будущей
+                                            версии. Для удаления в 7.0.
+- OAuth2ClientConfigurer<HttpSecurity> oauth2Client() - Устарело, подлежит удалению: этот элемент API может быть удален
+                                                        в будущей версии. Для удаления в 7.0.
+- OAuth2LoginConfigurer<HttpSecurity> oauth2Login() - Устарело, подлежит удалению: этот элемент API может быть удален в
+                                                      будущей версии. Для удаления в 7.0.
+- OAuth2ResourceServerConfigurer<HttpSecurity> oauth2ResourceServer() - Устарело, подлежит удалению: этот элемент API
+                                                                        может быть удален в будущей версии. Для удаления в 7.0.
+- PortMapperConfigurer<HttpSecurity> portMapper() - Устарело, подлежит удалению: этот элемент API может быть удален в
+                                                    будущей версии. Для удаления в 7.0.
+- RememberMeConfigurer<HttpSecurity> rememberMe() - Устарело, подлежит удалению: этот элемент API может быть удален в
+                                                    будущей версии. Для удаления в 7.0.
+- RequestCacheConfigurer<HttpSecurity> requestCache() - Устарело, подлежит удалению: этот элемент API может быть удален
+                                                                                  в будущей версии. Для удаления в 7.0.
+- ChannelSecurityConfigurer<HttpSecurity>.ChannelRequestMatcherRegistry requiresChannel() - Устарело, подлежит удалению:
+                                                этот элемент API может быть удален в будущей версии. Для удаления в 7.0.
+- Saml2LoginConfigurer<HttpSecurity> saml2Login() - Устарело, подлежит удалению: этот элемент API может быть удален в
+                                                    будущей версии. Для удаления в 7.0.
+- SecurityContextConfigurer<HttpSecurity> securityContext() - Устарело, подлежит удалению: этот элемент API может быть
+                                                              удален в будущей версии. Для удаления в 7.0.
+- Saml2MetadataConfigurer<HttpSecurity> saml2Metadata() - Устарело, подлежит удалению: этот элемент API может быть
+                                                          удален в будущей версии. Для удаления в 7.0.
+- Saml2LogoutConfigurer<HttpSecurity> saml2Logout() - Устарело, подлежит удалению: этот элемент API может быть удален в
+                                                      будущей версии. Для удаления в 7.0.
+- ServletApiConfigurer<HttpSecurity> servletApi() - Устарело, подлежит удалению: этот элемент API может быть удален в
+                                                    будущей версии. Для удаления в 7.0.
+- HttpSecurity.RequestMatcherConfigurer securityMatchers() - Устарело, подлежит удалению: этот элемент API может быть
+                                                             удален в будущей версии. Для удаления в 7.0.
+- ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizeRequests() - Устарело.
+                                                                                                Для удаления в 7.0.
+- HttpSecurity authorizeRequests(Customizer<ExpressionUrlAuthorizationConfigurer<HttpSecurity>
+                                 .ExpressionInterceptUrlRegistry> authorizeRequestsCustomizer) - Устарело.
+                                                                                                Для удаления в 7.0.
+- SessionManagementConfigurer<HttpSecurity> sessionManagement() - Устарело, подлежит удалению: этот элемент API может
+                                                                  быть удален в будущей версии. Для удаления в 7.0.
+- X509Configurer<HttpSecurity> x509() - Устарело, подлежит удалению: этот элемент API может быть удален в будущей
+                                        версии. Для удаления в 7.0.
+
+________________________________________________________________________________________________________________________
+Методы, унаследованные от класса org.springframework.security.config.annotation.AbstractConfiguredSecurityBuilder:
+apply, beforeInit, doBuild, getConfigurer, getConfigurers, getOrBuild, getSharedObject, getSharedObjects,
+objectPostProcessor, postProcess, removeConfigurer, removeConfigurers, with
+
+Методы, унаследованные от класса org.springframework.security.config.annotation.AbstractSecurityBuilder: build, getObject
+
+Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
+                                                   toString, wait
+
+Методы, унаследованные от интерфейса org.springframework.security.config.annotation.web.HttpSecurityBuilder:
+getConfigurer, getSharedObject, removeConfigurer
+
+Методы, унаследованные от интерфейса org.springframework.security.config.annotation.SecurityBuilder: build
+________________________________________________________________________________________________________________________
