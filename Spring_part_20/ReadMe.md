@@ -139,7 +139,7 @@ Spring-a. Именно он - FilterChainProxy - содержит цепочку
 - [Пакет org.springframework.security.web](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/package-summary.html) ;
 
 ________________________________________________________________________________________________________________________
-#### Security-Starter. Подключение зависимости (теория).
+#### Security-Starter. [Подключение зависимости](https://docs.spring.io/spring-security/reference/getting-spring-security.html) (теория).
 
 Для подключения системы безопасности Spring-a нам нужна зависимость:
 
