@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Logout</title>
+    <style>
+       hr {
+        border: none;
+        background-color: red;
+        color: black;
+        height: 1 px;
+       }
+    </style>
+</head>
+<body>
+
+<!--
+Lesson 106 - Создадим хедер с кнопкой LogOut, чтобы разместить
+ее, на все страницы, где нужно. С помощью Thymeleaf указываем,
+что это фрагмент, именно это позволяет внедрять такие куски
+кода в любые наши HTML станицы.
+-->
+
+<div th:fragment="header">
+    <hr>
+    <span th:text="${#authentication.principal.username}">Username</span>
+    <hr>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+    <hr>
+</div>
+</body>
+</html>
