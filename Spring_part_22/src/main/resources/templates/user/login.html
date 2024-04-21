@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<!-- Форма для аутентификации -->
+<form th:action="@{/login}" class="form-signin" method="post" >
+    <h2 class="form-signin-heading">Please sign in or registration!</h2>
+
+    <!-- Lesson 103 - Блок активируется в случае ошибочно введенных данных -->
+    <div style="color: red" th:if="${param.error}"> Bad credentials! </div>
+
+    <label for="username">Username:
+        <input id="username" type="text" name="username">
+    </label><br>
+    <label for="password">Password:
+        <input id="password" type="password" name="password">
+    </label><br>
+    <button type="submit">Login</button>
+</form>
+<!-- Lesson 113 - Добавляем вариант авторизации через Google -->
+
+<div>
+    <div>Login with:</div>
+    <a href="/oauth2/authorization/google">Google</a>
+</div>
+
+<!--
+Фактически кнопка для регистрации. Тут данные из первой формы перейдут на страницу
+отображения для регистрации. см. action="..." или registration.html
+
+Кнопка Registration делает HTTP запрос методом GET, т.е. мы запрашиваем у сервера
+форму регистрации, при этом особенность оформления кода такова, что мы в теге 'form'
+можем опустить описание метода, оставив только - <form action="/users/registration">
+но все же оставим ее для наглядности.
+-->
+<form action="/users/registration"  method="get">
+    <button type="submit">Registration</button>
+</form>
+
+</body>
+</html>
