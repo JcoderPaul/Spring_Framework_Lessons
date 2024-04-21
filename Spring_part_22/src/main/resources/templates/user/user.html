@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+
+<!-- Lesson 106 - Внедрим нашу кнопку Logout -->
+<div th:insert="~{fragments/logout :: header}"></div>
+
+<form th:action="@{/users/{userId}/update(userId=${user.id})}"
+      enctype="multipart/form-data"
+      method="post"
+      th:object="${user}">
+
+    <label for="username">Username:
+        <input id="username" type="text" name="username" th:value="*{username}">
+    </label><br>
+    <label for="birthDate">BirthDate:
+        <input id="birthDate" type="date" name="birthDate" th:value="*{birthDate}">
+    </label><br>
+    <label for="lastname">Lastname:
+        <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
+    </label><br>
+    <label for="firstname">Firstname:
+        <input id="firstname" type="text" name="firstname" th:value="*{firstname}">
+    </label><br>
+
+    <!--
+    Lesson 100 - Мы загружаем картинку, только в том случае если она есть, в противном случае
+    она не отображается на странице и не "блещет пустыми тегами". Данный функционал реализуется
+    при помощи - th:if. Т.е. если аватар у user-a есть запускаем отображение ее, и делаем это
+    тоже динамически - через ссылку на REST контроллер и его метод поиска аватарок.
+    -->
+    <div th:if="${user.image}">
+        <img th:src="@{/api/v1/users/{userId}/avatar(userId=${user.id})}" alt="User image">
+    </div>
+
+    <!-- Lesson 99 - Мы загружаем картинку, а это файл, отсюда - type="file" -->
+    <label for="image">Image:
+        <input id="image" type="file" name="image">
+    </label><br>
+
+    <!-- Формируем список радио-кнопок по доступным ролям сотрудников (USER, ADMIN и т.д.) -->
+    <div th:each="role : ${roles}">
+        <!--
+        Тут основным моментом можно выделить метод выбора радио-кнопки по-умолчанию
+        это булево выражение в котором текущее состояние кнопки сравнивается со статусом
+        Role у выбранного user-а
+        -->
+        <input th:id="${role}" type="radio" name="role" th:value="${role}" th:checked="${role == user.role}">
+        <label th:for="${role}" th:text="${role}">Role name</label>
+    </div>
+    <div>
+        <!-- Компанию сделаем выпадающим списком -->
+        <label for="company">Company:
+            <!--
+            В данном случае имя 'companyId' соответствует имени поля в
+            spring/oldboy/dto/UserCreateEditDto.java. Поскольку у нас
+            работа идет с моделью, то нам нужно добавить соответствующий
+            объект в метод *.findById() класса UserController.java - это
+            CompanyService, в котором нам нужен метод *.findAll(), чтобы
+            иметь доступ к списку компаний.
+
+            Поскольку у нас CompanyReadDto является record, то мы можем
+            обратиться к значениям полей этого класса через методы или
+            *.field_name(), отсюда наши *.id(), *.name(). Но лучшей
+            практикой в данном случае все же является pojo объект.
+            -->
+            <select id="company" name="companyId">
+                <option th:each="company : ${companies}"
+                        th:value="${company.id()}"
+                        th:selected="${company.id() == user.company.id()}"
+                        th:text="${company.name()}">Company</option>
+            </select>
+        </label>
+    </div>
+    <button type="submit">Update</button>
+</form>
+<!--
+    Фактически под форму удаления данных выделяется такой же блок, как и для обновления
+    только ниже по структуре страницы. При нажатии на кнопку DELETE, форма методом post
+    'будет передана по слоям вниз' до БД, при этом все переменные сессии и request-а,
+    связанные с конкретным user у нас уже есть. Исходя из 'маппинга' метод *.delete()
+    из UserController внутри себя обратится к уровню сервисов и т.д. см. код.
+
+    Кнопка DELETE будет активна, только если user имеет role = admin. Поскольку Role у
+    нас ENUM, то к его названию у user-a мы можем обратиться через метод *.name().
+-->
+<form th:action="@{/users/{userId}/delete(userId=${user.id})}"
+      th:if="${user.role.name() == 'ADMIN'}"
+      method="post">
+    <button type="submit">DELETE</button>
+</form>
+
+</body>
+</html>
