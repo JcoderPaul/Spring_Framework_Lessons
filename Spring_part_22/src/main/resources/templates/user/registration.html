@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<!--
+Как и в форме просмотра, тут нам понадобятся все поля user-a, поэтому они тут присутствуют,
+зато endpoint уже другой, что логично.
+
+На Lesson 99 - мы загружаем через эту форму картинку поэтому необходимо установить атрибут-
+enctype="multipart/form-data", поскольку по умолчанию в методе POST это -
+application/x-www-form-urlencoded и он тут не подходит.
+-->
+<form th:action="@{/users}" enctype="multipart/form-data" method="post" th:object="${user}">
+    <label for="username">Username:
+        <input id="username" type="text" name="username" th:value="*{username}">
+    </label><br>
+    <!--
+    Lesson 105 - Даем пользователю возможность вводить исходный не зашифрованный пароль,
+    шифровку оного мы предоставляем и делаем сами в нашем приложении, т.е. в БД пароль,
+    введенный тут, попадает уже зашифрованным.
+    -->
+    <label for="rawPassword">Password:
+        <input id="rawPassword" type="password" name="rawPassword">
+    </label><br>
+
+    <label for="birthDate">BirthDate:
+        <input id="birthDate" type="date" name="birthDate" th:value="*{birthDate}">
+    </label><br>
+    <label for="lastname">Lastname:
+        <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
+    </label><br>
+    <label for="firstname">Firstname:
+        <input id="firstname" type="text" name="firstname" th:value="*{firstname}">
+    </label><br>
+
+    <!-- Мы загружаем картинку, а это файл, отсюда - type="file" -->
+    <label for="image">Image:
+        <input id="image" type="file" name="image">
+    </label><br>
+
+    <div th:each="role : ${roles}">
+        <input th:id="${role}" type="radio" name="role"
+               th:value="${role}"
+               th:checked="${role == user.role}">
+        <label th:for="${role}" th:text="${role}">Role name</label>
+    </div>
+
+    <div>
+        <!--
+        Основное отличие данного выпадающего списка в том, что у
+        UserCreateEditDto нет company, зато есть companyId вот к
+        нему мы и обращаемся.
+        -->
+        <label for="company">Company:
+            <select id="company" name="companyId">
+                <option th:each="company : ${companies}"
+                        th:value="${company.id()}"
+                        th:selected="${company.id() == user.companyId}"
+                        th:text="${company.name()}">Company</option>
+            </select>
+        </label>
+    </div>
+
+    <button type="submit">Register</button>
+</form>
+<!--
+Блок сообщений об ошибках будет активен если атрибут errors будет
+содержать ошибки, в противном случае все нормально. Удобство
+использования Thymeleaf очевидно, т.к. применяя if мы не делаем
+проверок, например на null и т.п. (атрибут не пустой значит - true).
+
+Тут не используем CSS, а просто хардкодим цвет ошибки красным.
+Мы в цикле выводим все совершенные при заполнении формы ошибки,
+заполняя отображение дефолтными сообщениями.
+-->
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+</body>
+</html>
