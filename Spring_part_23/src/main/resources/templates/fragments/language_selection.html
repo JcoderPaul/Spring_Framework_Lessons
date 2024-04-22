@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Language change</title>
+    <style>
+       hr {
+        border: none;
+        background-color: red;
+        color: black;
+        height: 1 px;
+       }
+    </style>
+</head>
+<body>
+
+<div th:fragment="locale">
+    <hr>
+    <!--
+    Lesson 117 - Создаем форму для выбора языка, мы будем ее внедрять на все нужные страницы.
+    Особенность данной формы в том, что она отправляется на ту же страницу на которой была
+    активирована, поэтому не указан, например, th:action="@{/... this form ...}", а так же,
+    активация изменений происходит по - 'onchange' listener, т.е. когда пользователь изменит
+    язык.
+
+    !!! Важный момент !!!
+    Параметр должен быть именно таким, т.к. именно он будет отправлен в URL на сервер в
+    качестве 'language' см. MessageRestController.java. Например, меняем язык на странице
+    login.html на 'русский' - (ru) и видим в браузере: http://localhost:8080/login?lang=ru
+    -->
+    <form action="" class="form-lang">
+        <h2 class="form-lang-heading">
+            <span th:text="#{locale.lang}">Choose language:</span>
+        </h2>
+        <select name="lang" onchange="this.form.submit()">
+            <option></option>
+            <option value="en">EN</option>
+            <option value="ru">RU</option>
+            <option value="fr">FR</option>
+        </select>
+    </form>
+    <hr>
+</div>
+</body>
+</html>
