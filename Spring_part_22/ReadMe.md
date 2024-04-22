@@ -1,6 +1,6 @@
 ### Spring Boot lessons part 22 - Security Starter - PART 3
 
-В [папке DOC sql-скрипты](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_21/DOC) и др. полезные файлы.
+В [папке DOC sql-скрипты](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_22/DOC) и др. полезные файлы.
 
 Док. (ссылки) для изучения:
 - [Spring Security](https://docs.spring.io/spring-security/reference/index.html) ;
