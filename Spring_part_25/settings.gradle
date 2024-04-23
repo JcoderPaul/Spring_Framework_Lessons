@@ -1,0 +1,3 @@
+rootProject.name = 'Spring_part_25'
+include 'myfirst-logging-spring-boot-starter'
+
