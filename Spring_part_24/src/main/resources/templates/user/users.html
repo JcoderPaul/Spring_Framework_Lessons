@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- Определяем применение нотаций Thymeleaf -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<!-- Lesson 106 - Внедрим нашу кнопку Logout -->
+<div th:insert="~{fragments/logout :: header}"></div>
+<!--
+Тег <div> определяет раздел или секцию в HTML-документе. Это контейнер, который используется
+для группировки других элементов, таких как текст, изображения или другие теги, в разделы или
+блоки.
+
+Нотация th:each описывает перебор строк в цикле см.
+DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_6_Iterations.txt
+
+Теперь все, что находится внутри тегов <div> будет продублировано и отражено на экране столько
+раз, сколько записей users у нас есть в БД. Донное отображение отвечает за вывод данных из
+переменной 'users', метода *.findAll(Model model) из класса UserController. Если еще более
+точно, то, данное отображение позволит вывести на экран список данных из методов имеющих доступ
+к переменной 'users' и возможность обратиться к это странице для отображения.
+-->
+<div th:each="user : ${users}">
+    <!--
+    Применяем нотации th:href для ссылки @{...} в которой мы формируем URL на стр. конкретного user и
+    th:text текста ${...} которая отобразит сведения конкретного user после удовлетворения запроса см.
+    DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_4_Standard_Expression_Syntax.txt
+    -->
+    <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.id}. ${user.username}|">User</a>
+</div>
+</body>
+</html>
