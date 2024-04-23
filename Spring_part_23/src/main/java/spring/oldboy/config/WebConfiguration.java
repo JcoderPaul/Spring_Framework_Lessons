@@ -1,6 +1,9 @@
 package spring.oldboy.config;
 
-/* Lesson 81 - Создание преобразователя данных (дат) */
+/*
+Lesson 81 - Создание преобразователя данных (дат)
+Lesson 117 - Хранение выбранной локали (языка отображения)
+*/
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
