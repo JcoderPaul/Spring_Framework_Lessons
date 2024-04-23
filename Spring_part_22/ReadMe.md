@@ -244,7 +244,7 @@ scope, которые мы используем в [application.yml](https://git
               scope: openid,email,profile
 
 Далее нам нужно настроить Provider и тут нам на помощь приходит [CommonOAuth2Provider](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/oauth2/client/CommonOAuth2Provider.html) в 
-котором уже есть четыре константных сервиса авторизации: FACEBOOK, GITHUB, GOOGLE, OKTA. Т.е. если мы будем использовать 
+котором уже есть четыре константных сервиса авторизации ([см. на GitHub](https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/oauth2/client/CommonOAuth2Provider.java)): [FACEBOOK](https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/oauth2/client/CommonOAuth2Provider.java#L73), [GITHUB](https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/oauth2/client/CommonOAuth2Provider.java#L56), [GOOGLE](https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/oauth2/client/CommonOAuth2Provider.java#L37), [OKTA](https://github.com/spring-projects/spring-security/blob/main/config/src/main/java/org/springframework/security/config/oauth2/client/CommonOAuth2Provider.java#L90). Т.е. если мы будем использовать 
 свой провайдер сервиса авторизации, то нам придется самим настраивать параметры описанные в классе Provider. А на данном
 этапе, поскольку мы используем уже готовый сервис (провайдер сервиса) мы его и указали в application.yml - google см. 
 выше.
