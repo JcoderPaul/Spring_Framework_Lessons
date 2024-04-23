@@ -1,5 +1,7 @@
 package spring.oldboy.http.rest;
 
+/* Lesson 116 - i18n-MessageSource */
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.GetMapping;
