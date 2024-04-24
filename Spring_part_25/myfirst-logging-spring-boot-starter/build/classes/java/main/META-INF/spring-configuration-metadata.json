@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "name": "app.myfirst.logging",
+      "type": "spring.oldboy.logging.config.LoggingProperties",
+      "sourceType": "spring.oldboy.logging.config.LoggingProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.myfirst.logging.enabled",
+      "type": "java.lang.Boolean",
+      "description": "to enable myfirst-starter logging aop on service layer",
+      "sourceType": "spring.oldboy.logging.config.LoggingProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "app.myfirst.logging.level",
+      "type": "java.lang.String",
+      "sourceType": "spring.oldboy.logging.config.LoggingProperties"
+    }
+  ],
+  "hints": []
+}
