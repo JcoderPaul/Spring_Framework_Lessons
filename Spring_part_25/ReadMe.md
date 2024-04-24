@@ -209,7 +209,7 @@ ________________________________________________________________________________
 IDE community edition, либо нет нужных настроек).
 
 - **Шаг 9.** - Используя средства Gradle мы build-им классы нашего starter-a и смотрим содержимое [build/classes/java/main/META-INF/spring-configuration-metadata.json](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_25/myfirst-logging-spring-boot-starter/build/classes/java/main/META-INF/spring-configuration-metadata.json)
-созданного в разделе build нашего стартера.
+созданного в разделе build нашего стартера, этот файл можно перенести в папку [resources/META-INF](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_25/myfirst-logging-spring-boot-starter/src/main/resources/META-INF) и тогда при работе с application.yml среда разработки будет генерировать подсказки (хотя эксперименты показали, что и без него таковые есть, возможно я ошибаюсь).
 
 Запускаем приложение и видим в консоли:
 
