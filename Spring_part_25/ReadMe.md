@@ -131,7 +131,7 @@ ________________________________________________________________________________
         }
 
 Либо мы можем использовать Spring Dependency Management, как и в основном проекте, так же см. описание варианта 
-конфигурации в [DOC/HandMade_SB_Starter/BuildingSpringBootStarter.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_25/DOC/HandMade_SB_Starter/BuildingSpringBootStarter.txt)
+конфигурации в [DOC/HandMade_SB_Starter/BuildingSpringBootStarter.md](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_25/DOC/HandMade_SB_Starter/BuildingSpringBootStarter.md)
 
 У нашего отдельного модуля свой [src](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_25/myfirst-logging-spring-boot-starter/src) пакет в который мы перенесем нашу [АОП логику](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_25/myfirst-logging-spring-boot-starter/src/main/java/spring/oldboy/logging/aop) из прошлого проекта, чтобы выделить в 
 отдельный стартер.
@@ -174,7 +174,7 @@ ________________________________________________________________________________
 и в [@ConditionalOnProperty](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/condition/ConditionalOnProperty.html).
 
 - **Шаг 4.** - Нам необходимо как-то просканировать LoggingAutoConfiguration.java, чтобы увидеть аннотацию @Configuration (чтобы Spring
-приложение увидело эту аннотацию и поместило класс и его bean-ы в контекст) см. [DOC/HandMade_SB_Starter/BuildingSpringBootStarter.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_25/DOC/HandMade_SB_Starter/BuildingSpringBootStarter.txt)
+приложение увидело эту аннотацию и поместило класс и его bean-ы в контекст) см. [DOC/HandMade_SB_Starter/BuildingSpringBootStarter.md](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_25/DOC/HandMade_SB_Starter/BuildingSpringBootStarter.md)
 Для этого мы в папке 'resources' создаем папку '[META-INF](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_25/myfirst-logging-spring-boot-starter/src/main/resources/META-INF)' и добавляем в нее [spring.factories](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_25/myfirst-logging-spring-boot-starter/src/main/resources/META-INF/spring.factories) (с содержимым):
       
       org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
