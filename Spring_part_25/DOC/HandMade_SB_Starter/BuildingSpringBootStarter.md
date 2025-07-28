@@ -168,7 +168,7 @@ ________________________________________________________________________________
 мы хотим отключить эту функцию на время тестирования.
 
 Мы можем сделать конфигурацию нашей точки входа необязательной, используя условные аннотации Spring Boot
-(см. https://reflectoring.io/spring-boot-conditionals/) :
+(см. https://reflectoring.io/spring-boot-conditionals/ ([или перевод](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_25/DOC/HandMade_SB_Starter/ConditionalBeansSpringBoot.md))) :
 
         @Configuration
         @ConditionalOnProperty(value = "eventstarter.enabled", havingValue = "true")
@@ -199,7 +199,7 @@ application.yml (или application.properties):
               - bar
 
 Чтобы сделать эти свойства легко доступными в коде нашего стартера, мы можем предоставить @ConfigurationProperties класс
-(https://reflectoring.io/spring-boot-configuration-properties/) :
+(https://reflectoring.io/spring-boot-configuration-properties/ ([или перевод](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_25/DOC/HandMade_SB_Starter/ConfiguringSpringBootModule.md))) :
 
         @ConfigurationProperties(prefix = "eventstarter.listener")
         @Data
