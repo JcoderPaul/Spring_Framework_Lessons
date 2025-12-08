@@ -150,5 +150,5 @@ Android-приложениями.
     - - Неявное связывание;
 
 ---
-Исходник: https://topjava.ru/blog/back-to-basics-dependency-injection
-Еще немного о DI: https://github.com/JcoderPaul/Junit5_Tests/tree/master/Junit5_lesson_7/DOC
+- Исходник: https://topjava.ru/blog/back-to-basics-dependency-injection
+- Еще немного о DI: https://github.com/JcoderPaul/Junit5_Tests/tree/master/Junit5_lesson_7/DOC
