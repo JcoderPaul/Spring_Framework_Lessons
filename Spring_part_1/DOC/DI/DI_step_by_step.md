@@ -37,7 +37,7 @@
 Но, в итоге, данный код будет соответствовать несколько иной диаграмме классов
 см. 
 
-[DOC/DI/Engine_Create_in_Car.png](./././Engine_NotCreate_in_Car.png)
+![DOC/DI/Engine_Create_in_Car.png](./././Engine_NotCreate_in_Car.png)
 
 Чтобы изолировать класс Car, недостаточно ввести интерфейс Engine. В коде класса Car также
 должно быть невозможным создание нового экземпляра класса CarEngine, он туда должен
