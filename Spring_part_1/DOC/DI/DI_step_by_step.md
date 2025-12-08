@@ -8,7 +8,7 @@
 Однако, существует мнение, что данную связь стоит программировать с помощью интерфейса
 см. 
 
-![DOC/DI/Car_to_Engine_with_Interface.png](././Spring_part_1/DOC/DI/Car_to_Engine_with_Interface.png)
+![DOC/DI/Car_to_Engine_with_Interface.png](./././Car_to_Engine_with_Interface.png)
 
 И тогда код будет выглядеть, например, так:
 
