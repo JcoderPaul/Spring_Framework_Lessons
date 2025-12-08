@@ -3,12 +3,12 @@
 Представьте себе очень простую зависимость между двумя классами: класс «Автомобиль» (Car)
 зависит от класса «Двигатель» (CarEngine) см. 
 
-![DOC/DI/Car_to_Engine.png](./DOC/DI/Car_to_Engine.png).
+![DOC/DI/Car_to_Engine.png](./Spring_part_1/DOC/DI/Car_to_Engine.png).
 
 Однако, существует мнение, что данную связь стоит программировать с помощью интерфейса
 см. 
 
-![DOC/DI/Car_to_Engine_with_Interface.png](./DOC/DI/Car_to_Engine_with_Interface.png)
+![DOC/DI/Car_to_Engine_with_Interface.png](./Spring_part_1/DOC/DI/Car_to_Engine_with_Interface.png)
 
 И тогда код будет выглядеть, например, так:
 
