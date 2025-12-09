@@ -146,21 +146,20 @@ property файла. Для нашего примера этот файл мог
 - Строка (3) - Считывается конфигурационный файл, происходит загрузка контекст-контейнера.
 
 
-    public class PropertyFileBeanFactoryDemo {
-      public static void main(String[] args) {
-    
-        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();   (1)
-        BeanDefinitionReader propertyReader = new PropertiesBeanDefinitionReader(beanFactory);   (2)
-        propertyReader.loadBeanDefinitions(new ClassPathResource("propertyFile-context.properties"));   (3)
-        ServiceClient client = (ServiceClient) beanFactory.getBean("serviceClient");   (4)
-    
-        String str = "this is test string";
-        System.out.println("Original string: " + str);
-        System.out.println("Processed by service string: " +
-            client.callService("this is test string"));
-    
+      public class PropertyFileBeanFactoryDemo {
+        public static void main(String[] args) {
+          DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();   (1)
+          BeanDefinitionReader propertyReader = new PropertiesBeanDefinitionReader(beanFactory);   (2)
+          propertyReader.loadBeanDefinitions(new ClassPathResource("propertyFile-context.properties"));   (3)
+          ServiceClient client = (ServiceClient) beanFactory.getBean("serviceClient");   (4)
+      
+          String str = "this is test string";
+          System.out.println("Original string: " + str);
+          System.out.println("Processed by service string: " +
+              client.callService("this is test string"));
+      
+        }
       }
-    }
 
 - Строка (4) - После инициализации BeanFactory, компонент может быть получен из окружения, например, на основании его
                имени, заданному в конфигурационном файле. Для properties файла именем компонента является строка,
