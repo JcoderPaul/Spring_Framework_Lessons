@@ -145,6 +145,7 @@ property файла. Для нашего примера этот файл мог
 
 - Строка (3) - Считывается конфигурационный файл, происходит загрузка контекст-контейнера.
 
+    
     public class PropertyFileBeanFactoryDemo {
       public static void main(String[] args) {
     
