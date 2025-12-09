@@ -687,8 +687,8 @@ setBeanName(String name) после того, как окружением зак
 
 В качестве параметра единственного параметра метода фреймворк использует имя компонента, указанного в конфигурации:
 
+
     public class OwnNameAwareBean implements BeanNameAware {
-    
           private String beanName;
     
           @Override
@@ -705,8 +705,8 @@ setBeanName(String name) после того, как окружением зак
 реализовывал интерфейс BeanFactoryAware. Этот интерфейс предусматривает реализацию единственного метода
 setBeanFactory(BeanFactory beanFactory), при вызове которого окружение передает себя в качестве параметра этого метода:
 
+
     public class SpringAwareBean implements BeanFactoryAware {
-    
           BeanFactory beanFactory;
     
           public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
@@ -821,13 +821,11 @@ Person являются одинаковыми:
 
 - Вариант 1:
 
+
     publicclass Person {
-    
           @Autowired
           private Person mother;
-    
           public Person() {}
-    
           publicvoid setMother(Person mother) {
                 this.mother = mother;
           }
@@ -835,11 +833,10 @@ Person являются одинаковыми:
 
 - Вариант 2:
 
+
     publicclass Person {
           private Person mother;
-    
           public Person() {}
-    
           @Autowired
           publicvoid setMother(Person mother) {
                 this.mother = mother;
@@ -848,9 +845,9 @@ Person являются одинаковыми:
 
 - Вариант 3:
 
+
     publicclass Person {
           private Person mother;
-    
           @Autowired
           public Person(Person mother) {
                 this.mother = mother;
