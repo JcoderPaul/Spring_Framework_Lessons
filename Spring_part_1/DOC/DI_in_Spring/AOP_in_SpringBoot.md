@@ -169,7 +169,7 @@ property файла. Для нашего примера этот файл мог
 результат:
 
     Original string: this is test string
-    Processed by service string: gnirts tset si siht
+    Processed by service string: this is test string
 
 То есть без какого-либо участия со стороны разработчика, Spring Framework сам инициализировал экземпляры классов
 ServiceClient и RevertStringService и инициализировал (как бы «впрыскнул» - отсюда и название dependency injection)
