@@ -821,38 +821,35 @@ Person являются одинаковыми:
 
 - Вариант 1:
 
-
-    publicclass Person {
-          @Autowired
-          private Person mother;
-          public Person() {}
-          publicvoid setMother(Person mother) {
-                this.mother = mother;
-          }
-    }
+      publicclass Person {
+            @Autowired
+            private Person mother;
+            public Person() {}
+            publicvoid setMother(Person mother) {
+                  this.mother = mother;
+            }
+      }
 
 - Вариант 2:
 
-
-    publicclass Person {
-          private Person mother;
-          public Person() {}
-          @Autowired
-          publicvoid setMother(Person mother) {
-                this.mother = mother;
-          }
-    }
+      publicclass Person {
+            private Person mother;
+            public Person() {}
+            @Autowired
+            publicvoid setMother(Person mother) {
+                  this.mother = mother;
+            }
+      }
 
 - Вариант 3:
 
-
-    publicclass Person {
-          private Person mother;
-          @Autowired
-          public Person(Person mother) {
-                this.mother = mother;
-          }
-    }
+      publicclass Person {
+            private Person mother;
+            @Autowired
+            public Person(Person mother) {
+                  this.mother = mother;
+            }
+      }
 
 По умолчанию окружение Spring пытается найти один единственный компонент искомого типа, то есть соответствует типу
 связывания «byType». Если таковой не существует вообще или определено более одного компонента желаемого типа, то
