@@ -89,7 +89,7 @@ ________________________________________________________________________________
 - [IoCDemo.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/java/spring/oldboy/lesson_1/IoCDemo.java) - пример инверсии контроля (IoC);
 
 - [DOC/DI](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1/DOC/DI/DI_step_by_step.md) - что такое внедрение зависимостей;
-- [DOC/IOC](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1/DOC/IOC) - что такое инверсия контроля;
+- [DOC/IOC](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1/DOC/IOC/IoC.md) - что такое инверсия контроля;
 - [DOC/SpringAppScheme](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/SpringAppScheme/SpringAppScheme.jpg) - схема классического Spring приложения и способы конфигурирования Bean Definition;
 
 ________________________________________________________________________________________________________________________
