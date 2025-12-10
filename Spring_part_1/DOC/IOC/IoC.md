@@ -27,7 +27,8 @@
 изолированно, без необходимости тестировать всю систему. Это упрощает выявление и исправление ошибок и
 может привести к более качественному программному обеспечению.
 
-См. пример: [IoCDemo.java](./././IoCDemo.java) и [IoCClasses](./././IoCClasses)
+См. пример: [IoCDemo.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/java/spring/oldboy/lesson_1/IoCDemo.java) и 
+[IoCClasses](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1/src/main/java/spring/oldboy/lesson_1/IoCClasses)
 
 В этом примере IoCBasedTextProcessorFactory класс реализует TextProcessorFactory интерфейс и служит
 центральным классом, управляющим созданием и извлечением текстовых процессоров. Класс Main больше не
