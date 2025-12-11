@@ -191,9 +191,9 @@ ________________________________________________________________________________
 #### Lesson 7 - Beans Initialisation and Destruction CallBacks
 
 Spring поставляется с различными вариантами вызова метода инициализации. В общем, нам нужно 
-инициализировать некоторые ресурсы во время создания bean-a. Мы можем добиться этого (см. 
+инициализировать некоторые ресурсы во время создания bean-a. Мы можем добиться этого см. 
 
-![DOC/BeansLifeCycle/LifeCycleCallbacks.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/BeansLifeCycle/LifeCycleCallbacks.jpg)):
+![DOC/BeansLifeCycle/LifeCycleCallbacks.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/BeansLifeCycle/LifeCycleCallbacks.jpg)
 
 - аннотация [@PostConstruct](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/postconstruct-and-predestroy-annotations.html);
 - внедрение интерфейс [org.springframework.beans.factory.InitializingBean](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html) в наш Spring bean; 
