@@ -29,7 +29,7 @@ ________________________________________________________________________________
 
 Который добавляет еще 4-и важных bean-a см.
 
-![DOC/Context/Context_Annotation_Config.jpg](././././Context_Annotation_Config.jpg) 
+![DOC/Context/Context_Annotation_Config.jpg](./Spring_part_2/DOC/Context/Context_Annotation_Config.jpg) 
 
 ________________________________________________________________________________________________________________________
 #### Lesson 10 - [@PostConstruct и @PreDestroy](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/postconstruct-and-predestroy-annotations.html)
