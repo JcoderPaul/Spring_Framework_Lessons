@@ -55,6 +55,8 @@
 Так же стоит обратить внимание на отличия [StarterConnectionPool.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_3/src/main/java/spring/oldboy/pool/StarterConnectionPool.java) от его старого аналога [InitCallBackPool.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_2/src/main/java/spring/oldboy/pool/InitCallBackPool.java). Из него
 удалили все лишнее и поставили необходимые аннотации см. комментарии внутри класса.
 
+![DOC/ComponentScans.jpg](./DOC/ComponentScans.jpg)) 
+
 ---
 #### Lesson 15 - Bean Definition Readers (теория)
 
