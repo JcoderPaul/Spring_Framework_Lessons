@@ -59,9 +59,15 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________
 #### Lesson 15 - Bean Definition Readers (теория)
 
-Чтобы предоставить Bean Definition Metamodel (см. [DOC/CreateMetamodelWays.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_3/DOC/CreateMetamodelWays.jpg)) они считываются с 
-помощью вспомогательных классов Bean Definition Reader-ов (см. [DOC/BeanDefinitionReaders.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_3/DOC/BeanDefinitionReaders.jpg)) и это
-мы можем сделать 3-мя способами (первые два мы уже видели).
+Чтобы предоставить Bean Definition Metamodel см. 
+
+![DOC/CreateMetamodelWays.jpg](./DOC/CreateMetamodelWays.jpg)) 
+
+они считываются с помощью вспомогательных классов Bean Definition Reader-ов см. 
+
+![DOC/BeanDefinitionReaders.jpg](./DOC/BeanDefinitionReaders.jpg)) 
+
+и это мы можем сделать 3-мя способами (первые два мы уже видели).
 
 Док. для изучения:
 - [Interface BeanDefinitionParser](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/xml/BeanDefinitionParser.html) ;
