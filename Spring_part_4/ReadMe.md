@@ -40,7 +40,7 @@
 В Spring lessons:
 - [part 1](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1);
 - [part 2](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_2);
-- [part 3](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_3));
+- [part 3](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_3);
  
 мы настраивали bean-компоненты Spring с помощью файла конфигурации *.XML см. [application.xml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/resources/application.xml) и немного при помощи аннотаций. 
 
@@ -166,17 +166,16 @@
 
 2. Аннотация [@ComponentScan](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html) над [ApplicationConfiguration](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/config/ApplicationConfiguration.java) и ее параметры, практически полностью 
 повторяют настройки из [application.xml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/resources/application.xml):
-
     
-    <context:component-scan base-package="spring.oldboy"
-                                annotation-config="true"
-                                resource-pattern="**/*.class"
-                                scoped-proxy="no"
-                                use-default-filters="false">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
-        <context:include-filter type="assignable" expression="spring.oldboy.repository.CrudRepository"/>
-        <context:include-filter type="regex" expression="spring.oldboy\..+Repository"/>
-    </context:component-scan>
+      <context:component-scan base-package="spring.oldboy"
+                                  annotation-config="true"
+                                  resource-pattern="**/*.class"
+                                  scoped-proxy="no"
+                                  use-default-filters="false">
+          <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+          <context:include-filter type="assignable" expression="spring.oldboy.repository.CrudRepository"/>
+          <context:include-filter type="regex" expression="spring.oldboy\..+Repository"/>
+      </context:component-scan>
 
 И выглядят как:
 
