@@ -1,6 +1,4 @@
-****** Annotation Interface Import ******
-
-Исходный текст: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Import.html
+### Annotation Interface Import
 
 @Target(TYPE)
 @Retention(RUNTIME)
@@ -13,7 +11,7 @@ public @interface Import
 Предоставляет функциональность, эквивалентную элементу <import/> в Spring XML. Позволяет импортировать
 @Configuration классы ImportSelector и ImportBeanDefinitionRegistrar реализации, а также классы обычных
 компонентов аналогично AnnotationConfigApplicationContext.register(java.lang.Class<?>...)
-(начиная с версии 4.2; ).
+(начиная с версии 4.2).
 
 @Bean определениям, объявленным в импортированных @Configuration классах, следует обращаться с помощью
 @Autowired внедрения. Либо сам компонент может быть автоматически подключен, либо экземпляр класса
@@ -25,10 +23,13 @@ public @interface Import
 Если необходимо импортировать XML или другие non-@Configuration bean definition ресурсы, не относящиеся
 к компонентам, лучше использовать @ImportResource вместо этой аннотации.
 
-*********************************************************************************************************
+---
 См. также:
+
 - Configuration - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html
 - ImportSelector - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportSelector.html
 - ImportBeanDefinitionRegistrar - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportBeanDefinitionRegistrar.html
 - ImportResource - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html
-*********************************************************************************************************
+
+---
+Исходный текст: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Import.html
