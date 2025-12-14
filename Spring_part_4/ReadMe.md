@@ -14,9 +14,10 @@
   Приложениям Spring нет необходимости явно зависеть от ApplicationContext или даже от функциональности BeanFactory. Одной из сильных сторон архитектуры Spring является то, что объекты приложений часто можно настраивать без какой-либо зависимости от API-интерфейсов Spring;
 - [Пакет org.springframework.core.env](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/env/package-summary.html) - Абстракция среды (окружения) Spring, состоящая из профиля определения компонента и поддержки иерархического источника свойств;
 
-### !!! При чтении учебного кода рекомендуется внимательно изучать комментарии к оному и запускать приложение в режиме DEBUG для более эффективного наблюдения за процессами происходящими в приложении !!! 
+---
+**!!! При чтении учебного кода рекомендуется внимательно изучать комментарии к оному и запускать приложение в режиме DEBUG для более эффективного наблюдения за процессами происходящими в приложении !!!** 
 
-________________________________________________________________________________________________________________________
+---
 Для начала проведем предварительную подготовку:
 
 Шаг 1. - в файле [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/build.gradle) добавим необходимые нам зависимости: 
@@ -44,8 +45,8 @@ Java конфигурирования.
 Конфигурация на основе Java позволяет настроить работу Spring приложения без использования *.XML, а с помощью нескольких 
 аннотаций на основе Java.
 
-________________________________________________________________________________________________________________________
-### *** [@Configuration и @Bean-аннотации](https://docs.spring.io/spring-framework/reference/core/beans/java/basic-concepts.html) ***
+---
+### **[@Configuration и @Bean-аннотации](https://docs.spring.io/spring-framework/reference/core/beans/java/basic-concepts.html)**
 
 Аннотация класса с помощью [@Configuration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html) указывает, что класс может использоваться контейнером 
 [Spring IoC](https://docs.spring.io/spring-framework/reference/core/beans.html) в качестве источника определений bean-компонентов. Аннотация [@Bean](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html) сообщает Spring-у, 
@@ -100,8 +101,8 @@ ________________________________________________________________________________
 - [Annotation Interface Configuration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html) ;
 - [Spring JavaConfig Reference Guide](https://docs.spring.io/spring-javaconfig/docs/1.0.0.M4/reference/htmlsingle/spring-javaconfig-reference.html) ;
 
-________________________________________________________________________________________________________________________
-### *** Внедрение зависимостей компонента ***
+---
+### **Внедрение зависимостей компонента**
 
 Когда @Bean-ы имеют зависимости друг от друга, выразить эту зависимость просто:
 
@@ -130,7 +131,7 @@ ________________________________________________________________________________
 - [Class ConfigurationClassPostProcessor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ConfigurationClassPostProcessor.html) ;
 - [Interface Environment](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/env/Environment.html) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 19 - [@Configuration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)
 
 Создадим папку для хранения всех наших конфигураций - [config](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_4/src/main/java/spring/oldboy/config). 
@@ -190,7 +191,7 @@ ________________________________________________________________________________
 [OnlyJavaConfigDemo.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/lesson_19/OnlyJavaConfigDemo.java) прекрасно это демонстрирует. Мы не видим часть bean-ов которые создавали
 ранее используя [application.xml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/resources/application.xml).
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 20 - [@ImportResource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html) и [@Import](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Import.html)
 
 Spring предоставляет аннотацию [@ImportResource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html), которая используется для загрузки bean-компонентов 
@@ -205,9 +206,12 @@ Spring предоставляет аннотацию [@ImportResource](https://d
     class MammalConfiguration {
     }
 
-См. наш [ApplicationConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/config/ApplicationConfiguration.java)
+См. наш: 
+- [ApplicationConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/config/ApplicationConfiguration.java);
+- [Annotation Interface Import](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/DOC/ImportAnnotationInterface.md);
+- [Annotation Interface ImportResource](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/DOC/ImportResourceAnnotationInterface.md);
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 21 - [@Bean](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)
 
 [@Bean](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html) - это аннотация уровня метода и прямой аналог элемента XML <bean/>. Аннотация поддерживает большинство атрибутов, 
@@ -253,7 +257,7 @@ BeanFactory / ApplicationContext и привязан к экземпляру о�
 - [ApplicationConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/config/ApplicationConfiguration.java) - пример файла конфигурации, в котором созданы bean используя аннотацию @Bean
 - [BeanJavaConfigDemo.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/lesson_21/BeanJavaConfigDemo.java) - простая демонстрация работоспособности контекста на основе Java конфигурации. 
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 22 - [@Profile](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)
 
 Профили Spring предоставляют возможность разделить части конфигурации нашего приложения и сделать 
