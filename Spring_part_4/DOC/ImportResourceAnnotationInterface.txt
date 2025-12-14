@@ -1,11 +1,9 @@
-****** Annotation Interface ImportResource ******
+### Annotation Interface ImportResource
 
-Источник: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html
-
-@Retention(RUNTIME)
-@Target(TYPE)
-@Documented
-public @interface ImportResource
+    @Retention(RUNTIME)
+    @Target(TYPE)
+    @Documented
+    public @interface ImportResource
 
 Указывает один или несколько ресурсов, содержащих определения компонентов для импорта.
 Как и @Import, эта аннотация предоставляет функциональность, аналогичную <import/>
@@ -20,9 +18,11 @@ XmlBeanDefinitionReader для анализа XML-файлов Spring будет
 При желании reader() атрибут может быть объявлен, что позволит пользователю выбрать
 собственную BeanDefinitionReader реализацию.
 
-*********************************************************************************************************
 Также см.:
-- Configuration - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html
-- Import - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Import.html
-- Class GroovyBeanDefinitionReader - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/groovy/GroovyBeanDefinitionReader.html
-*********************************************************************************************************
+
+- [Configuration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)
+- [Import](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Import.html)
+- [Class GroovyBeanDefinitionReader](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/groovy/GroovyBeanDefinitionReader.html)
+
+---
+Источник: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html
