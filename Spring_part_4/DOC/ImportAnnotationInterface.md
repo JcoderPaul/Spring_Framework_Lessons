@@ -1,9 +1,9 @@
 ### Annotation Interface Import
 
-@Target(TYPE)
-@Retention(RUNTIME)
-@Documented
-public @interface Import
+    @Target(TYPE)
+    @Retention(RUNTIME)
+    @Documented
+    public @interface Import
 
 Указывает один или несколько классов компонентов для импорта — обычно аннотированных @Configuration
 классов.
