@@ -166,7 +166,8 @@
 
 2. Аннотация [@ComponentScan](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html) над [ApplicationConfiguration](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/config/ApplicationConfiguration.java) и ее параметры, практически полностью 
 повторяют настройки из [application.xml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/resources/application.xml):
-    
+
+```XML
       <context:component-scan base-package="spring.oldboy"
                                   annotation-config="true"
                                   resource-pattern="**/*.class"
@@ -176,6 +177,7 @@
           <context:include-filter type="assignable" expression="spring.oldboy.repository.CrudRepository"/>
           <context:include-filter type="regex" expression="spring.oldboy\..+Repository"/>
       </context:component-scan>
+```
 
 И выглядят как:
 
