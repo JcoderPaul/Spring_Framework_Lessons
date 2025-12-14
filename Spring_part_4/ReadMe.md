@@ -36,14 +36,15 @@
 
     <context:component-scan base-package="spring.oldboy"/> 
 
-________________________________________________________________________________________________________________________
+---
+В Spring lessons:
+- [part 1](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1);
+- [part 2](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_2);
+- [part 3](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_3));
+ 
+мы настраивали bean-компоненты Spring с помощью файла конфигурации *.XML см. [application.xml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/resources/application.xml) и немного при помощи аннотаций. 
 
-В Spring lessons ([part 1](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1) - [part 2](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_2) - [part 3](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_3)) мы настраивали bean-компоненты Spring с помощью файла конфигурации *.XML
-(см. resources/application.xml) и немного при помощи аннотаций. Теперь приступим к настройке наших bean-ов на основе 
-Java конфигурирования.
-
-Конфигурация на основе Java позволяет настроить работу Spring приложения без использования *.XML, а с помощью нескольких 
-аннотаций на основе Java.
+Теперь приступим к настройке наших bean-ов на основе Java конфигурирования. Конфигурация на основе Java позволяет настроить работу Spring приложения без использования *.XML, а с помощью нескольких аннотаций на основе Java.
 
 ---
 ### **[@Configuration и @Bean-аннотации](https://docs.spring.io/spring-framework/reference/core/beans/java/basic-concepts.html)**
@@ -206,7 +207,7 @@ Spring предоставляет аннотацию [@ImportResource](https://d
     class MammalConfiguration {
     }
 
-См. наш: 
+См. так же: 
 - [ApplicationConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/config/ApplicationConfiguration.java);
 - [Annotation Interface Import](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/DOC/ImportAnnotationInterface.md);
 - [Annotation Interface ImportResource](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/DOC/ImportResourceAnnotationInterface.md);
@@ -214,13 +215,9 @@ Spring предоставляет аннотацию [@ImportResource](https://d
 ---
 #### Lesson 21 - [@Bean](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)
 
-[@Bean](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html) - это аннотация уровня метода и прямой аналог элемента XML <bean/>. Аннотация поддерживает большинство атрибутов, 
-предлагаемых , <bean/> например: init-method, destroy-method, autowiring, lazy-init, dependency-check, depends-on and 
-scope.
+[@Bean](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html) - это аннотация уровня метода и прямой аналог элемента XML <bean/>. Аннотация поддерживает большинство атрибутов, предлагаемых , <bean/> например: init-method, destroy-method, autowiring, lazy-init, dependency-check, depends-on and scope.
 
-Объявление bean - компонента происходит через добавление аннотации @Bean к методу. Когда JavaConfig обнаруживает такой 
-метод, он выполнит этот метод и зарегистрирует возвращаемое значение как компонент внутри [BeanFactory](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/BeanFactory.html) реализации. По умолчанию 
-имя компонента будет таким же, как имя метода. Ниже приведен простой пример объявления @Bean метода:
+Объявление bean - компонента происходит через добавление аннотации @Bean к методу. Когда JavaConfig обнаруживает такой метод, он выполнит этот метод и зарегистрирует возвращаемое значение как компонент внутри [BeanFactory](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/BeanFactory.html) реализации. По умолчанию имя компонента будет таким же, как имя метода. Ниже приведен простой пример объявления @Bean метода:
 
     @Configuration
     public class AppConfig {
