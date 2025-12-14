@@ -54,6 +54,7 @@
 что метод, помеченный [@Bean](https://docs.spring.io/spring-framework/reference/core/beans/java/bean-annotation.html), вернет объект, который должен быть зарегистрирован как bean-компонент 
 в контексте приложения Spring-а. Самый простой возможный класс @Configuration будет следующим:
 
+```java
     package spring.oldboy;
     import org.springframework.context.annotation.*;
     
@@ -64,6 +65,7 @@
             return new HelloWorld();
         }
     }
+```
 
 Приведенный выше код будет эквивалентен следующей конфигурации *.XML:
 
@@ -76,6 +78,7 @@
 одного @Bean-а. После того как наши классы конфигурации определены, мы можем загрузить и предоставить 
 их в контейнер Spring с помощью AnnotationConfigApplicationContext:
 
+```java
     public static void main(String[] args) {
         ApplicationContext appContext = 
                         new AnnotationConfigApplicationContext(HelloWorldConfig.class);
@@ -85,9 +88,11 @@
         helloWorld.setMessage("Hello World!");
         helloWorld.getMessage();
     }
+```    
 
 Мы можем загрузить различные классы конфигураций следующим образом:
 
+```java
     public static void main(String[] args) {
         AnnotationConfigApplicationContext appContext = 
                                 new AnnotationConfigApplicationContext();
@@ -96,6 +101,7 @@
         appContext.register(AdditionalConfig.class);
         appContext.refresh();
     }
+```
 
 Доп. док. для изучения:
 - [Class ConfigurationClassBeanDefinitionReader](https://docs.spring.io/spring-framework/docs/3.2.0.M1_to_3.2.0.M2/Spring%20Framework%203.2.0.M1/org/springframework/context/annotation/ConfigurationClassBeanDefinitionReader.html) ;
@@ -107,6 +113,7 @@
 
 Когда @Bean-ы имеют зависимости друг от друга, выразить эту зависимость просто:
 
+```java
     package spring.oldboy;
     import org.springframework.context.annotation.*;
     
@@ -121,6 +128,7 @@
             return new Bar();
         }
     }
+```
 
 Здесь компонент foo получает ссылку на bar через внедрение в конструктор.
 
@@ -181,6 +189,7 @@
 
 И выглядят как:
 
+```java
     @ComponentScan(basePackages = "spring.oldboy",
                             useDefaultFilters = false,
         includeFilters = {
@@ -188,6 +197,7 @@
                     @Filter(type = FilterType.ASSIGNABLE_TYPE, value = CrudRepository.class),
                     @Filter(type = FilterType.REGEX, pattern = "com\\..+Repository")
     })
+```
 
 На данном этапе в [IoC контейнере](https://docs.spring.io/spring-framework/reference/core/beans.html) находятся [bean-ы](https://docs.spring.io/spring-framework/reference/core/beans/definition.html) созданные согласно нашей Java-конфигурации и
 [OnlyJavaConfigDemo.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/lesson_19/OnlyJavaConfigDemo.java) прекрасно это демонстрирует. Мы не видим часть bean-ов которые создавали
@@ -203,10 +213,12 @@ Spring предоставляет аннотацию [@ImportResource](https://d
 
 Аннотация [@Import](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Import.html) позволяет группировать классы конфигураций (например):
 
+```java
     @Configuration
     @Import({ DogConfig.class, CatConfig.class })
     class MammalConfiguration {
     }
+```
 
 См. так же: 
 - [ApplicationConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/config/ApplicationConfiguration.java);
@@ -220,6 +232,7 @@ Spring предоставляет аннотацию [@ImportResource](https://d
 
 Объявление bean - компонента происходит через добавление аннотации @Bean к методу. Когда JavaConfig обнаруживает такой метод, он выполнит этот метод и зарегистрирует возвращаемое значение как компонент внутри [BeanFactory](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/BeanFactory.html) реализации. По умолчанию имя компонента будет таким же, как имя метода. Ниже приведен простой пример объявления @Bean метода:
 
+```java
     @Configuration
     public class AppConfig {
         @Bean
@@ -227,6 +240,7 @@ Spring предоставляет аннотацию [@ImportResource](https://d
             return new TransferServiceImpl();
         }
     }
+```
 
 Для сравнения, приведенная выше конфигурация в точности эквивалентна следующему Spring XML:
 
@@ -240,6 +254,7 @@ BeanFactory / ApplicationContext и привязан к экземпляру о�
 Внедрение зависимостей тоже упрощается. Когда @Bean-ы имеют зависимости друг от друга, выразить эту зависимость так же 
 просто, как вызвать один метод компонента другим:
 
+```java
     @Configuration
     public  class AppConfig {
         @Bean 
@@ -251,6 +266,7 @@ BeanFactory / ApplicationContext и привязан к экземпляру о�
             return new Bar();
         }
     }
+```
 
 - [ApplicationConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/config/ApplicationConfiguration.java) - пример файла конфигурации, в котором созданы bean используя аннотацию @Bean
 - [BeanJavaConfigDemo.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_4/src/main/java/spring/oldboy/lesson_21/BeanJavaConfigDemo.java) - простая демонстрация работоспособности контекста на основе Java конфигурации. 
@@ -262,11 +278,13 @@ BeanFactory / ApplicationContext и привязан к экземпляру о�
 их доступными только в определенных средах. Любой [@Component](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html) или [@Configuration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html) может быть помечен 
 значком [@Profile](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html) для ограничения при загрузке:
 
+```java
     @Configuration
     @Profile("production")
     public class ProductionConfiguration {
             // some code ...
     }
+```
 
 В обычном случае в Spring мы можем использовать spring.profiles.active Environment свойство, чтобы 
 указать, какие профили активны. Мы можем указать свойство любым из обычных способов, например, мы 
