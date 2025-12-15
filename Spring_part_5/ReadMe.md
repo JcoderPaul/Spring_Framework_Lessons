@@ -31,7 +31,7 @@
 Spring «из коробки» предоставляет простой механизм работы с событиями, которые позволяют уменьшить 
 связность компонентов системы. Событие, которое возникает в одной точке приложения, может быть 
 перехвачено и обработано в любой другой части приложения благодаря таким сущностям как publisher 
-и eventListener.
+и [eventListener](./DOC/EventListener.md).
 
 События — одна из наиболее игнорируемых функций платформы, но также и одна из наиболее полезных. 
 И, как и многие другие вещи в Spring, публикация событий — это одна из возможностей, предоставляемых 
@@ -55,7 +55,5 @@ ApplicationContext.
 
 В данном примере:
 - [EntityEvent.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_5/src/main/java/spring/oldboy/listener/entity/EntityEvent.java) - будущий объект для прослушивания (наследует от [EventObject](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/EventObject.html));
-- [EntityListener.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_5/src/main/java/spring/oldboy/listener/entity/EntityListener.java) - будущий слушатель событий, метод которого *.acceptEntity() будет реагировать 
-на свершившееся событие;
-- [CompanyService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_5/src/main/java/spring/oldboy/service/CompanyService.java) - класс метод *.findById(), которого будет прослушиваться на свершенное 
-событие, он же будет издателем события;
+- [EntityListener.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_5/src/main/java/spring/oldboy/listener/entity/EntityListener.java) - будущий слушатель событий, метод которого *.acceptEntity() будет реагировать на свершившееся событие;
+- [CompanyService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_5/src/main/java/spring/oldboy/service/CompanyService.java) - класс метод *.findById(), которого будет прослушиваться на свершенное событие, он же будет издателем события;
