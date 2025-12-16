@@ -348,7 +348,7 @@ Spring Boot использует особый PropertySource порядок, п�
 ________________________________________________________________________________________________________________________
 #### Lesson 29 - Yaml format.
 
-Смотреть краткий обзор: [DOC/YAML_SHORT_REVIEW.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/DOC/YAML_SHORT_REVIEW.txt)
+Смотреть краткий обзор: [YAML_SHORT_REVIEW](./DOC/YAML_SHORT_REVIEW.md)
 
 При добавлении: 
 
