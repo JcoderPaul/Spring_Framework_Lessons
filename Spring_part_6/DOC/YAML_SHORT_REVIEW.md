@@ -97,13 +97,13 @@ Docker или Ansible) и других популярных технологий
 
 Пример YAML:
 
-      ```YAML
+```YAML
        Imaro:
        author: Charles R. Saunders
        language: English
        publication-year: 1981
        pages: 224
-      ```
+```
 
 Пример JSON:
 
