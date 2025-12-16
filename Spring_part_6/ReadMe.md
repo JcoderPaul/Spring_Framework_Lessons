@@ -3,8 +3,8 @@
 Перед началом изучения Spring Boot желательно прочитать официальную документацию или краткие статьи.
 
 В [папке DOC](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_6/DOC) sql-скрипты и др. полезные файлы:
-- [краткая статья о SpringBoot](./DOC/SpringBootArticleShort.md));
-- [кратко о SpringBoot стартерах](./DOC/SpringBootStarters.md));
+- [краткая статья о SpringBoot](./DOC/SpringBootArticleShort.md);
+- [кратко о SpringBoot стартерах](./DOC/SpringBootStarters.md);
 
 Док. для изучения:
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) ;
