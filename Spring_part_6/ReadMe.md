@@ -90,7 +90,7 @@ ________________________________________________________________________________
 кроме того, любая составленная пользователем аннотация, мета-аннотированная с помощью @Conditional, не должна объявляться как [@Inherited](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/annotation/Inherited.html).
 ________________________________________________________________________________________________________________________
 
-Краткая документация: [DOC/ConditionalAnnotationSpring.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/DOC/ConditionalAnnotationSpring.txt) и [DOC/ConditionalONTable.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/DOC/ConditionalONTable.txt)
+Краткая документация: [ConditionalAnnotationSpring](./DOC/ConditionalAnnotationSpring.md) и [ConditionalONTable](./DOC/ConditionalONTable.md)
 
 Создадим свои условия:
 - Шаг 1. - Создадим конфигурационный файл для управления bean-ами при взаимодействии с БД (имитация) - [JpaConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/src/main/java/spring/oldboy/config/JpaConfiguration.java);
