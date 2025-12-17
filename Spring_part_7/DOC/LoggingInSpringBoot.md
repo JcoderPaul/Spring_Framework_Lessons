@@ -2,7 +2,7 @@
 Фреймворк Spring Boot предварительно настроен для использования с Logback в качестве реализации
 концепции логирования (записи процессов) по-умолчанию в Spring Framework (Spring Boot в частности).
 
-*** Важность логирования ***
+### Важность логирования
 
 Решения о том, что и где логировать (записывать в журнал событий), часто носят стратегический характер
 и принимаются с учетом того, что приложение может работать неправильно в реальных средах. Журналы играют
@@ -35,41 +35,41 @@
    тревоги, когда эти показатели превышают определенные пороговые значения. Разработчики используют журналы
    для отладки и трассировки и даже для записи важных событий для сборки и тестирования в конвейерах CI / CD.
 
-*** Конфигурация журнала Spring Boot по умолчанию ***
+---
+### Конфигурация журнала Spring Boot по умолчанию
 
 Конфигурация ведения журнала по умолчанию в Spring Boot - это реализация Logback на уровне информации для
-записи вывода на консоль (см. DOC/Logging_System.jpg).
+записи вывода на консоль см. [Logging_System](./DOC/Logging_System.jpg).
 
 Давайте посмотрим на это поведение в действии, создав минимальное приложение Spring Boot. Далее мы добавляем
 несколько операторов журнала в файл класса приложения:
 
-****************************************************************************************************************
-@SpringBootApplication
-public class SpringLoggerApplication {
-    static final Logger log =
-        LoggerFactory.getLogger(SpringLoggerApplication.class);
-
-    public static void main(String[] args) {
-     /* Фиксируем просто информацию до старта приложения */
-     log.info("Before Starting application");
-
-     SpringApplication.run(SpringLoggerApplication.class, args);
-
-     /* Префикс log. говорит о том, что идет взаимодействия с системой логирования */
-     log.debug("Starting my application in debug with {} args", args.length);
-     log.info("Starting my application with {} args.", args.length);
+```Java
+   @SpringBootApplication
+   public class SpringLoggerApplication {
+       static final Logger log =
+           LoggerFactory.getLogger(SpringLoggerApplication.class);
+   
+       public static void main(String[] args) {
+        /* Фиксируем просто информацию до старта приложения */
+        log.info("Before Starting application");
+   
+        SpringApplication.run(SpringLoggerApplication.class, args);
+   
+        /* Префикс log. говорит о том, что идет взаимодействия с системой логирования */
+        log.debug("Starting my application in debug with {} args", args.length);
+        log.info("Starting my application with {} args.", args.length);
+        }
      }
-  }
-****************************************************************************************************************
+```  
 
-*** Высокоуровневая конфигурация ведения журнала ***
+---
+### Высокоуровневая конфигурация ведения журнала
 
 Spring Boot предлагает значительную поддержку для настройки ведения журнала в соответствии с нашими требованиями
 (пожеланиями) к ведению журнала.
 
-****************************************************************************************************************
+---
 См. документацию: https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.logging
-****************************************************************************************************************
 
 На высоком уровне мы можем изменить параметры командной строки или добавить свойства application.properties
-(или application.yml), чтобы настроить некоторые функции ведения журнала.
