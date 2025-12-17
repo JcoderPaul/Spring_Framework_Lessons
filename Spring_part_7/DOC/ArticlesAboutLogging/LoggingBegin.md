@@ -35,7 +35,7 @@ API SLF4J не влияет на производительность, что я
 
 На этом рисунке показано взаимодействие приложения с Logback и т.п. см. 
 
-![DOC/Logging_System.jpg](./Logging_System.jpg)
+![DOC/Logging_System.jpg](./DOC/Logging_System.jpg)
 
 Ключевыми компонентами Logback являются регистраторы, приложения и кодировщики/макеты. Компоненты работают вместе,
 чтобы предоставить разработчику полный контроль над тем, как сообщения регистрируются, форматируются и куда они
@@ -112,7 +112,7 @@ Layout log4j-core, преобразует событие журнала в ст�
 классические зависимости logback. На этом рисунке показаны зависимости входа в систему, включенные в
 Spring Boot см. 
 
-![DOC/ArticlesAboutLogging/ArticlesPictures/TransitiveDependenciesSpringBootStarter.jpg](./ArticlesPictures/TransitiveDependenciesSpringBootStarter.jpg)
+![TransitiveDependenciesSpringBootStarter](./ArticlesPictures/TransitiveDependenciesSpringBootStarter.jpg)
 
 Как показано на рисунке, последняя версия SpringBoot 1.3.3 REALESE на момент написания этого поста
 (3.1.3 на момент перевода) использует Logback classic 1.1.5
@@ -187,7 +187,7 @@ LogbackDemo.java
 
 Когда вы запускаете тестовый класс, сообщения журнала LogbackDemo отправляются на консоль см.
 
-![ArticleTestResult](./DOC/ArticlesAboutLogging/ArticlesPictures/ArticleTestResult.jpg)
+![ArticleTestResult](./ArticlesPictures/ArticleTestResult.jpg)
 
 ---
 ### РЕЗЮМЕ:
