@@ -136,9 +136,9 @@ Spring приложениях с использованием Logback (данн�
 
 - [DOC/ArticlesAboutLogging/YAML_SpringBoot_Config_Logback.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/ArticlesAboutLogging/YAML_SpringBoot_Config_Logback.txt) - описание настройки *.yaml файлов для 
 конфигурирования Spring Boot Logging;
-- [DOC/ArticlesAboutLogging/LoggingBegin.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/ArticlesAboutLogging/LoggingBegin.txt) - описание принципов работы логеров в Spring Boot;
+- [LoggingBegin](./DOC/ArticlesAboutLogging/LoggingBegin.md) - описание принципов работы логеров в Spring Boot;
 - [DOC/ArticlesAboutLogging/LoggingWithXML.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/ArticlesAboutLogging/LoggingWithXML.txt) - конфигурирование Logback при помощи *.XML файлов;
-- [DOC/ArticlesAboutLogging/LogbackWithSpringBoot.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/ArticlesAboutLogging/LogbackWithSpringBoot.txt) - применение Logback в Spring приложениях;
+- [LogbackWithSpringBoot](./DOC/ArticlesAboutLogging/LogbackWithSpringBoot.md) - применение Logback в Spring приложениях;
 
 Как описано в статьях, если мы захотим полностью переписать (максимально кастомизировать) настройки
 по логированию нашего приложения нам придется создать файлы свойств и настроек в одном из удобных для 
