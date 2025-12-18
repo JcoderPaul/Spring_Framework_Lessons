@@ -75,7 +75,7 @@ SpringLoggingHelper:
 
 Вывод журнала на консоли IntelliJ IDE см. 
 
-[LogbackDefaultConsoleView.jpg](./ArticlesPictures/LogbackDefaultConsoleView.jpg)
+![LogbackDefaultConsoleView.jpg](./ArticlesPictures/LogbackDefaultConsoleView.jpg)
 
 Мы не писали никакой конфигурации для Logback. Выход обоих Индексконтроллер и SpringLogging Helper классы взяты
 из корневого регистратора Logback. Обратите внимание, что сообщения отладки не регистрируются. По умолчанию при
@@ -127,7 +127,7 @@ Hibernate, Thymeleaf и т. д.
 IndexController и SpringLoggingHelper, т.е. сообщения регистрируются и на консоли и в файле
 logs/spring-boot-logging.log см. 
 
-[ApplicationPropertiesExampleOutput.jpg](./ArticlesPictures/ApplicationPropertiesExampleOutput.jpg)
+![ApplicationPropertiesExampleOutput.jpg](./ArticlesPictures/ApplicationPropertiesExampleOutput.jpg)
 
 ---
 **!!! Обратите внимание !!!** 
@@ -180,7 +180,7 @@ spring.oldboy.springframework.controllers, который является ча�
 
 С обновленной конфигурацией Spring Boot Logback наш вывод журнала теперь выглядит как см.
 
-[ConfigurationExternalFileOutput.jpg](./ArticlesPictures/ConfigurationExternalFileOutput.jpg)
+![ConfigurationExternalFileOutput.jpg](./ArticlesPictures/ConfigurationExternalFileOutput.jpg)
 
 ---
 **!!! Примечание !!!** 
@@ -237,11 +237,11 @@ spring.oldboy.springframework.controllers для фиксации событий
 Для локальной разработки в IntelliJ IDE выберите Run-> Edit Configurations и установите аргумент JVM в
 диалоговом окне Run/Debug Configurations, как показано на картинке см.
 
-[RunDebugConfig.jpg](./ArticlesPictures/RunDebugConfig.jpg)
+![RunDebugConfig.jpg](./ArticlesPictures/RunDebugConfig.jpg)
 
 Теперь, когда мы запустим приложения с профилем dev, мы увидим следующий лог см.
 
-[DevProfileOutput.jpg](./ArticlesPictures/DevProfileOutput.jpg)
+![DevProfileOutput.jpg](./ArticlesPictures/DevProfileOutput.jpg)
 
 В предыдущем выводе DevProfileOutput.jpg обратите внимание на вывод журнала IndexController. DEBUG
 и более высокие сообщения журнала регистрируются на консоли в зависимости от конфигурации профиля dev. Вы можете
