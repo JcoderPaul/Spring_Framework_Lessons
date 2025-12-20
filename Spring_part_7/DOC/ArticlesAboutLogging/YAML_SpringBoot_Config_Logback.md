@@ -204,7 +204,9 @@ application-default.yml, содержащий конфигурации по ум
 независимо от того, какие профили активны или нет.
 
 Структура проекта веб-приложения Spring Boot с различными файлами конфигурации для конкретного профиля может
-выглядеть как на рис. см. DOC/ArticlesAboutLogging/ArticlesPictures/ProjectStructureSpringBootWebApp.jpg
+выглядеть как на рис. см. 
+
+![ProjectStructureSpringBootWebApp](./ArticlesPictures/ProjectStructureSpringBootWebApp.jpg)
 
 Ниже приведен код для каждого из файлов конфигурации:
 
