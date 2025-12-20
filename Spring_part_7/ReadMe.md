@@ -134,7 +134,7 @@ ERROR см.
 Spring приложениях с использованием Logback (данные местами устаревшие, но раскрывающие логику 
 происходящего):
 
-- [DOC/ArticlesAboutLogging/YAML_SpringBoot_Config_Logback.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/ArticlesAboutLogging/YAML_SpringBoot_Config_Logback.txt) - описание настройки *.yaml файлов для 
+- [YAML_SpringBoot_Config_Logback](./DOC/ArticlesAboutLogging/YAML_SpringBoot_Config_Logback.md) - описание настройки *.yaml файлов для 
 конфигурирования Spring Boot Logging;
 - [LoggingBegin](./DOC/ArticlesAboutLogging/LoggingBegin.md) - описание принципов работы логеров в Spring Boot;
 - [LoggingWithXML](./DOC/ArticlesAboutLogging/LoggingWithXML.md) - конфигурирование Logback при помощи *.XML файлов;
