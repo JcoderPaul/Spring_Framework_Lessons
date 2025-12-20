@@ -48,7 +48,7 @@
 
 Java имеет массу фреймворков [для логирования](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.logging) см. 
 
-![Logging_System](./DOC/Logging_System.jpg):
+![Logging_System](./DOC/Logging_System.jpg)
 
 - [Log4J](https://logging.apache.org/log4j/2.x/) ;
 - [Jdk14l](https://docs.oracle.com/en/java/javase/17/docs/api/java.logging/java/util/logging/package-summary.html) ;
