@@ -56,10 +56,11 @@ ________________________________________________________________________________
 
 Проведя все шаги описанные выше, как минимум три первые, мы получаем полный комплект зависимостей для работы
 с тестовыми классами в Spring Boot. В качестве примера см. [CompanyServiceTest.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/service/CompanyServiceTest.java), практически все 'поднимается
-из коробки' см. так же статью: [DOC/UnitTestingSpringBoot.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/UnitTestingSpringBoot.txt)
+из коробки' см. так же статью: [DOC/UnitTestingSpringBoot.txt](./DOC/UnitTestingSpringBoot.md)
 
-Также в задачах (tasks) Gradle появились соответствующие разделы отвечающие за тестирование см. 
-[DOC/JavaGradlePluginTasks.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/JavaGradlePluginTasks.jpg)
+Также в задачах (tasks) Gradle появились соответствующие разделы отвечающие за тестирование см.
+
+![JavaGradlePluginTasks.jpg](./DOC/JavaGradlePluginTasks.jpg)
 
 - [CompanyServiceTest.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/service/CompanyServiceTest.java) - пример простого теста для метода *.findById() из класса [CompanyService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/main/java/spring/oldboy/service/CompanyService.java)
 
