@@ -5,7 +5,8 @@
 Док. (ссылки) для изучения:
 - [JUnit 5](https://junit.org/junit5/) ;
 - [Mockito](https://site.mockito.org/) ;
-________________________________________________________________________________________________________________________
+
+---
 - [Spring Framework 6.1.6 Testing](https://docs.spring.io/spring-framework/reference/testing.html#testing) ;
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) ;
 - [Spring Framework 6.1.5 Documentation](https://spring.io/projects/spring-framework) ;
@@ -13,7 +14,7 @@ ________________________________________________________________________________
 - [Getting Started Guides](https://spring.io/guides) ;
 - [Developing with Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html) ;
 
-________________________________________________________________________________________________________________________
+---
 Для начала проведем предварительную подготовку:
 
 Шаг 1. - в файле [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/build.gradle) добавим необходимые plugin-ы: 
@@ -51,12 +52,12 @@ ________________________________________________________________________________
         useJUnitPlatform()
     }
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 33 - [Test-Starter](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing).
 
 Проведя все шаги описанные выше, как минимум три первые, мы получаем полный комплект зависимостей для работы
 с тестовыми классами в Spring Boot. В качестве примера см. [CompanyServiceTest.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/service/CompanyServiceTest.java), практически все 'поднимается
-из коробки' см. так же статью: [DOC/UnitTestingSpringBoot.txt](./DOC/UnitTestingSpringBoot.md)
+из коробки' см. так же статью: [UnitTestingSpringBoot](./DOC/UnitTestingSpringBoot.md)
 
 Также в задачах (tasks) Gradle появились соответствующие разделы отвечающие за тестирование см.
 
@@ -64,10 +65,13 @@ ________________________________________________________________________________
 
 - [CompanyServiceTest.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/service/CompanyServiceTest.java) - пример простого теста для метода *.findById() из класса [CompanyService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/main/java/spring/oldboy/service/CompanyService.java)
 
-________________________________________________________________________________________________________________________
+---
 #### [Lesson 34](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_34) - [Integration-Testing](https://docs.spring.io/spring-framework/reference/testing/integration.html).
 
-В интеграционных тестах Spring-a нам необходимо (см. [DOC/SpringIntegrationTesting.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/SpringIntegrationTesting.jpg)) :
+В интеграционных тестах Spring-a нам необходимо см. 
+
+![SpringIntegrationTesting.jpg](./DOC/SpringIntegrationTesting.jpg)) :
+
 - поднимать SpringContext во время запуска тестов и внедрять bean-ы в качестве зависимостей в тестовых классах;
 - кеширование Context-a, поскольку запуск 'с нуля' нашего Context-a при прогоне каждого теста (а их может быть
 очень много) штука ресурсоемкая и неоптимальная, т.е. наша цель при возможности переиспользовать уже существующий
@@ -75,13 +79,20 @@ ________________________________________________________________________________
 - управление транзакциями, т.к. при работе с интеграциоными тестами нам может понадобиться обращение к БД, причем так, 
 чтобы наши тестовые манипуляции не влияли на уже существующую БД (т.е. откатывать тестовые транзакции).
 
-Жизненный цикл тестов (и его аннотаций) остался неизменным см. [DOC/TestLifeCycle.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/TestLifeCycle.jpg)
+Жизненный цикл тестов (и его аннотаций) остался неизменным см. 
 
-Модель внешних взаимодействий с тестами из JUnit5 так же в нашем распоряжении см. [DOC/ExtensionModelOfJUnit5.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/ExtensionModelOfJUnit5.jpg),
+![TestLifeCycle.jpg](./DOC/TestLifeCycle.jpg)
+
+Модель внешних взаимодействий с тестами из JUnit5 так же в нашем распоряжении см. 
+
+![ExtensionModelOfJUnit5.jpg](./DOC/ExtensionModelOfJUnit5.jpg),
+
 т.е. мы легко можем внедриться в любую стадию жизненного цикла теста: обработать исключение, внести изменения в 
 test-instance, использовать какие-либо дополнительные условия к конкретному тесту (условие его вызова, например),
 дополнительно внедрять зависимости в тестируемые методы и конструкторы, использование CallBack-ов для внедрения в
-жизненный цикл тестов см. [DOC/CallBacksInTestLifeCycle.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/CallBacksInTestLifeCycle.jpg).
+жизненный цикл тестов см. 
+
+![CallBacksInTestLifeCycle.jpg](./DOC/CallBacksInTestLifeCycle.jpg).
 
 Создадим наш первый интеграционный тест:
 - выделим для него отдельную папку '[integration.service](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/)' в тестовом разделе проекта;
@@ -103,6 +114,7 @@ test-instance, использовать какие-либо дополнител
 [void injectDependencies()](https://github.com/spring-projects/spring-framework/blob/main/spring-test/src/main/java/org/springframework/test/context/support/DependencyInjectionTestExecutionListener.java) см. ниже (мы получаем тестовый объект, его класс, получаем ApplicationContext, и сразу 
 у контекста вызываются методы 'autowireBeanProperties' и 'initializeBean' передавая в него тестовый класс); 
 
+```Java
         protected void injectDependencies(TestContext testContext) throws Exception {
             Object bean = testContext.getTestInstance();
             Class<?> clazz = testContext.getTestClass();
@@ -111,8 +123,9 @@ test-instance, использовать какие-либо дополнител
             beanFactory.initializeBean(bean, clazz.getName() + AutowireCapableBeanFactory.ORIGINAL_INSTANCE_SUFFIX);
             testContext.removeAttribute(REINJECT_DEPENDENCIES_ATTRIBUTE);
         }
+```
 
-________________________________________________________________________________________________________________________
+---
 #### [Lesson 35](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_35) - [@ActiveProfiles](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html).
 
 В процессе тестирования может возникнуть ситуация когда мы для целей тестирования хотим использовать другие
@@ -125,7 +138,7 @@ ________________________________________________________________________________
 Пример теста: 
 - [CompanyServiceTestProfileIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_35/CompanyServiceTestProfileIT.java) - демонстрация работы аннотации [@ActiveProfiles](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/IntegrationTesting/ActiveProfiles.txt) см. [DOC/IntegrationTesting](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/DOC/IntegrationTesting)
 
-________________________________________________________________________________________________________________________
+---
 #### [Lesson 36](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_36) - MetaAnnotation
 
 Большинство аннотаций, связанных с тестированием, можно использовать в качестве мета-аннотаций для
@@ -143,7 +156,7 @@ ________________________________________________________________________________
 - [CompanyServiceMyITAnnotation.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_36/CompanyServiceMyITAnnotation.java) - тест аннотированный самописной аннотацией, демонстрация либо через DEBUG, либо
 стандартный запуск теста;
 
-________________________________________________________________________________________________________________________
+---
 #### [Lesson 37](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_37) - Внедрение зависимостей в тесты через конструктор.
 
 Spring также можно сконфигурировать на автоматическое обнаружение и связывание всех аргументов конструктора
@@ -163,11 +176,10 @@ Spring также можно сконфигурировать на автома�
 Пример использования аннотации @TestConstructor и внедрения зависимостей через конструктор в тестах 
 [CompanyServiceСonstructorInjection.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_37/CompanyService%D0%A1onstructorInjection.java)
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 38 - Использование spring.properties в тестах.
 
-В предыдущем уроке мы применили дополнительную аннотацию [@TestConstructor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestConstructor.html), однако, можно было обойтись без нее
-использовав зарезервированный ключ spring.test.constructor.autowire.mode из свойств Spring-a см. документацию:
+В предыдущем уроке мы применили дополнительную аннотацию [@TestConstructor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestConstructor.html), однако, можно было обойтись без нее использовав зарезервированный ключ spring.test.constructor.autowire.mode из свойств Spring-a см. документацию:
 [Spring Properties](https://docs.spring.io/spring-framework/reference/appendix.html).
 
 - Мы создаем файл свойств в папке resources тестов: [spring.properties](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/resources/spring.properties);
@@ -176,10 +188,11 @@ ________________________________________________________________________________
 Теперь даже без использования аннотации @TestConstructor наш тестовый класс использующий внедрение зависимостей
 через конструктор будет работать (можно просто закомментировать указанную ранее аннотацию и запустить тесты).
 
-________________________________________________________________________________________________________________________
+---
 #### [Lesson 39](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_39) - Кэширование ApplicationContext.
 
 Жизненный цикл теста выглядит так:
+
 1. - Расширение для тестового фреймворка (SpringRunner для JUnit 4 и SpringExtension для JUnit 5) вызывает 
      Test Context Bootstrapper;
 2. - Boostrapper создает TestContext — основной класс, который хранит текущее состояние теста и приложения;
@@ -207,6 +220,7 @@ ________________________________________________________________________________
 
 На практике это означает, что например эти два теста будут использовать один и тот же контекст:
 
+```Java
     @SpringBootTest
     @ActiveProfiles("test")
     @TestPropertySource("foo=bar")
@@ -220,18 +234,21 @@ ________________________________________________________________________________
     class SecondTest {
         /* some tests */
     }
+```
 
 Количество контекстов в кэше ограничено 32-мя — дальше по принципу LRSU один из них будет удален из кэша.
 
 Что же может помешать Spring Test переиспользовать контекст из кэша и создать новый?
+
 1. - @DirtiesContext: Самый простой вариант — если тест помечен это аннотаций, кэшироваться контекст не будет. 
 Это может быть полезно, если тест меняет состояние приложение и хочется его "сбросить".
+
 2. - @MockBean: Очень неочевидный вариант - @MockBean заменяет реальный бин в контексте на Mock (тоже относится и 
 к Spy), который можно тестировать через Mockito. Ключевой момент - эта аннотация меняет набор bean-ов в 
 приложении и заставляет Spring Test создать новый контекст. Если взять предыдущий пример, то например здесь 
 уже будут созданы два контекста:
 
-    
+```Java    
     @SpringBootTest
     @ActiveProfiles("test")
     @TestPropertySource("foo=bar")
@@ -246,16 +263,17 @@ ________________________________________________________________________________
         @MockBean
         CakeFinder cakeFinderMock;
     }
+```
 
 3. - @TestPropertySource: Любое изменение свойств автоматически меняет ключ кэша и создается новый контекст.
+
 4. - @ActiveProfiles: Изменение активных профилей тоже повлияет на кэш.
+
 5. - @ContextConfiguration: Любое изменение конфигурации тоже создаст новый контекст.
 
 Теперь практика:
-- [UserServiceIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_39/UserServiceIT.java) - файл имеющий конфигурацию похожую с CompanyServiceSecondTestIT.java эти два файла будут
-иметь свой общий контекст, другой контекст будет у файлов с аннотацией @IT;
-- [UserServiceMockIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_39/UserServiceMockIT.java) - файл в котором применяется аннотация @SpyBean, что ломает привычный контекст и для 
-тестов в этом классе будет создан свой контекст.
+- [UserServiceIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_39/UserServiceIT.java) - файл имеющий конфигурацию похожую с CompanyServiceSecondTestIT.java эти два файла будут иметь свой общий контекст, другой контекст будет у файлов с аннотацией @IT;
+- [UserServiceMockIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_39/UserServiceMockIT.java) - файл в котором применяется аннотация @SpyBean, что ломает привычный контекст и для тестов в этом классе будет создан свой контекст.
 
 В итоге на данном этапе при комплексном запуске всех тестовых классов одновременно мы получим 3-и оригинальных
 контекста. Попыткой избежать подобного эффекта (искажение существующего контекста за счет использования средств
@@ -263,38 +281,35 @@ Mockito) может служить создание файла [TestApplicationR
 в себе все Mock и Spy bean-ы внутри этого класса. Аннотация [@TestConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/TestConfiguration.html) будет искать класс помеченный как
 [@SpringBootApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/SpringBootApplication.html) (единственная аннотация в проекте) - это у нас [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/main/java/spring/oldboy/SpringAppRunner.java).
 
-После создания [TestApplicationRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/TestApplicationRunner.java) мы должны переиспользовать кэш в каждом нашем интеграционном тесте, это
-реализуется через нашу самописную аннотацию @IT в параметре classes аннотации @SpringBootTest:
+После создания [TestApplicationRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/TestApplicationRunner.java) мы должны переиспользовать кэш в каждом нашем интеграционном тесте, это реализуется через нашу самописную аннотацию @IT в параметре classes аннотации @SpringBootTest:
 
+```Java
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
     @ActiveProfiles("test")
     @SpringBootTest(classes = TestApplicationRunner.class)
     public @interface IT {
     }
+```
 
 Большое количество дублирующих друг-друга тестовых классов с похожим функционалом, призваны показать эволюцию
 возможных изменений в написании тестов с использованием того или иного способа применения подходов (и аннотаций).
 
 Например, класс [UserServiceMockIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_39/UserServiceMockIT.java) при создании [TestApplicationRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/TestApplicationRunner.java), в который будут вынесены все Mock 
-и Spy bean-ы, выродится в [UserServiceWithoutMockIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_39/UserServiceWithoutMockIT.java), который, в свою очередь, в отличие от предшественника, не 
-потребует создания собственного контекста, а будет использовать закешированную его версию, что видно при запуске
-тестов. 
+и Spy bean-ы, выродится в [UserServiceWithoutMockIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_39/UserServiceWithoutMockIT.java), который, в свою очередь, в отличие от предшественника, не потребует создания собственного контекста, а будет использовать закешированную его версию, что видно при запуске тестов. 
 
-В идеале, что ни всегда достижимо, нужно стремиться к использованию одного контекста для всех тестов, если мы
-стремимся сэкономить ресурсы и время.
+В идеале, что ни всегда достижимо, нужно стремиться к использованию одного контекста для всех тестов, если мы стремимся сэкономить ресурсы и время.
 
-________________________________________________________________________________________________________________________
+---
 #### [Lesson 40](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_40) - [Аннотация](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-dirtiescontext.html) [@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html).
 
 См. док. по использованию @DirtiesContext:
 - (RUS) [DOC/TestContextFramework/TestsAnnotation.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/TestContextFramework/TestsAnnotation.txt) ;
 - (ENG) [Annotation Interface DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html) ;
 
-- [UserServiceWithDirtiesContextIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_40/UserServiceWithDirtiesContextIT.java) - класс для демонстрации использования 'грязного контекста' см. документацию
-и примеры.
+- [UserServiceWithDirtiesContextIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_40/UserServiceWithDirtiesContextIT.java) - класс для демонстрации использования 'грязного контекста' см. документацию и примеры.
 
-________________________________________________________________________________________________________________________
+---
 См. официальные [Guides](https://spring.io/guides):
 - [Getting Started Guides](https://spring.io/guides) - Эти руководства, рассчитанные на 15–30 минут, содержат быстрые
   практические инструкции по созданию «Hello World» для любой задачи разработки с помощью Spring. В большинстве случаев
@@ -304,6 +319,6 @@ ________________________________________________________________________________
 - [Tutorials](https://spring.io/guides#tutorials) - Эти учебники, рассчитанные на 2–3 часа, обеспечивают более глубокое
   контекстное изучение тем разработки корпоративных приложений, что позволяет вам подготовиться к внедрению реальных
   решений.
-________________________________________________________________________________________________________________________
-- [Spring Projects на GitHub](https://github.com/spring-projects) ;
-________________________________________________________________________________________________________________________
+  
+---
+- [Spring Projects на GitHub](https://github.com/spring-projects)
