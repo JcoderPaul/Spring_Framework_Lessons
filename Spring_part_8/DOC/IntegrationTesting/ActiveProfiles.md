@@ -1,11 +1,11 @@
 Док. Spring (ENG):
 https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-activeprofiles.html
 https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html
-------------------------------------------------------------------------------------------------------------------
 
-****** Annotation Interface ActiveProfiles ******
+---
+### Annotation Interface ActiveProfiles
 
-Пакет: org.springframework.test.context
+Пакет: **org.springframework.test.context**
 
 @Target(TYPE)
 @Retention(RUNTIME)
@@ -21,6 +21,7 @@ ActiveProfiles — это аннотация уровня класса, кото
 Начиная с Spring Framework 5.3, эта аннотация по умолчанию будет унаследована от включающего тестового класса.
 
 Смотрите также:
+
 - SmartContextLoader;
 - MergedContextConfiguration;
 - ContextConfiguration;
@@ -29,7 +30,7 @@ ActiveProfiles — это аннотация уровня класса, кото
 
 Список дополнительных элементов:
 
-------------------------------------------------------------------------------------------------------------------
+---
 boolean inheritProfiles - Должны ли быть унаследованы определенные профилями bean-компонентов
                           из суперклассов и включающих классов. По умолчанию - true.
 
@@ -51,7 +52,7 @@ boolean inheritProfiles - Должны ли быть унаследованы о
 Напротив, ApplicationContext для ExtendedTest будет загружен с использованием «базового» и «расширенного»
 профилей компонента:
 
-******************************************************************************************************************
+```Java
  @ActiveProfiles("base")
  @ContextConfiguration
  public class BaseTest {
@@ -63,20 +64,25 @@ boolean inheritProfiles - Должны ли быть унаследованы о
  public class ExtendedTest extends BaseTest {
      // ...
  }
-******************************************************************************************************************
+```
 
-!!! Примечание !!! @ActiveProfiles можно использовать при загрузке ApplicationContext из расположений ресурсов
-                   на основе пути или аннотированных классов.
+---
+**!!! Примечание !!!** 
 
+@ActiveProfiles можно использовать при загрузке ApplicationContext из расположений ресурсов на основе пути или аннотированных классов.
+
+---
 Смотрите также:
+
 - ContextConfiguration.locations();
 - ContextConfiguration.classes();
 - ContextConfiguration.inheritLocations();
+
 из
+
 https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextConfiguration.html
 
-
-------------------------------------------------------------------------------------------------------------------
+---
 String[] profiles - Профили, которые необходимо активировать.
 
 Где, @AliasFor("value")
@@ -86,13 +92,13 @@ String[] profiles - Профили, которые необходимо акти
      Этот атрибут нельзя использовать вместе с value(), но его можно использовать вместо value().
      По умолчанию: {}
 
-------------------------------------------------------------------------------------------------------------------
+---
 Class<? extends ActiveProfilesResolver> resolver - Тип ActiveProfilesResolver, используемый для программного
                                                    разрешения профилей определения активного компонента.
 
      По умолчанию: org.springframework.test.context.ActiveProfilesResolver.class
 
-------------------------------------------------------------------------------------------------------------------
+---
 String[] value - Псевдоним для profiles().
 
 Где, @AliasFor("profiles")
@@ -100,4 +106,3 @@ String[] value - Псевдоним для profiles().
 
      Этот атрибут нельзя использовать вместе с Profiles(), но его можно использовать вместо Profiles().
      По умолчанию: {}
-------------------------------------------------------------------------------------------------------------------
