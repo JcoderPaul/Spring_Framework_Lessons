@@ -1,17 +1,19 @@
 Док. Spring (ENG):
-https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-activeprofiles.html
-https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html
+- [annotation-activeprofiles.html](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-activeprofiles.html)
+- [ActiveProfiles.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)
 
 ---
 ### Annotation Interface ActiveProfiles
 
 Пакет: **org.springframework.test.context**
 
+```Java
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
 @Inherited
 public @interface ActiveProfiles
+```
 
 ActiveProfiles — это аннотация уровня класса, которая используется для объявления того, какие bean-ы определенные
 конкретным профилем следует использовать при загрузке ApplicationContext для тестовых классов.
