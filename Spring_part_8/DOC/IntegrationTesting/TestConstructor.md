@@ -36,14 +36,14 @@
 ---
 См. так же:
 
-- @Autowired;
-- SpringExtension;
-- @SpringJUnitConfig;
-- @SpringJUnitWebConfig;
-- @ContextConfiguration;
-- @ContextHierarchy;
-- @ActiveProfiles;
-- @TestPropertySource;
+- [@Autowired](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Autowired.html);
+- [SpringExtension](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit/jupiter/SpringExtension.html);
+- [@SpringJUnitConfig](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit/jupiter/SpringJUnitConfig.html);
+- [@SpringJUnitWebConfig](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit/jupiter/web/SpringJUnitWebConfig.html);
+- [@ContextConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextConfiguration.html);
+- [@ContextHierarchy](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextHierarchy.html);
+- [@ActiveProfiles](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html);
+- [@TestPropertySource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestPropertySource.html);
 
 ---
 Вложенные классы:
@@ -64,10 +64,10 @@ TestConstructor.AutowireMode имеет приоритет над глобаль
 
 Смотрите также:
 
-- TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME;
-- @Autowired;
-- TestConstructor.AutowireMode.ALL;
-- TestConstructor.AutowireMode.ANNOTATED;
+- [TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestConstructor.html#TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME);
+- [@Autowired](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Autowired.html);
+- [TestConstructor.AutowireMode.ALL](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestConstructor.AutowireMode.html#ALL);
+- [TestConstructor.AutowireMode.ANNOTATED](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestConstructor.AutowireMode.html#ANNOTATED);
 
 ---
 Поля:
