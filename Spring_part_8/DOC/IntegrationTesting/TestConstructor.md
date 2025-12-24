@@ -1,15 +1,17 @@
-Официальная документация: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestConstructor.html
--------------------------------------------------------------------------------------------------------------------
+[См. официальную документацию по Spring](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestConstructor.html)
 
-*** Annotation Interface TestConstructor ***
+---
+### Annotation Interface TestConstructor
 
-Пакет: Package org.springframework.test.context
+Пакет: **Package org.springframework.test.context**
 
-@Target(TYPE)
-@Retention(RUNTIME)
-@Documented
-@Inherited
-public @interface TestConstructor
+```Java
+  @Target(TYPE)
+  @Retention(RUNTIME)
+  @Documented
+  @Inherited
+  public @interface TestConstructor
+```
 
 @TestConstructor — это аннотация уровня TYPE, которая используется для настройки автоматического подключения
 параметров конструктора тестового класса из компонентов в ApplicationContext теста.
@@ -29,11 +31,11 @@ public @interface TestConstructor
 
 ------------------------------------------------------------------------------------------------------------------
 Начиная с Spring Framework 5.3, эта аннотация по умолчанию будет унаследована от включающего тестового класса.
-Подробности см. в @NestedTestConfiguration:
-https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/NestedTestConfiguration.html
+Подробности см. в [@NestedTestConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/NestedTestConfiguration.html)
 ------------------------------------------------------------------------------------------------------------------
 
 См. так же:
+
 - @Autowired;
 - SpringExtension;
 - @SpringJUnitConfig;
@@ -43,15 +45,15 @@ https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframe
 - @ActiveProfiles;
 - @TestPropertySource;
 
--------------------------------------------------------------------------------------------------------------------
+---
 Вложенные классы:
-- static enum TestConstructor.AutowireMode - Определяет режимы автоматического связывания параметров
-                                             в конструкторе тестов.
 
--------------------------------------------------------------------------------------------------------------------
+- static enum TestConstructor.AutowireMode - Определяет режимы автоматического связывания параметров в конструкторе тестов.
+
+---
 Обязательный элемент:
-- TestConstructor.AutowireMode autowireMode - Флаг для установки режима автоматического подключения конструктора
-                                              тестов для текущего класса тестов.
+
+- TestConstructor.AutowireMode autowireMode - Флаг для установки режима автоматического подключения конструктора тестов для текущего класса тестов.
 
 Флаг для установки режима автоматического подключения конструктора тестов для текущего класса тестов.
 Установка этого флага переопределяет глобальное значение по умолчанию.
@@ -61,13 +63,15 @@ https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframe
 TestConstructor.AutowireMode имеет приоритет над глобальным значением по умолчанию.
 
 Смотрите также:
+
 - TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME;
 - @Autowired;
 - TestConstructor.AutowireMode.ALL;
 - TestConstructor.AutowireMode.ANNOTATED;
 
--------------------------------------------------------------------------------------------------------------------
+---
 Поля:
+
 - static final String TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME - Системное свойство JVM, используемое для
   изменения режима автоматического подключения конструктора тестов по умолчанию :
   «spring.test.constructor.autowire.mode».
@@ -79,14 +83,13 @@ by default : «spring.test.constructor.autowire.mode». Допустимые з�
 Например, значение по умолчанию можно изменить TestConstructor.AutowireMode.ALL, указав следующее системное
 свойство JVM через командную строку.
 
--Dspring.test.constructor.autowire.mode=все
+  -Dspring.test.constructor.autowire.mode=все
 
 Если для свойства не установлено значение ALL, параметры конструкторов тестовых классов будут автоматически
 подключаться в соответствии с TestConstructor.AutowireMode.ANNOTATED семантикой по умолчанию.
 
-Альтернативно можно настроить с помощью SpringProperties механизма см.:
-https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/SpringProperties.html
+Альтернативно можно [настроить с помощью SpringProperties механизма](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/SpringProperties.html)
 
-Начиная с Spring Framework 5.3, это свойство также можно настроить как параметр конфигурации платформы JUnit см.:
-https://junit.org/junit5/docs/current/user-guide/#running-tests-config-params
--------------------------------------------------------------------------------------------------------------------
+---
+Начиная с Spring Framework 5.3, это свойство также можно настроить как [параметр конфигурации платформы JUnit см.](https://junit.org/junit5/docs/current/user-guide/#running-tests-config-params)
+---
