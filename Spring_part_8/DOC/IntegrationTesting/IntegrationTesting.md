@@ -113,7 +113,7 @@ DataSource и др.), что избавляет от необходимости 
 определенный тест заполнил или изменил базу данных), то можно указать фреймворку TestContext вызвать фиксацию
 транзакции вместо отката, используя аннотацию @Commit.
 
-См. управление транзакциями с помощью фреймворка [TestContext] (../../DOC/TestContextFramework/HelperClassesOfTestContext.txt).
+См. управление транзакциями с помощью фреймворка [TestContext](../../DOC/TestContextFramework/HelperClassesOfTestContext.txt).
 
 ---
 ### Вспомогательные классы для интеграционного тестирования
@@ -137,8 +137,5 @@ Spring TestContext Framework предоставляет несколько аб�
 переменными экземпляров и методами, специфичными для вашего проекта.
 
 ---
-Официальная документация по Spring:
-https://docs.spring.io/spring-framework/reference/index.html
-
-Официальная документация по SpringTestContext Framework:
-https://docs.spring.io/spring-framework/reference/testing/testcontext-framework.html
+- [Официальная документация по Spring](https://docs.spring.io/spring-framework/reference/index.html)
+- [Официальная документация по SpringTestContext Framework](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework.html)
