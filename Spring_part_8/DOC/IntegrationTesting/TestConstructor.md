@@ -30,8 +30,8 @@
 с тестированием, из Spring Boot Test.
 
 ---
-**Начиная с Spring Framework 5.3, эта аннотация по умолчанию будет унаследована от включающего тестового класса.**
-Подробности см. в [@NestedTestConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/NestedTestConfiguration.html)
+**Начиная с Spring Framework 5.3, эта аннотация по умолчанию будет унаследована от включающего тестового класса.
+Подробности см. в [@NestedTestConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/NestedTestConfiguration.html)**
 
 ---
 См. так же:
