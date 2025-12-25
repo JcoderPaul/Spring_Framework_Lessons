@@ -554,38 +554,32 @@ on Kotlin:
 См. документацию [по @RecordApplicationEvents"](https://docs.spring.io/spring-framework/docs/6.0.3/javadoc-api/org/springframework/test/context/event/RecordApplicationEvents.html)
 и [ApplicationEvents](./ApplicationEvents.md)
 
-------------------------------------------------------------------------------------------------------------------
-- @Commit - данная аннотация указывает, что транзакция для транзакционного метода тестирования должна быть
-            зафиксирована после завершения метода тестирования. Можно использовать аннотацию @Commit в качестве
-            прямой замены аннотации @Rollback(false), чтобы более явно передать суть кода. Аналогично аннотации
-            @Rollback, аннотацию @Commit также можно объявить как аннотацию на уровне класса или метода.
+---
+- [@Commit](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-commit.html) - данная аннотация указывает, что транзакция для транзакционного метода тестирования должна быть
+зафиксирована после завершения метода тестирования. Можно использовать аннотацию [@Commit](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/Commit.html) в качестве прямой замены аннотации [@Rollback(false)](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-rollback.html), чтобы более явно передать суть кода. Аналогично аннотации [@Rollback](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/Rollback.html), аннотацию @Commit также можно объявить как аннотацию на уровне класса или метода.
 
 В следующем примере показано, как использовать аннотацию @Commit:
 
 on Java (Фиксируем результат теста в базе данных):
-******************************************************************************************************************
-@Commit
-@Test
-void testProcessWithoutRollback() {
-    // ...
-}
-******************************************************************************************************************
+```Java
+ @Commit
+ @Test
+ void testProcessWithoutRollback() {
+     // ...
+ }
+```
 
 on Kotlin:
-******************************************************************************************************************
-@Commit
-@Test
-fun testProcessWithoutRollback() {
-    // ...
-}
-******************************************************************************************************************
+```Java
+ @Commit
+ @Test
+ fun testProcessWithoutRollback() {
+     // ...
+ }
+```
 
-------------------------------------------------------------------------------------------------------------------
-- @Rollback - данная аннотация указывает, нужно ли откатывать транзакцию для транзакционного тестового метода
-              после завершения тестового метода. Если установлено в true, то транзакция откатывается. В противном
-              случае транзакция фиксируется (см. также @Commit). Откат для интеграционных тестов в Spring
-              TestContext Framework по умолчанию имеет значение true, даже если аннотация @Rollback не объявлена
-              явно.
+---
+- [@Rollback](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-rollback.html) - данная аннотация указывает, нужно ли откатывать транзакцию для транзакционного тестового метода после завершения тестового метода. Если установлено в true, то транзакция откатывается. В противном случае транзакция фиксируется (см. также @Commit). Откат для интеграционных тестов в Spring TestContext Framework по умолчанию имеет значение true, даже если аннотация [@Rollback](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/Rollback.html) не объявлена явно.
 
 Если аннотация @Rollback объявляется как аннотация на уровне класса, то она определяет семантику отката по
 умолчанию для всех тестовых методов в иерархии тестового класса. Если аннотация @Rollback объявлена на уровне
@@ -595,29 +589,25 @@ fun testProcessWithoutRollback() {
 В следующем примере результат тестового метода не откатывается (то есть результат фиксируется в базе данных):
 
 on Java (Не откатываем результат):
-******************************************************************************************************************
-@Rollback(false)
-@Test
-void testProcessWithoutRollback() {
-    // ...
-}
-******************************************************************************************************************
+```Java
+ @Rollback(false)
+ @Test
+ void testProcessWithoutRollback() {
+     // ...
+ }
+```
 
 on Kotlin:
-******************************************************************************************************************
-@Rollback(false)
-@Test
-fun testProcessWithoutRollback() {
-    // ...
-}
-******************************************************************************************************************
+```Kotlin
+ @Rollback(false)
+ @Test
+ fun testProcessWithoutRollback() {
+     // ...
+ }
+```
 
-------------------------------------------------------------------------------------------------------------------
-- @BeforeTransaction - данная аннотация указывает, что аннотированный void метод следует выполнять до начала
-                       транзакции в случае тестовых методов, сконфигурированных на выполнение в рамках транзакции
-                       через аннотацию @Transactional из Spring. Методы, помеченные аннотацией @BeforeTransaction,
-                       не обязательно должны быть public, и они могут быть объявлены в методах интерфейса с
-                       реализацией по умолчанию на базе Java 8.
+---
+- [@BeforeTransaction](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-beforetransaction.html) - данная аннотация указывает, что аннотированный void метод следует выполнять до начала транзакции в случае тестовых методов, сконфигурированных на выполнение в рамках транзакции через аннотацию @Transactional из Spring. Методы, помеченные аннотацией [@BeforeTransaction](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/transaction/BeforeTransaction.html), не обязательно должны быть public, и они могут быть объявлены в методах интерфейса с реализацией по умолчанию на базе Java 8.
 
 В следующем примере показано, как использовать аннотацию @BeforeTransaction:
 
