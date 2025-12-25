@@ -141,8 +141,8 @@ SpringExtension для использования с JUnit Jupiter.
 Изменение режима наследования объемлющей конфигурации по умолчанию.
 По умолчанию режим наследования объемлющей конфигурации - INHERIT, но его можно изменить,
 установив системное свойство spring.test.enclosing.configuration из JVM в OVERRIDE. Как
-вариант, режим по умолчанию можно установить через механизм SpringProperties (см.
-DOC/TestContextFramework/SpringProperties.txt).
+вариант, режим по умолчанию можно установить через механизм [SpringProperties](https://docs.spring.io/spring-framework/docs/7.0.2/javadoc-api/org/springframework/core/SpringProperties.html) (см.
+[SpringProperties](./SpringProperties.md)).
 
 ---
 [Spring TestContext Framework](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework.html) поддерживает семантику аннотации @NestedTestConfiguration для следующих аннотаций:
