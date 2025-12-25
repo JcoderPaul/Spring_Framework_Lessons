@@ -9,26 +9,26 @@ Spring предоставляет следующие реализации TestEx
 
 - [ApplicationEventsTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/event/ApplicationEventsTestExecutionListener.html): Обеспечивает поддержку [ApplicationEvents](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/application-events.html).
 
-- DependencyInjectionTestExecutionListener: Обеспечивает внедрение зависимостей для тестового экземпляра.
+- [DependencyInjectionTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/support/DependencyInjectionTestExecutionListener.html): Обеспечивает внедрение зависимостей для тестового экземпляра.
 
-- DirtiesContextTestExecutionListener: Обрабатывает аннотацию @DirtiesContext для режимов "после".
+- [DirtiesContextTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/support/DirtiesContextTestExecutionListener.html): Обрабатывает аннотацию [@DirtiesContext](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-dirtiescontext.html) для режимов "после".
 
-- TransactionalTestExecutionListener: Обеспечивает транзакционное выполнение тестов с семантикой отката по
-                                      умолчанию.
+- [TransactionalTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/transaction/TransactionalTestExecutionListener.html): Обеспечивает транзакционное выполнение тестов с семантикой отката по умолчанию.
 
-- SqlScriptsTestExecutionListener: Выполняет SQL-скрипты, сконфигурированные с помощью аннотации @Sql.
+- [SqlScriptsTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/jdbc/SqlScriptsTestExecutionListener.html): Выполняет SQL-скрипты, сконфигурированные с помощью аннотации [@Sql](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-sql.html).
 
-- EventPublishingTestExecutionListener: Публикует cобытия выполнения теста в ApplicationContext.
+- [EventPublishingTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/event/EventPublishingTestExecutionListener.html): Публикует cобытия выполнения теста в ApplicationContext.
 
-*** Регистрация реализаций TestExecutionListener ***
+---
+### Регистрация реализаций TestExecutionListener
 
 Вы можете зарегистрировать реализации TestExecutionListener для тестового класса и его подклассов с помощью
 аннотации @TestExecutionListeners. Подробности и примеры смотрите в подразделе, посвященном поддержке аннотаций
 (DOC/TestContextFramework/TestsAnnotation.txt и DOC/TestContextFramework/TestAnnotationsJUnitJupiter.txt), и
-официальной документации по аннотации @TestExecutionListeners:
-https://docs.spring.io/spring-framework/docs/5.3.23/javadoc-api/org/springframework/test/context/TestExecutionListeners.html
+официальной документации по аннотации [@TestExecutionListeners](https://docs.spring.io/spring-framework/docs/5.3.23/javadoc-api/org/springframework/test/context/TestExecutionListeners.html)
 
-*** Автоматическое обнаружение реализаций TestExecutionListener по умолчанию ***
+---
+### Автоматическое обнаружение реализаций TestExecutionListener по умолчанию
 
 Регистрация реализаций TestExecutionListener с помощью аннотации @TestExecutionListeners подходит для специальных
 слушателей, которые используются в ограниченных сценариях тестирования. Однако регистрация может стать
@@ -41,7 +41,8 @@ org.springframework.test.context.TestExecutionListener в файле свойс�
 Сторонние фреймворки и разработчики могут вносить свои собственные реализации TestExecutionListener
 в список слушателей по умолчанию таким же образом через собственный файл свойств META-INF/spring.factories.
 
-*** Упорядочивание реализаций TestExecutionListener ***
+---
+### Упорядочивание реализаций TestExecutionListener
 
 Если фреймворк TestContext обнаруживает реализации TestExecutionListener по умолчанию через вышеупомянутый
 механизм SpringFactoriesLoader, созданные экземпляры слушателей сортируются с помощью AnnotationAwareOrderComparator
@@ -53,10 +54,10 @@ AbstractTestExecutionListener и все реализации TestExecutionListen
 реализуя Ordered или объявляя аннотацию @Order.
 
 Смотрите документацию по методам getOrder() основных реализаций TestExecutionListener по умолчанию для получения
-более подробной информации о том, какие значения присваиваются каждому основному слушателю:
-https://docs.spring.io/spring-framework/docs/5.3.23/javadoc-api/org/springframework/test/context/TestExecutionListener.html
+[более подробной информации о том, какие значения присваиваются каждому основному слушателю](https://docs.spring.io/spring-framework/docs/5.3.23/javadoc-api/org/springframework/test/context/TestExecutionListener.html)
 
 Spring предоставляет следующие готовые реализации (все из которых реализуют Ordered):
+
 - ServletTestExecutionListener;
 - DirtiesContextBeforeModesTestExecutionListener;
 - ApplicationEventsTestExecutionListener;
@@ -66,7 +67,8 @@ Spring предоставляет следующие готовые реализ
 - SqlScriptsTestExecutionListener;
 - EventPublishingTestExecutionListener;
 
-*** Объединение реализаций TestExecutionListener ***
+---
+### Объединение реализаций TestExecutionListener
 
 Если специальный слушатель TestExecutionListener зарегистрирован через аннотацию @TestExecutionListeners,
 слушатели по умолчанию не регистрируются. В наиболее распространенных сценариях тестирования это фактически
@@ -75,44 +77,46 @@ Spring предоставляет следующие готовые реализ
 Следующий листинг демонстрирует этот стиль конфигурации:
 
 on Java:
-****************************************************************************************************************
-@ContextConfiguration
-@TestExecutionListeners({
-    MyCustomTestExecutionListener.class,
-    ServletTestExecutionListener.class,
-    DirtiesContextBeforeModesTestExecutionListener.class,
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class,
-    TransactionalTestExecutionListener.class,
-    SqlScriptsTestExecutionListener.class
-})
-class MyTest {
-    // тело класса...
-}
-****************************************************************************************************************
+
+```Java
+  @ContextConfiguration
+  @TestExecutionListeners({
+      MyCustomTestExecutionListener.class,
+      ServletTestExecutionListener.class,
+      DirtiesContextBeforeModesTestExecutionListener.class,
+      DependencyInjectionTestExecutionListener.class,
+      DirtiesContextTestExecutionListener.class,
+      TransactionalTestExecutionListener.class,
+      SqlScriptsTestExecutionListener.class
+  })
+  class MyTest {
+      // тело класса...
+  }
+```
 
 on Kotlin:
-****************************************************************************************************************
-@ContextConfiguration
-@TestExecutionListeners(
-    MyCustomTestExecutionListener::class,
-    ServletTestExecutionListener::class,
-    DirtiesContextBeforeModesTestExecutionListener::class,
-    DependencyInjectionTestExecutionListener::class,
-    DirtiesContextTestExecutionListener::class,
-    TransactionalTestExecutionListener::class,
-    SqlScriptsTestExecutionListener::class
-)
-class MyTest {
-    // тело класса...
-}
-****************************************************************************************************************
+
+```Kotlin
+  @ContextConfiguration
+  @TestExecutionListeners(
+      MyCustomTestExecutionListener::class,
+      ServletTestExecutionListener::class,
+      DirtiesContextBeforeModesTestExecutionListener::class,
+      DependencyInjectionTestExecutionListener::class,
+      DirtiesContextTestExecutionListener::class,
+      TransactionalTestExecutionListener::class,
+      SqlScriptsTestExecutionListener::class
+  )
+  class MyTest {
+      // тело класса...
+  }
+```
 
 Сложность этого подхода заключается в том, что он требует от разработчика точного знания того, какие слушатели
 зарегистрированы по умолчанию. Более того, набор слушателей по умолчанию может меняться от версии к версии –
-например, слушатель SqlScriptsTestExecutionListener был представлен в Spring Framework 4.1, а
-DirtiesContextBeforeModesTestExecutionListener был представлен в Spring Framework 4.2. Более того, сторонние
-фреймворки, такие, как Spring Boot и Spring Security, регистрируют свои собственные реализации
+например, слушатель **SqlScriptsTestExecutionListener** был представлен в **Spring Framework 4.1**, а
+**DirtiesContextBeforeModesTestExecutionListener** был представлен в **Spring Framework 4.2**. Более того, сторонние
+фреймворки, такие, как **Spring Boot** и **Spring Security**, регистрируют свои собственные реализации
 TestExecutionListener по умолчанию, используя вышеупомянутый механизм автоматического обнаружения.
 
 Чтобы избежать необходимости знать и повторно объявлять все слушатели по умолчанию, можно установить атрибут
@@ -131,7 +135,8 @@ mergeMode аннотации @TestExecutionListeners в MergeMode.MERGE_WITH_DEF
 перед ServletTestExecutionListener, а предыдущий пример можно будет заменить следующим:
 
 on Java:
-****************************************************************************************************************
+
+```Java
 @ContextConfiguration
 @TestExecutionListeners(
     listeners = MyCustomTestExecutionListener.class,
@@ -140,10 +145,11 @@ on Java:
 class MyTest {
     // тело класса...
 }
-****************************************************************************************************************
+```
 
 on Kotlin:
-****************************************************************************************************************
+
+```Kotlin
 @ContextConfiguration
 @TestExecutionListeners(
         listeners = [MyCustomTestExecutionListener::class],
@@ -152,4 +158,4 @@ on Kotlin:
 class MyTest {
     // тело класса...
 }
-****************************************************************************************************************
+```
