@@ -1,13 +1,13 @@
-****** TestExecutionListener ******
+### TestExecutionListener
 
 Spring предоставляет следующие реализации TestExecutionListener, которые регистрируются по умолчанию, точно в
 следующем порядке:
 
-- ServletTestExecutionListener: Конфигурирует объекты-имитации API-интерфейса сервлетов для WebApplicationContext.
+- [ServletTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/web/ServletTestExecutionListener.html): Конфигурирует объекты-имитации API-интерфейса сервлетов для WebApplicationContext.
 
-- DirtiesContextBeforeModesTestExecutionListener: Обрабатывает аннотацию@DirtiesContext для режимов "перед".
+- [DirtiesContextBeforeModesTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/support/DirtiesContextBeforeModesTestExecutionListener.html): Обрабатывает аннотацию [@DirtiesContext](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-dirtiescontext.html) для режимов "перед".
 
-- ApplicationEventsTestExecutionListener: Обеспечивает поддержку ApplicationEvents.
+- [ApplicationEventsTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/event/ApplicationEventsTestExecutionListener.html): Обеспечивает поддержку [ApplicationEvents](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/application-events.html).
 
 - DependencyInjectionTestExecutionListener: Обеспечивает внедрение зависимостей для тестового экземпляра.
 
