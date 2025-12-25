@@ -24,7 +24,7 @@ Spring предоставляет следующие реализации TestEx
 
 Вы можете зарегистрировать реализации TestExecutionListener для тестового класса и его подклассов с помощью
 аннотации @TestExecutionListeners. Подробности и примеры смотрите в подразделе, посвященном поддержке аннотаций
-[TestsAnnotation](./TestsAnnotation.md) и DOC/TestContextFramework/TestAnnotationsJUnitJupiter.txt), и
+[TestsAnnotation](./TestsAnnotation.md) и [TestAnnotationsJUnitJupiter](./TestAnnotationsJUnitJupiter.md), и
 официальной документации по аннотации [@TestExecutionListeners](https://docs.spring.io/spring-framework/docs/5.3.23/javadoc-api/org/springframework/test/context/TestExecutionListeners.html)
 
 ---
