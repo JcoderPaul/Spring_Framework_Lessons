@@ -182,10 +182,15 @@ DOC/TestContextFramework/SpringProperties.txt).
 
 Выражения могут иметь любую из следующих форм:
 - Выражение на языке Spring Expression Language (SpEL).
+
   Пример: **@EnabledIf("#{systemProperties['os.name'].toLowerCase().contains('mac')}")**
+
 - Плейсхолдер для свойства, доступного в Environment фреймворка Spring.
+
   Пример: **@EnabledIf("${smoke.tests.enabled}")**
+
 - Текстовый литерал.
+
   Пример: **@EnabledIf("true")**
 
 Обратите внимание, что текстовый литерал, который не является результатом динамического разрешения плейсхолдера
@@ -240,10 +245,15 @@ annotation class EnabledOnMac {}
 
 Выражения могут иметь любую из следующих форм:
 - Выражение на языке Spring Expression Language (SpEL).
+
   Пример: **@DisabledIf("#{systemProperties['os.name'].toLowerCase().contains('mac')}")**
+
 - Плейсхолдер для свойства, доступного в Environment фреймоврка Spring.
+
   Пример: **@DisabledIf("${smoke.tests.disabled}")**
+
 - Текстовый литерал.
+
   Пример: **@DisabledIf("true")**
 
 Обратите внимание, однако, что текстовый литерал, который не является результатом динамического разрешения
