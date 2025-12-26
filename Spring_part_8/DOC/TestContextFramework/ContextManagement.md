@@ -696,7 +696,7 @@ on Java:
 ```
 
 on Kotlin:
-```Kotiln
+```Kotlin
   @ExtendWith(SpringExtension::class)
   // ApplicationContext будет загружен из "classpath:/app-config.xml"
   @ContextConfiguration("/app-config.xml")
