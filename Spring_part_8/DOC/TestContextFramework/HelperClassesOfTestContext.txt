@@ -1,9 +1,10 @@
-****** Вспомогательные классы фреймворка TestContext *******
+### Вспомогательные классы фреймворка TestContext
 
-Spring TestContext Framework предлагает полную интеграцию с JUnit 4 через специальное средство выполнения (runner)
+[Spring TestContext Framework](https://docs.spring.io/spring-framework/docs/5.1.8.RELEASE/spring-framework-reference/testing.html) предлагает полную интеграцию с JUnit 4 через специальное средство выполнения (runner)
 (поддерживается c JUnit 4.12 или выше). Помечая тестовые классы аннотацией @RunWith(SpringJUnit4ClassRunner.class)
 или более коротким вариантом @RunWith(SpringRunner.class), разработчики могут реализовать стандартные модульные и
 интеграционные тесты на основе JUnit 4 и одновременно использовать преимущества фреймворка TestContext:
+
 - поддержка загрузки контекстов приложения;
 - внедрение зависимостей в экземпляры тестов;
 - транзакционное выполнение тестовых методов;
@@ -17,39 +18,37 @@ Spring TestContext Framework предлагает полную интеграц�
 с помощью специального Runner в Spring:
 
 on JAVA:
-******************************************************************************************************************
-@RunWith(SpringRunner.class)
-@TestExecutionListeners({})
-public class SimpleTest {
-    @Test
-    public void testMethod() {
-        // логика тестирования...
+```Java
+    @RunWith(SpringRunner.class)
+    @TestExecutionListeners({})
+    public class SimpleTest {
+        @Test
+        public void testMethod() {
+            // логика тестирования...
+        }
     }
-}
-******************************************************************************************************************
+```
 
 on Kotlin:
-******************************************************************************************************************
-@RunWith(SpringRunner::class)
-@TestExecutionListeners
-class SimpleTest {
-    @Test
-    fun testMethod() {
-        // логика тестирования...
+```Kotlin
+    @RunWith(SpringRunner::class)
+    @TestExecutionListeners
+    class SimpleTest {
+        @Test
+        fun testMethod() {
+            // логика тестирования...
+        }
     }
-}
-******************************************************************************************************************
+```
 
-В предыдущих примерах аннотация @TestExecutionListeners сконфигурирована с пустым списком, чтобы отключить
-слушателей по умолчанию, которые в противном случае потребовали бы конфигурирования ApplicationContext через
-аннотацию @ContextConfiguration.
+В предыдущих примерах аннотация [@TestExecutionListeners](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-testexecutionlisteners.html) сконфигурирована с пустым списком, чтобы отключить слушателей по умолчанию, которые в противном случае потребовали бы конфигурирования ApplicationContext через аннотацию [@ContextConfiguration](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-contextconfiguration.html).
 
-*** Правила Spring JUnit 4 ***
+### Правила Spring JUnit 4
 
-Пакет org.springframework.test.context.junit4.rules предоставляет следующие правила JUnit 4 (поддерживаются с
-JUnit 4.12 или выше):
-- SpringClassRule;
-- SpringMethodRule;
+Пакет [org.springframework.test.context.junit4.rules](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit4/rules/package-summary.html) предоставляет следующие правила JUnit 4 (поддерживаются с JUnit 4.12 или выше):
+
+- [SpringClassRule](https://docs.spring.io/spring-framework/docs/5.0.2.RELEASE/kdoc-api/spring-framework/org.springframework.test.context.junit4.rules/-spring-class-rule/index.html);
+- [SpringMethodRule](https://docs.spring.io/spring-framework/docs/5.0.2.RELEASE/kdoc-api/spring-framework/org.springframework.test.context.junit4.rules/-spring-method-rule/index.html);
 
 SpringClassRule – это TestRule из JUnit, поддерживающее функции Spring TestContext Framework на уровне классов,
 а SpringMethodRule – это MethodRule из JUnit, поддерживающее функции Spring TestContext Framework на уровне
@@ -65,38 +64,38 @@ SpringMethodRule. В следующем примере показан прави
 тесте:
 
 on JAVA:
-******************************************************************************************************************
-// Опционально задаем средство выполнения, не являющееся Runner из Spring, через @RunWith(...)
-@ContextConfiguration
-public class IntegrationTest {
-    @ClassRule
-    public static final SpringClassRule springClassRule = new SpringClassRule();
-    @Rule
-    public final SpringMethodRule springMethodRule = new SpringMethodRule();
-    @Test
-    public void testMethod() {
-        // логика тестирования...
+```Java
+    // Опционально задаем средство выполнения, не являющееся Runner из Spring, через @RunWith(...)
+    @ContextConfiguration
+    public class IntegrationTest {
+        @ClassRule
+        public static final SpringClassRule springClassRule = new SpringClassRule();
+        @Rule
+        public final SpringMethodRule springMethodRule = new SpringMethodRule();
+        @Test
+        public void testMethod() {
+            // логика тестирования...
+        }
     }
-}
-******************************************************************************************************************
+```
 
 on Kotlin:
-******************************************************************************************************************
-// Опционально задаем средство выполнения, не являющееся Runner из Spring, через @RunWith(...)
-@ContextConfiguration
-class IntegrationTest {
-    @Rule
-    val springMethodRule = SpringMethodRule()
-    @Test
-    fun testMethod() {
-        // логика тестирования...
+```Kotlin
+    // Опционально задаем средство выполнения, не являющееся Runner из Spring, через @RunWith(...)
+    @ContextConfiguration
+    class IntegrationTest {
+        @Rule
+        val springMethodRule = SpringMethodRule()
+        @Test
+        fun testMethod() {
+            // логика тестирования...
+        }
+        companion object {
+            @ClassRule
+            val springClassRule = SpringClassRule()
+        }
     }
-    companion object {
-        @ClassRule
-        val springClassRule = SpringClassRule()
-    }
-}
-******************************************************************************************************************
+```
 
 *** Вспомогательные классы JUnit 4 ***
 
