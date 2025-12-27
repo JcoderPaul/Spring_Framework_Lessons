@@ -105,13 +105,13 @@ on Kotlin:
 - [AbstractJUnit4SpringContextTests](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit4/AbstractJUnit4SpringContextTests.html);
 - [AbstractTransactionalJUnit4SpringContextTests](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit4/AbstractTransactionalJUnit4SpringContextTests.html);
 
-Где - AbstractJUnit4SpringContextTests – это абстрактный базовый тестовый класс, который интегрирует
+Где - **AbstractJUnit4SpringContextTests** – это абстрактный базовый тестовый класс, который интегрирует
       Spring TestContext Framework с явной поддержкой тестирования ApplicationContext в среду JUnit 4.
       Если вы расширите AbstractJUnit4SpringContextTests, то можете получить доступ к protected
       переменной экземпляра applicationContext, которую можно использовать для выполнения явного поиска
       bean-ов или для тестирования состояния контекста в целом.
 
-Где - AbstractTransactionalJUnit4SpringContextTests – это абстрактное транзакционное расширение
+Где - **AbstractTransactionalJUnit4SpringContextTests** – это абстрактное транзакционное расширение
       AbstractJUnit4SpringContextTests, которое добавляет некоторые удобные функции для доступа к JDBC.
       Этот класс ожидает, что в ApplicationContext будут определены bean-ы [javax.sql.DataSource](https://docs.oracle.com/javase/8/docs/api/javax/sql/DataSource.html) и bean
       [PlatformTransactionManager](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/PlatformTransactionManager.html).
@@ -514,13 +514,13 @@ on Kotlin:
 - [AbstractTestNGSpringContextTests](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/testng/AbstractTestNGSpringContextTests.html);
 - [AbstractTransactionalTestNGSpringContextTests](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/testng/AbstractTransactionalTestNGSpringContextTests.html);
 
-Где, AbstractTestNGS SpringContextTests – это абстрактный базовый тестовый класс, который интегрирует
+Где, **AbstractTestNGS SpringContextTests** – это абстрактный базовый тестовый класс, который интегрирует
      Spring TestContext Framework с явной поддержкой тестирования ApplicationContext в среду TestNG.
      Если вы расширите AbstractTestNGSpringContextTests, то можете получить доступ к protected переменной
      экземпляра applicationContext, которую можно использовать для выполнения явного поиска bean-ов или
      для тестирования состояния контекста в целом.
 
-Где, AbstractTransactionalTestNGSpringContextTests – это абстрактное транзакционное расширение
+Где, **AbstractTransactionalTestNGSpringContextTests** – это абстрактное транзакционное расширение
      AbstractTestNGSpringContextTests, которое добавляет некоторые удобные функции для доступа к JDBC.
      Этот класс ожидает, что в ApplicationContext будут определены bean javax.sql.DataSource и
      bean PlatformTransactionManager. Если вы расширите AbstractTransactionalTestNGSpringContextTests,
@@ -530,11 +530,11 @@ on Kotlin:
      связанного с базой данных, а Spring гарантированно обеспечит, что такие запросы будут выполнены в
      рамках той же транзакции, что и код приложения.
 
-     При использовании в сочетании с ORM-инструментом следует избегать ложных срабатываний.
-     AbstractTransactionalTestNGSpringContextTests также предоставляет вспомогательные методы, которые
-     делегируют полномочия методам в JdbcTestUtils с помощью вышеупомянутого jdbcTemplate.
-     Кроме того, AbstractTransactionalTestNGSpringContextTests предоставляет метод executeSqlScript(..)
-     для выполнения SQL-скриптов в отношении сконфигурированного DataSource.
+При использовании в сочетании с ORM-инструментом следует избегать ложных срабатываний.
+AbstractTransactionalTestNGSpringContextTests также предоставляет вспомогательные методы, которые
+делегируют полномочия методам в JdbcTestUtils с помощью вышеупомянутого jdbcTemplate.
+Кроме того, AbstractTransactionalTestNGSpringContextTests предоставляет метод executeSqlScript(..)
+для выполнения SQL-скриптов в отношении сконфигурированного DataSource.
 
 ---
 **!!! Внимание !!!**
