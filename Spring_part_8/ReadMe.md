@@ -109,7 +109,7 @@ test-instance, использовать какие-либо дополнител
 имеет два поля: 
 - [TestContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestContext.html) - содержит модель, он в курсе какой тест запущен, имеет доступ к ApplicationContext; 
 - [TestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestExecutionListener.html) - содержит логику по внедрению зависимостей в тесты 
-(см. [TestExecutionListener](../../TestContextFramework/TestExecutionListener.txt)), т.е. как только происходит подготовка тестового объекта 
+(см. [TestExecutionListener](../../TestContextFramework/TestExecutionListener.md)), т.е. как только происходит подготовка тестового объекта 
 сразу происходит внедрение зависимостей, через [DependencyInjectionTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/support/DependencyInjectionTestExecutionListener.html) и его метод 
 [void injectDependencies()](https://github.com/spring-projects/spring-framework/blob/main/spring-test/src/main/java/org/springframework/test/context/support/DependencyInjectionTestExecutionListener.java) см. ниже (мы получаем тестовый объект, его класс, получаем ApplicationContext, и сразу 
 у контекста вызываются методы 'autowireBeanProperties' и 'initializeBean' передавая в него тестовый класс); 
@@ -136,7 +136,7 @@ test-instance, использовать какие-либо дополнител
 - [Context Configuration with Environment Profiles](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/ctx-management/env-profiles.html) ;
 
 Пример теста: 
-- [CompanyServiceTestProfileIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_35/CompanyServiceTestProfileIT.java) - демонстрация работы аннотации [@ActiveProfiles](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/IntegrationTesting/ActiveProfiles.txt) см. [DOC/IntegrationTesting](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/DOC/IntegrationTesting)
+- [CompanyServiceTestProfileIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_35/CompanyServiceTestProfileIT.java) - демонстрация работы аннотации [@ActiveProfiles](./DOC/IntegrationTesting/ActiveProfiles.txt) см. [IntegrationTesting](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/DOC/IntegrationTesting)
 
 ---
 #### [Lesson 36](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_36) - MetaAnnotation
@@ -147,7 +147,7 @@ test-instance, использовать какие-либо дополнител
 Многие из аннотаций, предоставляемых Spring, могут быть использованы в качестве мета-аннотаций в
 вашем собственном коде. Мета-аннотация – это аннотация, которая может быть применена к другой
 аннотации. См. документацию и примеры:
-- [(RUS) DOC/TestContextFramework/MetaAnnotationSupportForTesting.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/TestContextFramework/MetaAnnotationSupportForTesting.txt)
+- [(RUS) MetaAnnotationSupportForTesting](./DOC/TestContextFramework/MetaAnnotationSupportForTesting.txt)
 - [(ENG) Using Meta-annotations and Composed Annotations](https://docs.spring.io/spring-framework/reference/core/beans/classpath-scanning.html#beans-meta-annotations) ;
 - [(ENG) Meta-Annotation Support for Testing](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-meta.html) ;
 
@@ -168,9 +168,9 @@ Spring также можно сконфигурировать на автома�
 - Режим автоматического обнаружения и связывания тестового конструктора по умолчанию был изменен на ALL.
 см. 
 - (RUS):
-  - [DOC/TestContextFramework/HelperClassesOfTestContext.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/TestContextFramework/HelperClassesOfTestContext.txt) ;
-  - [DOC/TestContextFramework/TestAnnotationsJUnitJupiter.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/TestContextFramework/TestAnnotationsJUnitJupiter.txt) ;
-  - [DOC/IntegrationTesting/TestConstructor.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/IntegrationTesting/TestConstructor.txt) ;
+  - [HelperClassesOfTestContext](./DOC/TestContextFramework/HelperClassesOfTestContext.md) ;
+  - [TestAnnotationsJUnitJupiter](./DOC/TestContextFramework/TestAnnotationsJUnitJupiter.md) ;
+  - [TestConstructor](./DOC/IntegrationTesting/TestConstructor.md) ;
 - (ENG) [Annotation Interface TestConstructor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestConstructor.html) ;
 
 Пример использования аннотации @TestConstructor и внедрения зависимостей через конструктор в тестах 
@@ -304,7 +304,7 @@ Mockito) может служить создание файла [TestApplicationR
 #### [Lesson 40](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_40) - [Аннотация](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-dirtiescontext.html) [@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html).
 
 См. док. по использованию @DirtiesContext:
-- (RUS) [DOC/TestContextFramework/TestsAnnotation.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/TestContextFramework/TestsAnnotation.txt) ;
+- (RUS) [TestsAnnotation](./DOC/TestContextFramework/TestsAnnotation.md) ;
 - (ENG) [Annotation Interface DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html) ;
 
 - [UserServiceWithDirtiesContextIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/src/test/java/spring/oldboy/integration/service/lesson_40/UserServiceWithDirtiesContextIT.java) - класс для демонстрации использования 'грязного контекста' см. документацию и примеры.
