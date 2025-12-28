@@ -22,15 +22,15 @@ on Java:
 
 Можно использовать каждую из следующих аннотаций в качестве мета-аннотации в сочетании с фреймворком TestContext:
 
-- @BootstrapWith;
-- @ContextConfiguration;
-- @ContextHierarchy;
-- @ActiveProfiles;
-- @TestPropertySource;
-- @DirtiesContext;
-- @WebAppConfiguration;
-- @TestExecutionListeners;
-- @Transactional;
+- [@BootstrapWith](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/BootstrapWith.html);
+- [@ContextConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextConfiguration.html) - [оф. док.](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-contextconfiguration.html);
+- [@ContextHierarchy](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextHierarchy.html) - [оф. док.](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-contexthierarchy.html);
+- [@ActiveProfiles](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html) - [оф. док.](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-activeprofiles.html) - [article and example](https://www.baeldung.com/spring-profiles);
+- [@TestPropertySource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestPropertySource.html) - [оф. док.](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-testpropertysource.html) - [article and example](https://www.baeldung.com/spring-test-property-source);
+- [@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html) - [оф. док.](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-dirtiescontext.html) - [article and example](https://www.baeldung.com/spring-dirtiescontext);
+- [@WebAppConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/web/WebAppConfiguration.html) - [оф. док.](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-webappconfiguration.html) - [article and example](https://www.baeldung.com/spring-webappconfiguration);
+- [@TestExecutionListeners](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestExecutionListener.html) - [оф. док.](https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-testexecutionlisteners.html) - [about config](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/tel-config.html) - [article and example](https://www.baeldung.com/spring-testexecutionlistener);
+- [@Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html) - [оф. док.](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html) - [article and example](https://www.baeldung.com/transaction-configuration-with-jpa-and-spring);
 - @BeforeTransaction;
 - @AfterTransaction;
 - @Commit;
