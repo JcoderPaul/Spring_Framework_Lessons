@@ -39,16 +39,16 @@ on Java:
 - @SqlConfig;
 - @SqlMergeMode;
 - @SqlGroup;
-- @Repeat (поддерживается только на JUnit 4);
-- @Timed (поддерживается только на JUnit 4);
-- @IfProfileValue (поддерживается только на JUnit 4);
-- @ProfileValueSourceConfiguration (поддерживается только на JUnit 4);
-- @SpringJUnitConfig (поддерживается только на JUnit Jupiter);
-- @SpringJUnitWebConfig (поддерживается только на JUnit Jupiter);
-- @TestConstructor (поддерживается только на JUnit Jupiter);
-- @NestedTestConfiguration (поддерживается только на JUnit Jupiter);
-- @EnabledIf (поддерживается только на JUnit Jupiter);
-- @DisabledIf (поддерживается только на JUnit Jupiter);
+- @Repeat (**поддерживается только на JUnit 4**);
+- @Timed (**поддерживается только на JUnit 4**);
+- @IfProfileValue (**поддерживается только на JUnit 4**);
+- @ProfileValueSourceConfiguration (**поддерживается только на JUnit 4**);
+- @SpringJUnitConfig (**поддерживается только на JUnit Jupiter**);
+- @SpringJUnitWebConfig (**поддерживается только на JUnit Jupiter**);
+- @TestConstructor (**поддерживается только на JUnit Jupiter**);
+- @NestedTestConfiguration (**поддерживается только на JUnit Jupiter**);
+- @EnabledIf (**поддерживается только на JUnit Jupiter**);
+- @DisabledIf (**поддерживается только на JUnit Jupiter**);
 
 Рассмотрим следующий пример:
 
