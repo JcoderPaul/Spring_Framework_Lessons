@@ -109,7 +109,7 @@ test-instance, использовать какие-либо дополнител
 имеет два поля: 
 - [TestContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestContext.html) - содержит модель, он в курсе какой тест запущен, имеет доступ к ApplicationContext; 
 - [TestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestExecutionListener.html) - содержит логику по внедрению зависимостей в тесты 
-(см. [DOC/TestContextFramework/TestExecutionListener.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_8/DOC/TestContextFramework/TestExecutionListener.txt)), т.е. как только происходит подготовка тестового объекта 
+(см. [TestExecutionListener](../../TestContextFramework/TestExecutionListener.txt)), т.е. как только происходит подготовка тестового объекта 
 сразу происходит внедрение зависимостей, через [DependencyInjectionTestExecutionListener](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/support/DependencyInjectionTestExecutionListener.html) и его метод 
 [void injectDependencies()](https://github.com/spring-projects/spring-framework/blob/main/spring-test/src/main/java/org/springframework/test/context/support/DependencyInjectionTestExecutionListener.java) см. ниже (мы получаем тестовый объект, его класс, получаем ApplicationContext, и сразу 
 у контекста вызываются методы 'autowireBeanProperties' и 'initializeBean' передавая в него тестовый класс); 
