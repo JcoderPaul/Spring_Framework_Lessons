@@ -171,7 +171,7 @@ SpringExtension для использования с JUnit Jupiter.
 Использование аннотации @NestedTestConfiguration обычно имеет смысл только в сочетании с
 помеченными аннотацией @Nested тестовыми классами из JUnit Jupiter; однако могут существовать
 и другие тестовые фреймворки с поддержкой Spring и вложенных тестовых классов, которые
-используют эту аннотацию (см. DOC/TestContextFramework/HelperClassesOfTestContext.txt).
+[используют эту аннотацию см. HelperClassesOfTestContext](./HelperClassesOfTestContext.md).
 
 ---
 - **[@EnabledIf](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit/jupiter/EnabledIf.html)** - данная аннотация используется для сигнализации о том, что аннотированный тестовый класс из JUnit Jupiter или тестовый метод активирован и должен выполняться, если указанное expression оказывается true.
