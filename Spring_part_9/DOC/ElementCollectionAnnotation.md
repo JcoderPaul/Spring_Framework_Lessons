@@ -1,9 +1,8 @@
-****** @ElementCollection ******
+### @ElementCollection
 
 JPA 2.0 определяет ElementCollection как механизм сопоставления (mapping-a). Он предназначен для обработки
 сопоставлений нескольких нестандартных взаимосвязей. ElementCollection можно использовать для определения
-взаимосвязи «один ко многим» к Embeddable (встраиваемому,
-см. https://github.com/JcoderPaul/Hibernate_Lessons/blob/master/Hibernate_part_2/DOC/HibernateEmbeddableEmbedded.txt)
+взаимосвязи «один ко многим» к [Embeddable](https://github.com/JcoderPaul/Hibernate_Lessons/blob/master/Hibernate_part_2/DOC/HibernateEmbeddableEmbedded.txt)
 объекту или Basic значению (например, коллекции String s). ElementCollection также можно использовать в сочетании
 с MAP для определения взаимосвязи, где ключ может быть объектом любого типа, а значение — объектом или значением.
 
@@ -14,8 +13,8 @@ JPA 2.0 определяет ElementCollection как механизм сопо�
 аннотацию или <collection-table> элемент *.XML файла настройки. Определяет CollectionTable таблицу name и
 @JoinColumn / @JoinColumns или составной первичный ключ.
 
-----------------------------------------------------------------------------------------------------------------
-*** Embedded Collections ***
+---
+### Embedded Collections
 
 В данном случае описывается ситуация с применением Embedded (встроенных) сущностей, когда для организации
 взаимосвязи и настройки приходится создавать отдельную сущность аннотированную как - @Embeddable, см. ниже.
@@ -38,89 +37,83 @@ JPA 2.0 определяет ElementCollection как механизм сопо�
 Пример базы данных (имеем два таблицы):
 
 EMPLOYEE (table)
------------------------------------
-EMP_ID | F_NAME | L_NAME | SALARY
------------------------------------
-1      | Bob    | Way    | 50000
------------------------------------
-2      | Joe    | Smith  | 35000
------------------------------------
+
+| EMP_ID | F_NAME | L_NAME | SALARY |
+|--------|--------|--------|--------|
+| 1      | Bob    | Way    | 50000  |
+| 2      | Joe    | Smith  | 35000  |
 
 PHONE (table)
--------------------------------------------
-OWNER_ID | TYPE | AREA_CODE | P_NUMBER
--------------------------------------------
-1        | home | 613       | 792-0001
--------------------------------------------
-1        | work | 613       | 494-1234
--------------------------------------------
-2        | work | 416       | 892-0005
--------------------------------------------
+
+| OWNER_ID | TYPE | AREA_CODE | P_NUMBER |
+|----------|------|-----------|----------|
+| 1        | home | 613       | 792-0001 |
+| 1        | work | 613       | 494-1234 |
+| 2        | work | 416       | 892-0005 |
 
 Применяем аннотацию @ElementCollection для описания взаимосвязи таблиц:
 
-****************************************************************************************************************
+```Java
+  @Entity
+  public class Employee {
+  
+    @Id
+    @Column(name="EMP_ID")
+    private long id;
+  
+    ...
+  
+    @ElementCollection
+    @CollectionTable(
+          name="PHONE",
+          joinColumns=@JoinColumn(name="OWNER_ID")
+    )
+    private List<Phone> phones;
+  
+    ...
+  
+  }
+  
+  @Embeddable
+  public class Phone {
+    private String type;
+    private String areaCode;
+  
+    @Column(name="P_NUMBER")
+    private String number;
+  
+    ...
+  
+  }
+```
 
-@Entity
-public class Employee {
+---
+### Пример XML-связи ElementCollection с Embedded сущностями
 
-  @Id
-  @Column(name="EMP_ID")
-  private long id;
+```XML
+  <entity name="Employee" class="org.acme.Employee" access="FIELD">
+      <attributes>
+          <id name="id">
+              <column name="EMP_ID"/>
+          </id>
+          <element-collection name="phones">
+              <collection-table name="PHONE">
+                  <join-column name="OWNER_ID"/>
+              </collection-table>
+          </element-collection>
+      </attributes>
+  </entity>
+  <embeddable name="Phone" class="org.acme.Phone" access="FIELD">
+      <attributes>
+          <basic name="number">
+              <column name="P_NUMBER"/>
+          </basic>
+      </attributes>
+  </embeddable>
+```
 
-  ...
-
-  @ElementCollection
-  @CollectionTable(
-        name="PHONE",
-        joinColumns=@JoinColumn(name="OWNER_ID")
-  )
-  private List<Phone> phones;
-
-  ...
-
-}
-
-@Embeddable
-public class Phone {
-  private String type;
-  private String areaCode;
-
-  @Column(name="P_NUMBER")
-  private String number;
-
-  ...
-
-}
-
-****************************************************************************************************************
-
-*** Пример XML-связи ElementCollection с Embedded сущностями ***
-
-****************************************************************************************************************
-<entity name="Employee" class="org.acme.Employee" access="FIELD">
-    <attributes>
-        <id name="id">
-            <column name="EMP_ID"/>
-        </id>
-        <element-collection name="phones">
-            <collection-table name="PHONE">
-                <join-column name="OWNER_ID"/>
-            </collection-table>
-        </element-collection>
-    </attributes>
-</entity>
-<embeddable name="Phone" class="org.acme.Phone" access="FIELD">
-    <attributes>
-        <basic name="number">
-            <column name="P_NUMBER"/>
-        </basic>
-    </attributes>
-</embeddable>
-****************************************************************************************************************
-
-----------------------------------------------------------------------------------------------------------------
-*** Basic Collections ***
+---
+### Basic Collections
 
 В данном случае описывается ситуация с применением простых объектов, когда для организации взаимосвязи и
 настройки таблиц ненужно создавать отдельную сущность аннотированную как - @Embeddable, см. ниже., все
@@ -139,70 +132,66 @@ public class Phone {
 Пример базы данных с применением простых значений:
 
 EMPLOYEE (table)
------------------------------------
-EMP_ID | F_NAME | L_NAME | SALARY
------------------------------------
-1      | Bob    | Way    | 50000
------------------------------------
-2      | Joe    | Smith  | 35000
------------------------------------
+
+| EMP_ID | F_NAME | L_NAME | SALARY |
+|--------|--------|--------|--------|
+| 1      | Bob    | Way    | 50000  |
+| 2      | Joe    | Smith  | 35000  |
 
 PHONE (table)
---------------------------
-OWNER_ID | PHONE_NUMBER
---------------------------
-1        | 613-792-0001
---------------------------
-1        | 613-494-1234
---------------------------
-2        | 416-892-0005
---------------------------
+
+| OWNER_ID | PHONE_NUMBER |
+|----------|--------------|
+| 1        | 613-792-0001 |
+| 1        | 613-494-1234 |
+| 2        | 416-892-0005 |
 
 Пример применения аннотации @ElementCollection с Basic объектами:
 
-****************************************************************************************************************
-@Entity
-public class Employee {
+```Java
+  @Entity
+  public class Employee {
+  
+    @Id
+    @Column(name="EMP_ID")
+    private long id;
+  
+    ...
+  
+    @ElementCollection
+    @CollectionTable(
+          name="PHONE",
+          joinColumns=@JoinColumn(name="OWNER_ID")
+    )
+    @Column(name="PHONE_NUMBER")
+    private List<String> phones;
+  
+    ...
+  
+  }
+```
 
-  @Id
-  @Column(name="EMP_ID")
-  private long id;
+---
+### Пример XML-связи ElementCollection с Basic объектами
 
-  ...
+```XML
+  <entity name="Employee" class="org.acme.Employee" access="FIELD">
+      <attributes>
+          <id name="id">
+              <column name="EMP_ID" />
+          </id>
+          <element-collection name="phones" target-class="java.lang.String">
+              <column name="PHONE_NUMBER" />
+              <collection-table name="PHONE">
+                  <join-column name="OWNER_ID" />
+              </collection-table>
+          </element-collection>
+      </attributes>
+  </entity>
+```
 
-  @ElementCollection
-  @CollectionTable(
-        name="PHONE",
-        joinColumns=@JoinColumn(name="OWNER_ID")
-  )
-  @Column(name="PHONE_NUMBER")
-  private List<String> phones;
-
-  ...
-
-}
-****************************************************************************************************************
-
-*** Пример XML-связи ElementCollection с Basic объектами ***
-
-****************************************************************************************************************
-<entity name="Employee" class="org.acme.Employee" access="FIELD">
-    <attributes>
-        <id name="id">
-            <column name="EMP_ID" />
-        </id>
-        <element-collection name="phones" target-class="java.lang.String">
-            <column name="PHONE_NUMBER" />
-            <collection-table name="PHONE">
-                <join-column name="OWNER_ID" />
-            </collection-table>
-        </element-collection>
-    </attributes>
-</entity>
-****************************************************************************************************************
-
-----------------------------------------------------------------------------------------------------------------
-*** Распространенные проблемы при использовании @CollectionTable ***
+---
+### Распространенные проблемы при использовании @CollectionTable
 
 Спецификация JPA 2.0 не предоставляет возможности определить Id в помеченной Embeddable сущности. Однако для
 удаления или обновления элемента сопоставления обычно требуется ElementCollection некоторый уникальный ключ.
