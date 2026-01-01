@@ -418,7 +418,7 @@ Spring предлагает нам интерфейс PlatformTransactionManager
 
 Представим следующие два класса транзакций.
 
-```
+```Java
     @Service
     public class UserService {
     
