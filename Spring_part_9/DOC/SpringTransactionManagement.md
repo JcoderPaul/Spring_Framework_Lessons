@@ -379,7 +379,7 @@ Spring предлагает нам интерфейс PlatformTransactionManager
     
         @Override
         protected void doBegin(Object transaction, TransactionDefinition definition) {
-            Connection newCon = obtainDataSource().getConnection();
+            Connection con = obtainDataSource().getConnection();
             // ...
             con.setAutoCommit(false);
             // Да, вот так!
@@ -390,7 +390,7 @@ Spring предлагает нам интерфейс PlatformTransactionManager
             // ...
             Connection connection = status.getTransaction().getConnectionHolder().getConnection();
             try {
-                con.commit();
+                connection.commit();
             } catch (SQLException ex) {
                 throw new TransactionSystemException("Could not commit JDBC transaction", ex);
             }
