@@ -1,19 +1,13 @@
-****** Управление транзакциями в Spring: @Transactional в деталях ******
+### Управление транзакциями в Spring: @Transactional в деталях
 
 Данное краткое руководство пригодится, для того чтобы получить простое и практическое понимание, как работает
 управление транзакциями в Spring с помощью аннотации @Transactional .
 
-Содержание данной статьи пересекается с другим материалом см. DOC/TransactionInSpring/TransactionInSpring.txt
+Содержание данной статьи пересекается с [другим материалом см. TransactionInSpring](./TransactionInSpring/TransactionInSpring.md)
 
 Аннотация @Transactional связанна с декларативным управлением транзакциями, против TransactionTemplate -
-программного управления транзакциями (DOC/AnnotationTransactional/TransactionTemplate.txt). В официальной
-документации по управлению транзакциями в Spring Core:
-
-*****************************************************************************************************************
-https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#transaction
-*****************************************************************************************************************
-
-можно найти полное описание:
+[программного управления транзакциями](./AnnotationTransactional/TransactionTemplate.md). В официальной
+документации [по управлению транзакциями в Spring Core](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.html#transaction) можно найти полное описание:
 - интеграции @Transactional Spring и JPA / Hibernate;
 - интеграции @Transactional Spring и Spring Boot или Spring MVC;
 - особенности работы откатов транзакций, проксирования объектов, общих проблем и т.п.
@@ -24,48 +18,41 @@ https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/data-access.ht
 помнить, что Spring это framework, а многие фреймворки просто берут 'старое доброе' и поднимают его на новый
 уровень абстракции, улучшая и упрощая функционал.
 
------------------------------------------------------------------------------------------------------------------
-*** Управление транзакциями JDBC ***
+---
+### Управление транзакциями JDBC
 
 Не имеет значения, используем ли мы аннотацию @Transactional от Spring, обычный Hibernate или любую другую
 библиотеку БД - в конечном счёте, все они делают одно и то же: открывают и закрывают ("управляют") транзакциями БД.
 
 Обычный код управления транзакциями JDBC выглядит следующим образом:
 
-*****************************************************************************************************************
-import java.sql.Connection;
-...
+```Java
+    import java.sql.Connection;
+    ...
+    
+    Connection connection = dataSource.getConnection(); /* (1) */
+    
+    try (connection)
+        {
+            connection.setAutoCommit(false); /* (2) */
+            // выполнить несколько SQL-запросов...
+            connection.commit(); /* (3) */
+    
+        }
+    catch (SQLException e)
+        {
+            connection.rollback(); /* (4) */
+        }
+    ...
+```
 
-Connection connection = dataSource.getConnection(); /* (1) */
+Шаг 1. Соединение с БД. Для запуска транзакций необходимо подключение к базе данных, как вариант можно использовать - DriverManager.getConnection(url, user, password), хотя в большинстве корпоративных приложений мы будем иметь настроенный источник данных и получать соединения из него - [адаптированная копия текста см. TransactionInSpring](./TransactionInSpring/TransactionInSpring.md).
 
-try (connection)
-    {
-        connection.setAutoCommit(false); /* (2) */
-        // выполнить несколько SQL-запросов...
-        connection.commit(); /* (3) */
+Шаг 2. Начинаем (получаем) транзакцию БД в Java из соединения - setAutoCommit(true) - устанавливаем авто-коммит, и в таком случае гарантируем, что каждый SQL-оператор будет автоматически завёрнут в собственную транзакцию. В случае установки - setAutoCommit(false) - мы получаем возможность самостоятельно управлять транзакциями, т.е мы будем 'вручную' вызывать commit и rollback.
 
-    }
-catch (SQLException e)
-    {
-        connection.rollback(); /* (4) */
-    }
-...
-*****************************************************************************************************************
+[См. оф. док. (ENG)](https://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html)
 
-Шаг 1. Соединение с БД. Для запуска транзакций необходимо подключение к базе данных, как вариант можно использовать -
-       DriverManager.getConnection(url, user, password), хотя в большинстве корпоративных приложений мы будем иметь
-       настроенный источник данных и получать соединения из него (адаптированная копия текста из см.
-       DOC/TransactionInSpring/TransactionInSpring.txt).
-
-Шаг 2. Начинаем (получаем) транзакцию БД в Java из соединения - setAutoCommit(true) - устанавливаем авто-коммит,
-       и в таком случае гарантируем, что каждый SQL-оператор будет автоматически завёрнут в собственную транзакцию.
-       В случае установки - setAutoCommit(false) - мы получаем возможность самостоятельно управлять транзакциями,
-       т.е мы будем 'вручную' вызывать commit и rollback.
-
-       См. док. (ENG): https://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html
-
-       !!! Обратите внимание, что флаг autoCommit действует в течение всего времени, пока наше соединение открыто,
-       что означает, что нам нужно вызвать метод только один раз !!!
+**!!! Обратите внимание, что флаг autoCommit действует в течение всего времени, пока наше соединение открыто, что означает, что нам нужно вызвать метод только один раз !!!**
 
 Шаг 3. Фиксируем (commit) транзакцию в случае успеха (мы не поймали исключение).
 
@@ -73,93 +60,100 @@ catch (SQLException e)
 
 В упрощенном виде Spring делает эти 4-и шага всякий раз, когда мы используем аннотацию @Transactional.
 
-!!! Внимание !!! Библиотеки пулов соединений, такие как HikariCP, могут переключать режим авто-коммита
-                 автоматически, в зависимости от конфигурации. См. док.
+---
+**!!! Внимание !!!** 
 
------------------------------------------------------------------------------------------------------------------
-*** Уровни изоляции JDBC и точки сохранения ***
+Библиотеки пулов соединений, такие как HikariCP, могут переключать режим авто-коммита автоматически, в зависимости от конфигурации.
+
+---
+### Уровни изоляции JDBC и точки сохранения
 
 Аннотация @Transactional от Spring (с параметрами) выглядит примерно так:
 
-*****************************************************************************************************************
-@Transactional(
-  propagation=TransactionDefinition.NESTED,
-  isolation=TransactionDefinition.ISOLATION_READ_UNCOMMITTED
-)
-*****************************************************************************************************************
+```Java
+    @Transactional(
+      propagation=TransactionDefinition.NESTED,
+      isolation=TransactionDefinition.ISOLATION_READ_UNCOMMITTED
+    )
+```
 
-*****************************************************************************************************************
-См. док. (ENG): https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html
-*****************************************************************************************************************
+---
+[См. док. (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html)
 
 Необходимо знать и помнить, что все эти параметры сводятся к следующему, основному коду JDBC:
 
-*****************************************************************************************************************
-import java.sql.Connection;
+```Java
+    import java.sql.Connection;
+    
+    ...
+    /* isolation=TransactionDefinition.ISOLATION_READ_UNCOMMITTED */
+    
+    connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED); /* (1) */
+    
+    /* propagation=TransactionDefinition.NESTED */
+    
+    Savepoint savePoint = connection.setSavepoint(); /* (2) */
+    ...
+    connection.rollback(savePoint);
+```
 
-...
-/* isolation=TransactionDefinition.ISOLATION_READ_UNCOMMITTED */
-
-connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED); /* (1) */
-
-/* propagation=TransactionDefinition.NESTED */
-
-Savepoint savePoint = connection.setSavepoint(); /* (2) */
-...
-connection.rollback(savePoint);
-*****************************************************************************************************************
-
-Краткое описание настроек см. DOC/AnnotationTransactional/TransactionalAnnotation.txt
+[Краткое описание настроек см. TransactionalAnnotation](./AnnotationTransactional/TransactionalAnnotation.md)
 
 Вложенные транзакции в Spring - это точки сохранения JDBC / базы данных (savepoints), для понимания особенностей
-этого момента см. руководство (ENG): https://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html
+этого момента [см. руководство (ENG)](https://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html)
 
-!!! Обратите внимание !!! Поддержка точек сохранения зависит от выбранного драйвера JDBC/базы данных.
+---
+**!!! Обратите внимание !!!** 
 
------------------------------------------------------------------------------------------------------------------
-*** Управление транзакциями в Spring и Spring boot ***
+Поддержка точек сохранения зависит от выбранного драйвера JDBC/базы данных.
+
+---
+### Управление транзакциями в Spring и Spring boot
 
 И так, мы освежили понимание того, как работают транзакций в JDBC. А поскольку Spring core (Spring boot и
 Spring MVC) управляет транзакциями на основе принципов JDBC, то получается, что Spring делает тоже самое:
+
 - запускает транзакции;
 - фиксирует транзакции в случае успеха;
 - откатывает транзакции в случае провала;
 
 Однако, если, в обычном JDBC у нас есть только один способ управлять транзакциями через setAutocommit(false),
 то Spring предлагает нам как минимум два варианта, добиться того же самого:
+
 - программное управление транзакциями Spring-а;
 - декларативное управление транзакциями Spring-а;
 
------------------------------------------------------------------------------------------------------------------
-*** Программное управление транзакциями Spring (Programmatic Transaction Management) ***
+---
+### Программное управление транзакциями Spring (Programmatic Transaction Management)
 
 Первый, но довольно редко используемый способ определения транзакций в Spring - программный. Использование
-транзакционного шаблона TransactionTemplate (см. DOC/AnnotationTransactional/TransactionTemplate.txt), либо
+[транзакционного шаблона TransactionTemplate](./AnnotationTransactional/TransactionTemplate.md), либо
 непосредственно через PlatformTransactionManager.
 
 С точки зрения кода это выглядит следующим образом:
 
-*****************************************************************************************************************
-@Service
-public class UserService {
-
-    @Autowired
-    private TransactionTemplate template;
-
-    public Long registerUser(User user) {
-        Long id = template.execute(status ->  {
-            /*
-            Выполнить некий SQL запрос, который, например, вставляет
-            пользователя в базу данных и возвращает авто-сгенерированный
-            идентификатор.
-            */
-          return id;
-        });
+```Java
+    @Service
+    public class UserService {
+    
+        @Autowired
+        private TransactionTemplate template;
+    
+        public Long registerUser(User user) {
+            Long id = template.execute(status ->  {
+                /*
+                Выполнить некий SQL запрос, который, например, вставляет
+                пользователя в базу данных и возвращает авто-сгенерированный
+                идентификатор.
+                */
+              return id;
+            });
+        }
     }
-}
-*****************************************************************************************************************
+```
 
 Если сравнить с обычным примером JDBC приведенным выше, мы получаем следующие ништяки:
+
 - нам не нужно возиться с открытием и закрытием соединений с БД самостоятельно (try-finally). Вместо этого мы
   используем обратные вызовы транзакций (TransactionCallback);
 - нам не нужно ловить SQLExceptions, поскольку Spring преобразует эти исключения в runtime exceptions;
@@ -167,8 +161,8 @@ public class UserService {
   под капотом, который в свою очередь будет использовать источник данных. Нам нет нужды беспокоиться о любых
   bean-нах, которые мы должны указать в конфигурации контекста Spring-а.
 
------------------------------------------------------------------------------------------------------------------
-*** Декларативном управлении транзакциями Spring (Declarative Transaction Management) при помощи XML ***
+---
+### Декларативном управлении транзакциями Spring (Declarative Transaction Management) при помощи XML
 
 На этапе становления Spring-a конфигурация через XML была нормой для проектов Spring Framework. Мы могли
 конфигурировать транзакции непосредственно в XML файле. На данном этапе развития экосистемы Spring-a, такой
@@ -178,80 +172,79 @@ public class UserService {
 В качестве примера останавливаться на конфигурации XML, который можно использовать в качестве отправной точки,
 чтобы углубиться в него - при необходимости (он взят официальной документации Spring-a):
 
-*****************************************************************************************************************
-<!-- транзакционный совет (advice) (что "происходит"; см. <aop:advisor/> бин ниже) -->
-    <tx:advice id="txAdvice" transaction-manager="txManager">
-        <!-- семантика транзакций... -->
-        <tx:attributes>
-            <!--все методы, начинающиеся с 'get', доступны только для чтения -->
-            <tx:method name="get*" read-only="true"/>
-            <!-- другие методы используют настройки транзакции по умолчанию (см. ниже) -->
-            <tx:method name="*"/>
-        </tx:attributes>
-    </tx:advice>
-*****************************************************************************************************************
+```XML
+    <!-- транзакционный совет (advice) (что "происходит"; см. <aop:advisor/> бин ниже) -->
+        <tx:advice id="txAdvice" transaction-manager="txManager">
+            <!-- семантика транзакций... -->
+            <tx:attributes>
+                <!--все методы, начинающиеся с 'get', доступны только для чтения -->
+                <tx:method name="get*" read-only="true"/>
+                <!-- другие методы используют настройки транзакции по умолчанию (см. ниже) -->
+                <tx:method name="*"/>
+            </tx:attributes>
+        </tx:advice>
+```
 
 Мы определяем advice AOP (Aspect Oriented Programming, аспектно-ориентированное программирование) с помощью
 приведенного выше блока XML, который затем можно применить к bean-у UserService следующим образом:
 
-*****************************************************************************************************************
-<aop:config>
-    <aop:pointcut id="userServiceOperation" expression="execution(* x.y.service.UserService.*(..))"/>
-    <aop:advisor advice-ref="txAdvice" pointcut-ref="userServiceOperation"/>
-</aop:config>
-
-<bean id="userService" class="x.y.service.UserService"/>
-*****************************************************************************************************************
+```XML
+    <aop:config>
+        <aop:pointcut id="userServiceOperation" expression="execution(* x.y.service.UserService.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="userServiceOperation"/>
+    </aop:config>
+    
+    <bean id="userService" class="x.y.service.UserService"/>
+```
 
 Тогда наш bean UserService будет выглядеть следующим образом:
 
-*****************************************************************************************************************
-public class UserService {
-
-    public Long registerUser(User user) {
-        /*
-        Выполняем SQL, который, например, вставляет пользователя
-        в базу данных и извлекает авто-сгенерированный id
-        */
-      return id;
+```Java
+    public class UserService {
+    
+        public Long registerUser(User user) {
+            /*
+            Выполняем SQL, который, например, вставляет пользователя
+            в базу данных и извлекает авто-сгенерированный id
+            */
+          return id;
+        }
     }
-}
-*****************************************************************************************************************
+```
 
 С точки зрения кода Java, этот декларативный подход к транзакциям выглядит намного проще, чем программный подход.
 Но он приводит к большому количеству сложного, многословного XML с конфигурациями указателей и советников (advisor).
 Поэтому дальнейшая эволюция Spring-a дала нам аннотацию @Transactional.
 
------------------------------------------------------------------------------------------------------------------
-*** Декларативном управлении транзакциями Spring (Declarative Transaction Management) при помощи @Transactional ***
+---
+### Декларативном управлении транзакциями Spring (Declarative Transaction Management) при помощи @Transactional
 
 Современное управление транзакциями в Spring (осень 2023) выглядит так:
 
-*****************************************************************************************************************
-public class UserService {
-
-    @Transactional
-    public Long registerUser(User user) {
-        /*
-        Выполнить некоторый SQL, который, например, вставляет
-        пользователя в БД и извлекает авто-сгенерированный id
-        */
-        userDao.save(user);
-        return id;
+```Java
+    public class UserService {
+    
+        @Transactional
+        public Long registerUser(User user) {
+            /*
+            Выполнить некоторый SQL, который, например, вставляет
+            пользователя в БД и извлекает авто-сгенерированный id
+            */
+            userDao.save(user);
+            return id;
+        }
     }
-}
-*****************************************************************************************************************
+```
 
 Вместо конфигурации через XML теперь нужно сделать две вещи:
-- Убедитесь, что наша Configuration Spring сопровождена аннотацией @EnableTransactionManagement (в Spring boot
-  это будет сделано автоматически).
-- Убедитесь, что мы указали менеджер транзакций в нашей Configuration Spring (это необходимо сделать в любом
-  случае).
+
+- Убедитесь, что наша Configuration Spring сопровождена аннотацией @EnableTransactionManagement (в Spring boot это будет сделано автоматически).
+- Убедитесь, что мы указали менеджер транзакций в нашей Configuration Spring (это необходимо сделать в любом случае).
 
 Spring достаточно умный, чтобы явно обрабатывать транзакции для нас: любой публичный public метод bean, который
 мы сопроводим аннотацией @Transactional, будет выполняться внутри транзакции БД (обратите внимание: есть
 некоторые 'подводные камни' при работе с транзакциями в Spring, поскольку используется проксирование объектов
-см. в DOC/AnnotationTransactional/ProxyHowToWorksIs.txt).
+см. в [ProxyHowToWorksIs](./AnnotationTransactional/ProxyHowToWorksIs.md).
 
 Итак, чтобы аннотация @Transactional заработала, всё, что вам нужно сделать, это следующее:
 
