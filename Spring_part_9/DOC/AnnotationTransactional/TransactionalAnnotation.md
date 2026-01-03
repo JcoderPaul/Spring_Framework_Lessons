@@ -465,8 +465,8 @@ advisor and pointcut. Пример использования см.:
 
 ---
 
-- [TransactionManager - см. что это такое](../DOC/TransactionalInSpring/TransactionManager.md);
-- [Как выводить логи транзакций](../DOC/TransactionalOnSpring/TransactionLogs.md);
+- [TransactionManager - см. что это такое](./TransactionManager.md);
+- [Как выводить логи транзакций](./TransactionLogs.md);
 - [Работа с транзакциями через TransactionTemplate](./TransactionTemplate.md);
 
 ---
