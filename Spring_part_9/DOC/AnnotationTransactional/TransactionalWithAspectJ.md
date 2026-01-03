@@ -30,7 +30,7 @@
 
 Далее нам нужно использовать компилятор AspectJ, поэтому давайте добавим необходимые зависимости:
 
-```Java
+```XML
     <dependencies>
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -55,7 +55,7 @@
 
 Сам компилятор AspectJ затем можно включить с помощью:
 
-```Java
+```XML
     <build>
         <plugins>
             <plugin>
