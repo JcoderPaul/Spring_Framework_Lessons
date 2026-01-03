@@ -1,0 +1,62 @@
+### TransactionTemplate
+
+Кроме управления транзакциями через аннотации, Spring предоставляет возможность императивного управления
+транзакциями. Для этого Spring, как и во многих других случаях, использует шаблон "Template" (JdbcTemplate,
+RestTemplate). Используется класс TransactionTemplate. Bean продекларирован в TransactionAutoConfiguration.
+Основным методом является метод execute:
+
+```Java
+  public <T> T execute(TransactionCallback<T> action) throws TransactionException {
+  
+    if (this.transactionManager instanceof CallbackPreferringPlatformTransactionManager) {
+      return ((CallbackPreferringPlatformTransactionManager) this.transactionManager).execute(this, action);
+    } else {
+      TransactionStatus status = this.transactionManager.getTransaction(this);
+      T result;
+      try {
+        result = action.doInTransaction(status);
+      } catch (RuntimeException | Error ex) {
+        rollbackOnException(status, ex);
+        throw ex;
+      } catch (Throwable ex) {
+        rollbackOnException(status, ex);
+        throw new UndeclaredThrowableException(ex, "TransactionCallback threw undeclared checked exception");
+      }
+      this.transactionManager.commit(status);
+      return result;
+    }
+  }
+```
+
+Который повторяет стандартный механизм rollback/commit:
+
+- **получаем транзакцию (getTransaction)**;
+- **выполняем действие (doInTransaction)**;
+- **если была ошибка, откатываемся (rollbackOnException)**;
+- **если не было ошибки, то фиксируем транзакцию (commit)**;
+
+**!!! Интересна строчка начала транзакции !!!**
+
+```Java
+  this.transactionManager.getTransaction(this);
+```
+
+Так как transactionManager является одновременно и TransactionDefinition (его мы настраиваем перед вызовом
+execute), то он передает самого себя в transactionManager, поэтому для транзакции используются те параметры,
+которые были переданы в transactionManager.
+
+Так же можно заметить, что в метод выполнения передается TransactionStatus, поэтому во время выполнения вы
+можете вручную указать, когда нужно откатывать, не пробрасывая исключение:
+
+```Java
+  transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+    protected void doInTransactionWithoutResult(TransactionStatus status) {
+      try {
+        updateOperation1();
+        updateOperation2();
+      } catch (SomeBusinessExeption ex) {
+        status.setRollbackOnly();
+      }
+    }
+  });
+```
