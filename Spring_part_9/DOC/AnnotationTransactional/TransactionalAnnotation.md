@@ -267,12 +267,12 @@ advisor and pointcut. Пример использования см.:
 - **4** - Теперь на себя всю работу берет InfrastructureAdvisorAutoProxyCreator, который является BeanPostProcessor-ом
 см. схему иерархии для класса InfrastructureAdvisorAutoProxyCreator:
 
-![InfrastructureAdvisorAutoProxyCreator.jpg](../DOC/TransactionalInSpring/InfrastructureAdvisorAutoProxyCreator.jpg)
+![InfrastructureAdvisorAutoProxyCreator.jpg](./InfrastructureAdvisorAutoProxyCreator.jpg)
 
 Обработка @Transactional выполняется по обычным правилам Spring и никакой особой магии здесь нет. Примерная схема
 работы см.: 
 
-![SchemeOfWorkTransactional.jpg](../DOC/TransactionalOnSpring/SchemeOfWorkTransactional.jpg)
+![SchemeOfWorkTransactional.jpg](./SchemeOfWorkTransactional.jpg)
 
 ---
 ### Обработка @Transactional
