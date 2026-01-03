@@ -44,7 +44,7 @@ Gradle:
 
 Если выбрать AspectJ и корректно его настроить, то при компиляции будет сгенерирован код так, что тело метода будет уже обернуто кодом, управляющим транзакцией.
 
-Если выбран AdviceMode.PROXY, то будет использован стандартный механизм создания proxy объектов. См. пример с [AspectJ](https://docs.spring.io/spring-framework/reference/core/aop/using-aspectj.html) и [TransactionalWithAspectJ](../DOC/TransactionalOnSpring/TransactionalWithAspectJ.md).
+Если выбран AdviceMode.PROXY, то будет использован стандартный механизм создания proxy объектов. См. пример с [AspectJ](https://docs.spring.io/spring-framework/reference/core/aop/using-aspectj.html) и [TransactionalWithAspectJ](../TransactionalOnSpring/TransactionalWithAspectJ.md).
 
 - **order** - указывает, когда будет применен advice.
 
