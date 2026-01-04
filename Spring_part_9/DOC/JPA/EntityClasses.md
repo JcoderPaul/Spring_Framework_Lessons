@@ -1,6 +1,6 @@
 ### Entity
 
-Классический пример: [User.java](../src/main/java/spring/oldboy/database/entity/User.java)
+Классический пример: [User.java](../Spring_part_9/src/main/java/spring/oldboy/database/entity/User.java)
 
 **Entity** - это легковесный хранимый объект бизнес логики (persistent domain object).
 **Entity класс** - это основная программная сущность, которая так же может использовать дополнительные классы,
