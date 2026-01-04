@@ -1,6 +1,6 @@
-****** Embeddable класс ******
+### Embeddable класс
 
-Встраиваемый (Embeddable) класс - это класс, который не используется сам по себе, только как часть одного или
+**Встраиваемый (Embeddable) класс** - это класс, который не используется сам по себе, только как часть одного или
 нескольких Entity классов. Entity класс могут содержать как одиночные встраиваемые классы, так и коллекции таких
 классов.
 
@@ -21,6 +21,5 @@ JPA устанавливает к встраиваемым (Embeddable) клас
 2. Embeddable класс должен быть отмечен аннотацией Embeddable или соответствующим образом описан в XML файле
    конфигурации JPA;
 
-*******************************************************************************************************************
-См. https://github.com/JcoderPaul/Hibernate_Lessons/blob/master/Hibernate_part_2/DOC/HibernateEmbeddableEmbedded.txt
-*******************************************************************************************************************
+---
+См. [HibernateEmbeddableEmbedded](https://github.com/JcoderPaul/Hibernate_Lessons/blob/master/Hibernate_part_2/DOC/HibernateEmbeddableEmbedded.txt)
