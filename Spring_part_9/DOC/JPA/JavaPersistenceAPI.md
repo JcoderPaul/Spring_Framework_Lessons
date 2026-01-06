@@ -8,6 +8,10 @@
 
 ![ORMConcept.jpg](./ORMConcept.jpg)
 
+и
+
+![RelationDB.jpg](./RelationDB.jpg)
+
 JPA - это по сути идея о том, что Java объект можно представить как данные в БД (и наоборот). Она нашла воплощение
 в виде спецификации **JPA — Java Persistence API**. Спецификация — это уже описание Java API, которое выражает эту
 концепцию (идею). Спецификация рассказывает, какими средствами мы должны быть обеспечены (т.е. через какие
@@ -40,7 +44,7 @@ JPA - это по сути идея о том, что Java объект можн
 (и не переносимые на другие реализации JPA).
 
 ---
-### Отличие JPA от JDO ***
+### Отличие JPA от JDO
 
 **JPA (Java Persistence API) и Java Data Objects (JDO)** две спецификации сохранения java объектов в базах данных.
 Если **JPA сконцентрирована только на реляционных базах**, то **JDO более общая спецификация которая описывает ORM
@@ -58,8 +62,8 @@ JPA - это по сути идея о том, что Java объект можн
 1) **LAZY** — данные поля будут загружены только во время первого доступа к этому полю;
 2) **EAGER** — данные поля будут загружены немедленно;
 
-См. док. (ENG): [FetchType](https://docs.oracle.com/javaee/7/api/javax/persistence/FetchType.html)
-См. пример (RUS): [Hibernate_part_7](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_7)
+- См. док. (ENG): [FetchType](https://docs.oracle.com/javaee/7/api/javax/persistence/FetchType.html)
+- См. пример (RUS): [Hibernate_part_7](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_7)
 
 ---
 ### Аннотации JPA
