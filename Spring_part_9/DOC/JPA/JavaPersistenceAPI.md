@@ -169,8 +169,7 @@ JPA - это по сути идея о том, что Java объект можн
              Entity (если провайдер JPA поддерживает работу с кешированием и настройки кеша (second-level cache)
              стоят как ENABLE_SELECTIVE или DISABLE_SELECTIVE, см. пример и описание: [Hibernate_part_11](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_11).
 
-             Обратите внимание свойство наследуется и если не будет перекрыто у наследников, то кеширование
-             измениться и для них тоже см. [SecondLevelCache](https://github.com/JcoderPaul/Hibernate_Lessons/blob/master/Hibernate_part_11/DOC/SecondLevelCache.txt).
+Обратите внимание свойство наследуется и если не будет перекрыто у наследников, то кеширование измениться и для них тоже см. [SecondLevelCache](https://github.com/JcoderPaul/Hibernate_Lessons/blob/master/Hibernate_part_11/DOC/SecondLevelCache.txt).
 
 ---
 **@Convert и @Converts** — позволяют указать класс для конвертации Basic аттрибута Entity в другой тип
