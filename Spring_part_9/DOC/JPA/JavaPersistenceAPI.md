@@ -303,8 +303,8 @@ JPA - это по сути идея о том, что Java объект можн
                    событий (callback methods) определенных Entity или Mapped Superclass.
 
 ---
-См. док. (ENG): [EntityListeners](https://docs.oracle.com/javaee/7/api/javax/persistence/EntityListeners.html)
-См. примеры (RUS): [Hibernate_part_9](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_9)
+- См. док. (ENG): [EntityListeners](https://docs.oracle.com/javaee/7/api/javax/persistence/EntityListeners.html)
+- См. примеры (RUS): [Hibernate_part_9](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_9)
 
 ---
 **Callback методы** служат для вызова при определенных событиях Entity (то есть добавить обработку, например, удаления
@@ -383,8 +383,8 @@ Entity методами JPA), могут быть добавлены к Entity �
 ---
 ### Типы блокировок - LockMode в JPA
 
-См. подробнее (ENG): [LockModeType](https://docs.oracle.com/javaee/7/api/javax/persistence/LockModeType.html)
-См. подробнее (RUS): [Hibernate_part_8](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_8)
+- См. подробнее (ENG): [LockModeType](https://docs.oracle.com/javaee/7/api/javax/persistence/LockModeType.html)
+- См. подробнее (RUS): [Hibernate_part_8](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_8)
 
 У JPA есть шесть видов блокировок, перечислим их в порядке увеличения надежности (от самого ненадежного и
 быстрого, до самого надежного и медленного):
