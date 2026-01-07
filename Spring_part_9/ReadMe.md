@@ -64,7 +64,8 @@ ________________________________________________________________________________
 Подключаем JPA-Starter, фактически само подключение описано выше на шаге 5., что легко можно наблюдать в [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/build.gradle).
 
 Из меню Gradle мы можем увидеть все зависимости загруженные вместе со spring-boot-starter-data-jpa см.
-[DOC/SpringDataJPAStarterTransitiveDependencies.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/DOC/SpringDataJPAStarterTransitiveDependencies.jpg)
+
+![SpringDataJPAStarterTransitiveDependencies.jpg](./DOC/SpringDataJPAStarterTransitiveDependencies.jpg)
 
 Настроим подключение к БД (пока на локальную машину, а не Docker контейнер) в [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/src/main/resources/application.yml):
 
