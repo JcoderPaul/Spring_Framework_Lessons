@@ -8,8 +8,8 @@
 К запросам, требующим аннотации `@Modifying`, относятся операторы INSERT, UPDATE, DELETE и DDL.
 
 ---
-**Пакет:** org.springframework.data.jpa.repository
-**Смотреть также:** Query
+- **Пакет:** [org.springframework.data.jpa.repository](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/package-summary.html);
+- **Смотреть также:** [Query](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/query/package-summary.html);
 
 ---
 ```Java
