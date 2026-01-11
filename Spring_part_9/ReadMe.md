@@ -112,7 +112,7 @@
 Создаем сущности для общения с Hibernate. Чтобы более подробно разобраться (повторить) данный вопрос 
 см. [уроки по Hibernate](https://github.com/JcoderPaul/Hibernate_Lessons).
 
-- База данных подключена, заполним ее тестовыми данными из: [DOC/SqlScripts](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/DOC/SqlScripts);
+- База данных подключена, заполним ее тестовыми данными из: [SqlScripts](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/DOC/SqlScripts);
 - Создадим сущности для работы с БД ([см. пример из уроков по Hibernate](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_1/src/main/java/oldboy/entity));
 
 Немного изменим структуру проекта и приведем в соответствие таблицы БД и Entity классы: [database/entity](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/src/main/java/spring/oldboy/database/entity)
@@ -141,11 +141,11 @@ Spring Data Jpa позволяет быстро настроить работу 
 менеджера транзакций этой конфигурации (или так, менеджер транзакций конфигурируется в JpaBaseConfiguration) мы можем управлять
 транзакциями используя аннотации (декларативно) или вручную (TransactionTemplate)
 
-- [DOC/AnnotationTransactional](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/DOC/AnnotationTransactional) - подробное описание аннотационного интерфейса и применения [@Transactional](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html);
-- [DOC/TransactionInSpring](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/DOC/TransactionInSpring) - подробное описание такого понятия как транзакция (особенность при работе в Spring);
-- [DOC/SpringTransactionManagement.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/DOC/SpringTransactionManagement.txt) - статья об управлении транзакциями в Spring;
-- [DOC/JPA](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/DOC/JPA) - еще раз о JPA;
-- [DOC/SpringBootAndDataBases](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/DOC/SpringBootAndDataBases) - особенности настройки и работы Spring Data JPA;
+- [AnnotationTransactional](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/DOC/AnnotationTransactional) - подробное описание аннотационного интерфейса и применения [@Transactional](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html);
+- [TransactionInSpring](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/DOC/TransactionInSpring) - подробное описание такого понятия как транзакция (особенность при работе в Spring);
+- [SpringTransactionManagement](./DOC/SpringTransactionManagement.md) - статья об управлении транзакциями в Spring;
+- [JPA](./DOC/JPA) - еще раз о JPA;
+- [SpringBootAndDataBases](./DOC/SpringBootAndDataBases) - особенности настройки и работы Spring Data JPA;
 
 Пример работы с аннотациями [@Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html), [@Rollback](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/Rollback.html) и [@Commit](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/Commit.html) приведен в [CompanyRepositoryTest.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/src/test/java/spring/oldboy/integration/database/repository/CompanyRepositoryTest.java) - особенности
 применения их читать в комментариях к коду тестового класса. 
@@ -176,11 +176,9 @@ spring-boot-starter-..., то подтягивается транзитивна�
 содержит в файле [spring.factories](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/resources/META-INF/spring.factories) список авто-конфигураций.
 
 Это файл: [org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/transaction/TransactionAutoConfiguration.java), содержит конфигурацию,
-которая будет загружена при подъеме контекста см. [DOC/AnnotationTransactional/TransactionalAnnotation.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/DOC/AnnotationTransactional/TransactionalAnnotation.txt)
+которая будет загружена при подъеме контекста см. [TransactionalAnnotation](./DOC/AnnotationTransactional/TransactionalAnnotation.md)
 
-Когда мы ставим [@Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html) над методом, Spring создает прокси-класс, который содержит CompanyService, и внедряет 
-вместо нашего объекта этот прокси объект. Этот прокси-класс содержит такие же методы (прокси класс оборачивает вызов 
-метода в транзакцию), что и наш класс, поэтому он подходит для внедрения в bean-ы, которые ожидают CompanyService, см. 
+Когда мы ставим [@Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html) над методом, Spring создает прокси-класс, который содержит CompanyService, и внедряет вместо нашего объекта этот прокси объект. Этот прокси-класс содержит такие же методы (прокси класс оборачивает вызов метода в транзакцию), что и наш класс, поэтому он подходит для внедрения в bean-ы, которые ожидают CompanyService, см. 
 
 ![CompanyServiceCglibProxy.jpg](./DOC/CompanyServiceCglibProxy.jpg) 
 
@@ -213,14 +211,14 @@ spring-boot-starter-..., то подтягивается транзитивна�
 ---
 #### Lesson 45 - Настройки @Transactional.
 
-- [DOC/ProxyByProxyTransaction.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/DOC/ProxyByProxyTransaction.jpg) - схема описывает взаимодействие прокси-объектов созданных при работе (классов) методов 
-помеченных аннотацией [@Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html). Так же, эта схема хорошо описывает т.н. 'подводный камень' при работе с прокси 
-объектами, см. [DOC/AnnotationTransactional/ProxyHowToWorksIs.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/DOC/AnnotationTransactional/ProxyHowToWorksIs.txt) (говорят, что это вопрос часто встречается на собеседованиях), 
-т.е. ситуацию в которой при уже открытой транзакции, другая не открывается (все будет зависеть от настроек @Transactional см. ниже). 
+![ProxyByProxyTransaction.jpg](./DOC/ProxyByProxyTransaction.jpg)
+
+Cхема описывает взаимодействие прокси-объектов созданных при работе (классов) методов помеченных аннотацией [@Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html). Так же, эта схема хорошо описывает т.н. 'подводный камень' при работе с прокси объектами, см. [ProxyHowToWorksIs](./DOC/AnnotationTransactional/ProxyHowToWorksIs.md) (говорят, что это вопрос часто встречается на собеседованиях), т.е. ситуацию в которой при уже открытой транзакции, другая не открывается 
+(все будет зависеть от настроек @Transactional см. ниже). 
 
 Работа аннотации описана:
-- (RUS) [DOC/AnnotationTransactional](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_9/DOC/AnnotationTransactional);
-- (RUS) [DOC/SpringTransactionManagement.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/DOC/SpringTransactionManagement.txt);
+- (RUS) [AnnotationTransactional](./DOC/AnnotationTransactional);
+- (RUS) [SpringTransactionManagement](./DOC/SpringTransactionManagement.md);
 - (ENG) [Annotation Interface Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html);
 
 Сами настройки можно посмотреть в структуре интерфейса, некоторые из них описаны ниже:
@@ -228,12 +226,10 @@ spring-boot-starter-..., то подтягивается транзитивна�
 Propagation - способ "распространения, деления" транзакций, выделяются следующие способы:
 
 - **MANDATORY** - если есть текущая активная транзакция - выполняется в ней, иначе выбрасывается исключение;
-- **NESTED** - выполняется внутри вложенной транзакции, если есть активная, если нет активной - то аналогично
-           REQUIRED;
+- **NESTED** - выполняется внутри вложенной транзакции, если есть активная, если нет активной - то аналогично REQUIRED;
 - **NEVER** - выполняется вне транзакции, если есть активная - выбрасывается исключение;
 - **NOT_SUPPORTED** - выполняется вне транзакции - если есть активная, она приостанавливается;
-- **REQUIRED** - (значение по умолчанию) - если есть активная, то выполняется в ней, если нет, то создается новая
-             транзакция;
+- **REQUIRED** - (значение по умолчанию) - если есть активная, то выполняется в ней, если нет, то создается новая транзакция;
 - **REQUIRES_NEW** - всегда создается новая транзакция, если есть активная - то она приостанавливается;
 - **SUPPORTS** - если есть активная - то выполняется в ней, если нет - то выполняется не транзакционно;
 
@@ -254,7 +250,7 @@ Propagation - способ "распространения, деления" тр
 
 Уровни изоляции базы данных, является сложной темой, следует потратить некоторое время, чтобы полностью разобраться 
 в ней:
-- См. (RUS): [https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_8](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_8) ;
+- См. (RUS): [Hibernate_part_8](https://github.com/JcoderPaul/Hibernate_Lessons/tree/master/Hibernate_part_8) ;
 - См. (ENG): [Transaction Isolation](https://www.postgresql.org/docs/9.5/transaction-iso.html) ;
 
 Пример применения:
@@ -279,7 +275,7 @@ Propagation - способ "распространения, деления" тр
 #### Lesson 46 - Программное (ручное) управление транзакциями - TransactionTemplate.
 
 - [CompanyRepositoryTemplateTest.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/src/test/java/spring/oldboy/integration/database/repository/lesson_46/CompanyRepositoryTemplateTest.java) - тестовый класс, где применяется TransactionTemplate (см. комментарии в тесте);
-- [DOC/AnnotationTransactional/TransactionTemplate.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/DOC/AnnotationTransactional/TransactionTemplate.txt) - краткое описание TransactionTemplate;
+- [TransactionTemplate](./DOC/AnnotationTransactional/TransactionTemplate.md) - краткое описание TransactionTemplate;
 
 ---
 См. официальные [Guides](https://spring.io/guides):
