@@ -9,7 +9,7 @@
 
 ---
 - **Пакет:** [org.springframework.data.jpa.repository](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/package-summary.html);
-- **Смотреть также:** [Query](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/query/package-summary.html);
+- **Смотреть так же:** [Query](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/query/package-summary.html);
 
 ---
 ```Java
