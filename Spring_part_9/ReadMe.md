@@ -20,6 +20,7 @@
 
 Шаг 1. - в файле build.gradle добавим необходимые plugin-ы: 
 
+```Gradle
     /* 
        Плагин Spring Boot добавляет необходимые задачи в Gradle 
        и имеет обширную взаимосвязь с другими plugin-ами.
@@ -32,30 +33,39 @@
     id "io.spring.dependency-management" version '1.0.11.RELEASE'
     /* Подключим Lombok */
     id "io.freefair.lombok" version "8.3"
+```
 
 Шаг 2. - подключаем Spring Boot starter:
 
+```Gradle
     /* 
        Подключим Spring Boot Starter он включает поддержку 
        авто-конфигурации, логирование и YAML
     */
     implementation 'org.springframework.boot:spring-boot-starter'
+```
 
 Шаг 3. - подключаем блок тестирования (Spring Boot Starter Test) 
 (он будет активен на этапе тестирования):
 
+```Gradle
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+```
 
 Шаг 4. - автоматически Gradle создал тестовую зависимость на Junit5
 (мы можем использовать как Junit4, так и TestNG):
 
+```Gradle
     test {
         useJUnitPlatform()
     }
+```
 
 Шаг 5. - подключим блок для работы с БД (Spring Boot Starter Data Jpa)
 
+```Gradle
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+```
 
 ---
 #### Lesson 41 - Подключение Spring-Data-JPA-Starter (теория, настройка и подключение БД).
@@ -70,15 +80,18 @@
 
 Настроим подключение к БД (пока на локальную машину, а не Docker контейнер) в [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/src/main/resources/application.yml):
 
+```YAML
     spring:
      datasource:
       url: jdbc:postgresql://localhost:5432/SpringLessons
       username: postgres
       password: testadmin
       driver-class-name: org.postgresql.Driver
+```
 
-Мы так же можем настроить и JPA см. [DOC/SpringBootAndDataBases/DataSourceSetting.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/DOC/SpringBootAndDataBases/DataSourceSetting.txt) и [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/src/main/resources/application.yml).
+Мы так же можем настроить и JPA см. [DataSourceSetting](./DOC/SpringBootAndDataBases/DataSourceSetting.md) и [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/src/main/resources/application.yml).
 Чтобы посмотреть результат настроек можно запустить [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_9/src/main/java/spring/oldboy/SpringAppRunner.java) и изучить содержимое консоли.
+
 Упрощенно это выглядит так:
 
     /* Приложение запускается и прогружает все нужные модули, видно как загружается HikariPool */
