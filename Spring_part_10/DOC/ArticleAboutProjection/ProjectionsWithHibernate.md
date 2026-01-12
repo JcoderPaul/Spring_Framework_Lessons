@@ -59,7 +59,7 @@ Hibernate.
 
 Вы можете использовать метод find в своем EntityManager или написать простой запрос JPQL или Criteria, который выбирает
 один или несколько объектов. Spring Data JPA может даже получить запрос, который возвращает сущность из имени вашего
-метода репозитория см. [6_QueriesFromMethodNames.md](./DOC/SpringDataJPATutorial/6_QueriesFromMethodNames.md).
+метода репозитория см. [6_QueriesFromMethodNames.md](../DOC/SpringDataJPATutorial/6_QueriesFromMethodNames.md).
 
 ```Java
   TypedQuery<Book> q = em.createQuery("SELECT b FROM Book b", Book.class);
