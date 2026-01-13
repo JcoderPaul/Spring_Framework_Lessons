@@ -1,20 +1,24 @@
-****** Interface RevisionRepository ******
+### Interface RevisionRepository
 
-Interface RevisionRepository<T,ID,N extends Number & Comparable<N>>
+**Interface RevisionRepository<T,ID,N extends Number & Comparable<N>>**
 
 Репозиторий, который может получить доступ к объектам, хранящимся в различных файлах Revisions.
-________________________________________________________________________________________________________________________
-Пакет: org.springframework.data.repository.history
 
-Суперинтерфейсы: Repository<T,ID>
-________________________________________________________________________________________________________________________
-@NoRepositoryBean
-public interface RevisionRepository<T,ID,N extends Number & Comparable<N>> extends Repository<T,ID>
-________________________________________________________________________________________________________________________
-*** Методы ***
+---
+**Пакет:** [org.springframework.data.repository.history](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/history/package-summary.html)
 
-- Optional<Revision<N,T>> findLastChangeRevision(ID id) - Возвращает ревизию объекта, в котором он был изменен в
-                                                          последний раз, id - не должно быть нулевым.
+---
+**Суперинтерфейсы:** [Repository<T,ID>](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/Repository.html)
+
+---
+```Java
+  @NoRepositoryBean
+  public interface RevisionRepository<T,ID,N extends Number & Comparable<N>> extends Repository<T,ID>
+
+---
+### Методы
+
+- Optional<Revision<N,T>> findLastChangeRevision(ID id) - Возвращает ревизию объекта, в котором он был изменен в последний раз, id - не должно быть нулевым.
 
 - Optional<Revision<N,T>> findRevision(ID id, N revisionNumber) - Возвращает объект с заданным идентификатором в
                                                                   заданном номере версии. Обратите внимание: не
@@ -35,7 +39,6 @@ ________________________________________________________________________________
                                                                            pageable - страница для запроса постраничного
                                                                            результата может быть Pageable.unpaged(),
                                                                            не должна быть нулевой.
-________________________________________________________________________________________________________________________
-См. офф. док. (ENG):
-https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/history/RevisionRepository.html
-________________________________________________________________________________________________________________________
+
+---
+См. офф. док.: [RevisionRepository](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/history/RevisionRepository.html)
