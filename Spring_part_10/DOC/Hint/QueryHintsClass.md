@@ -10,7 +10,7 @@ java.lang.Object
     org.hibernate.annotations.QueryHints
 
 ---
-public class QueryHints extends Object
+    public class QueryHints extends Object
 
 ---
 #### Поля
