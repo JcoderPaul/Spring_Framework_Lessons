@@ -1,4 +1,4 @@
-### Annotation Type QueryHint ******
+### Annotation Type QueryHint
 
 Используется для предоставления свойства запроса или подсказки для аннотации NamedQuery или NamedNativeQuery.
 Подсказки, специфичные для поставщика, которые не распознаются поставщиком, игнорируются.
@@ -21,9 +21,9 @@
 
 ---
 **См. оригинал (ENG):**
-- [QueryHint (by hibernate.org)](https://docs.hibernate.org/jpa/2.1/api/javax/persistence/QueryHint.html);
-- [QueryHint (by eclipse.org)](https://docs.oracle.com/middleware/1221/toplink/java-reference/org/eclipse/persistence/config/QueryHints.html);
-- [QueryHint (by springframework.org](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/QueryHints.html);
+- [Аннотация QueryHint (by hibernate.org)](https://docs.hibernate.org/jpa/2.1/api/javax/persistence/QueryHint.html);
+- [Класс QueryHint (by eclipse.org)](https://docs.oracle.com/middleware/1221/toplink/java-reference/org/eclipse/persistence/config/QueryHints.html);
+- [Аннотация QueryHints (by springframework.org](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/QueryHints.html);
 
 **Статьи:**
 - [Query Hints in Spring Data JPA](https://www.baeldung.com/spring-data-jpa-query-hints);
