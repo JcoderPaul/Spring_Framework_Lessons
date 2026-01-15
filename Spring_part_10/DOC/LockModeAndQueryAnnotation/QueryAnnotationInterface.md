@@ -1,13 +1,17 @@
-****** Annotation Interface Query ******
+### Annotation Interface Query
 
 Аннотация для объявления запросов поиска непосредственно в методах репозитория.
-________________________________________________________________________________________________________________________
-@Retention(RUNTIME)
-@Target({METHOD,ANNOTATION_TYPE})
-@Documented
-public @interface Query
-________________________________________________________________________________________________________________________
-*** Элементы ***
+
+---
+```Java
+  @Retention(RUNTIME)
+  @Target({METHOD,ANNOTATION_TYPE})
+  @Documented
+  public @interface Query
+```
+
+---
+#### Элементы
 
 - String countName - Возвращает имя объекта, NamedQuery которое будет использоваться для выполнения запросов подсчета
                      при использовании нумерации страниц. По умолчанию будет задано имя именованного запроса с
@@ -30,7 +34,12 @@ ________________________________________________________________________________
                                                  запроса после полной сборки запроса.
 
 - String value - Определяет запрос JPA, который будет выполняться при вызове аннотированного метода.
-________________________________________________________________________________________________________________________
-См. оригинал (ENG):
-https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/Query.html
-________________________________________________________________________________________________________________________
+
+---
+- [См. оригинал (ENG)](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/Query.html);
+
+---
+**Статьи по теме:**
+- [Spring Data JPA @Query](https://www.baeldung.com/spring-data-jpa-query);
+- [Ultimate Guide: Custom Queries with Spring Data JPA’s @Query Annotation](https://thorben-janssen.com/spring-data-jpa-query-annotation/);
+- [Spring Data JPA @Query Annotation with Example](https://www.geeksforgeeks.org/java/spring-data-jpa-query-annotation-with-example/);
