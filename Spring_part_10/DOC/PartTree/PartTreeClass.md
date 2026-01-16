@@ -65,4 +65,9 @@ java.lang.Object
 - Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, and, and, and, filter, flatMap, get, isEmpty, map, stream, toList, toSet
 
 ---
-Оригинал (ENG): [PartTree](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/parser/PartTree.html)
+Оригинал (ENG): 
+- [doc PartTree](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/parser/PartTree.html)
+- [code PartTree](https://github.com/spring-projects/spring-data-commons/blob/main/src/main/java/org/springframework/data/repository/query/parser/PartTree.java)
+
+---
+- [Spring on GitHub](https://github.com/spring-projects)
