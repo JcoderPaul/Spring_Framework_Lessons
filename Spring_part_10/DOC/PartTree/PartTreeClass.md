@@ -1,31 +1,37 @@
-****** Class PartTree ******
+### Class PartTree
 
 Класс предназначен для парсинга String дерева или элементов, состоящих по очереди PartTree.OrPart из простых
 экземпляров Part. Также принимает класс предметной области, чтобы проверить, что каждый из Parts ссылается на
 свойство класса предметной области. Затем его PartTree можно использовать для построения запросов на основе
 его API вместо анализа имени метода для каждого выполнения запроса.
-________________________________________________________________________________________________________________________
-Пакет: org.springframework.data.repository.query.parser
 
+---
+**Пакет:** [org.springframework.data.repository.query.parser](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/parser/package-summary.html)
+
+---
 java.lang.Object
     org.springframework.data.repository.query.parser.PartTree
 
-Реализующие интерфейсы: Iterable<PartTree.OrPart>,
-                        Supplier<Stream<PartTree.OrPart>>,
-                        Streamable<PartTree.OrPart>
-________________________________________________________________________________________________________________________
-public class PartTree extends Object implements Streamable<PartTree.OrPart>
-________________________________________________________________________________________________________________________
-*** Вложенный класс ***
+**Реализующие интерфейсы:** 
+- [Iterable](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html)<[PartTree.OrPart](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/parser/PartTree.OrPart.html)>,
+- [Supplier](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html)<[Stream](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html)<PartTree.OrPart>>,
+- [Streamable](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/util/Streamable.html)<PartTree.OrPart>
 
-- static class PartTree.OrPart - Часть анализируемого источника, полученная в результате разделения ресурса по ключевым
-                                 словам Or.
-________________________________________________________________________________________________________________________
-*** Конструктор ***
+---
+    public class PartTree extends Object implements Streamable<PartTree.OrPart>
+
+---
+### Вложенный класс
+
+- static class [PartTree.OrPart](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/parser/PartTree.OrPart.html) - Часть анализируемого источника, полученная в результате разделения ресурса по ключевым словам Or.
+
+---
+### Конструктор
 
 - PartTree(String source, Class<?> domainClass) - Создает новый PartTree путем анализа данного файла String.
-________________________________________________________________________________________________________________________
-*** Методы ***
+
+---
+### Методы
 
 - Integer getMaxResults() - Возвращает количество максимальных результатов для возврата или значение NULL, если оно не
                             ограничено.
@@ -52,16 +58,11 @@ ________________________________________________________________________________
 - Iterator<PartTree.OrPart> iterator()
 
 - String toString()
-________________________________________________________________________________________________________________________
-Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll,
-                                                   wait, wait, wait
 
-Методы, унаследованные от интерфейса java.lang.Iterable: forEach, spliterator
+---
+- Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait
+- Методы, унаследованные от интерфейса java.lang.Iterable: forEach, spliterator
+- Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, and, and, and, filter, flatMap, get, isEmpty, map, stream, toList, toSet
 
-Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, and, and, and, filter, flatMap,
-                                                                               get, isEmpty, map, stream, toList,
-                                                                               toSet
-________________________________________________________________________________________________________________________
-Оригинал (ENG):
-https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/parser/PartTree.html
-________________________________________________________________________________________________________________________
+---
+Оригинал (ENG): [PartTree](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/parser/PartTree.html)
