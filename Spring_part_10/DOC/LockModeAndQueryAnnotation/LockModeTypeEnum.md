@@ -5,9 +5,9 @@
 - [javax.persistence (on Hibernate)](https://docs.hibernate.org/jpa/2.1/api/javax/persistence/package-summary.html);
 
 ---
-java.lang.Object
-    java.lang.Enum<LockModeType>
-        javax.persistence.LockModeType
+    java.lang.Object
+        java.lang.Enum<LockModeType>
+            javax.persistence.LockModeType
 
 ---
 **Реализующие интерфейсы:** Serializable, Comparable<LockModeType>
