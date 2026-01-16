@@ -6,9 +6,9 @@
 **Пакет:** [org.springframework.data.jpa.repository.query](https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/query/package-summary.html)
 
 ---
-java.lang.Object
-    org.springframework.data.jpa.repository.query.AbstractJpaQuery
-        org.springframework.data.jpa.repository.query.PartTreeJpaQuery
+    java.lang.Object
+        org.springframework.data.jpa.repository.query.AbstractJpaQuery
+            org.springframework.data.jpa.repository.query.PartTreeJpaQuery
 
 ---
 **Реализованные интерфейсы:** [RepositoryQuery](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/RepositoryQuery.html)
@@ -37,4 +37,6 @@ getQueryMethod, getTypeToRead
 
 ---
 Статьи по теме:
-- 
+- [JPA Query Methods](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html);
+- [Spring Data JPA @Query](https://www.baeldung.com/spring-data-jpa-query);
+- [Spring Data JPA @Query Annotation with Example](https://www.geeksforgeeks.org/java/spring-data-jpa-query-annotation-with-example/);
