@@ -6,8 +6,9 @@
 ---
 **Пакет (библиотека):** `org.hibernate.annotations`
 
-java.lang.Object
-    org.hibernate.annotations.QueryHints
+---
+    java.lang.Object
+        org.hibernate.annotations.QueryHints
 
 ---
     public class QueryHints extends Object
