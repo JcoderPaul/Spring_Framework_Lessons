@@ -9,8 +9,8 @@
 **Пакет:** [org.springframework.data.repository.query.parser](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/parser/package-summary.html)
 
 ---
-java.lang.Object
-    org.springframework.data.repository.query.parser.PartTree
+    java.lang.Object
+        org.springframework.data.repository.query.parser.PartTree
 
 **Реализующие интерфейсы:** 
 - [Iterable](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html)<[PartTree.OrPart](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/parser/PartTree.OrPart.html)>,
