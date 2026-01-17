@@ -36,9 +36,9 @@
   
   - Optional<T> findById(ID id) - Получает объект по его идентификатору.
   
-  - <S extends T> S save(S entity) - Сохраняет заданный объект.
+  - S save(S entity) - Сохраняет заданный объект.
   
-  - <S extends T> Iterable<S> saveAll(Iterable<S> entities) - Сохраняет все заданные объекты.
+  - Iterable<S> saveAll(Iterable<S> entities) - Сохраняет все заданные объекты.
 
 ---
 - [Оригинал (ENG)](https://docs.spring.io/spring-data/data-commons/docs/current/api/org/springframework/data/repository/CrudRepository.html)
