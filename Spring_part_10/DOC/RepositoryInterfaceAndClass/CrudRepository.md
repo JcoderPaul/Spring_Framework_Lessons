@@ -1,17 +1,20 @@
-****** Interface CrudRepository<T,ID> ******
+### Interface CrudRepository<T,ID>
 
 Интерфейс для общих операций CRUD в репозитории определенного типа.
-________________________________________________________________________________________________________________________
-Пакет: org.springframework.data.repository
 
-Суперинтерфейсы: Repository<T,ID>
+---
+**Пакет:** [org.springframework.data.repository](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/package-summary.html)
 
-Субинтерфейсы: ListCrudRepository<T,ID>
-________________________________________________________________________________________________________________________
-@NoRepositoryBean
-public interface CrudRepository<T,ID> extends Repository<T,ID>
-________________________________________________________________________________________________________________________
-*** Методы ***
+**Суперинтерфейсы:** [Repository](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/Repository.html)<T,ID>
+
+**Субинтерфейсы:** [ListCrudRepository](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/ListCrudRepository.html)<T,ID>
+
+---
+  @NoRepositoryBean
+  public interface CrudRepository<T,ID> extends Repository<T,ID>
+
+---
+### Методы
 
 - long count() - Возвращает количество доступных объектов.
 
@@ -36,7 +39,6 @@ ________________________________________________________________________________
 - <S extends T> S save(S entity) - Сохраняет заданный объект.
 
 - <S extends T> Iterable<S> saveAll(Iterable<S> entities) - Сохраняет все заданные объекты.
-________________________________________________________________________________________________________________________
-Оригинал (ENG):
-https://docs.spring.io/spring-data/data-commons/docs/current/api/org/springframework/data/repository/CrudRepository.html
-________________________________________________________________________________________________________________________
+
+---
+- [Оригинал (ENG)](https://docs.spring.io/spring-data/data-commons/docs/current/api/org/springframework/data/repository/CrudRepository.html)
