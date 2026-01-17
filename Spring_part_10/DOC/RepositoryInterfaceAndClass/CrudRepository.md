@@ -38,7 +38,7 @@
   
   - S save(S entity) - Сохраняет заданный объект.
   
-  - Iterable<S> saveAll(Iterable<S> entities) - Сохраняет все заданные объекты.
+  - Iterable saveAll(Iterable entities) - Сохраняет все заданные объекты.
 
 ---
 - [Оригинал (ENG)](https://docs.spring.io/spring-data/data-commons/docs/current/api/org/springframework/data/repository/CrudRepository.html)
