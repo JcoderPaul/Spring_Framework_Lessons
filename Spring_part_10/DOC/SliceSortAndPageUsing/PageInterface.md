@@ -33,9 +33,9 @@
                                                                  сопоставленным данным Function.
 
 ---
-Методы, унаследованные от интерфейса java.lang.Iterable: forEach, iterator, spliterator
-Методы, унаследованные от интерфейса org.springframework.data.domain.Slice: getContent, getNumber, getNumberOfElements, getPageable, getSize, getSort, hasContent, hasNext, hasPrevious, isFirst, isLast, nextOrLastPageable, nextPageable, previousOrFirstPageable, previousPageable
-Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, filter, flatMap, get, isEmpty, stream, toList, toSet
+- Методы, унаследованные от интерфейса java.lang.Iterable: forEach, iterator, spliterator
+- Методы, унаследованные от интерфейса org.springframework.data.domain.Slice: getContent, getNumber, getNumberOfElements, getPageable, getSize, getSort, hasContent, hasNext, hasPrevious, isFirst, isLast, nextOrLastPageable, nextPageable, previousOrFirstPageable, previousPageable
+- Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, filter, flatMap, get, isEmpty, stream, toList, toSet
 
 ---
 [См. оригинал (ENG)](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html)
