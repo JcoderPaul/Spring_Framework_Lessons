@@ -1,58 +1,64 @@
-****** Class Sort.TypedSort<T> ******
+### Class Sort.TypedSort<T>
 
 Расширение сортировки для использования дескрипторов методов для определения свойств для сортировки.
-________________________________________________________________________________________________________________________
-Пакет: org.springframework.data.domain
 
-java.lang.Object
-    org.springframework.data.domain.Sort
-        org.springframework.data.domain.Sort.TypedSort<T>
+---
+**Пакет:** [org.springframework.data.domain](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/package-summary.html)
 
-Реализованные интерфейсы: Serializable,
-                          Iterable<Sort.Order>,
-                          Supplier<Stream<Sort.Order>>,
-                          Streamable<Sort.Order>
-Включающий класс: Sort
-________________________________________________________________________________________________________________________
-public static class Sort.TypedSort<T> extends Sort
-________________________________________________________________________________________________________________________
-Вложенные классы унаследованные от класса org.springframework.data.domain.Sort:
-- Sort.Direction,
-- Sort.NullHandling,
-- Sort.Order,
-- Sort.TypedSort<T>
-________________________________________________________________________________________________________________________
-Поля, унаследованные от класса org.springframework.data.domain.Sort: DEFAULT_DIRECTION
-________________________________________________________________________________________________________________________
-*** Методы ***
+```
+    java.lang.Object
+        org.springframework.data.domain.Sort
+            org.springframework.data.domain.Sort.TypedSort<T>
+```
 
-- Sort ascending() - Возвращает новый Sort с текущими настройками, но в возрастающем порядке.
+**Реализованные интерфейсы:** 
+- [Serializable](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html),
+- [Iterable](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html)<[Sort.Order](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.Order.html)>,
+- [Supplier](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html)<[Stream](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html)<[Sort.Order](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.Order.html)>>,
+- [Streamable](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/util/Streamable.html)<[Sort.Order](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.Order.html)>
 
-- <S> Sort.TypedSort<S> by(Function<T,S> property)
+**Включающий класс:** 
+- [Sort](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.html)
 
-- <S> Sort.TypedSort<S> by(MethodInvocationRecorder.Recorded.ToCollectionConverter<T,S> collectionProperty)
+---
+```java
+    public static class Sort.TypedSort<T> extends Sort
+```
 
-- <S> Sort.TypedSort<S> by(MethodInvocationRecorder.Recorded.ToMapConverter<T,S> mapProperty)
+---
+Вложенные классы унаследованные от класса [org.springframework.data.domain.Sort](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.html):
+- [Sort.Direction](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.Direction.html),
+- [Sort.NullHandling](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.NullHandling.html),
+- [Sort.Order](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.Order.html),
+- [Sort.TypedSort](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.TypedSort.html)<T>
 
-- Sort descending() - Возвращает новое значение Sort с текущими настройками, но в порядке убывания.
+---
+Поля, унаследованные от класса [org.springframework.data.domain.Sort: DEFAULT_DIRECTION](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.html#DEFAULT_DIRECTION)
 
-- boolean isEmpty() - Возвращает, является ли текущий Streamable пустой.
+---
+### Методы
 
-- Iterator<Sort.Order> iterator()
+- `Sort ascending()` - Возвращает новый Sort с текущими настройками, но в возрастающем порядке.
 
-- String toString()
-________________________________________________________________________________________________________________________
-Методы, унаследованные от класса org.springframework.data.domain.Sort: and, by, doReverse, equals, getOrderFor,
-                                                                       hashCode, isSorted, isUnsorted, reverse,
-                                                                       sort, unsorted;
+- `<S> Sort.TypedSort<S> by(Function<T,S> property)`
 
-Методы, унаследованные от класса java.lang.Object: clone, finalize, getClass, notify, notifyAll, wait;
+- `<S> Sort.TypedSort<S> by(MethodInvocationRecorder.Recorded.ToCollectionConverter<T,S> collectionProperty)`
 
-Методы, унаследованные от интерфейса java.lang.Iterable: forEach, spliterator;
+- `<S> Sort.TypedSort<S> by(MethodInvocationRecorder.Recorded.ToMapConverter<T,S> mapProperty)`
 
-Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, filter, flatMap, get, map, stream,
-                                                                               toList, toSet;
-________________________________________________________________________________________________________________________
-Оригинал (ENG):
-https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.TypedSort.html
-________________________________________________________________________________________________________________________
+- `Sort descending()` - Возвращает новое значение `Sort` с текущими настройками, но в порядке убывания.
+
+- `boolean isEmpty()` - Возвращает, является ли текущий `Streamable` пустой.
+
+- `Iterator<Sort.Order> iterator()`
+
+- `String toString()`
+
+---
+- Методы, унаследованные от класса org.springframework.data.domain.Sort: and, by, doReverse, equals, getOrderFor, hashCode, isSorted, isUnsorted, reverse, sort, unsorted;
+- Методы, унаследованные от класса java.lang.Object: clone, finalize, getClass, notify, notifyAll, wait;
+- Методы, унаследованные от интерфейса java.lang.Iterable: forEach, spliterator;
+- Методы, унаследованные от интерфейса org.springframework.data.util.Streamable: and, filter, flatMap, get, map, stream, toList, toSet;
+
+---
+[Оригинал (ENG)](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.TypedSort.html)
