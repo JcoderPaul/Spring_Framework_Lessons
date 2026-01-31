@@ -31,7 +31,7 @@
 
 На следующем рисунке показана структура уровней нашего репозитория:
 
-![SpringDataJpaLayers.png](/ArticlesPictures/SpringDataJpaLayers.png)
+![SpringDataJpaLayers.png](./ArticlesPictures/SpringDataJpaLayers.png)
 
 На первый взгляд кажется, что Spring Data JPA усложняет наше приложение, и в некотором смысле это правда. Это добавляет
 дополнительный уровень к нашему уровню репозитория, но в то же время освобождает нас от написания какого-либо шаблонного
@@ -62,7 +62,7 @@
 
 Иерархия репозитория выглядит следующим образом см.:
 
-![RepositoryInterfaceHierarchy.png](/ArticlesPictures/RepositoryInterfaceHierarchy.png)
+![RepositoryInterfaceHierarchy.png](./ArticlesPictures/RepositoryInterfaceHierarchy.png)
 
 И так, по сути, нам нужно выполнить следующие шаги:
 - Шаг 1. Создать интерфейс репозитория и расширьте один из интерфейсов репозитория, предоставляемых Spring Data.
