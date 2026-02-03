@@ -250,7 +250,7 @@ interface TodoRepository extends Repository<Todo, Long> {
 }
 ```
 
-В нашем случае мы имеем нечто похожее: [CompanyRepository.java](../src/main/java/spring/oldboy/database/repository/company_repository/CompanyRepository.java)
+В нашем случае мы имеем нечто похожее: [CompanyRepository.java](../../src/main/java/spring/oldboy/database/repository/company_repository/CompanyRepository.java)
 
 Если мы не хотим возвращать `Optional` объекты (Guava/Java 8), мы также можем использовать «традиционный» метод `Todo findOne(Long id)`.
 
