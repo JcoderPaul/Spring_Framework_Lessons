@@ -213,7 +213,7 @@ final class RepositoryTodoService implements TodoCrudService {
 }
 ```
 
-[См. код на GitHub}](https://github.com/pkainulainen/spring-data-jpa-examples/blob/master/query-methods/src/main/java/net/petrikainulainen/springdata/jpa/todo/RepositoryTodoService.java)
+[См. код на GitHub](https://github.com/pkainulainen/spring-data-jpa-examples/blob/master/query-methods/src/main/java/net/petrikainulainen/springdata/jpa/todo/RepositoryTodoService.java)
 
 **Теперь давайте выясним, как мы можем создать интерфейс нашего репозитария, расширяющий интерфейс Repository.**
 
