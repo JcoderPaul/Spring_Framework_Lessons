@@ -357,7 +357,7 @@ SELECT * FROM todos t WHERE
 - **Todo.findBySearchTermNamedNative** — это именованный запрос, **использующий SQL**.
 
 ---
-**Использование файла свойств**
+**Вариант 1 - Использование файла свойств**
 
 После того, как мы добавили оба именованных запроса `Todo.findBySearchTermNamed` и `Todo.findBySearchTermNamedNative` в
 файл `META-INF/jpa-named-queries.properties`, его содержимое выглядит следующим образом:
@@ -376,7 +376,7 @@ Todo.findBySearchTermNamedNative=SELECT * FROM todos t
 Теперь объявим эти именованные запросы с помощью аннотаций.
 
 ---
-**Использование аннотаций**
+**Вариант 2 - Использование аннотаций**
 
 После того, как мы создали оба именованных запроса `Todo.findBySearchTermNamed` и `Todo.findBySearchTermNamedNative` с
 помощью аннотаций `@NamedQuery` и `@NamedNativeQuery`, соответствующая часть нашего класса сущности выглядит следующим
@@ -409,7 +409,7 @@ final class Todo {
 Теперь, мы можем объявить эти именованные запросы, используя файл `orm.xml`.
 
 ---
-**Использование файла `orm.xml`**
+**Вариант 3 - Использование файла `orm.xml`**
 
 После того, как мы создали оба именованных запроса `Todo.findBySearchTermNamed` и `Todo.findBySearchTermNamedNative` с
 использованием элементов `Named-query` и `Named-native-query`, файл `META-INF/orm.xml` выглядит следующим образом:
