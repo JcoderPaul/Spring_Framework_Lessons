@@ -1,5 +1,5 @@
-[Исходник всего материала (ENG)](https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-creating-database-queries-with-the-query-annotation/)
-[Исходники на GitHub](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master)
+- [Исходник всего материала (ENG)](https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-creating-database-queries-with-the-query-annotation/)
+- [Исходники на GitHub](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master)
 
 ---
 [См. настройка Spring проекта](https://start.spring.io/)
