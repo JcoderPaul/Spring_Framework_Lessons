@@ -331,7 +331,7 @@ interface TodoRepository extends Repository<Todo, Long> {
 В этом разделе описаны запросы JPQL и SQL, соответствующие этим требованиям.
 - **ВО-ПЕРВЫХ**, запрос JPQL, соответствующий нашим требованиям, выглядит следующим образом:
 
-```jpql
+```sql
 SELECT t FROM Todo t WHERE
     LOWER(t.title) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR
     LOWER(t.description) LIKE LOWER(CONCAT('%',:searchTerm, '%'))
