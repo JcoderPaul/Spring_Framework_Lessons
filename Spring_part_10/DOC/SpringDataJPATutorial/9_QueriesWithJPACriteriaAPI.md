@@ -1,43 +1,40 @@
-Исходник всего материала (ENG):
-https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-four-jpa-criteria-queries/
-https://github.com/pkainulainen/spring-data-jpa-examples/tree/master
+- [Исходник всего материала (ENG)](https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-four-jpa-criteria-queries/)
+- [Исходники кода GitHub](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master)
 
-См. настройка Spring проекта: https://start.spring.io/
-------------------------------------------------------------------------------------------------------------------------
-****** Spring Data JPA Tutorial: Creating Database Queries With the JPA Criteria API ******
-             *** Создание запросов к базе данных с помощью JPA Criteria API ***
+---
+[См. настройка Spring проекта](https://start.spring.io/)
+
+---
+### Spring Data JPA Tutorial: Creating Database Queries With the JPA Criteria API
 
 В предыдущих разделах мы уже научились создавать статические запросы к базе данных с помощью Spring Data JPA. Однако
 когда мы пишем реальные приложения, нам также необходимо иметь возможность создавать динамические запросы к базе данных.
 
 В данном разделе мы изучим, как можно создавать динамические запросы к базе данных с помощью API критериев JPA.
 
-------------------------------------------------------------------------------------------------------------------------
-*** Создание классов статической мета-модели JPA ***
+---
+### Создание классов статической мета-модели JPA
 
 Статическая мета-модель состоит из классов, описывающих сущность, и встраиваемых классов, найденных в нашей модели
 предметной области. Эти классы мета-модели обеспечивают статический доступ к метаданным, которые описывают атрибуты
 наших классов модели предметной области.
 
-Мы хотим использовать эти классы, потому что они дают нам возможность создавать типобезопасные criteria queries
+Мы хотим использовать эти классы, потому что они дают нам возможность создавать типобезопасные `criteria queries`
 (criteria запросы), но мы не хотим создавать их вручную.
 
-К счастью, мы можем создавать эти классы автоматически, используя плагин процессора Maven и генератор статических
-мета-моделей JPA (https://docs.jboss.org/hibernate/orm/4.3/topical/html/metamodelgen/MetamodelGenerator.html). Мы
+К счастью, мы можем создавать эти классы автоматически, используя плагин процессора Maven и [генератор статических
+мета-моделей JPA](https://docs.jboss.org/hibernate/orm/4.3/topical/html/metamodelgen/MetamodelGenerator.html). Мы
 можем настроить эти инструменты, выполнив следующие шаги:
-- Шаг 1. - Добавим объявление подключаемого модуля процессора Maven (версия ...) в раздел подключаемых модулей
-           файла pom.xml.
-- Шаг 2. - Настраиваем зависимости этого плагина и добавляем зависимость генератора статической мета-модели JPA
-           (версия ...) в раздел зависимостей плагина.
-- Шаг 3. - Создаем исполнителя, который вызывает цель обработчика плагина на этапе генерации источников жизненного
-           цикла Maven по умолчанию.
-- Шаг 4. - Убеждаемся, что плагин запускает только org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor. Этот
+- Шаг 1. - Добавим объявление подключаемого модуля процессора Maven (версия ...) в раздел подключаемых модулей файла `pom.xml`.
+- Шаг 2. - Настраиваем зависимости этого плагина и добавляем зависимость генератора статической мета-модели JPA (версия ...) в раздел зависимостей плагина.
+- Шаг 3. - Создаем исполнителя, который вызывает цель обработчика плагина на этапе генерации источников жизненного цикла Maven по умолчанию.
+- Шаг 4. - Убеждаемся, что плагин запускает только `org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor`. Этот
            обработчик аннотаций сканирует наши сущности и встраиваемые классы и создает статические классы
            мета-модели.
 
 Конфигурация плагина процессора Maven выглядит следующим образом:
 
-************************************************************************************************************************
+```xml
 <plugin>
     <groupId>org.bsc.maven</groupId>
     <artifactId>maven-processor-plugin</artifactId>
@@ -64,30 +61,23 @@ https://github.com/pkainulainen/spring-data-jpa-examples/tree/master
         </dependency>
     </dependencies>
 </plugin>
-************************************************************************************************************************
+```
 
-------------------------------------------------------------------------------------------------------------------------
-Дополнительное чтение:
-- Hibernate Entity Manager 3.6 Справочное руководство: Глава 4 Мета-модель -
-  https://docs.jboss.org/hibernate/entitymanager/3.6/reference/en/html/metamodel.html
+---
+**Дополнительное чтение:**
+- [Hibernate Entity Manager 3.6 Справочное руководство: Глава 4 Мета-модель](https://docs.jboss.org/hibernate/entitymanager/3.6/reference/en/html/metamodel.html)
+- [Введение в жизненный цикл сборки Maven](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
+- [Плагин процессора Maven — использование](http://bsorrentino.github.io/maven-annotation-plugin/usage.html)
+- [Генератор статической мета-модели JPA](https://docs.jboss.org/hibernate/orm/4.3/topical/html/metamodelgen/MetamodelGenerator.html)
 
-- Введение в жизненный цикл сборки Maven -
-  https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
-
-- Плагин процессора Maven — использование -
-  http://bsorrentino.github.io/maven-annotation-plugin/usage.html
-
-- Генератор статической мета-модели JPA -
-  https://docs.jboss.org/hibernate/orm/4.3/topical/html/metamodelgen/MetamodelGenerator.html
-------------------------------------------------------------------------------------------------------------------------
-
+---
 Когда мы компилируем наш проект, вызванный обработчик аннотаций создает классы статической мета-модели JPA в каталоге
-target/generated-sources/apt. Поскольку наша модель предметной области имеет только одну сущность, обработчик аннотаций
-создает только один класс с именем Todo_.
+`target/generated-sources/apt`. Поскольку наша модель предметной области (domain model) имеет только одну сущность, 
+обработчик аннотаций создает только один класс с именем `Todo_`.
 
 Исходный код класса Todo_ выглядит следующим образом:
 
-************************************************************************************************************************
+```java
 package net.petrikainulainen.springdata.jpa.todo;
 
 import java.time.ZonedDateTime;
@@ -109,7 +99,7 @@ public abstract class Todo_ {
     public static volatile SingularAttribute<Todo, Long> version;
 
 }
-************************************************************************************************************************
+```
 
 Давайте выясним, как мы можем создавать запросы к базе данных с помощью JPA criteria API.
 
