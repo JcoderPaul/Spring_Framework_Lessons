@@ -156,7 +156,9 @@ public class ExampleApplicationContext {
 - [Javadoc аннотации @Profile](https://docs.spring.io/spring-framework/docs/4.1.x/javadoc-api/org/springframework/context/annotation/Profile.html)
 
 ---
-- **ВО-ВТОРЫХ**, нам **нужно создать bean-компонент DateTimeProvider** и включить поддержку аудита Spring Data. Мы можем сделать это, внеся следующие изменения в класс конфигурации, который настраивает уровень персистентности нашего примера приложения:
+- **ВО-ВТОРЫХ**, нам **нужно создать bean-компонент DateTimeProvider** и включить поддержку аудита Spring Data.
+
+Мы **можем сделать это, внеся следующие изменения в класс конфигурации**, который настраивает уровень персистентности нашего примера приложения:
 - Шаг 1. **Создадим метод dateTimeProvider()**, который возвращает объект DateTimeProvider и принимает объект DateTimeService в качестве параметра метода.
 - Шаг 2. **Реализуем метод**, создав новый объект AuditingAwareDateTimeProvider.
 - Шаг 3. **Аннотируем созданный метод** как @Bean.
