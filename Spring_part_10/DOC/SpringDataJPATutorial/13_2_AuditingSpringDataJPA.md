@@ -451,3 +451,73 @@ Spring Security ориентирован на пользователя, приш
 | Зависимости сущности | Spring Security JAR             | Только Spring Data JPA     |
 | Тестирование         | Сложное (нужен SecurityContext) | Легкое (через мок бина)    |
 | Гибкость             | Привязана к Web/Security        | Работает в любом окружении |
+
+---
+### Сжимаем статью, до рекомендаций с примером:
+
+Чтобы отвязать сущности от `Spring Security`, необходимо реализовать интерфейс `AuditorAware`, который будет выступать «мостом» между `Spring Data` и контекстом безопасности. 
+
+**1. Реализация AuditorAware:** Этот компонент отвечает за получение текущего пользователя. 
+Обратите внимание: **импорт SecurityContextHolder происходит только здесь**, а не в наших сущностях. 
+
+```java
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import java.util.Optional;
+
+public class SpringSecurityAuditorAware implements AuditorAware<String> {
+
+    @Override
+    public Optional<String> getCurrentAuditor() {
+        return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+                .filter(Authentication::isAuthenticated)
+                .map(Authentication::getName); // Или вернем ID пользователя
+    }
+}
+```
+
+**2. Конфигурация аудита:** Зарегистрируем реализацию как Bean и включим аудит в конфигурационном классе. 
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+@Configuration
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
+public class AuditConfig {
+
+    @Bean
+    public AuditorAware<String> auditorProvider() {
+        return new SpringSecurityAuditorAware();
+    }
+}
+```
+
+**3. Чистая сущность (Domain Entity):** Теперь наши сущности используют стандартные аннотации `Spring Data` и ничего не знают о `Spring Security`. 
+
+```java
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.*;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+public class Product {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @CreatedBy
+    private String createdBy; // Заполнится автоматически строкой из getCurrentAuditor()
+    
+    // Остальные поля...
+}
+```
+
+---
+#### Почему это лучше?
+- **Изоляция:** Модуль безопасности можно заменить, не меняя код сущностей.
+- **Тестируемость:** В **тестах можно просто создать свой `AuditorAware`**, который возвращает "test-user", **не поднимая весь механизм `Spring Security`**.
+- **Гибкость:** Если действие выполняется фоновым процессом, `getCurrentAuditor()` может вернуть "system", не требуя наличия сессии пользователя.
