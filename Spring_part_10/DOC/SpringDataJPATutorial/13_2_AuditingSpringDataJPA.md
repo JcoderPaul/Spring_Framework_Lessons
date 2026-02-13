@@ -1,41 +1,39 @@
-Исходник всего материала (ENG):
-https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-auditing-part-two/
-https://github.com/pkainulainen/spring-data-jpa-examples/tree/master
+- [Исходник всего материала (ENG)](https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-auditing-part-two/)
+- [Исходник кода GitHub](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master)
 
-См. настройка Spring проекта: https://start.spring.io/
-------------------------------------------------------------------------------------------------------------------------
- ****** Spring Data JPA Tutorial:Auditing - Part One ******
-*** Учебное пособие по Spring Data JPA: Аудит - часть 1 ***
+---
+- [См. настройка Spring проекта](https://start.spring.io/)
 
-В предыдущей части (DOC/SpringDataJPATutorial/13_1_AuditingSpringDataJPA.txt) было описано, как мы можем использовать
+---
+### Spring Data JPA Tutorial:Auditing - Part Two - Аудит - часть 2 ***
+
+[В предыдущей части](./13_1_AuditingSpringDataJPA.md) было описано, как мы можем использовать
 инфраструктуру аудита Spring Data JPA для поиска ответа на вопрос: Когда объект X был создан и/или изменен?
 
-В этой части описывается, как мы можем найти ответ на вопрос: Кто создал и/или изменил сущность X?
+В этой части описывается, как мы можем найти ответ на вопрос: **Кто создал и/или изменил сущность X?**
 
-Мы изменим наш пример приложения, чтобы он хранил имя пользователя, аутентифицированного пользователя, который создал
+Мы изменим наш пример приложения, чтобы он хранил имя пользователя - аутентифицированного пользователя, который создал
 новую запись задачи и обновил информацию в существующей записи задачи.
 
 Начнем с создания компонента, который возвращает информацию об аутентифицированном пользователе.
 
-------------------------------------------------------------------------------------------------------------------------
-*** Получение информации аутентифицированного пользователя ***
+---
+#### Получение информации аутентифицированного пользователя
 
-Инфраструктура аудита Spring Data JPA использует интерфейс AuditorAware<T>, когда ей необходимо получить информацию об
-аутентифицированном пользователе. Интерфейс AuditorAware имеет один параметр типа <T>, который описывает тип поля
+Инфраструктура аудита Spring Data JPA использует интерфейс `AuditorAware<T>`, когда ей необходимо получить информацию об
+аутентифицированном пользователе. Интерфейс `AuditorAware` имеет один параметр типа `<T>`, который описывает тип поля
 сущности, содержащего информацию аудита.
 
-Поскольку нам нужно создать класс, который возвращает имя аутентифицированного пользователя, мы должны выполнить
-следующие шаги:
-- Шаг 1. - Создадим класс UsernameAuditorAware и реализуем интерфейс AuditorAware. Поскольку мы хотим сохранить
-           имя аутентифицированного пользователя <String>, мы должны установить значение параметра типа String.
-- Шаг 2. - Реализуем метод getCurrentAuditor(), выполнив следующие действия:
+Поскольку нам **нужно создать класс**, который **возвращает имя аутентифицированного пользователя**, мы должны выполнить следующие шаги:
+- **Шаг 1.** - **Создадим класс `UsernameAuditorAware` и реализуем интерфейс `AuditorAware`**. Поскольку мы хотим сохранить имя аутентифицированного пользователя `<String>`, мы должны установить значение параметра типа String.
+- **Шаг 2.** - **Реализуем метод `getCurrentAuditor()`**, выполнив следующие действия:
             - Получим объект аутентификации из SecurityContext.
             - Возвращаем значение null, если аутентификация не найдена или найденная аутентификация не аутентифицирована.
             - Возвращаем имя пользователя, прошедшего проверку подлинности.
 
-Исходный код класса UsernameAuditorAware выглядит следующим образом:
+**Исходный код класса `UsernameAuditorAware`** выглядит следующим образом:
 
-************************************************************************************************************************
+```java
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,41 +52,31 @@ public class UsernameAuditorAware implements AuditorAware<String> {
         return ((User) authentication.getPrincipal()).getUsername();
     }
 }
-************************************************************************************************************************
+```
 
-------------------------------------------------------------------------------------------------------------------------
-Дополнительное чтение:
-- Javadoc интерфейса AuditorAware<T> -
-  https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/AuditorAware.html
+---
+**Дополнительное чтение:**
+- [Javadoc интерфейса AuditorAware<T>](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/AuditorAware.html)
+- [Javadoc интерфейса Authentication](https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/Authentication.html)
+- [Javadoc интерфейса SecurityContext](https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/context/SecurityContext.html)
+- [Javadoc класса SecurityContextHolder](https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/context/SecurityContextHolder.html)
+- [Javadoc класса User](https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/userdetails/User.html)
 
-- Javadoc интерфейса Authentication -
-  https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/Authentication.html
-
-- Javadoc интерфейса SecurityContext -
-  https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/context/SecurityContext.html
-
-- Javadoc класса SecurityContextHolder -
-  https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/context/SecurityContextHolder.html
-
-- Javadoc класса User -
-  https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/userdetails/User.html
-------------------------------------------------------------------------------------------------------------------------
-
+---
 Давайте выясним, как мы можем настроить контекст нашего примера приложения.
 
-------------------------------------------------------------------------------------------------------------------------
-*** Настройка контекста приложения (Application Context) ***
+---
+#### Настройка контекста приложения (Application Context)
 
-Мы можем настроить контекст нашего приложения, внеся следующие изменения в класс конфигурации, который настраивает
-уровень персистентности нашего приложения:
-- Создадим метод AuditorProvider(), который возвращает объект AuditorAware<String>.
-- Реализуем метод, создав новый объект UsernameAuditorAware.
-- Аннотируем метод аннотацией @Bean.
-- Включим поддержку аудита Spring Data JPA, добавив к классу конфигурации аннотацию @EnableJpaAuditing.
+Мы можем настроить контекст нашего приложения, внеся следующие изменения в класс конфигурации, который настраивает уровень персистентности нашего приложения:
+- **Создадим метод `AuditorProvider()`**, который **возвращает объект `AuditorAware<String>`**.
+- **Реализуем метод**, создав новый объект `UsernameAuditorAware`.
+- **Аннотируем метод** аннотацией `@Bean`.
+- **Включим поддержку аудита Spring Data JPA**, добавив к классу конфигурации аннотацию `@EnableJpaAuditing`.
 
-Соответствующая часть класса PersistenceContext выглядит следующим образом:
+Соответствующая часть класса `PersistenceContext` выглядит следующим образом:
 
-************************************************************************************************************************
+```java
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.auditing.DateTimeProvider;
@@ -113,17 +101,17 @@ class PersistenceContext {
         return new AuditingDateTimeProvider(dateTimeService);
     }
 }
-************************************************************************************************************************
+```
 
-Поскольку мы объявили только один компонент AuditorAware, инфраструктура аудита находит его автоматически и использует,
+Поскольку мы объявили только один компонент `AuditorAware`, инфраструктура аудита находит его автоматически и использует,
 когда ей необходимо установить информацию аутентифицированного пользователя в поля сохраненного или обновленного объекта
-сущности. Если мы объявляем несколько компонентов AuditorAware, мы можем настроить используемый компонент, установив
-значение атрибута AuditorAwareRef аннотации @EnableJpaAuditing.
+сущности. Если мы объявляем несколько компонентов `AuditorAware`, мы можем настроить используемый компонент, установив
+значение атрибута `AuditorAwareRef` аннотации `@EnableJpaAuditing`.
 
-Если мы хотим использовать конфигурацию XML, мы можем включить поддержку аудита с помощью элемента аудита (auditing
-element). Взгляните на пример приложения, в котором есть работающий файл конфигурации XML.
+Если мы **хотим использовать конфигурацию XML**, мы **можем включить поддержку аудита с помощью элемента аудита - "auditing
+element"**. Взгляните на пример приложения, в котором есть работающий файл конфигурации XML.
 
-************************************************************************************************************************
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -209,21 +197,19 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     <jpa:auditing auditor-aware-ref="auditingProvider" set-dates="true"/>
     <jpa:repositories base-package="net.petrikainulainen.springdata.jpa.todo"/>
 </beans>
-************************************************************************************************************************
-Исходник:
-https://github.com/pkainulainen/spring-data-jpa-examples/blob/master/query-methods/src/main/resources/applicationContext-persistence.xml
-************************************************************************************************************************
+```
 
-------------------------------------------------------------------------------------------------------------------------
-Дополнительное чтение:
-- Справочное руководство Spring Data JPA: 4.8 Аудит -
-  https://docs.spring.io/spring-data/jpa/docs/1.8.x/reference/html/#auditing
-------------------------------------------------------------------------------------------------------------------------
+- [См. исходник на GitHub](https://github.com/pkainulainen/spring-data-jpa-examples/blob/master/query-methods/src/main/resources/applicationContext-persistence.xml)
 
+---
+**Дополнительное чтение:**
+- [Справочное руководство Spring Data JPA: 4.8 Аудит](https://docs.spring.io/spring-data/jpa/docs/1.8.x/reference/html/#auditing)
+
+---
 Давайте двинемся дальше и внесем необходимые изменения в наш класс сущности.
 
-------------------------------------------------------------------------------------------------------------------------
-*** Изменение нашего класса сущности ***
+---
+#### Изменение нашего класса сущности
 
 Нам нужно внести следующие изменения в наш класс сущности ( Todo ):
 - Нам необходимо убедиться, что значение поля createByUser установлено, когда наша сущность сохраняется в первый раз.
