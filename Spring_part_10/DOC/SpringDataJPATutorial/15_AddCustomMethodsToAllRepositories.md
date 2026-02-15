@@ -132,16 +132,17 @@ public class BaseRepositoryImpl <T, ID extends Serializable> extends SimpleJpaRe
   - Параметр `<I> type` - это **тип закрытого ключа объекта**. Обратим внимание, что этот параметр типа должен расширять интерфейс `Serializable`.
 - **Шаг 2.** Расширим класс `JpaRepositoryFactoryBean` и укажем необходимые параметры типа.
 - **Шаг 3.** Добавим *private static* класс `BaseRepositoryFactory` в созданный класс и расширим класс `JpaRepositoryFactory`.
-           Реализуем этот класс, выполнив следующие шаги:
-            - **Шаг 3.1.** Добавим в класс `BaseRepositoryFactory` два параметра типа:
-                            - Параметр типа `<T>` — это **тип управляемого объекта**.
-                            - Параметр `<I> type` — это **тип закрытого ключа объекта**. Обратим внимание, что этот параметр типа должен расширять интерфейс `Serializable`.
-            - **Шаг 3.2.** Добавим *private final* поле `EntityManager` в класс `BaseRepositoryFactory` и отметим это поле как *final*.
-            - **Шаг 3.3.** Добавим конструктор, который принимает объект `EntityManager` в качестве аргумента конструктора, и реализуем его, выполнив следующие действия:
-                            - **Шаг 3.3.1** Вызовем конструктор суперкласса и передадим объект `EntityManager` в качестве аргумента конструктора.
-                            - **Шаг 3.3.2** Сохраним ссылку на объект `EntityManager` в *private* поле `EntityManager`.
-            - **Шаг 3.4.** Переопределим метод `getTargetRepository`(метаданные RepositoryMetadata) и реализуем его, вернув новый объект `BaseRepositoryImpl`.
-            - **Шаг 3.5.** Переопределим метод `getRepositoryBaseClass`(RepositoryMetadata метаданные) и реализуем его, вернув `BaseRepositoryImpl.class`
+
+Реализуем этот класс, выполнив следующие шаги:
+- **Шаг 3.1.** Добавим в класс `BaseRepositoryFactory` два параметра типа:
+            - Параметр типа `<T>` — это **тип управляемого объекта**.
+            - Параметр `<I> type` — это **тип закрытого ключа объекта**. Обратим внимание, что этот параметр типа должен расширять интерфейс `Serializable`.
+- **Шаг 3.2.** Добавим *private final* поле `EntityManager` в класс `BaseRepositoryFactory` и отметим это поле как *final*.
+- **Шаг 3.3.** Добавим конструктор, который принимает объект `EntityManager` в качестве аргумента конструктора, и реализуем его, выполнив следующие действия:
+  - **Шаг 3.3.1** Вызовем конструктор суперкласса и передадим объект `EntityManager` в качестве аргумента конструктора.
+  - **Шаг 3.3.2** Сохраним ссылку на объект `EntityManager` в *private* поле `EntityManager`.
+- **Шаг 3.4.** Переопределим метод `getTargetRepository`(метаданные RepositoryMetadata) и реализуем его, вернув новый объект `BaseRepositoryImpl`.
+- **Шаг 3.5.** Переопределим метод `getRepositoryBaseClass`(RepositoryMetadata метаданные) и реализуем его, вернув `BaseRepositoryImpl.class`
 - **Шаг 4.** Переопределим метод `createRepositoryFactory(EntityManager em)` класса `JpaRepositoryFactoryBean` и реализуем его, вернув новый объект `BaseRepositoryFactory`.
 
 Исходный код класса `BaseRepositoryFactoryBean` выглядит следующим образом:
