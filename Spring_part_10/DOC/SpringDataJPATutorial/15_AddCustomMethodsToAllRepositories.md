@@ -304,3 +304,169 @@ interface TodoRepository extends BaseRepository<Todo, Long> {
   умолчанию **SimpleJpaRepository** нашей собственной реализацией репозитория.
 - Если мы используем Spring Data JPA 1.9.X или новее, нам не нужно создавать собственный `RepositoryFactoryBean`.
 - Наши интерфейсы репозитория должны расширять базовый интерфейс репозитория, который объявляет методы, добавляемые во все репозитории.
+
+---
+### Выжимка кратко:
+
+Чтобы добавить **одинаковые пользовательские методы во все репозитории** Spring Data JPA (а не только в один конкретный), 
+нужно реализовать подход **Base Repository** (базовый репозиторий). Это самый чистый и рекомендуемый способ.
+
+Пошаговая инструкция:
+
+#### 1. Создаём интерфейс с кастомными методами
+
+```java
+// src/main/java/com/example/repository/BaseRepository.java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
+
+import java.util.List;
+import java.util.Optional;
+
+@NoRepositoryBean  // ← очень важно!
+public interface BaseRepository<T, ID> extends JpaRepository<T, ID> {
+
+    // Пример кастомных методов, которые будут доступны во всех репозиториях
+    Optional<T> findByNaturalId(Object naturalId);           // например, по бизнес-ключу
+
+    List<T> findAllActive();                                 // только активные записи
+
+    void softDelete(ID id);                                  // мягкое удаление
+
+    // Можно добавить ещё свои методы
+    // boolean existsBySomeUniqueField(String value);
+}
+```
+
+#### 2. Создаём свою реализацию базового репозитория
+
+```java
+// src/main/java/com/example/repository/BaseRepositoryImpl.java
+import jakarta.persistence.EntityManager;
+import org.springframework.data.jpa.repository.support.JpaEntityInformation;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
+
+public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
+
+    private final EntityManager entityManager;
+
+    public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation,
+                              EntityManager entityManager) {
+        super(entityInformation, entityManager);
+        this.entityManager = entityManager;
+    }
+
+    @Override
+    public Optional<T> findByNaturalId(Object naturalId) {
+        // Пример — можно использовать @NaturalId или Criteria API
+        // Здесь просто заглушка — замените на реальную логику
+        return Optional.empty();
+    }
+
+    @Override
+    public List<T> findAllActive() {
+        // Предполагаем, что у сущностей есть поле isActive
+        return findAll().stream()
+                .filter(e -> {
+                    try {
+                        return (Boolean) e.getClass().getMethod("isActive").invoke(e);
+                    } catch (Exception ex) {
+                        return true;
+                    }
+                })
+                .toList();
+        // Лучше использовать Specification / @Query
+    }
+
+    @Override
+    @Transactional
+    public void softDelete(ID id) {
+        findById(id).ifPresent(entity -> {
+            try {
+                entity.getClass().getMethod("setDeleted", boolean.class).invoke(entity, true);
+                save(entity);
+            } catch (Exception e) {
+                throw new RuntimeException("Cannot soft delete", e);
+            }
+        });
+    }
+}
+```
+
+#### 3. Настраиваем Spring, чтобы он использовал нашу реализацию вместо `SimpleJpaRepository`
+
+**Вариант 1** — через Java-конфигурацию:
+
+```java
+// src/main/java/com/example/config/JpaConfig.java
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.config.RepositoryBeanNameGenerator;
+
+@Configuration
+@EnableJpaRepositories(
+    basePackages = "com.example.repository",  // пакет с вашими репозиториями
+    repositoryBaseClass = BaseRepositoryImpl.class   // ← самое важное!
+)
+public class JpaConfig {
+    // можно добавить другие бины, если нужно
+}
+```
+
+**Вариант 2** — через *properties*:
+
+```properties
+# application.yml или application.properties
+spring:
+  data:
+    jpa:
+      repositories:
+        base-package: com.example.repository
+        base-class: com.example.repository.BaseRepositoryImpl
+```
+
+#### 4. Использование
+
+Теперь все наши репозитории автоматически получают эти методы:
+
+```java
+@Repository
+public interface UserRepository extends BaseRepository<User, Long> {
+    // здесь обычные методы + все методы из BaseRepository
+}
+
+@Repository
+public interface OrderRepository extends BaseRepository<Order, UUID> {
+    // здесь тоже все методы из BaseRepository
+}
+```
+
+**Пример вызова:**
+
+```java
+@Service
+class UserService {
+    private final UserRepository userRepo;
+
+    public void demo() {
+        userRepo.softDelete(15L);               // метод из BaseRepository
+        userRepo.findAllActive();               // метод из BaseRepository
+    }
+}
+```
+
+---
+#### Краткая таблица сравнения подходов:
+
+| Подход                                           | Когда использовать                              | Сложность | Поддержка в новых версиях    |
+|--------------------------------------------------|-------------------------------------------------|-----------|------------------------------|
+| `@Query` / derived queries в каждом репозитории  | Разные методы для разных сущностей              | Низкая    | Отлично                      |
+| Fragment interface + Impl (для 1–2 репозиториев) | Кастомизация отдельных репозиториев             | Средняя   | Отлично (официальный способ) |
+| Base Repository + repositoryBaseClass            | **Одинаковые методы во всех репозиториях**      | Средняя   | Отлично                      |
+| Абстрактный класс + `@Repository`                | Очень редко (старый стиль)                      | Высокая   | Не рекомендуется             |
+| Generic Repository<T,ID>                         | Почти никогда (нарушает DDD и типобезопасность) | —         | Антипаттерн                  |
