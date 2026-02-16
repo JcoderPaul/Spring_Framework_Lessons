@@ -9,7 +9,7 @@
 ---
 ### Spring Data JPA Tutorial: Integration Testing - Интеграционное тестирование
 
-[Предыдущие разделы](../) научил нас тому, что мы можем создавать запросы к базе данных и сохранять
+[Предыдущие разделы](../SpringDataJPATutorial) научил нас тому, что мы можем создавать запросы к базе данных и сохранять
 объекты в базе данных, используя специальные интерфейсы репозитория.
 
 **Возникает интересный вопрос:** Как мы можем писать интеграционные тесты для наших репозиториев Spring Data JPA, ведь это всего лишь интерфейсы?
@@ -320,8 +320,214 @@ public class ITFindBySearchTermTest {
    - **Инструменты для веб-интеграции**: Если приложение включает API, комбинируйте с MockMvc (для не-реактивных), TestRestTemplate или WebTestClient (для reactive), проверяя взаимодействие с БД через эндпоинты.  
    - **Дополнительные инструменты**: Для сложных сценариев интегрируйте Spock (с Kotlin) или RestAssured для валидации ответов.  
 
-В целом, переход к Testcontainers и реальным БД в контейнерах — это тренд для повышения надежности тестов, особенно в микросервисах. Для начала рекомендуется изучить официальную документацию Spring и примеры на GitHub. Если нужны конкретные кодовые примеры, уточните!
+Переход к Testcontainers и реальным БД в контейнерах — это тренд для повышения надежности тестов, особенно в микросервисах.
+
+---
+**Сопутствующий материал:**
+- [Integration Testing (from Spring)](https://docs.spring.io/spring-framework/reference/testing/integration.html)
+- [Spring into Integration Testing: Building Robust Spring Boot Applications](https://medium.com/@priyan.prabhu/spring-into-integration-testing-building-robust-spring-boot-applications-6820aa8dc28e)
+- [A Case for Integration Tests: Implementing effective integration tests on Spring Boot – Databases](https://coderstower.com/2024/07/02/a-case-for-integration-tests-implementing-effective-integration-tests-on-spring-boot-databases/)
+- [Spring Boot Testing: A Comprehensive Best Practices Guide](https://dev.to/ankitdevcode/spring-boot-testing-a-comprehensive-best-practices-guide-1do6)
+- [Optimizing Spring Integration Tests](https://www.baeldung.com/spring-tests)
+- [Spring Boot Testcontainers - Integration Testing made easy! (from YouTube)](https://www.youtube.com/watch?v=erp-7MCK5BU)
+- [Integration Testing Deep Dive Part I](https://schibsted-vend.pl/blog/integration-testing-deep-dive-part-i/)
 
 ---
 ### Примеры использования Testcontainers
 
+Несколько примеров использования **Testcontainers** в Spring Boot приложениях для интеграционного тестирования с базой данных (в основном PostgreSQL, как самая популярная комбинация).
+
+### 1. Самый современный и рекомендуемый способ (Spring Boot 3.1+): `@ServiceConnection`
+
+Добавьте зависимости в `pom.xml` (Maven):
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.testcontainers</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>1.20.4</version>  <!-- или новее -->
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.testcontainers</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>1.20.4</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-testcontainers</artifactId>
+    <scope>test</scope>
+</dependency>
+```
+
+Пример теста репозитория:
+
+```java
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DataJpaTest
+@Testcontainers
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class BookRepositoryTest {
+
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine")
+            .withDatabaseName("testdb")
+            .withUsername("test")
+            .withPassword("test");
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Test
+    void shouldSaveAndFindBook() {
+        Book book = new Book(null, "Clean Code", "Robert C. Martin");
+        Book saved = bookRepository.save(book);
+
+        assertThat(saved.getId()).isNotNull();
+        assertThat(bookRepository.findById(saved.getId())).isPresent();
+    }
+}
+```
+
+- `@ServiceConnection` автоматически подставляет `spring.datasource.url`, `username`, `password` и т.д.
+- Контейнер стартует один раз на класс (static) → быстрее
+- Работает с `@DataJpaTest`, `@JdbcTest`, `@SpringBootTest`
+
+### 2. Классический способ с `@DynamicPropertySource` (до сих пор используется)
+
+```java
+@SpringBootTest
+@Testcontainers
+class FullContextIntegrationTest {
+
+    @Container
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16")
+            .withInitScript("init.sql");  // можно инициализировать схему/данные
+
+    @DynamicPropertySource
+    static void registerPgProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
+
+    @Autowired
+    private BookService bookService;
+
+    @Test
+    void testBusinessLogicWithRealDb() {
+        // ...
+    }
+}
+```
+
+### 3. Тест с несколькими контейнерами (PostgreSQL + Redis например)
+
+```java
+@SpringBootTest
+@Testcontainers
+class MultiContainerTest {
+
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine");
+
+    @Container
+    @ServiceConnection
+    static RedisContainer redis = new RedisContainer(DockerImageName.parse("redis:7-alpine"));
+
+    // или через @Bean в @TestConfiguration
+}
+```
+
+### 4. Повторное использование контейнера между тестами (перезапуск не нужен)
+
+Вариант с `@TestConfiguration` (очень удобно для CI / большого количества тестов):
+
+```java
+@TestConfiguration(proxyBeanMethods = false)
+class TestContainersConfig {
+
+    @Bean
+    @ServiceConnection
+    PostgreSQLContainer<?> postgresContainer() {
+        return new PostgreSQLContainer<>("postgres:17-alpine")
+                .withReuse(true);  // сохраняет контейнер между запусками (нужен testcontainers.reuse.enable=true в ~/.testcontainers.properties)
+    }
+}
+```
+
+Затем в тестах:
+
+```java
+@SpringBootTest(classes = {Application.class, TestContainersConfig.class})
+class SomeTest { ... }
+```
+
+### 5. Полезные дополнения
+
+- Инициализация данных через Flyway/Liquibase — просто работает автоматически
+- Скрипт инициализации: `.withInitScript("db/init.sql")`
+- Переиспользование контейнеров (ускоряет локальные тесты в 5–10 раз):
+
+Создайте файл `~/.testcontainers.properties`:
+
+```
+testcontainers.reuse.enable=true
+```
+
+- Для `@DataJpaTest` + Testcontainers часто добавляют:
+
+```java
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+```
+
+Это отключает авто-конфигурацию embedded БД.
+
+Эти подходы — *state-of-the-art*. Самый чистый и рекомендуемый сейчас — `@ServiceConnection` + `@Testcontainers`.
+
+---
+**Сопутствующий материал:**
+- [Testcontainers (from Spring)](https://docs.spring.io/spring-boot/reference/testing/testcontainers.html)
+- [Improved Testcontainers Support in Spring Boot 3.1 (from Spring)](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1)
+- [Testcontainers for Java (from java.testcontainers.org)](https://java.testcontainers.org/)
+- [Getting started with Testcontainers in a Java Spring Boot Project (from testcontainers.com)](https://testcontainers.com/guides/testing-spring-boot-rest-api-using-testcontainers/)
+- [Testcontainers SpringBoot Quickstart (from GitHub)](https://github.com/testcontainers/testcontainers-java-spring-boot-quickstart)
+- [Complex example how to use Testcontainers with various development scenarios (from GitHub)](https://github.com/bedla/spring-boot-postgres-testcontainers)
+- [Testcontainers Spring Boot (from GitHub)](https://github.com/PlaytikaOSS/testcontainers-spring-boot/tree/develop)
+- [Proof of concept for using the DynamicPropertySource spring annotation in tests requiring PostgreSQL (from GitHub)](https://github.com/findinpath/postgres-spring-boot-dynamicpropertysource)
+- [Spring Boot Testing with Testcontainers: Real Integration, Simplified](https://medium.com/@alxkm/spring-boot-testing-with-testcontainers-real-integration-simplified-476e30b6045f)
+- [Integration Tests on Spring Boot with PostgreSQL and Testcontainers](https://dev.to/mspilari/integration-tests-on-spring-boot-with-postgresql-and-testcontainers-4dpc)
+- [Testing Spring Boot Applications Using Testcontainers](https://blog.jetbrains.com/idea/2024/12/testing-spring-boot-applications-using-testcontainers/)
+- [GitHub testcontainers-java-spring-boot-quickstart](https://github.com/testcontainers/testcontainers-java-spring-boot-quickstart)
+- [Integration Testing with Spring Boot and Testcontainers](https://www.blip.pt/blog/posts/integration-testing-with-spring-boot-and-testcontainers)
+- [Testing Spring Boot Microservices with Testcontainers](https://medium.com/but-it-works-on-my-machine/testing-spring-boot-microservices-with-testcontainers-bd8dc289d581)
+- [Spring Tidbits - Understanding Testcontainers Integration Features](https://developer.mamezou-tech.com/en/blogs/2025/06/23/testcontainers-with-springboot/)
+- [Combine Testcontainers and Spring Boot with multiple containers](https://www.wimdeblauwe.com/blog/2025/05/14/combine-testcontainers-and-spring-boot-with-multiple-containers/)
+- [Building Spring Boot’s ServiceConnection for Testcontainers WireMock](https://www.docker.com/blog/building-spring-boots-serviceconnection-for-testcontainers-wiremock/)
+- [Built-in Testcontainers Support in Spring Boot](https://www.baeldung.com/spring-boot-built-in-testcontainers)
+- [Simplifying Development: Spring Boot 3.1 and Testcontainers Desktop](https://medium.com/@edemircan/simplifying-development-spring-boot-3-1-and-testcontainers-desktop-9b2ea465f21b)
+- [Spring Boot @ServiceConnection Example](https://mkyong.com/spring-boot/spring-boot-serviceconnection-example)
+- [Everything you need to know about Testcontainers integration on Spring Boot 3.1](https://rabobank.jobs/en/techblog/everything-about-testcontainers-on-spring-boot-3-1/)
+- [DB Integration Tests with Spring Boot and Testcontainers](https://www.baeldung.com/spring-boot-testcontainers-integration-test)
+- [Spring Boot integration tests with TestContainers (PostgreSQL) (from GitHub)](https://github.com/PraveenGNair/spring-boot-test-container)
+- [Embedded PostgreSQL for Spring Boot Tests](https://www.baeldung.com/spring-boot-embed-postgresql-testing)
+- [Streamlining Spring Boot Integration Tests with Testcontainers](https://master-spring-ter.medium.com/streamlining-spring-boot-integration-tests-with-testcontainers-bb744e184fd1)
+- [Spring boot multiple tests with testcontainers](https://stackoverflow.com/questions/77368679/spring-boot-multiple-tests-with-testcontainers)
