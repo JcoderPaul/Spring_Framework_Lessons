@@ -51,8 +51,8 @@
 
 Я работал над проектом, в котором использовался Spring Data JPA, а динамические запросы были построены с использованием JPA criteria queries.
 
-Если вы не знакомы с Spring Data JPA, возможно, вы захотите прочитать руководство по Spring Data JPA, в котором
-объясняется (../SpringDataJPATutorial/9_QueriesWithJPACriteriaAPI.md), как создавать JPA criteria queries с
+Если вы не знакомы с Spring Data JPA, возможно, вы захотите [прочитать руководство по Spring Data JPA, в котором
+объясняется](../SpringDataJPATutorial/9_QueriesWithJPACriteriaAPI.md), как создавать JPA criteria queries с
 помощью Spring Data JPA.
 
 В любом случае я создал класс строитель спецификаций, который создает объекты `Specification<Person>`. После того,
@@ -198,7 +198,7 @@ public class PersonSpecificationsTest {
 ["Интеграционное тестирование"](../SpringDataJPATutorial/16_IntegrationTesting.md). Тут рассказано, как писать 
 интеграционные тесты для репозиториев Spring Data JPA. Однако вы можете использовать тот же метод при написании 
 интеграционных тестов для любого репозитория, использующего реляционную базу данных. Например, интеграционный тест, 
-написанный для проверки примера приложения из моего руководства [«Использование jOOQ с Spring» см.](https://www.petrikainulainen.net/using-jooq-with-spring/), 
+написанный для проверки примера приложения из моего руководства см.[«Использование jOOQ с Spring»](https://www.petrikainulainen.net/using-jooq-with-spring/), 
 использует технику, описанную в этой статье.
 
 Краткое содержание:
