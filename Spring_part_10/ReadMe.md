@@ -71,7 +71,7 @@ ________________________________________________________________________________
 
     implementation 'org.springframework.data:spring-data-envers'
 
-Еще раз повторим что такое Spring Data - [DOC/SpringData.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_10/DOC/SpringData.txt)
+Еще раз повторим что такое Spring Data - [Spring Data](./DOC/SpringData.txt)
 
 ________________________________________________________________________________________________________________________
 #### [Lesson 47](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_10/src/test/java/spring/oldboy/integration/database/repository/lesson_47) - Repository.
