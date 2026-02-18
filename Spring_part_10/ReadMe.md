@@ -541,7 +541,7 @@ First или Top), а также хотим отсортировать нашу 
 ---
 #### [Lesson 57](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_10/src/test/java/spring/oldboy/integration/database/repository/lesson_57) - Spring Custom Repository Implementation - Самописные репозитории.
 
-В статьях ["Добавление пользовательских методов в один репозиторий"](./DOC/SpringDataJPATutorial/14_AddCustomMethodsToSingleRepository.md) и ["Добавление пользовательских методов во все репозитории"](./DOC/SpringDataJPATutorial/15_AddCustomMethodsToAllRepositories.txt) вкратце описано, каким образом мы можем создавать и интегрировать наши собственные кастомные (самописные) репозитории и 
+В статьях ["Добавление пользовательских методов в один репозиторий"](./DOC/SpringDataJPATutorial/14_AddCustomMethodsToSingleRepository.md) и ["Добавление пользовательских методов во все репозитории"](./DOC/SpringDataJPATutorial/15_AddCustomMethodsToAllRepositories.md) вкратце описано, каким образом мы можем создавать и интегрировать наши собственные кастомные (самописные) репозитории и 
 методы в наш проект. 
 
 Рассмотрим как это реализовано у нас:
