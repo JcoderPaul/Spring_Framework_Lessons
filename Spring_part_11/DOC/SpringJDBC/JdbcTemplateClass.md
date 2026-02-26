@@ -78,8 +78,8 @@
 - `<T> T execute(ConnectionCallback<T> action)` - Выполнить операцию доступа к данным JDBC, реализованную как действие обратного вызова, работающее над соединением JDBC.
 - `<T> T execute(PreparedStatementCreator psc, PreparedStatementCallback<T> action)` - Выполнить операцию доступа к данным JDBC, реализованную как действие обратного вызова, работающее с подготовленным оператором JDBC.
 - `<T> T execute(StatementCallback<T> action)` - Выполнить операцию доступа к данным JDBC, реализованную как действие обратного вызова, работающее с оператором JDBC.
-- `protected Map<String,Object> extractOutputParameters(CallableStatement cs, List<SqlParameter> parameters) - Извлеките выходные параметры из завершенной хранимой процедуры.
-- `protected Map<String,Object> extractReturnedResults(CallableStatement cs, List<SqlParameter> updateCountParameters, List<SqlParameter> resultSetParameters, int updateCount) - Извлеките возвращенные наборы результатов из завершенной хранимой процедуры.
+- `protected Map<String,Object> extractOutputParameters(CallableStatement cs, List<SqlParameter> parameters)` - Извлеките выходные параметры из завершенной хранимой процедуры.
+- `protected Map<String,Object> extractReturnedResults(CallableStatement cs, List<SqlParameter> updateCountParameters, List<SqlParameter> resultSetParameters, int updateCount` - Извлеките возвращенные наборы результатов из завершенной хранимой процедуры.
 - `protected RowMapper<Map<String,Object>> getColumnMapRowMapper()` - Создайте новый RowMapper для чтения столбцов как пар ключ-значение.
 - `int getFetchSize()` - Верните размер выборки, указанный для этого `JdbcTemplate`.
 - `int getMaxRows()` - Возвращает максимальное количество строк, указанное для этого `JdbcTemplate`.
@@ -87,7 +87,7 @@
 - `protected <T> RowMapper<T> getSingleColumnRowMapper(Class<T> requiredType)` - Создайте новый `RowMapper` для чтения объектов результатов из одного столбца.
 - `protected void handleWarnings(SQLWarning warning)` - Выдайте, `SQLWarningException` если столкнулись с реальным предупреждением.
 - `protected void handleWarnings(Statement stmt)` - Обработать предупреждения для данного оператора JDBC, если таковые имеются.
-- `protected void handleWarnings(Statement stmt, SQLException ex) - Обрабатывайте предупреждения перед распространением первичного объекта `SQLException` от выполнения данного оператора.
+- `protected void handleWarnings(Statement stmt, SQLException ex)` - Обрабатывайте предупреждения перед распространением первичного объекта `SQLException` от выполнения данного оператора.
 - `boolean isIgnoreWarnings()` - Возвращает, игнорируем ли мы `SQLWarnings`.
 - `boolean isResultsMapCaseInsensitive()` - Укажите, будет ли выполнение `CallableStatement` возвращать результаты в Map, который использует имена без учета регистра для параметров.
 - `boolean isSkipResultsProcessing()` - Возвращает значение, следует ли пропустить обработку результатов.
@@ -111,7 +111,7 @@
 - `<T> T query(String sql, ResultSetExtractor<T> rse)` - Выполните запрос с использованием статического SQL, прочитав `ResultSet` с помощью `ResultSetExtractor`.
 - `<T> T query(String sql, ResultSetExtractor<T> rse, Object... args)` - Запросить заданный SQL для создания подготовленного оператора из SQL и списка аргументов для привязки к запросу, считывая `ResultSet` с помощью `ResultSetExtractor`.
 - `void query(String sql, RowCallbackHandler rch)` - Выполните запрос с использованием статического SQL, считывая `ResultSet` для каждой строки с помощью `RowCallbackHandler`.
-- `void query(String sql, RowCallbackHandler rch, Object... args) - Запросить заданный SQL для создания подготовленного оператора из SQL и списка аргументов для привязки к запросу, считывая `ResultSet` для каждой строки с помощью `RowCallbackHandler`.
+- `void query(String sql, RowCallbackHandler rch, Object... args)` - Запросить заданный SQL для создания подготовленного оператора из SQL и списка аргументов для привязки к запросу, считывая `ResultSet` для каждой строки с помощью `RowCallbackHandler`.
 - `<T> List<T> query(String sql, RowMapper<T> rowMapper)` - Выполните запрос с использованием статического SQL, сопоставив каждую строку с объектом результата с помощью `RowMapper`.
 - `<T> List<T> query(String sql, RowMapper<T> rowMapper, Object... args)` - Запросить заданный SQL для создания подготовленного оператора из SQL и списка аргументов для привязки к запросу, сопоставляя каждую строку с объектом результата через `RowMapper`.
 - `<T> T query(PreparedStatementCreator psc, PreparedStatementSetter pss, ResultSetExtractor<T> rse)` - Запрос с использованием подготовленного оператора, позволяющего использовать `ReadedStatementCreator` и `ReaderStatementSetter`.
@@ -151,7 +151,7 @@
 - `void setResultsMapCaseInsensitive(boolean resultsMapCaseInsensitive)` - Укажите, будет ли выполнение `CallableStatement` возвращать результаты в Map, в котором для параметров используются имена без учета регистра.
 - `void setSkipResultsProcessing(boolean skipResultsProcessing)` - Установите, следует ли пропускать обработку результатов.
 - `void setSkipUndeclaredResults(boolean skipUndeclaredResults)` - Установите, следует ли пропускать необъявленные результаты.
-- `protected DataAccessException translateException(String task, String sql, SQLException ex) - Переведите данное `SQLException` в общий вид `DataAccessException`.
+- `protected DataAccessException translateException(String task, String sql, SQLException ex)` - Переведите данное `SQLException` в общий вид `DataAccessException`.
 - `int update(String sql)` - Выполните одну операцию обновления SQL (например, оператор вставки, обновления или удаления).
 - `int update(String sql, Object... args)` - Выполните одну операцию обновления SQL (например, оператор вставки, обновления или удаления) через подготовленный оператор, связывая заданные аргументы.
 - `int update(String sql, Object[] args, int[] argTypes)` - Выполните одну операцию обновления SQL (например, оператор вставки, обновления или удаления) через подготовленный оператор, связывая заданные аргументы.
