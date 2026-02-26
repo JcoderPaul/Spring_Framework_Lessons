@@ -20,4 +20,4 @@ Auto-configuration для JdbcTemplate и NamedParameterJdbcTemplate.
 public class JdbcTemplateAutoConfiguration extends Object
 
 ---
-[См. оф. док (ENG)](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/jdbc/JdbcTemplateAutoConfiguration.html)
+[См. оф. док (ENG)](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/jdbc/autoconfigure/JdbcTemplateAutoConfiguration.html))
