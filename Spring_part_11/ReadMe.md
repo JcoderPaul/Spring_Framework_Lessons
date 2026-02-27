@@ -100,7 +100,7 @@
 | Не поддерживает отложенную загрузку.                                         | Поддерживает отложенную загрузку, что обеспечивает лучшую производительность.      |
 | Не поддерживает ассоциации (связь между двумя отдельными классами).          | Поддерживает ассоциации.                                                           |                                                        
 
-Работой и авто-конфигурированием нашего соединения с БД управляет [JdbcTemplateAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/jdbc/JdbcTemplateAutoConfiguration.html)
+Работой и авто-конфигурированием нашего соединения с БД управляет [JdbcTemplateAutoConfiguration](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/jdbc/autoconfigure/JdbcTemplateAutoConfiguration.html)
 (см. [JdbcTemplateAutoConfiguration](./DOC/SpringJDBC/JdbcTemplateAutoConfiguration.md)), который, в свою очередь, зависит от [DataSource](https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/javax/sql/DataSource.html) - или пул 
 соединений, и [JdbcTemplate](https://docs.spring.io/spring-framework/docs/6.1.5/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) - основной класс через который происходит взаимодействие с БД 
 (или см. [JdbcTemplateClass](./DOC/SpringJDBC/JdbcTemplateClass.md)). Также подгружается зависимость от [NamedParameterJdbcTemplateConfiguration](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/jdbc/NamedParameterJdbcTemplateConfiguration.java)
