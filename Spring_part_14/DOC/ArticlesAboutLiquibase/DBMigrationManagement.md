@@ -35,11 +35,11 @@
 
 Liquibase использует так называемые «чейнджсеты» ('changeset' — набор изменений) см. 
 
-![LiquibaseConcepts.jpg](./Pictures/LiquibaseConcepts.jpg)
+![LiquibaseConcepts.jpg](../DOC/Pictures/LiquibaseConcepts.jpg)
 
 XML-код для описания операторов DDL. Они составляют файлы чейнджлогов (changelog) см. 
 
-![LiquibaseChangelogs.jpg](./Pictures/LiquibaseChangelogs.jpg)
+![LiquibaseChangelogs.jpg](../DOC/Pictures/LiquibaseChangelogs.jpg)
 
 Следующий чейнджсет создаст таблицу (тэг «createTable») и два столбца (тэг «column»):
 
@@ -103,7 +103,7 @@ Liquibase через командную строку с аргументом «r
 Так как теперь мы имеем два XML файла чейнджлогов, я создал «главный» файл, импортирующий другие файлы в порядке,
 необходимом для получения корректной ревизии БД см. 
 
-![LiquibaseChangelogs.jpg](./Pictures/LiquibaseChangelogs.jpg)
+![LiquibaseChangelogs.jpg](../DOC/Pictures/LiquibaseChangelogs.jpg)
 
 ```xml
 <databasechangelog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
