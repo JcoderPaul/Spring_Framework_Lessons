@@ -35,11 +35,11 @@
 
 Liquibase использует так называемые «чейнджсеты» ('changeset' — набор изменений) см. 
 
-![LiquibaseConcepts.jpg](./DOC/Pictures/LiquibaseConcepts.jpg)
+![LiquibaseConcepts.jpg](../Pictures/LiquibaseConcepts.jpg)
 
 XML-код для описания операторов DDL. Они составляют файлы чейнджлогов (changelog) см. 
 
-![LiquibaseChangelogs.jpg](./DOC/Pictures/LiquibaseChangelogs.jpg)
+![LiquibaseChangelogs.jpg](../Pictures/LiquibaseChangelogs.jpg)
 
 Следующий чейнджсет создаст таблицу (тэг «createTable») и два столбца (тэг «column»):
 
