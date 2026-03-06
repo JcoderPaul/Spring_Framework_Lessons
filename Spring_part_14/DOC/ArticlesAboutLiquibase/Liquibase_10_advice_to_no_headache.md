@@ -198,4 +198,4 @@ Liquibase умеет генерировать чейнджсеты по имею
 ### 10. Изучайте чужой опыт
 
 Хотя большую часть пунктов этой статьи я познал на собственном опыте, официальный гайд по лучшим практикам использования
-Liquibase улучшает восприятие инструмента (см. ["Database change management best practices"](https://www.liquibase.com/blog/database-change-management-best-practices).
+Liquibase улучшает восприятие инструмента см. ["Database change management best practices"](https://www.liquibase.com/blog/database-change-management-best-practices).
