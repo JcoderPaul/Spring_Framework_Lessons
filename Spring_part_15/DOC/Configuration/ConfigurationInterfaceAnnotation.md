@@ -21,11 +21,13 @@
 - [ContextConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextConfiguration.html)
 
 ---
+```java
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
 @Component
 public @interface Configuration
+```
 
 ---
 Указывает, что класс объявляет один или несколько методов @Bean и может обрабатываться контейнером Spring для создания
