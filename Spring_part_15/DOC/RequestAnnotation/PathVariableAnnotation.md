@@ -30,3 +30,7 @@
 
 ---
 - [См. исходную инф. (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PathVariable.html)
+- [Spring @PathVariable Annotation](https://www.baeldung.com/spring-pathvariable)
+- [Spring Boot - @PathVariable and @RequestParam Annotations](https://www.geeksforgeeks.org/springboot/spring-boot-pathvariable-and-requestparam-annotations/)
+- [Spring @PathVariable Annotation](https://www.geeksforgeeks.org/advance-java/spring-pathvariable-annotation/)
+- [Spring @RequestParam vs @PathVariable Annotations](https://www.baeldung.com/spring-requestparam-vs-pathvariable)
