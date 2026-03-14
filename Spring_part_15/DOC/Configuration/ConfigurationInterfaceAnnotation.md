@@ -433,3 +433,6 @@ class MyTests {
 
 ---
 - [См. исходную инф. (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)
+- [Using the @Configuration annotation](https://docs.spring.io/spring-framework/reference/core/beans/java/configuration-annotation.html)
+- [Spring @Configuration Annotation with Example](https://www.geeksforgeeks.org/springboot/spring-configuration-annotation-with-example/)
+- [The Power of @Configuration Annotation in Spring Framework](https://medium.com/@AlexanderObregon/the-power-of-configuration-annotation-in-spring-framework-4928341462c7)
