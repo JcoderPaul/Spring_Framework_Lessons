@@ -1,44 +1,53 @@
-****** Annotation Interface RequestMapping ******
-________________________________________________________________________________________________________________________
-Пакет: org.springframework.web.bind.annotation
-________________________________________________________________________________________________________________________
-@Target({TYPE,METHOD})
-@Retention(RUNTIME)
-@Documented
-@Reflective(org.springframework.web.bind.annotation.ControllerMappingReflectiveProcessor.class)
-public @interface RequestMapping
-________________________________________________________________________________________________________________________
-Аннотация для сопоставления (картирования, маппинга) веб-запросов с методами в классах обработки запросов
-(request-handling) с гибкими сигнатурами методов.
+- [См. исходную инф. (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html)
 
-И Spring MVC, и Spring WebFlux поддерживают эту аннотацию через RequestMappingHandlerMapping и
-RequestMappingHandlerAdapter в своих соответствующих модулях и структуре пакета. Точный список поддерживаемых аргументов
+---
+### Annotation Interface RequestMapping
+
+**Пакет:** [org.springframework.web.bind.annotation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/package-summary.html)
+
+```java
+  @Target({TYPE,METHOD})
+  @Retention(RUNTIME)
+  @Documented
+  @Reflective(org.springframework.web.bind.annotation.ControllerMappingReflectiveProcessor.class)
+  public @interface RequestMapping
+```
+
+Аннотация для сопоставления (картирования, маппинга) веб-запросов с методами в классах обработки запросов (request-handling) с гибкими сигнатурами методов.
+
+И Spring MVC, и Spring WebFlux поддерживают эту аннотацию через [RequestMappingHandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerMapping.html) и [RequestMappingHandlerAdapter](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerAdapter.html) в своих соответствующих модулях и структуре пакета. Точный список поддерживаемых аргументов
 метода-обработчика и типов возвращаемых значений в каждом из них можно найти по ссылкам на справочную документацию ниже:
 
-- Аргументы метода Spring MVC (https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/arguments.html)
-  и возвращаемые значения (https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/return-types.html)
+- [Аргументы метода Spring MVC](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/arguments.html) и
+[возвращаемые значения](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/return-types.html)
+- [Аргументы метода Spring WebFlux](https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-methods/arguments.html) и
+[возвращаемые значения](https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-methods/return-types.html)
 
-- Аргументы метода Spring WebFlux (https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-methods/arguments.html)
-  и возвращаемые значения (https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-methods/return-types.html)
+---
+- **Примечание.** Эту аннотацию можно использовать как на уровне класса, так и на уровне метода. В большинстве случаев на уровне метода приложения предпочитают использовать один
+из конкретных вариантов HTTP-метода:
+- [@GetMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/GetMapping.html),
+- [@PostMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html),
+- [@PutMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PutMapping.html),
+- [@DeleteMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/DeleteMapping.html),
+- [@PatchMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PatchMapping.html).
 
-Примечание. Эту аннотацию можно использовать как на уровне класса, так и на уровне метода.
-            В большинстве случаев на уровне метода приложения предпочитают использовать один
-            из конкретных вариантов HTTP-метода @GetMapping, @PostMapping, @PutMapping,
-            @DeleteMapping или @PatchMapping.
+- **Примечание.** При использовании интерфейсов контроллера (например, для прокси-сервера AOP) обязательно размещайте все аннотации сопоставления, такие как @RequestMapping и
+@SessionAttributes, в интерфейсе контроллера, а не в классе реализации.
 
-ПРИМЕЧАНИЕ. При использовании интерфейсов контроллера (например, для прокси-сервера AOP) обязательно размещайте все
-            аннотации сопоставления, такие как @RequestMapping и @SessionAttributes, в интерфейсе контроллера, а не
-            в классе реализации.
-________________________________________________________________________________________________________________________
-*** Необязательные элементы ***
+---
+### Необязательные элементы
 
-- String[] consumes - Сужает основное сопоставление по типам мультимедиа, которые может использовать сопоставленный
+- `String[] consumes` - Сужает основное сопоставление по типам мультимедиа, которые может использовать сопоставленный
                       обработчик. Состоит из одного или нескольких типов мультимедиа, один из которых должен
                       соответствовать заголовку запроса Content-Type.
 
-Примеры: consumes = "text/plain"
-         consumes = {"text/plain", "application/*"}
-         consumes = MediaType.TEXT_PLAIN_VALUE
+Примеры: 
+```
+  consumes = "text/plain"
+  consumes = {"text/plain", "application/*"}
+  consumes = MediaType.TEXT_PLAIN_VALUE
+```
 
 Если объявленный тип носителя содержит параметр и если "content-type" запрос from также имеет этот параметр, значения
 параметров должны совпадать. В противном случае, если тип носителя из запроса "content-type" не содержит параметр,
@@ -49,9 +58,9 @@ ________________________________________________________________________________
 
 Поддерживается как на уровне типа, так и на уровне метода!
 Если указано на обоих уровнях, условие использования уровня метода переопределяет условие уровня типа.
-________________________________________________________________________________________________________________________
 
-- String[] headers - Заголовки сопоставленного запроса, сужающие первичное сопоставление. Один и тот же формат для
+---
+- `String[] headers` - Заголовки сопоставленного запроса, сужающие первичное сопоставление. Один и тот же формат для
                      любой среды: последовательность выражений стиля «My-Header=myValue», с запросом, отображаемым
                      только в том случае, если обнаружено, что каждый такой заголовок имеет заданное значение.
 
@@ -61,28 +70,30 @@ ________________________________________________________________________________
 
 Также поддерживаются подстановочные знаки типа носителя (*) для таких заголовков, как Accept и Content-Type.
 
-Например: @RequestMapping(value = "/something", headers = "content-type=text/*")
+Например: 
+```
+@RequestMapping(value = "/something", headers = "content-type=text/*")
+```
 
 В данном примере будет сопоставлять запросы с типом контента «text/html», «text/plain» и т. д.
 
 Поддерживается как на уровне типа, так и на уровне метода!
 При использовании на уровне типа все сопоставления на уровне метода наследуют это ограничение заголовка.
-________________________________________________________________________________________________________________________
 
-- RequestMethod[] method - Методы HTTP-запроса для сопоставления, сужающие первичное сопоставление: GET, POST, HEAD,
-                           OPTIONS, PUT, PATCH, DELETE, TRACE.
+---
+- `RequestMethod[] method` - Методы HTTP-запроса для сопоставления, сужающие первичное сопоставление: GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE, TRACE.
 
 Поддерживается как на уровне типа, так и на уровне метода!
 При использовании на уровне типа все сопоставления на уровне метода наследуют это ограничение метода HTTP.
-________________________________________________________________________________________________________________________
 
-- String name - Присвойте имя этому сопоставлению.
+---
+- `String name` - Присвойте имя этому сопоставлению.
 
 Поддерживается как на уровне типа, так и на уровне метода!
 При использовании на обоих уровнях, объединенное имя получается путем объединения с разделителем «#».
-________________________________________________________________________________________________________________________
 
-- String[] params - Параметры сопоставленного запроса, сужающие первичное сопоставление. Один и тот же формат для любой
+---
+- `String[] params` - Параметры сопоставленного запроса, сужающие первичное сопоставление. Один и тот же формат для любой
                     среды: последовательность выражений стиля «myParam=myValue», с запросом, отображаемым только в том
                     случае, если обнаружено, что каждый такой параметр имеет заданное значение.
 
@@ -92,9 +103,9 @@ ________________________________________________________________________________
 
 Поддерживается как на уровне типа, так и на уровне метода!
 При использовании на уровне типа все сопоставления на уровне метода наследуют это ограничение параметра.
-________________________________________________________________________________________________________________________
 
-- String[] path - URI сопоставления путей (например, "/profile"). Также поддерживаются шаблоны путей в стиле Ant
+---
+- `String[] path` - URI сопоставления путей (например, "/profile"). Также поддерживаются шаблоны путей в стиле Ant
                   (например, "/profile/**"). На уровне метода относительные пути (например, "edit" и т.д.)
                   поддерживаются в рамках первичного сопоставления, выраженного на уровне типа. URI сопоставления пути
                   могут содержать заполнители (например, "/${profile_path}").
@@ -103,19 +114,22 @@ ________________________________________________________________________________
 При использовании на уровне типа все сопоставления на уровне метода наследуют это первичное сопоставление, сужая его
 для определенного метода-обработчика.
 
-ПРИМЕЧАНИЕ. Метод-обработчик, который явно не сопоставлен ни с одним путем, фактически сопоставляется с пустым путем.
-________________________________________________________________________________________________________________________
+**ПРИМЕЧАНИЕ.** Метод-обработчик, который явно не сопоставлен ни с одним путем, фактически сопоставляется с пустым путем.
 
-- String[] produces - Сужает первичное сопоставление по типам мультимедиа, которые могут быть созданы сопоставленным
+---
+- `String[] produces` - Сужает первичное сопоставление по типам мультимедиа, которые могут быть созданы сопоставленным
                       обработчиком. Состоит из одного или нескольких типов мультимедиа, один из которых должен быть
                       выбран посредством согласования контента на основе «приемлемых» типов мультимедиа запроса.
                       Обычно они извлекаются из "Accept" заголовка, но могут быть получены из параметров запроса или
                       других данных.
 
-Примеры: produces = "text/plain"
-         produces = {"text/plain", "application/*"}
-         produces = MediaType.TEXT_PLAIN_VALUE
-         produces = "text/plain;charset=UTF-8"
+Примеры: 
+```
+  produces = "text/plain"
+  produces = {"text/plain", "application/*"}
+  produces = MediaType.TEXT_PLAIN_VALUE
+  produces = "text/plain;charset=UTF-8"
+```
 
 Если объявленный тип носителя содержит параметр (например, «charset=UTF-8», «type=feed», «type=entry») и если
 совместимый тип носителя из запроса также имеет этот параметр, то значения параметров должны совпадать. В противном
@@ -126,21 +140,21 @@ ________________________________________________________________________________
 
 Поддерживается как на уровне типа, так и на уровне метода!
 Если указано на обоих уровнях, уровень метода создает условие, переопределяющее условие уровня типа.
-________________________________________________________________________________________________________________________
 
-- String[] value - Основное сопоставление, выраженное этой аннотацией. Это псевдоним для path().
+---
+- `String[] value` - Основное сопоставление, выраженное этой аннотацией. Это псевдоним для path().
 
-Например, @RequestMapping("/foo") эквивалентно @RequestMapping(path="/foo").
+Например, `@RequestMapping("/foo")` эквивалентно `@RequestMapping(path="/foo")`.
 
 Поддерживается как на уровне типа, так и на уровне метода!
 При использовании на уровне типа все сопоставления на уровне метода наследуют это первичное сопоставление, сужая его
 для определенного метода-обработчика.
 
 ПРИМЕЧАНИЕ. Метод-обработчик, который явно не сопоставлен ни с одним путем, фактически сопоставляется с пустым путем.
-________________________________________________________________________________________________________________________
-См. исходную инф. (ENG):
-https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html
-________________________________________________________________________________________________________________________
+
+---
+- [См. исходную инф. (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html)
+- 
 
 
 
