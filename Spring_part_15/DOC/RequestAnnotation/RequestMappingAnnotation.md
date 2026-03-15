@@ -154,9 +154,7 @@
 
 ---
 - [См. исходную инф. (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html)
-- 
-
-
-
-
-________________________________________________________________________________________________________________________
+- [Spring RequestMapping](https://www.baeldung.com/spring-requestmapping)
+- [Mapping Requests](https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-requestmapping.html)
+- [Spring @RequestMapping Annotation with Example](https://www.geeksforgeeks.org/springboot/spring-requestmapping-annotation-with-example/)
+- [Spring Framework Essentials: Everything You Need to Know About @RequestMapping](https://medium.com/dev-spring/requestmapping-in-spring-31ecbee256d0)
