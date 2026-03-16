@@ -51,3 +51,4 @@
 - [@RequestParam](https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-methods/requestparam.html)
 - [Spring MVC - @RequestParam Annotation](https://www.geeksforgeeks.org/springboot/spring-mvc-requestparam-annotation/)
 - [Understanding @RequestParam and @PathVariable in Spring MVC](https://medium.com/nerd-for-tech/understanding-requestparam-and-pathvariable-in-spring-mvc-908e93abe88e)
+- [What is difference between @RequestBody and @RequestParam?](https://stackoverflow.com/questions/28039709/what-is-difference-between-requestbody-and-requestparam)
