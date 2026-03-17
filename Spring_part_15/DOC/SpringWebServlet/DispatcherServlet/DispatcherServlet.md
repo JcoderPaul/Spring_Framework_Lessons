@@ -216,3 +216,10 @@ getEnvironment, getServletName, init, initBeanWrapper, setEnvironment
 
 ---
 - [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html)
+
+---
+- [An Intro to the Spring DispatcherServlet](https://www.baeldung.com/spring-dispatcherservlet)
+- [https://www.geeksforgeeks.org/java/what-is-dispatcher-servlet-in-spring/](https://www.geeksforgeeks.org/java/what-is-dispatcher-servlet-in-spring/)
+- [Understanding DispatcherServlet in Spring MVC](https://medium.com/@vino7tech/understanding-dispatcherservlet-in-spring-mvc-f49e034de016)
+- [DispatcherServlet and web.xml in Spring Boot](https://www.baeldung.com/spring-boot-dispatcherservlet-web-xml)
+- [Spring - Configure Dispatcher Servlet in Three Different Ways](https://www.geeksforgeeks.org/java/spring-configure-dispatcher-servlet-in-three-different-ways/)
