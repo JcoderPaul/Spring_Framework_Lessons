@@ -46,20 +46,21 @@ java.lang.Object
 ---
 ### Поля
 
-- Поля, унаследованные от класса org.springframework.web.servlet.handler.AbstractHandlerMapping: mappingsLogger
-- Поля, унаследованные от класса org.springframework.context.support.ApplicationObjectSupport: logger
-- Поля, унаследованные от интерфейса org.springframework.web.servlet.HandlerMapping:
-  - BEST_MATCHING_HANDLER_ATTRIBUTE,
-  - BEST_MATCHING_PATTERN_ATTRIBUTE,
-  - INTROSPECT_TYPE_LEVEL_MAPPING,
-  - LOOKUP_PATH,
-  - MATRIX_VARIABLES_ATTRIBUTE,
-  - PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE,
-  - PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE,
-  - URI_TEMPLATE_VARIABLES_ATTRIBUTE
+- Поля, унаследованные от класса [org.springframework.web.servlet.handler.AbstractHandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/handler/AbstractHandlerMapping.html#field-summary): [mappingsLogger](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/handler/AbstractHandlerMapping.html#mappingsLogger)
+- Поля, унаследованные от класса [org.springframework.context.support.ApplicationObjectSupport](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/support/ApplicationObjectSupport.html#field-summary): [logger](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/support/ApplicationObjectSupport.html#logger)
+- Поля, унаследованные от интерфейса [org.springframework.web.servlet.HandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#field-summary):
+  - [API_VERSION_ATTRIBUTE](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#API_VERSION_ATTRIBUTE),
+  - [BEST_MATCHING_HANDLER_ATTRIBUTE](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#BEST_MATCHING_HANDLER_ATTRIBUTE),
+  - [BEST_MATCHING_PATTERN_ATTRIBUTE](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#BEST_MATCHING_PATTERN_ATTRIBUTE),
+  - [INTROSPECT_TYPE_LEVEL_MAPPING](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#INTROSPECT_TYPE_LEVEL_MAPPING),
+  - [LOOKUP_PATH](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#LOOKUP_PATH),
+  - [MATRIX_VARIABLES_ATTRIBUTE](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#MATRIX_VARIABLES_ATTRIBUTE),
+  - [PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE),
+  - [PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE),
+  - [URI_TEMPLATE_VARIABLES_ATTRIBUTE](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#URI_TEMPLATE_VARIABLES_ATTRIBUTE)
 - Поля, унаследованные от интерфейса org.springframework.core.Ordered:
-  - HIGHEST_PRECEDENCE,
-  - LOWEST_PRECEDENCE
+  - [HIGHEST_PRECEDENCE](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/Ordered.html#HIGHEST_PRECEDENCE),
+  - [LOWEST_PRECEDENCE](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/Ordered.html#LOWEST_PRECEDENCE)
 
 ---
 ### Методы
@@ -67,17 +68,15 @@ java.lang.Object
 - `protected String[] determineUrlsForHandler(String beanName)` - Проверяет имя и псевдонимы данного компонента на наличие URL-адресов, начинающихся с «/».
 
 ---
-- Методы, унаследованные от класса org.springframework.web.servlet.handler. AbstractDetectingUrlHandlerMapping: detectHandlers, initApplicationContext, setDetectHandlersInAncestorContexts
-- Методы, унаследованные от класса org.springframework.web.servlet.handler.AbstractUrlHandlerMapping: buildPathExposingHandler, exposePathWithinMapping, exposeUriTemplateVariables, getHandlerInternal, getHandlerMap,
-getPathPatternHandlerMap, getRootHandler, lookupHandler, lookupHandler, match, registerHandler, registerHandler, setLazyInitHandlers, setPatternParser, setRootHandler, setUseTrailingSlashMatch, pportsTypeLevelMappings,
-useTrailingSlashMatch, validateHandler
-- Методы, унаследованные от класса org.springframework.web.servlet.handler.AbstractHandlerMapping: adaptInterceptor, detectMappedInterceptors, extendInterceptors, formatMappingName, getAdaptedInterceptors,
+- Методы, унаследованные от класса [org.springframework.web.servlet.handler.AbstractDetectingUrlHandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/handler/AbstractDetectingUrlHandlerMapping.html#method-summary): detectHandlers, initApplicationContext, setDetectHandlersInAncestorContexts
+- Методы, унаследованные от класса [org.springframework.web.servlet.handler.AbstractUrlHandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/handler/AbstractUrlHandlerMapping.html#method-summary): buildPathExposingHandler, exposePathWithinMapping, exposeUriTemplateVariables, getHandlerInternal, getHandlerMap, getPathPatternHandlerMap, getRootHandler, lookupHandler, lookupHandler, match, registerHandler, registerHandler, setLazyInitHandlers, setPatternParser, setRootHandler, setUseTrailingSlashMatch, pportsTypeLevelMappings, useTrailingSlashMatch, validateHandler
+- Методы, унаследованные от класса [org.springframework.web.servlet.handler.AbstractHandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/handler/AbstractHandlerMapping.html#method-summary): adaptInterceptor, detectMappedInterceptors, extendInterceptors, formatMappingName, getAdaptedInterceptors,
 getCorsConfiguration, getCorsConfigurationSource, getCorsHandlerExecutionChain, getCorsProcessor, getDefaultHandler, getHandler, getHandlerExecutionChain, getMappedInterceptors, getOrder, getPathMatcher, getPatternParser, getUrlPathHelper, hasCorsConfigurationSource, initInterceptors, initLookupPath, setAlwaysUseFullPath, setBeanName, setCorsConfigurations, setCorsConfigurationSource, setCorsProcessor, setDefaultHandler, setInterceptors, setOrder, setPathMatcher, setRemoveSemicolonContent, setUrlDecode, setUrlPathHelper, usesPathPatterns
-- Методы, унаследованные от класса org.springframework.web.context.support.WebApplicationObjectSupport: getServletContext, getTempDir, getWebApplicationContext, initApplicationContext, initServletContext, isContextRequired, setServletContext
-- Методы, унаследованные от класса org.springframework.context.support.ApplicationObjectSupport: getApplicationContext, getMessageSourceAccessor, obtainApplicationContext, requiredContextClass, setApplicationContext
-- Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait
-- Методы, унаследованные от интерфейса org.springframework.web.servlet.HandlerMapping: getHandler, usesPathPatterns
-- Методы, унаследованные от интерфейса org.springframework.web.servlet.handler.MatchableHandlerMapping: getPatternParser
+- Методы, унаследованные от класса [org.springframework.web.context.support.WebApplicationObjectSupport](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/support/WebApplicationObjectSupport.html#method-summary): getServletContext, getTempDir, getWebApplicationContext, initApplicationContext, initServletContext, isContextRequired, setServletContext
+- Методы, унаследованные от класса [org.springframework.context.support.ApplicationObjectSupport](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/support/ApplicationObjectSupport.html#method-summary): getApplicationContext, getMessageSourceAccessor, obtainApplicationContext, requiredContextClass, setApplicationContext
+- Методы, унаследованные от класса [java.lang.Object](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#method-summary): clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait
+- Методы, унаследованные от интерфейса [org.springframework.web.servlet.HandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html#method-summary): getHandler, usesPathPatterns
+- Методы, унаследованные от интерфейса [org.springframework.web.servlet.handler.MatchableHandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/handler/MatchableHandlerMapping.html#method-summary): getPatternParser
 
 ---
 - [См. исх. (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/handler/BeanNameUrlHandlerMapping.html)
