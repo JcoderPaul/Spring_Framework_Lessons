@@ -28,8 +28,8 @@ java.lang.Object
 
 ```java
 public class RequestMappingHandlerMapping
-                     extends [RequestMappingInfoHandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/RequestMappingInfoHandlerMapping.html)
-                                     implements [MatchableHandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/handler/MatchableHandlerMapping.html), [EmbeddedValueResolverAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/EmbeddedValueResolverAware.html)
+                     extends RequestMappingInfoHandlerMapping
+                                     implements MatchableHandlerMapping, EmbeddedValueResolverAware
 ```
 
 ---
