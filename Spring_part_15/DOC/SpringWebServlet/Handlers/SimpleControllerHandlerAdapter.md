@@ -40,6 +40,9 @@ public class SimpleControllerHandlerAdapter
 
 ---
 - [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/SimpleControllerHandlerAdapter.html)
+
+---
+**Сопутствующие материалы:**
 - [HandlerAdapters in Spring MVC](https://www.baeldung.com/spring-mvc-handler-adapters)
 - [Spring MVC Controller Design](https://stackoverflow.com/questions/5265751/spring-mvc-controller-design)
 - [Spring MVC - Mapping a Controller implementation with SimpleControllerHandlerAdapter strategy](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/simple-controller-handler-adapter.html)
