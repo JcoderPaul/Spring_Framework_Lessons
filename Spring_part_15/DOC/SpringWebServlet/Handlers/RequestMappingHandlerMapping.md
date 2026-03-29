@@ -97,6 +97,9 @@ getApplicationContext, getMessageSourceAccessor, obtainApplicationContext, requi
 
 ---
 - [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerMapping.html)
+
+---
+**Сопутствующие материалы:**
 - [The Mechanics of Request Mapping in Spring Boot](https://medium.com/@AlexanderObregon/the-mechanics-of-request-mapping-in-spring-boot-92d1065cc0ad)
 - [HandlerAdapters in Spring MVC](https://www.baeldung.com/spring-mvc-handler-adapters)
 - [How to add RequestMappingHandlerMapping and ResourceHandlers to a springMVC configuration class](https://stackoverflow.com/questions/30402453/how-to-add-requestmappinghandlermapping-and-resourcehandlers-to-a-springmvc-conf)
