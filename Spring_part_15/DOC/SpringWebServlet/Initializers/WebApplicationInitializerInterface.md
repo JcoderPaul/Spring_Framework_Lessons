@@ -148,6 +148,9 @@ public class MyWebAppInitializer implements WebApplicationInitializer {
 
 ---
 - [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/WebApplicationInitializer.html)
+
+---
+**Сопутствующие материалы:**
 - [Spring WebApplicationInitializer with Example](https://www.geeksforgeeks.org/java/spring-webapplicationinitializer-with-example/)
 - [web.xml vs Initializer with Spring](https://www.baeldung.com/spring-xml-vs-java-config)
 - [Spring WebApplicationInitializer](https://stackoverflow.com/questions/35971082/spring-webapplicationinitializer)
