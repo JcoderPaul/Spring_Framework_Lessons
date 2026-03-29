@@ -39,5 +39,8 @@ java.lang.Object
 
 ---
 - [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/HttpRequestHandlerAdapter.html)
+
+---
+**Сопутствующие материалы:**
 - [HandlerAdapters in Spring MVC](https://www.baeldung.com/spring-mvc-handler-adapters)
 - [The Mechanics of Request Mapping in Spring Boot](https://medium.com/@AlexanderObregon/the-mechanics-of-request-mapping-in-spring-boot-92d1065cc0ad)
