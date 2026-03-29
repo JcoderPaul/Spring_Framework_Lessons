@@ -97,6 +97,9 @@ public class DefaultHandlerExceptionResolver
 
 ---
 - [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/support/DefaultHandlerExceptionResolver.html)
+
+---
+**Сопутствующие материалы:**
 - [How to customize DefaultHandlerExceptionResolver logic?](https://stackoverflow.com/questions/53974000/how-to-customize-defaulthandlerexceptionresolver-logic)
 - [DefaultHandlerExceptionResolver.java](https://github.com/spring-projects/spring-framework/blob/main/spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/support/DefaultHandlerExceptionResolver.java)
 - [Error Handling for REST with Spring](https://www.baeldung.com/exception-handling-for-rest-with-spring)
