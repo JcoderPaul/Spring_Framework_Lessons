@@ -48,8 +48,12 @@ public class AcceptHeaderLocaleResolver
 ---
 - Методы, унаследованные от класса [AbstractLocaleResolver](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/i18n/AbstractLocaleResolver.html): getDefaultLocale, setDefaultLocale
 - Методы, унаследованные от класса [Object](https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html): clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait
-________________________________________________________________________________________________________________________
+
+---
 - [См. исходный материал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/i18n/AcceptHeaderLocaleResolver.html)
+
+---
+**Сопутствующие материалы:**
 - [How Spring Boot Configures Locale Resolution](https://medium.com/@AlexanderObregon/how-spring-boot-configures-locale-resolution-cae3e402b0df)
 - [Retrieve locale based on the Accept-Language in Spring Boot](https://stackoverflow.com/questions/55736861/retrieve-locale-based-on-the-accept-language-in-spring-boot)
 - [REST API Localization with Spring Boot AcceptHeaderLocaleResolver](https://medium.com/@ialibrahim9/rest-api-localization-with-spring-boot-8697e6a8123c)
