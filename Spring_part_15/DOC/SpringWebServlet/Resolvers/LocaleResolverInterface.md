@@ -43,6 +43,7 @@
 
 Параметры: 
 - request- запрос на разрешение локали для;
+
 Возвращает: Текущая локаль (никогда null);
 
 - `void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale)` - Установите текущую локаль на заданную.
@@ -51,6 +52,7 @@
 - request - запрос, который будет использоваться для изменения локали;
 - response - ответ, который будет использоваться для изменения локали;
 - locale - новая локаль или null очистить локаль;
+
 Исключения: UnsupportedOperationException - если реализация LocaleResolver не поддерживает динамическое изменение локали;
 
 ---
