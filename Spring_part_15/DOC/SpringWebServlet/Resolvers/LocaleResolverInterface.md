@@ -41,19 +41,19 @@
 
 - `Locale resolveLocale(HttpServletRequest request)` - Разрешите текущую локаль с помощью данного запроса. В любом случае можно вернуть локаль по умолчанию в качестве запасного варианта.
 
-Параметры: 
+*Параметры:* 
 - request- запрос на разрешение локали для;
 
-Возвращает: Текущая локаль (никогда null);
+*Возвращает:* Текущая локаль (никогда null);
 
 - `void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale)` - Установите текущую локаль на заданную.
 
-Параметры: 
+*Параметры:* 
 - request - запрос, который будет использоваться для изменения локали;
 - response - ответ, который будет использоваться для изменения локали;
 - locale - новая локаль или null очистить локаль;
 
-Исключения: UnsupportedOperationException - если реализация LocaleResolver не поддерживает динамическое изменение локали;
+*Исключения:* UnsupportedOperationException - если реализация LocaleResolver не поддерживает динамическое изменение локали;
 
 ---
 - [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/LocaleResolver.html)
