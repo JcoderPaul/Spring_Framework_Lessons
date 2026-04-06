@@ -33,3 +33,4 @@
 - [Spring MVC - Auto translation of view name](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/view-name-translator.html)
 - [Spring View Resolver](https://studytrails.com/2016/09/15/spring-mvc-view-resolver/)
 - [Spring View Manipulation Vulnerability](https://www.veracode.com/blog/secure-development/spring-view-manipulation-vulnerability/)
+- [Web MVC framework](https://docs.spring.io/spring-framework/docs/3.0.3.RELEASE/reference/html/mvc.html)
