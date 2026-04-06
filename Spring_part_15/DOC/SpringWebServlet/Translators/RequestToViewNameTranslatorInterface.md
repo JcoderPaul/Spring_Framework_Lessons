@@ -20,9 +20,9 @@
 - `String getViewName(HttpServletRequest request)` - Переведите данное значение HttpServletRequest в имя представления.
 
 Где, 
-*Параметры:* request - входящий HttpServletRequest, предоставляющий контекст, из которого должно быть разрешено имя представления;
-*Возвращает:* имя представления или, null если значение по умолчанию не найдено;
-*Исключения:* Exception- если перевод имени представления не удался;
+- *Параметры:* request - входящий HttpServletRequest, предоставляющий контекст, из которого должно быть разрешено имя представления;
+- *Возвращает:* имя представления или, null если значение по умолчанию не найдено;
+- *Исключения:* Exception- если перевод имени представления не удался;
 
 ---
 - [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/RequestToViewNameTranslator.html)
