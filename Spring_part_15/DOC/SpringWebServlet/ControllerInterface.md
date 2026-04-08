@@ -56,17 +56,12 @@ HttpServletResponse, как и HttpServlet, но может участвоват
 
 #### Рабочий процесс
 
-После того как DispatcherServlet получил запрос и выполнил свою работу по разрешению локалей, тем и т. д., он пытается
-разрешить контроллер, используя HandlerMapping. Когда будет найден контроллер для обработки запроса, будет вызван метод
-handleRequest обнаруженного контроллера; затем обнаруженный контроллер отвечает за обработку фактического запроса и,
-если применимо, за возврат соответствующего ModelAndView.
+После того как [DispatcherServlet](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet.html) получил запрос и выполнил свою работу по разрешению локалей, тем и т. д., он пытается
+разрешить контроллер, используя [HandlerMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerMapping.html). Когда будет найден контроллер для обработки запроса, будет вызван метод [handleRequest](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/Controller.html#handleRequest(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse)) обнаруженного контроллера; затем обнаруженный контроллер отвечает за обработку фактического запроса и, если применимо, за возврат соответствующего [ModelAndView](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/ModelAndView.html).
 
-Фактически этот метод является основной точкой входа для DispatcherServlet, который делегирует запросы контроллерам.
+Фактически этот метод является основной точкой входа для [DispatcherServlet](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html), который делегирует запросы контроллерам.
 
-Таким образом, в основном любая прямая реализация интерфейса контроллера просто обрабатывает HttpServletRequests и
-должна возвращать ModelAndView для дальнейшей интерпретации DispatcherServlet. Любые дополнительные функции, такие как
-необязательная проверка, обработка форм и т. д., должны быть получены путем расширения AbstractController или одного из
-его подклассов.
+Таким образом, в основном любая прямая реализация интерфейса контроллера просто обрабатывает HttpServletRequests и должна возвращать ModelAndView для дальнейшей интерпретации DispatcherServlet. Любые дополнительные функции, такие как необязательная проверка, обработка форм и т. д., должны быть получены путем расширения [AbstractController](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/AbstractController.html) или одного из его подклассов.
 
 #### Примечания по проектированию и тестированию
 
@@ -85,9 +80,9 @@ HttpServlet. Он не стремится отделиться от API серв
 
 Если контроллерам необходимо знать о конкретных ссылках на среду, они могут реализовать определенные интерфейсы
 осведомленности, как это может сделать любой другой компонент в контексте Spring (веб-приложения), например:
-- org.springframework.context.ApplicationContextAware
-- org.springframework.context.ResourceLoaderAware
-- org.springframework.web.context.ServletContextAware
+- [org.springframework.context.ApplicationContextAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ApplicationContextAware.html)
+- [org.springframework.context.ResourceLoaderAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ResourceLoaderAware.html)
+- [org.springframework.web.context.ServletContextAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/ServletContextAware.html)
 
 Такие ссылки на среду можно легко передавать в средах тестирования через соответствующие установщики, определенные в
 соответствующих интерфейсах осведомленности. В общем, рекомендуется минимизировать зависимости: например, если вам нужна
@@ -95,7 +90,7 @@ HttpServlet. Он не стремится отделиться от API серв
 класс от базового класса WebApplicationObjectSupport, который предоставляет все эти ссылки через удобные средства
 доступа, но требует ссылку на ApplicationContext при инициализации.
 
-Контроллеры могут использовать методы checkNotModified в WebRequest для поддержки HTTP-кэширования.
+Контроллеры могут использовать методы checkNotModified в [WebRequest](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/request/WebRequest.html) для поддержки HTTP-кэширования.
 
 ---
 #### Метод
