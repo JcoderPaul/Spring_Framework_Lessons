@@ -1,29 +1,36 @@
-****** Interface Controller ******
-________________________________________________________________________________________________________________________
-Пакет: org.springframework.web.servlet.mvc
+- [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/Controller.html)
 
-Все реализующие классы: AbstractController,
-                        AbstractUrlViewController,
-                        ParameterizableViewController,
-                        ServletForwardingController,
-                        ServletWrappingController,
-                        UrlFilenameViewController
+---
+### Interface Controller
 
-Функциональный интерфейс: Это функциональный интерфейс, поэтому его можно использовать в качестве цели назначения для
-                          лямбда-выражения или ссылки на метод.
+**Пакет:** [org.springframework.web.servlet.mvc](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/package-summary.html)
 
-См. так же: SimpleControllerHandlerAdapter,
-            AbstractController,
-            MockHttpServletRequest,
-            MockHttpServletResponse,
-            ApplicationContextAware,
-            ResourceLoaderAware,
-            ServletContextAware,
-            WebApplicationObjectSupport
-________________________________________________________________________________________________________________________
-@FunctionalInterface
-public interface Controller
-________________________________________________________________________________________________________________________
+**Все реализующие классы:**
+- [AbstractController](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/AbstractController.html),
+- [AbstractUrlViewController](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/AbstractUrlViewController.html),
+- [ParameterizableViewController](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/ParameterizableViewController.html),
+- [ServletForwardingController](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/ServletForwardingController.html),
+- [ServletWrappingController](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/ServletWrappingController.html),
+- [UrlFilenameViewController](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/UrlFilenameViewController.html)
+
+**Функциональный интерфейс:** Это функциональный интерфейс, поэтому его можно использовать в качестве цели назначения для лямбда-выражения или ссылки на метод.
+
+**См. так же:** 
+- [SimpleControllerHandlerAdapter](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/SimpleControllerHandlerAdapter.html),
+- [AbstractController](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/AbstractController.html),
+- [MockHttpServletRequest](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/mock/web/MockHttpServletRequest.html),
+- [MockHttpServletResponse](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/mock/web/MockHttpServletResponse.html),
+- [ApplicationContextAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ApplicationContextAware.html),
+- [ResourceLoaderAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ResourceLoaderAware.html),
+- [ServletContextAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/ServletContextAware.html),
+- [WebApplicationObjectSupport](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/support/WebApplicationObjectSupport.html)
+
+```java
+  @FunctionalInterface
+  public interface Controller
+```
+
+---
 Интерфейс базового контроллера, представляющий компонент, который получает экземпляры HttpServletRequest и
 HttpServletResponse, как и HttpServlet, но может участвовать в рабочем процессе MVC. Контроллеры можно сравнить с
 понятием действия Struts.
@@ -32,7 +39,7 @@ HttpServletResponse, как и HttpServlet, но может участвоват
 обрабатывать несколько HTTP-запросов на протяжении всего жизненного цикла приложения. Чтобы иметь возможность легко
 настроить контроллер, рекомендуется, чтобы реализации контроллера были (и обычно являются) JavaBeans.
 
--- Рабочий процесс --
+#### Рабочий процесс
 
 После того как DispatcherServlet получил запрос и выполнил свою работу по разрешению локалей, тем и т. д., он пытается
 разрешить контроллер, используя HandlerMapping. Когда будет найден контроллер для обработки запроса, будет вызван метод
@@ -46,7 +53,7 @@ handleRequest обнаруженного контроллера; затем об
 необязательная проверка, обработка форм и т. д., должны быть получены путем расширения AbstractController или одного из
 его подклассов.
 
--- Примечания по проектированию и тестированию --
+#### Примечания по проектированию и тестированию
 
 Интерфейс контроллера явно предназначен для работы с объектами HttpServletRequest и HttpServletResponse, как и
 HttpServlet. Он не стремится отделиться от API сервлетов, в отличии, например, от WebWork, JSF или Tapestry. Вместо
@@ -74,22 +81,30 @@ HttpServlet. Он не стремится отделиться от API серв
 доступа, но требует ссылку на ApplicationContext при инициализации.
 
 Контроллеры могут использовать методы checkNotModified в WebRequest для поддержки HTTP-кэширования.
-________________________________________________________________________________________________________________________
-*** Метод ***
 
-- ModelAndView handleRequest(HttpServletRequest request,
-                             HttpServletResponse response) - Обработайте запрос и верните объект ModelAndView, который
-                                                             будет отображен DispatcherServlet.
+---
+#### Метод
 
-Где, параметры: request- текущий HTTP-запрос;
-                response- текущий HTTP-ответ;
-     возвращает: ModelAndView для рендеринга или null при прямой обработке;
-     исключения: Exception - в случае ошибок;
-________________________________________________________________________________________________________________________
-См. оригинал (ENG):
-https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/Controller.html
-________________________________________________________________________________________________________________________
+- `ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)` - Обработайте запрос и верните объект ModelAndView, который будет отображен DispatcherServlet.
 
+Где, 
+- *Параметры:*
+  - request- текущий HTTP-запрос;
+  - response- текущий HTTP-ответ;
+- *Возвращает:* ModelAndView для рендеринга или null при прямой обработке;
+- *Исключения:* Exception - в случае ошибок;
 
+---
+- [См. оригинал (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/Controller.html)
 
-________________________________________________________________________________________________________________________
+---
+**Доп. материалы:**
+- [Interface Driven Controllers in Spring](https://www.baeldung.com/spring-interface-driven-controllers)
+- [@Controller](https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann.html)
+- [Using Interface for Controller Requests in Java Spring Framework](https://whyjun.github.io/blog/Using-Interface-for-Controller-Requests-in-Java%20Spring-Framework)
+- [Why It’s a Best Practice to Use Interfaces for Services in Spring](https://medium.com/@persolenom/why-its-a-best-practice-to-use-interfaces-for-services-in-spring-db0764139a0e)
+- [Spring Controllers Implementing Interfaces?](https://dzone.com/articles/spring-controllers-implementing-interfaces)
+- [Spring MVC - Model Interface](https://www.geeksforgeeks.org/java/spring-mvc-model-interface/)
+- [Java Services and Interfaces in a Spring Boot Application](https://davidgiard.com/java-services-and-interfaces-in-a-spring-boot-application)
+- [A Controller, Service and DAO Example with Spring Boot and JSF](https://www.baeldung.com/jsf-spring-boot-controller-service-dao)
+- [Spring Controller Interface](https://www.java4coding.com/contents/spring/controller-interface)
