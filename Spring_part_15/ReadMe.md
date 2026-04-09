@@ -373,9 +373,7 @@ Servlet, который проинициализируется единожды.
 
 Поэтому пусть наши методы в [GreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GreetingController.java) вернут просто 'статику' или наши две *.jsp страницы с приветствием и прощанием: `public ModelAndView hello()` и `public ModelAndView bye()`.
 
-- **ШАГ 7.** - Методы обработчики созданы, странички отображения созданы - теперь мы должны картировать (сопоставить) соответствующие запросы на методы обработчики этих запросов, наши *.hello() и *.bye(). Другими словами, мы должны указать 'URl path' см. 
-
-![DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg)
+- **ШАГ 7.** - Методы обработчики созданы, странички отображения созданы - теперь мы должны картировать (сопоставить) соответствующие запросы на методы обработчики этих запросов, наши *.hello() и *.bye(). Другими словами, мы должны указать 'URl path' см. [DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg) еще раз.
 
 Чтобы определить, какой метод контролера будет обрабатывать полученный запрос. 
 
