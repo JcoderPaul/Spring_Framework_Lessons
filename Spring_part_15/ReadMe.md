@@ -9,7 +9,7 @@
 - [Getting Started Guides](https://spring.io/guides) ;
 - [Developing with Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html) ;
 
-________________________________________________________________________________________________________________________
+---
 Для начала проведем предварительную подготовку (первые 6-ть шагов из предыдущих частей, некоторые пропущены):
 
 Шаг 1. - в файле [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/build.gradle) добавим необходимые plugin-ы: 
@@ -63,16 +63,24 @@ ________________________________________________________________________________
 
     implementation 'org.liquibase:liquibase-core'
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 69 - Web-starter (теория)
 
 #### Java EE
-Немного истории. Вспомним структуру Web-приложения из раздела [HTTP_Servlets_Java_EE](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE) схематично это выглядело так см. [MVC_Chart_with_comment.jpeg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/MVC_Chart_with_comment.jpeg), 
-как работает эта концепция хорошо описано в статье [MVC_Concept.txt](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/MVC%20Concept.txt).
-Структура web-приложения с применением сервера TomCat выглядела следующим образом см. [Web_app_with_servlets_n_tomcat.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Web_app_with_servlets_n_tomcat.jpg),
-т.е. все наше приложения упаковывалось в root_name_app.war (war-архив) с подобными архивами очень хорошо работает TomCat,
+
+Немного истории. Вспомним структуру Web-приложения из раздела [HTTP_Servlets_Java_EE](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE) схематично это выглядело так см. 
+
+![MVC_Chart_with_comment.jpeg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/MVC_Chart_with_comment.jpeg)
+
+Как работает эта концепция хорошо описано в статье [MVC_Concept.txt](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/MVC%20Concept.txt).
+Структура web-приложения с применением сервера TomCat выглядела следующим образом см. 
+
+![Web_app_with_servlets_n_tomcat.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Web_app_with_servlets_n_tomcat.jpg),
+
+Т.е. все наше приложения упаковывалось в root_name_app.war (war-архив) с подобными архивами очень хорошо работает TomCat,
 а сама внутренняя структура архива проста см.:
 
+```
     /index.html
     /guestbook.jsp
     /images/logo.png
@@ -81,53 +89,78 @@ ________________________________________________________________________________
     /WEB-INF/classes/org/wikipedia/MainServlet.class
     /WEB-INF/lib/util.jar
     /META-INF/MANIFEST.MF
+```
 
 Обратите внимание, что в каталоге «WEB-INF» находится так называемый дескриптор развёртывания (Deployment Descriptor) 
 по имени «web.xml», определяющий все сервлеты и другие свойства Web-приложения. Если приложение содержит только JSP-файлы, 
-этот файл 'не строго' обязателен. 
+этот файл **не строго** обязателен. 
 
 После создания war-архива он перемещался в директорию webapps сервера TomCat. В данном случае web-сервер TomCat являлся 
-основным (запускаемым) JAVA приложением см. [Main_web_app_with_tomcat.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Main_web_app_with_tomcat.jpg). Наше приложение, в свою очередь, 
-распаковывалось из папки webapps и мы могли обращаться к нему, из вне, по заранее известному web-адресу, например: 
-https://my_web_app.com:8080/, т.е. адрес_хоста:порт_доступа. Но из приведенной структуры [Main_web_app_with_tomcat.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Main_web_app_with_tomcat.jpg)
+основным (запускаемым) JAVA приложением см. 
+
+![Main_web_app_with_tomcat.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Main_web_app_with_tomcat.jpg). 
+
+Наше приложение, в свою очередь, распаковывалось из папки webapps и мы могли обращаться к нему, из вне, по заранее известному web-адресу, например: 
+`https://my_web_app.com:8080/`, т.е. `адрес_хоста:порт_доступа`. Но из приведенной структуры см. рис. [Main_web_app_with_tomcat.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Main_web_app_with_tomcat.jpg)
 видно, что TomCat, в любом случае, являлся основным приложением в котором мы запускаем метод MAIN нашего web-приложения.
 
-#### Spring Boot Web
+---
+### Spring Boot Web
+
 Поскольку мы изучаем работу со Spring-ом, и в частности, со Spring Boot посмотрим как все описанное выше реализовано в 
-этом фреймворке. Начнем со схемы паттерна MVC см. [Spring_MVC.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg), в которой реализован front controller и все общение
-пользователя и приложения происходит через единственный servlet - [Dispatcher Servlet](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet). Т.е. получая запрос от пользователя
-через web-средства взаимодействия (формы, прямые запросы и т.п.) Dispatcher Servlet будет перенаправлять эти запросы 
+этом фреймворке. Начнем со схемы паттерна MVC см. 
+
+![Spring_MVC.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg) 
+
+В которой реализован front controller и все общение пользователя и приложения происходит через единственный servlet - [Dispatcher Servlet](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet). 
+Т.е. получая запрос от пользователя через web-средства взаимодействия (формы, прямые запросы и т.п.) Dispatcher Servlet будет перенаправлять эти запросы 
 конкретному контроллеру (controller), которые их обрабатывают (т.е. наша задача как разработчика, в частности, будет в 
 написании этих контроллеров).
 
 Основная особенность в том, что в Spring Boot приложении TomCat идет как внешняя зависимость и при сборке нашего 
-web-приложения в JAR архив его встраиваемая (неполная) версия интегрируется внутрь сборки см. [Spring_boot_web_app.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_boot_web_app.jpg).
+web-приложения в JAR архив его встраиваемая (неполная) версия интегрируется внутрь сборки см. 
 
-Из плюсов такой технологии:
+![Spring_boot_web_app.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_boot_web_app.jpg).
+
+**Из плюсов такой технологии:**
 - не надо отдельно устанавливать сервер TomCat;
 - не надо отдельно запускать TomCat для запуска приложения;
 - не надо отдельно монтировать war-архив и интегрировать его с TomCat;
 - мы собираем наше Spring Boot web-приложение в JAR и оно готово к запуску;
 
 'Подрезанная' версия или встроенная версия TomCat-a содержит: сервлет-контейнер Catalina и HTTP коннектор Coyote, см. 
-[Embedded_tomcat.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Embedded_tomcat.jpg) и [WebServer.txt](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/HttpServlets/DOC/WebServer.txt). Если нам понадобится обработчик JSP страниц мы можем отдельно подключить Jasper.
-Однако при текущем уровне развития Java template engine мы скорее всего воспользуемся не Jasper-ом, а Thymeleaf.
+
+![Embedded_tomcat.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Embedded_tomcat.jpg) 
+
+и [WebServer.txt](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/HttpServlets/DOC/WebServer.txt). Если нам понадобится 
+обработчик JSP страниц мы можем отдельно подключить Jasper. Однако при текущем уровне развития Java template engine мы скорее всего 
+воспользуемся не Jasper-ом, а Thymeleaf.
 
 Подключим Web Starter:
 
+```
     implementation 'org.springframework.boot:spring-boot-starter-web'
+```
 
-После подключения зависимости мы можем просто запустить наш [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/SpringAppRunner.java) и посмотреть, что отобразится в консоли.
-Мы видим, что приложение запустилось и продолжает работать, мы видим запущенный TomCat на порту 8080, см. [SpringWebAppWorking.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebAppWorking.jpg).
+После подключения зависимости мы можем просто запустить наш [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/SpringAppRunner.java)
+и посмотреть, что отобразится в консоли. Мы видим, что приложение запустилось и продолжает работать, мы видим запущенный TomCat на 
+порту 8080, см. 
+
+![SpringWebAppWorking.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebAppWorking.jpg).
 
 И вот они особенности о которых говорилось ранее:
-1. Как только мы подключили Web-starter и запустили наше приложение, запустился отдельный не daemon tread см. [TomcatWebServerThread.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/TomcatWebServerThread.jpg),
-чтобы наше приложение продолжало работать и не останавливалось (это как ни как web-приложение).
-2. Самое главное - это простота первоначальной настройки и реализации web-приложения (мы не ставили TomCat, не создавали war-архив и т.п.).
+**1.** Как только мы подключили Web-starter и запустили наше приложение, запустился отдельный не daemon tread см. 
 
-Все это стало возможным за счет авто-конфигурации, в данном случае за счет класса [WebMvcAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration.html) из пакета [org.springframework.boot.autoconfigure.web.servlet](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/web/servlet/package-summary.html)
+![TomcatWebServerThread.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/TomcatWebServerThread.jpg)
+
+Чтобы наше приложение продолжало работать и не останавливалось (это как ни как web-приложение).
+**2.** Самое главное - это простота первоначальной настройки и реализации web-приложения (мы не ставили TomCat, не создавали war-архив и т.п.).
+
+Все это стало возможным за счет авто-конфигурации, в данном случае за счет класса [WebMvcAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration.html) из пакета [org.springframework.boot.autoconfigure.web.servlet](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/web/servlet/package-summary.html).
+
 Если заглянуть в его код, то становится примерно понятно, что от чего зависит и какие имеет связи:
-    
+
+```java    
     @AutoConfiguration(after = { DispatcherServletAutoConfiguration.class, 
                                  TaskExecutionAutoConfiguration.class,
                                  ValidationAutoConfiguration.class })
@@ -141,6 +174,7 @@ web-приложения в JAR архив его встраиваемая (не
     public class WebMvcAutoConfiguration {
      /* Code .... */ 
     }
+```
 
 При необходимости мы можем настраивать свойства и параметры конфигурации нашего приложения (сервер и его свойства и т.п.).
 
@@ -149,68 +183,76 @@ web-приложения в JAR архив его встраиваемая (не
 - [Spring Boot Web](https://docs.spring.io/spring-boot/docs/current/reference/html/web.html) ;
 - [Spring Boot Reference Documentation Web](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#web) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 70 - [Dispatcher servlet](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet.html) (теория)
 
-Жизненный цикл работы [Dispatcher Servlet-a](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet.html) кратко отображен на рис. [DispatcherServletLifeCycle.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletLifeCycle.jpg):
-- Шаг 1. - Приложение получает запрос от пользователя по HTTP (request);
-- Шаг 2. - Запрос принимает Coyote (HTTP Connector);
-- Шаг 3. - Coyote преобразует запрос в соответствующий класс (coyote.Request) и передает его в сервлет контейнер;
-- Шаг 4. - coyote.Request запрос попадает в Catalina (Servlet Container), и если при изучении HTTP Servlet-ов мы видели, 
+Жизненный цикл работы [Dispatcher Servlet-a](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet.html) кратко отображен на рис. 
+
+![DispatcherServletLifeCycle.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletLifeCycle.jpg)
+
+- **Шаг 1.** - Приложение получает запрос от пользователя по HTTP (request);
+- **Шаг 2.** - Запрос принимает Coyote (HTTP Connector);
+- **Шаг 3.** - Coyote преобразует запрос в соответствующий класс (coyote.Request) и передает его в сервлет контейнер;
+- **Шаг 4.** - coyote.Request запрос попадает в Catalina (Servlet Container), и если при изучении HTTP Servlet-ов мы видели, 
 что полученный запрос перенаправлялся на соответствующий сервлет, то в случае Spring Web Starter-a у нас один Dispatcher
 Servlet, который проинициализируется единожды. Но нам все еще нужно перенаправить полученный запрос на соответствующий 
 сервлет, т.е. сформировать некий ответ (некую реакцию) на полученный запрос. А поскольку сервлет у нас один, то всей 
-работой по обработке и перенаправлению запросов занимается именно он и если взглянуть на [Spring_MVC.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg), то видно, 
-что любой запрос через Dispatcher Servlet перенаправляется на соответствующий контроллер (Controller). 
+работой по обработке и перенаправлению запросов занимается именно он и если взглянуть на 
 
-Для инициализации этого сервлета будет сделано следующее (см. [DispatcherServletLifeCycle.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletLifeCycle.jpg)):
-  - Первое: загружаем класс сервлета в память JVM (Load Servlet Class), далее, через Reflection API создается экземпляр 
+![Spring_MVC.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg)
+
+То видно, что любой запрос через Dispatcher Servlet перенаправляется на соответствующий контроллер (Controller). 
+
+Для инициализации этого сервлета будет сделано следующее см. 
+
+![DispatcherServletLifeCycle.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletLifeCycle.jpg))
+
+  - **Первое:** загружаем класс сервлета в память JVM (Load Servlet Class), далее, через Reflection API создается экземпляр 
 сервлета (new Servlet Instance), далее, происходит инициализация или вызов метода *.init() (invoke Servlet.init()).
-  - Второе: после инициализации сервлет может принимать и обрабатывать запросы (invoke Servlet.service(req,resp)), т.е. 
+  - **Второе:** после инициализации сервлет может принимать и обрабатывать запросы (invoke Servlet.service(req,resp)), т.е. 
 все запросы проходят через метод *.service(req,resp), и до тех, пор пока приложение работает запросы будут обрабатываться;
-  - Третье: в момент завершения нашего web-приложения вызывается 'уничтожающий' метод (invoke Servlet.destroy());
+  - **Третье:** в момент завершения нашего web-приложения вызывается 'уничтожающий' метод (invoke Servlet.destroy());
 
 Отсюда видно, что вся логика по обработке запросов будет осуществляться в [Dispatcher Servlet-e](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html) в методе *.service() вплоть 
-до остановки приложения. Звучит 'просто', а выглядит 'просто кошмар' см. [DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg). 
+до остановки приложения. Звучит 'просто', а выглядит 'просто кошмар' см. 
+
+![DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg). 
 
 Вот, что мы имеем при работе [Dispatcher Servlet-a](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html):
-- Шаг 1. - при получении конкретного URL запроса мы должны определить соответствующий (этому URL-у) обработчик (handler) 
-запроса (если [раньше см. Java EE](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE) при получении запроса 'мы определяли'
-какой сервлет займется обработкой оного, то теперь у нас только Dispatcher Servlet).
-- Шаг 2. - после определения обработчика запроса (handler-a), в работу включается конкретный контроллер, а точнее его 
+- **Шаг 1.** - при получении конкретного URL запроса мы должны определить соответствующий (этому URL-у) обработчик (handler) 
+запроса. Если [раньше см. Java EE](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE) при получении запроса 'мы определяли'
+какой сервлет займется обработкой оного, то теперь у нас только Dispatcher Servlet.
+- **Шаг 2.** - после определения обработчика запроса (handler-a), в работу включается конкретный контроллер, а точнее его 
 метод, который и будет обрабатывать полученный запрос. Handler в свою очередь состоит из Controller-a и перехватчиков 
 (Interceptor).
 
 Стоит отметить, что Controller сложнее Servlet-a (только один метод doGet, doPost и т.д.), т.к. может включать в себя 
 в отличие от Servlet-a множество get и post методов для обработки запросов. Как уже отмечалось выше, обработчик (handler) 
 запроса, так же включает в себя Interceptor-ы - это аналоги фильтров, которые срабатывают перед и после обращения к 
-методам контроллера (controller) (см. раздел по сервлет фильтрам: 
-[MVCPracticeAdvanced - часть 3](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/tree/master/MVCPracticeAdvanced), 
-[WebFilter.txt](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPracticeAdvanced/DOC/WebFilter.txt), 
-[ServletFilter.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPracticeAdvanced/DOC/ServletFilter.jpg)). 
+методам контроллера (controller), см. раздел по сервлет фильтрам: 
+- [MVCPracticeAdvanced - часть 3](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/tree/master/MVCPracticeAdvanced), 
+- [WebFilter.txt](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPracticeAdvanced/DOC/WebFilter.txt), 
+- [ServletFilter.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPracticeAdvanced/DOC/ServletFilter.jpg)). 
+
 После того как был определен handler (обработчик запроса), далее, определен метод controller-a и набор interceptor-ов, 
 нужно определить handler adapter. 
 
-- Шаг 3. - определяем handler adapter - класс, включающий в себя (имеющий зависимости и ссылки) другие ключевые для работы 
+- **Шаг 3.** - определяем handler adapter - класс, включающий в себя (имеющий зависимости и ссылки) другие ключевые для работы 
 приложения классы, в частности, ссылку на [WebApplicationContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/WebApplicationContext.html) (не классический ApplicationContext), так же [HandlerMethodArgumentResolver](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodArgumentResolver.html), 
-который отвечает за процесс внедрения необходимых методов в текущий контроллер (Controller), и наконец, [HandlerMethodReturnValueHandler](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodReturnValueHandler.html),
-который обрабатывает возвращенные контроллером значения. 
+который отвечает за процесс внедрения необходимых методов в текущий контроллер (Controller), и наконец, [HandlerMethodReturnValueHandler](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodReturnValueHandler.html), который обрабатывает возвращенные контроллером значения. 
 
-При работе с [HandlerMethodArgumentResolver](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodArgumentResolver.html) мы можем получить для нашего Controller-a практически любые bean-ы и данные, 
-а затем внедрить их в соответствующий (отвечающий за обработку конкретного запроса) метод контроллера. В свою очередь
-[HandlerMethodReturnValueHandler](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodReturnValueHandler.html) знает как обработать полученные из Controller-a данные, и самое главное, как вернуть эти
-данные на полученный запрос, будь то, например, простые картинки, некие отображения (view), JSON объекты и т.д. 
+При работе с [HandlerMethodArgumentResolver](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodArgumentResolver.html) мы можем получить для нашего Controller-a практически любые bean-ы и данные, а затем внедрить их в соответствующий (отвечающий за обработку конкретного запроса) метод контроллера. В свою очередь
+[HandlerMethodReturnValueHandler](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodReturnValueHandler.html) знает как обработать полученные из Controller-a данные, и самое главное, как вернуть эти данные на полученный запрос, будь то, например, простые картинки, некие отображения (view), JSON объекты и т.д. 
 
-Иными словами [HandlerAdaptor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerAdapter.html) берет на себя сложную логику обработки запросов, чтобы она не была реализована в Dispatcher Servlet.
-Когда на полученные запрос [HandlerAdaptor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerAdapter.html) был определен, вызывается его метод *.handle(req, resp, handler).
+Иными словами [HandlerAdaptor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerAdapter.html) берет на себя сложную логику обработки запросов, чтобы она не была реализована в Dispatcher Servlet. Когда на полученный запрос [HandlerAdaptor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerAdapter.html) был определен, вызывается его метод *.handle(req, resp, handler).
 
-- Шаг 4. - вызывается метод myAppHandlerAdaptor.handle(req, resp, handler), куда передаются request, response, и самое 
+- **Шаг 4.** - вызывается метод myAppHandlerAdaptor.handle(req, resp, handler), куда передаются request, response, и самое 
 главное сам handler, который уже содержит нужные controller-ы и interceptor-ы, далее все происходит согласно схеме см. 
-[Spring_MVC.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg)
 
-- Шаг 5. - запрос, пройдя 'по всем уровням приложения' инициирует ответ в виде неких чистых данных [ModelAndView](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/ModelAndView.html), в случае
-ошибки, при обработке данных, или невозможности вернуть корректный ответ, в работу включается [HandlerExceptionResolver](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerExceptionResolver.html), 
-который может вернуть, например, 400 или 500 ошибка см. [response_codes.txt](https://github.com/JcoderPaul/FTPClient-with-TestNG/blob/master/DOC/FTP_Handbook/FTP_response_codes.txt) и т.д.
+![Spring_MVC.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg)
+
+- **Шаг 5.** - запрос, пройдя 'по всем уровням приложения' инициирует ответ в виде неких чистых данных [ModelAndView](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/ModelAndView.html), в случае ошибки, при обработке данных, или невозможности вернуть корректный ответ, в работу включается [HandlerExceptionResolver](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/HandlerExceptionResolver.html), который может вернуть, например, 400 или 500 ошибка см. 
+[response_codes.txt](https://github.com/JcoderPaul/FTPClient-with-TestNG/blob/master/DOC/FTP_Handbook/FTP_response_codes.txt) и т.д.
 
 Обычно на практике программисту приходится реализовывать Controller-ы, отображения View, обработчики ошибок и реже Interceptor-ы.
 
@@ -229,39 +271,43 @@ Servlet, который проинициализируется единожды.
 - [Пакет org.springframework.web.servlet](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/package-summary.html) ;
 - [DispatcherServlet](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet.html) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 71 - [Controller](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Controller.html)
 
 Напишем первый наш контроллер (controller).
 
-Пока мы не используем [Thymeleaf](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_17/DOC/ThymeleafManual) (Thymeleaf — это современный серверный механизм шаблонов Java как для веб-, так и для 
-автономных сред.), посему нам нужно подключить обработчик JSP страниц, мы будем использовать их как элементы VIEW. 
+Пока мы не используем [Thymeleaf](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_17/DOC/ThymeleafManual) (Thymeleaf — это современный серверный механизм шаблонов Java как для веб-, так и для автономных сред.), посему нам нужно подключить обработчик JSP страниц, мы будем использовать их как элементы VIEW. 
 
-Нам нужно настроить ViewResolver через свойства и, пока, на данном этапе, нужно добавить несколько JSP файлов, а значит 
-придется подключить JASPER, ведь мы используем Embedded Tomcat (см. Embedded_tomcat.jpg)
+Нам нужно настроить ViewResolver через свойства и, пока, на данном этапе, нужно добавить несколько JSP файлов, а значит придется подключить JASPER, ведь мы используем Embedded Tomcat см. [Embedded_tomcat.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Embedded_tomcat.jpg).
 
-- ШАГ 1. - Прописываем зависимость JASPER в build.gradle:
-    
+- **ШАГ 1.** - Прописываем зависимость JASPER в build.gradle:
+
+```    
       implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+```
 
-Теперь настраиваем свойства нашего приложения в application.yml, а точнее его MVC раздел. Для того чтобы увидеть префикс
-настроек, мы можем зайти в [WebMvcProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/web/servlet/WebMvcProperties.html) (где мы [можем найти массу свойств](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/servlet/WebMvcProperties.java) пригодных для настройки):
+Теперь настраиваем свойства нашего приложения в application.yml, а точнее его MVC раздел. Для того чтобы увидеть префикс настроек, мы можем зайти в [WebMvcProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/web/servlet/WebMvcProperties.html), где мы [можем найти массу свойств](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/servlet/WebMvcProperties.java) пригодных для настройки:
 
+```java
       @ConfigurationProperties(prefix = "spring.mvc")
       public class WebMvcProperties {
       ...
       }
+```
 
 Как [ранее мы могли увидеть](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/orm/jpa/JpaProperties.java), префикс при настройке JPA:
 
+```java
       @ConfigurationProperties(prefix = "spring.jpa"    )
       public class JpaProperties{
       ...
       }
+```
 
-Или [свойства нашего TomCat сервера](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/ServerProperties.java) с префиксом "server", где мы можем настроить порт, адрес сервера и т.д. (но делать 
+Или [свойства нашего TomCat сервера](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/ServerProperties.java) с префиксом *"server"*, где мы можем настроить порт, адрес сервера и т.д. (но делать 
 пока этого не будем, пока порт нашего сервера 8080, что видно в консоли при запуске приложения):
 
+```java
       @ConfigurationProperties(prefix = "server", ignoreUnknownFields = true)
       public class ServerProperties {
       
@@ -270,36 +316,32 @@ ________________________________________________________________________________
   
       /* Network address to which the server should bind */
       private InetAddress address;
+```
 
-- ШАГ 2. - Добавляем настройки наших JSP будущих страниц отображения, в [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/resources/application.yml) это будет настройка нашего ViewResolver:
+- **ШАГ 2.** - Добавляем настройки наших JSP будущих страниц отображения, в [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/resources/application.yml) это будет настройка нашего ViewResolver:
 
+```
       spring:
         mvc:
         view:
           prefix: /WEB-INF/jsp/
           suffix: .jsp
+```
 
 В данном случае 'prefix' (у нас это /WEB-INF/jsp/) это путь или то, что будет перед названием нашей страницы отображения,
 в 'suffix' (у нас будут JSP страницы в качестве отображающих ответ на запрос, поэтому и суффикс будет .jsp), т.е. наша 
 страничка отображения будет иметь вид, например: /WEB-INF/jsp/... some dir .../example.jsp
 
-- ШАГ 3. - Создаем папку ['webapp'](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/src/main/webapp/WEB-INF/jsp) в корне папки 'main', данное название зарезервировано. В ней создаем уже знакомые нам
-'/WEB-INF' и '/jsp', см. [HTTP_Servlets_Java_EE](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE), это префикс на 
-шаге 2. И теперь создаем папку ['greeting'](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting), там мы расположим наши файлы приветствия и прощания.
+- **ШАГ 3.** - Создаем папку ['webapp'](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/src/main/webapp/WEB-INF/jsp) в корне папки 'main', данное название зарезервировано. В ней создаем уже знакомые нам '/WEB-INF' и '/jsp', см. [HTTP_Servlets_Java_EE](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE), это префикс на шаге 2. И теперь создаем папку ['greeting'](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting), там мы расположим наши файлы приветствия и прощания.
 
-- ШАГ 4. - Создаем файлы приветствия - [hello.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting/hello.jsp) и прощания - [bye.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting/bye.jsp). Теперь нам необходимо их вернуть на полученный 
-запрос. В текущей ситуации мы должны создать слой контролеров, который будет обрабатывать полученные запросы и возвращать 
-соответствующие JSP страницы.
+- **ШАГ 4.** - Создаем файлы приветствия - [hello.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting/hello.jsp) и прощания - [bye.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting/bye.jsp). Теперь нам необходимо их вернуть на полученный запрос. В текущей ситуации мы должны создать слой контролеров, который будет обрабатывать полученные запросы и возвращать соответствующие JSP страницы.
 
-- ШАГ 5. - Создаем слой контроллеров. Создаем папку ['http'](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/src/main/java/spring/oldboy/http/), в которой будет храниться все относящееся к работе с 
-WEB HTTP (контроллеры, фильтры, перехватчики). И в частности папка ['controller'](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/src/main/java/spring/oldboy/http/controller) с нашим первым контроллером - 
+- **ШАГ 5.** - Создаем слой контроллеров. Создаем папку ['http'](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/src/main/java/spring/oldboy/http/), в которой будет храниться все относящееся к работе с WEB HTTP (контроллеры, фильтры, перехватчики). И в частности папка ['controller'](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/src/main/java/spring/oldboy/http/controller) с нашим первым контроллером - 
 [GreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GreetingController.java).
 
-Данный класс необходимо пометить специальным образом, чтобы Spring воспринимал его как компонент связанный с рабочим 
-процессом MVC. Для этого мы помечаем его аннотацией [@Controller](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Controller.html) см. док.[ ControllerInterface.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/ControllerInterface.txt). Фактически это 
-мета-информация, которая указываем на слой (в данном случае слой контроллеров см. [Spring_MVC.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg), как и [@Repository](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html), 
-как [@Service](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Service.html)), он в свою очередь помечен, как [@Component](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html):
+Данный класс необходимо пометить специальным образом, чтобы Spring воспринимал его как компонент связанный с рабочим процессом MVC. Для этого мы помечаем его аннотацией [@Controller](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Controller.html) см. док.[ControllerInterface](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/ControllerInterface.md). Фактически это мета-информация, которая указываем на слой (в данном случае слой контроллеров см. [Spring_MVC.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg), как и [@Repository](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html), как [@Service](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Service.html)), он в свою очередь помечен, как [@Component](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html):
 
+```java
       @Target(ElementType.TYPE)
       @Retention(RetentionPolicy.RUNTIME)
       @Documented
@@ -317,25 +359,25 @@ WEB HTTP (контроллеры, фильтры, перехватчики). И 
           String value() default "";
       
       }
+```
 
 Именно эта аннотация после сканирования Spring-ом инициирует процесс создания Spring bean-ов.
 
-- ШАГ 6. - Добавляем в [GreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GreetingController.java) методы, которые позволят обработать HTTP запрос (request) и вернуть ответ 
-(response). 
+- **ШАГ 6.** - Добавляем в [GreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GreetingController.java) методы, которые позволят обработать HTTP запрос (request) и вернуть ответ (response). 
 
-Теперь вернемся к рис. [DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg), мы видим, что когда в DispatcherServlet будет вызван метод 
-*.handle(req, resp, handler), будет возвращен [ModelAndView](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/ModelAndView.html) объект, поэтому наши методы должны возвращать объекты этого 
-типа. Т.е. это будет комплект из данных (Model) и (And) страницы отображения (View), у нас это *.jsp страницы. Хотя на 
-данном этапе наши *.jsp страницы очень статичны (простой HTML) и не содержат динамических структур (пока, у нас нет 
-динамических данных для подстановки в страницы отображения).
+Теперь вернемся к рис. 
 
-Поэтому пусть наши методы в [GreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GreetingController.java) вернут просто 'статику' или наши две *.jsp страницы с приветствием и
-прощанием: public ModelAndView hello() и public ModelAndView bye().
+![DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg)
 
-- ШАГ 7. - Методы обработчики созданы, странички отображения созданы - теперь мы должны картировать (сопоставить) 
-соответствующие запросы на методы обработчики этих запросов, наши *.hello() и *.bye(). Другими словами, мы должны 
-указать 'URl path' см. [DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg), чтобы определить, какой метод контролера будет обрабатывать 
-полученный запрос. 
+Мы видим, что когда в DispatcherServlet будет вызван метод *.handle(req, resp, handler), будет возвращен [ModelAndView](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/ModelAndView.html) объект, поэтому наши методы должны возвращать объекты этого типа. Т.е. это будет комплект из данных (Model) и (And) страницы отображения (View), у нас это *.jsp страницы. Хотя на данном этапе наши *.jsp страницы очень статичны (простой HTML) и не содержат динамических структур (пока, у нас нет динамических данных для подстановки в страницы отображения).
+
+Поэтому пусть наши методы в [GreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GreetingController.java) вернут просто 'статику' или наши две *.jsp страницы с приветствием и прощанием: `public ModelAndView hello()` и `public ModelAndView bye()`.
+
+- **ШАГ 7.** - Методы обработчики созданы, странички отображения созданы - теперь мы должны картировать (сопоставить) соответствующие запросы на методы обработчики этих запросов, наши *.hello() и *.bye(). Другими словами, мы должны указать 'URl path' см. 
+
+![DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg)
+
+Чтобы определить, какой метод контролера будет обрабатывать полученный запрос. 
 
 Но это уже следующий урок.
 
@@ -344,7 +386,7 @@ WEB HTTP (контроллеры, фильтры, перехватчики). И 
 - [Spring-projects на GitHub](https://github.com/spring-projects) ; 
 - [Spring Web MVC](https://docs.spring.io/spring-framework/reference/web/webmvc.html) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 72 - [RequestMapping](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html) (Картирование запросов - "сопоставление запросов")
 
 И так, нам необходимо указать соответствие запросов и страниц обрабатывающих эти запросы, т.е ответы. Еще раз вспомним, 
