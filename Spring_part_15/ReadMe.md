@@ -387,10 +387,11 @@ Servlet, который проинициализируется единожды.
 ---
 #### Lesson 72 - [RequestMapping](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html) (Картирование запросов - "сопоставление запросов")
 
-И так, нам необходимо указать соответствие запросов и страниц обрабатывающих эти запросы, т.е ответы. Еще раз вспомним, 
-как выглядят запрос (request) и ответ (response) в строке браузера, например, см. [DOC/URL_Request_Response.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/URL_Request_Response.jpg). Как вариант, 
-пример расшифровки ответов (статус ответа) от FTP сервера рассмотрены тут: [FTP_response_codes.txt](https://github.com/JcoderPaul/FTPClient-with-TestNG/blob/master/DOC/FTP_Handbook/FTP_response_codes.txt),
-т.е. чтобы получить соответствующие ответы от FTP сервера, как пример, мы должны сгенерировать некие GET, POST, PUT, 
+И так, нам необходимо указать соответствие запросов и страниц обрабатывающих эти запросы, т.е ответы. Еще раз вспомним, как выглядят запрос (request) и ответ (response) в строке браузера, например, см. 
+
+![URL_Request_Response.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/URL_Request_Response.jpg) 
+
+Как вариант, пример расшифровки ответов (статус ответа) от FTP сервера рассмотрены тут: [FTP_response_codes.txt](https://github.com/JcoderPaul/FTPClient-with-TestNG/blob/master/DOC/FTP_Handbook/FTP_response_codes.txt), т.е. чтобы получить соответствующие ответы от FTP сервера, как пример, мы должны сгенерировать некие GET, POST, PUT, 
 DELETE и т.д. запросы.
 
 В представленной схеме видно, что и request (запрос) и response (ответ) состоят из 3-х частей, в запросе мы имеем
@@ -400,122 +401,117 @@ DELETE и т.д. запросы.
 но, стартовая строка обычно не содержит URL, а содержит код ответа от сервера (или его статус, см. выше), так же есть 
 headers и самое главное, в большинстве случаев, это body - тело ответа в виде HTML - подобной страницы.
 
-URL состоит из 5-и основных компонентов см. [DOC/URL_Request_Response.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/URL_Request_Response.jpg): 
-- protocol - протокол связи (http, https, ftp и т.д.);
-- domain - домен к которому мы обращаем наш запрос (состоит из host-a и порта, например, www.mytest.ru:432) если 
-обращение идет по стандартному протоколу, то обычно адрес порта опускают, предполагая, что используется стандартный порт
-(для http - это 8080, для https - это 443, для ftp - это 21);
-- path - или путь, по которому идет обращение к серверу, именно он указывает деспатчер-сервлету на какой контроллер 
-необходимо картировать ('смапить', перенаправить) наш запрос. Т.е. это путь к ресурсу который нас на этом сервере 
-интересует и мы хотим, например, его изменить, или получить данные и т.д.;  
-- parameters - те самые параметры переданные после знака '?', которые передаются на сервер для конкретизации запроса, эти 
-параметры (их может быть много) объединены знаком '&' и представлены в формате: ключ=значение;
-- fragment - отделен от параметров знаком # (используется редко), но удобен при чтении большого документа, набора данных, 
-и позволяет разбить страницу на части для удобства отображения информации и перенаправления к нужному фрагменту страницы.
+URL состоит из 5-и основных компонентов см. 
+
+![DOC/URL_Request_Response.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/URL_Request_Response.jpg) 
+
+- **protocol** - протокол связи (http, https, ftp и т.д.);
+- **domain** - домен к которому мы обращаем наш запрос (состоит из host-a и порта, например, www.mytest.ru:432) если обращение идет по стандартному протоколу, то обычно адрес порта опускают, предполагая, что используется стандартный порт (для http - это 8080, для https - это 443, для ftp - это 21);
+- **path** - или путь, по которому идет обращение к серверу, именно он указывает деспатчер-сервлету на какой контроллер необходимо картировать ('смапить', перенаправить) наш запрос. Т.е. это путь к ресурсу который нас на этом сервере интересует и мы хотим, например, его изменить, или получить данные и т.д.;  
+- **parameters** - те самые параметры переданные после знака '?', которые передаются на сервер для конкретизации запроса, эти параметры (их может быть много) объединены знаком '&' и представлены в формате: ключ=значение;
+- **fragment** - отделен от параметров знаком # (используется редко), но удобен при чтении большого документа, набора данных, и позволяет разбить страницу на части для удобства отображения информации и перенаправления к нужному фрагменту страницы.
 
 Память освежили! 
 
 Картируем наши запросы:
 
-- ВАРИАНТ 1 - общая аннотация [@RequestMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html) см. [DOC/RequestAnnotation/RequestMappingAnnotation.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/RequestAnnotation/RequestMappingAnnotation.txt): 
+- **ВАРИАНТ 1** - общая аннотация [@RequestMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html) см. [RequestMappingAnnotation](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/RequestAnnotation/RequestMappingAnnotation.md): 
 
-Для этого мы наши методы в контроллере [GreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GreetingController.java): public ModelAndView hello() и public 
-ModelAndView bye() аннотируем специальной аннотацией [@RequestMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html) с параметрами см. комментарии в файле контроллере.
+Для этого мы наши методы в контроллере [GreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GreetingController.java): `public ModelAndView hello()` и `public 
+ModelAndView bye()` аннотируем специальной аннотацией [@RequestMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html) с параметрами см. комментарии в файле контроллере.
 
-Для проверки работоспособности нашего микро-приложения запускаем нашу базу данных если она установлена локально на 
-машине, или DOCKER контейнер с базой (как вариант), а затем [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/SpringAppRunner.java) и в браузере обращаемся к нашему 
-приложению по адресу локального хоста, например:
+Для проверки работоспособности нашего микро-приложения запускаем нашу базу данных если она установлена локально на машине, или DOCKER контейнер с базой (как вариант), а затем [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/SpringAppRunner.java) и в браузере обращаемся к нашему приложению по адресу локального хоста, например:
 - [http://localhost:8080/hello](http://localhost:8080/hello) и видим ответ - "Hello World!";
 - [http://localhost:8080/bye](http://localhost:8080/bye) и видим в браузере отклик сервера - "Bye World!";
 
-Аннотация [@RequestMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html) слегка громоздка вместо нее можно использовать аннотацию [@GetMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/GetMapping.html), т.е. в самой аннотации
-мы сразу указали тип запроса GET. 
+Аннотация [@RequestMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html) слегка громоздка вместо нее можно использовать аннотацию [@GetMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/GetMapping.html), т.е. в самой аннотации мы сразу указали тип запроса GET. 
 
-- ВАРИАНТ 2 - аннотация с указанием метода запроса, например, [@GetMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/GetMapping.html): 
+- **ВАРИАНТ 2** - аннотация с указанием метода запроса, например, [@GetMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/GetMapping.html): 
 
-Для наглядной демонстрации работы данной аннотации создадим еще пару *.jsp файлов с префиксом 'another_', 
-а также еще один контроллер [SecondGreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/SecondGreetingController.java), где в соответствующих уже знакомых нам методах заменим 
-аннотации на @GetMapping и пути запросов и ответов нашего spring-web приложения, см. файлы и комментарии в них. 
+Для наглядной демонстрации работы данной аннотации создадим еще пару *.jsp файлов с префиксом 'another_', а также еще один контроллер [SecondGreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/SecondGreetingController.java), где в соответствующих уже знакомых нам методах заменим аннотации на @GetMapping и пути запросов и ответов нашего spring-web приложения, см. файлы и комментарии в них. 
 
 Теперь запускаем приложение и проверяем запросы:
 - [http://localhost:8080/another_bye](http://localhost:8080/another_bye) и видим в ответ - "Bye World from another_bye.jsp!";
 - [http://localhost:8080/another_hello](http://localhost:8080/another_hello) и получаем на экране - "Hello World from another_hello.jsp!" 
 
-Т.е. в данном варианте мы применили специализированную аннотацию, несложно догадаться, что существуют и другие типы
-аннотаций, для других вариантов запросов, например, [@PostMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html), [@PutMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PutMapping.html) и т.д. 
+Т.е. в данном варианте мы применили специализированную аннотацию, несложно догадаться, что существуют и другие типы аннотаций, для других вариантов запросов, например, [@PostMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html), [@PutMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PutMapping.html) и т.д. 
 
 См. док.:
 - [Пакет org.springframework.web.bind.annotation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/package-summary.html) ;
 - [Mapping Requests](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 73 - Использование RequestMapping как общий префикс к запросу.
 
-Если мы в наших контроллерах используем специализированные аннотации для указания типов обрабатываемых запросов, то
-аннотация [@RequestMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html) может использоваться для определения общего префикса для всего набора некоторых запросов.
+Если мы в наших контроллерах используем специализированные аннотации для указания типов обрабатываемых запросов, то аннотация [@RequestMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html) может использоваться для определения общего префикса для всего набора некоторых запросов.
 
 Для демонстрации создадим еще контроллер [ThirdGreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/ThirdGreetingController.java). Этот класс мы аннотируем как 
-@RequestMapping("/api/v1"), т.е. тут в параметрах мы передали префикс пути по которому необходимо обращаться к нашему
-приложению и он общий для всех типов запросов этого конкретного контроллера. Далее для наглядности отображения 
-возвращаемой страницы для каждого метода обработчика создадим *.jsp файлы ([hello_for_prefix_demo.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting/hello_for_prefix_demo.jsp) и 
+`@RequestMapping("/api/v1")`, т.е. тут в параметрах мы передали префикс пути по которому необходимо обращаться к нашему приложению и он общий для всех типов запросов этого конкретного контроллера. Далее для наглядности отображения возвращаемой страницы для каждого метода обработчика создадим *.jsp файлы ([hello_for_prefix_demo.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting/hello_for_prefix_demo.jsp) и 
 [bye_for_prefix_demo.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting/bye_for_prefix_demo.jsp)).
 
 И снова для проверки результатов запускаем наше spring-web приложение [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/SpringAppRunner.java) и делаем запрос в браузере:
 - [http://localhost:8080/api/v1/prefix_hello](http://localhost:8080/api/v1/prefix_hello) и видим ответную страницу с текстом - "Hello World from Prefix demo!";
 - [http://localhost:8080/api/v1/prefix_bye](http://localhost:8080/api/v1/prefix_bye) и в браузере отображается строка - "Bye World from Prefix demo!"
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 74 - Извлечение parameters, headers и cookies из полученного запроса.
 
 И так, запрос, который приходит к нашему серверу может содержать массу информации, как в строке самого URL, так и в теле
 запроса в виде header-ов и cookies. Их (parameters, headers и cookies) мы должны уметь извлекать, хотя бы так же, как мы
 это делали в уроках по [HttpServlets](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/tree/master/HttpServlets).
 
-В данном случае мы будем использовать *.get... методы позволяющие извлекать нужные нам данные из запроса см. метод
-public ModelAndView hello() из [GetParamController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GetParamController.java) контроллера. В сам метод-обработчик передаются, специальным 
-образом, аннотированные параметры [@RequestParam](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestParam.html), [@RequestHeader](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestHeader.html), [@CookieValue](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/CookieValue.html), [@PathVariable](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PathVariable.html) и т.д см. краткое описание
-в [DOC/RequestAnnotation](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/DOC/RequestAnnotation).
+В данном случае мы будем использовать *.get... методы позволяющие извлекать нужные нам данные из запроса см. метод `public ModelAndView hello()` из [GetParamController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GetParamController.java) контроллера. В сам метод-обработчик передаются, специальным образом, аннотированные параметры [@RequestParam](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestParam.html), [@RequestHeader](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestHeader.html), [@CookieValue](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/CookieValue.html), [@PathVariable](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PathVariable.html) и т.д см. краткое описание в [DOC/RequestAnnotation](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_15/DOC/RequestAnnotation).
 
 Для проверки работы приложения его можно запустить в режиме отладки и в браузере сделать запрос, например,
 [http://localhost:8080/api/v1/hello_and_get_param/100?age=24](http://localhost:8080/api/v1/hello_and_get_param/100?age=24), и при текущих настройках метода-обработчика: 
 
+```java
       @GetMapping("/hello_and_get_param/{id}")
       public ModelAndView hello(ModelAndView modelAndView, HttpServletRequest request,
                                 @RequestParam ("age") Integer age,
                                 @RequestHeader ("accept") String accept,
                                 @CookieValue("JSESSIONID") String JSESSIONID,
                                 @PathVariable("id") Integer id)
+```
 
-Запрос будет сопоставлен с [hello.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting/hello.jsp). При этом, если имя переданного параметра и запрошенного совпадают, например,
-@RequestParam ("age") Integer age, мы можем его опустить в параметрах аннотации и получим: @RequestParam () Integer age.
+Запрос будет сопоставлен с [hello.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/greeting/hello.jsp). При этом, если имя переданного параметра и запрошенного совпадают, например, @RequestParam ("age") Integer age, мы можем его опустить в параметрах аннотации и получим: @RequestParam () Integer age.
 
 Структура запроса приведенная выше содержит:
-- /hello_and_get_param/100 - путь 'hello_and_get_param' и pathVariable '/100';
-- '?' - знак начала параметров;
-- переданные в запросе параметры - 'age=24' (в формате ключ=значение);
+- */hello_and_get_param/100* - путь 'hello_and_get_param' и pathVariable '/100';
+- *?* - знак начала параметров;
+- *age=24* - переданные в запросе параметры (в формате ключ=значение);
 
 См. док.:
 - [Пакет org.springframework.web.bind.annotation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/package-summary.html) ;
 - [Handler Methods](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods.html) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 75 - Работа с Model и установка атрибутов.
 
 У нас есть контроллеры (Controller), которые обрабатывают запрос от пользователя и перенаправляют его на нужную страницу 
 отображения (View). У нас это пока *.jsp страницы и пока статические, в которые нужно добавить динамическую составляющую.
-Фактически у нас 3-и уровня расположения атрибутов откуда мы их можем брать см. [3_Level_of_Attributes_and_Annotation.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/3_Level_of_Attributes_and_Annotation.jpg)
-ту же схему мы видели при изучении Servlets см. [Attributes.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/Attributes.jpg), но в первой схеме выделены аннотации, которыми мы можем
-воспользоваться при разработке Spring приложения.
+Фактически у нас 3-и уровня расположения атрибутов откуда мы их можем брать см. 
+
+![3_Level_of_Attributes_and_Annotation.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/3_Level_of_Attributes_and_Annotation.jpg)
+
+Ту же схему мы видели при изучении Servlets см. 
+
+![Attributes.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/Attributes.jpg)
+
+Но в первой схеме выделены аннотации, которыми мы можем воспользоваться при разработке Spring приложения.
 
 У нас есть глобальные атрибуты (ассоциативный массив) на все приложение - это ServletContext, у нас есть атрибуты текущей
 сессии, т.е. данные привязанные к конкретной HttpSession сессии, и есть атрибуты привязанные к запросу или к 
-HttpServletRequest-у. В Spring-e для установки атрибутов на каждом конкретном уровне существуют свои аннотации.
+HttpServletRequest-у. 
+
+В Spring-e для установки атрибутов на каждом конкретном уровне существуют свои аннотации.
 
 Для демонстрации работы с аттрибутами создадим динамические *.jsp странички ([dynamic_hello.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/dynamic_view/dynamic_hello.jsp) и [dynamic_bye.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/dynamic_view/dynamic_bye.jsp)) и 
 новый контроллер [DynamicDemoController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/DynamicDemoController.java). Так же добавим новую DTO - [UserReadDto.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/dto/UserReadDto.java).
  
-У ModelAndView есть методы для добавления атрибутов, либо сразу ассоциативным массивом *.addAllObjects(), либо по 
-штучно *.addObject(). С имитируем вход пользователя в систему добавив атрибут вручную, назовем его 'user':
+У ModelAndView есть методы для добавления атрибутов, либо сразу ассоциативным массивом *.addAllObjects(), либо по штучно *.addObject(). 
+
+Имитируем вход пользователя в систему добавив атрибут вручную, назовем его 'user':
 - Задаем наш сессионный атрибут для всего контроллера при помощи аннотации @SessionAttributes({"user"}) см. [DynamicDemoController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/DynamicDemoController.java);
 - В методе public ModelAndView hello() контроллера установим этот атрибут через *.addObject();
 - Чтобы установить атрибут в сессию обратимся к приложению по адресу [http://localhost:8080/api/v1/dynamic_hello](http://localhost:8080/api/v1/dynamic_hello), мы получим
@@ -530,60 +526,65 @@ HttpServletRequest-у. В Spring-e для установки атрибутов 
 - [Annotation Interface SessionAttribute](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/SessionAttribute.html) ;
 - [Пакет org.springframework.web.bind.annotation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/package-summary.html) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 75 - Model и установка атрибутов через параметры в URL или теле сообщения (без обращения к ModelAndView).
 
 Если обратить внимание на метод:
 
+```java
       @GetMapping("/another_bye")
       public ModelAndView bye() {
           ModelAndView modelAndView = new ModelAndView();
               modelAndView.setViewName("greeting/another_bye");
           return modelAndView;
       }
+```
 
-То можно заметить, что страница, которая вернется пользователю - статична, и оказывается этот метод можно упростить. Он
-примет вид:
+То можно заметить, что страница, которая вернется пользователю - статична, и оказывается этот метод можно упростить. Он примет вид:
 
+```java
       @GetMapping("/another_bye")
       public String bye() {
           return "greeting/another_bye";
       }
+```
 
 Мы знаем что за работой нашего приложения приглядывает [DispatcherServlet](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet.html) и обслуживают всякого рода обработчики из 
-[HandlerAdapter-а](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods.html), а точнее [ReturnValueHandler](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/return-types.html) см. [DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg).
+[HandlerAdapter-а](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods.html), а точнее [ReturnValueHandler](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/return-types.html) см. еще раз:
+
+![DispatcherServletWorkingScheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletWorkingScheme.jpg).
+
 Именно он при обработке метода видит, что возвращается не ModelAndView объект, а String, и значит этот объект String должен
 быть обработан, как View с названием "greeting/another_bye". В итоге вернется статическая страница.
 
-Мы помним, что можем передавать параметры запроса, как в URL, после знака '?', так и в форме или в теле сообщения. И Spring
-отслеживает все переданные, тем или иным способом, параметры и картирует (Map-ит) их на соответствующие объекты. Чтобы 
-проверить это, мы сделаем следующее:
+Мы помним, что можем передавать параметры запроса, как в URL, после знака '?', так и в форме или в теле сообщения. И Spring отслеживает все переданные, тем или иным способом, параметры и картирует (Map-ит) их на соответствующие объекты. Чтобы проверить это, мы сделаем следующее:
 - Создадим контроллер [LoginController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/LoginController.java) и добавим в него метод public String hi();
 - Cоздадим [hi_there.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/user/hi_there.jsp) страничку в которой отобразим параметры переданные внутри метода и параметры переданные в URL запросе;
 - Запустим приложение и обратимся к нему по адресу [http://localhost:8080/hi?id=10&username=Slava](http://localhost:8080/hi?id=10&username=Slava);
 
-В ответ мы получим страницу с переданными параметрами. Причем если один из объектов мы именовали сами - 'user' 
-(дали ему ключ), то второй 'userReadDto' Spring именовал сам, как и было сказано выше. Т.е. мы либо именуем наши ключи, 
-которым будут соответствовать объекты, сами, либо Spring делает это за нас. Естественно мы можем задать имя ключа через
+В ответ мы получим страницу с переданными параметрами. Причем если один из объектов мы именовали сами - 'user' (дали ему ключ), то второй 'userReadDto' Spring именовал сам, как и было сказано выше. Т.е. мы либо именуем наши ключи, которым будут соответствовать объекты, сами, либо Spring делает это за нас. Естественно мы можем задать имя ключа через
 аннотацию и в параметрах передать имя - [@ModelAttribute](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ModelAttribute.html)("userReadDto"). 
 
 Или было:
 
+```java
       @GetMapping("/hi")
       public String hi(Model model,
                        HttpServletRequest request,
                        UserReadDto userReadDto) {
       }
+```
 
 Стало:
 
+```java
       @GetMapping("/hi")
       public String hi(Model model,
                        HttpServletRequest request,
                        @ModelAttribute("userReadDto") UserReadDto userReadDto)
+```
 
-Аннотация может применяться как в параметрах метода, так же и над самим методом, когда мы хотим, чтобы данные 
-возвращаемые методом использовались как атрибуты:
+Аннотация может применяться как в параметрах метода, так же и над самим методом, когда мы хотим, чтобы данные возвращаемые методом использовались как атрибуты:
 
       @ModelAttribute("roles")
       public List<Role> roles() {
@@ -591,55 +592,58 @@ ________________________________________________________________________________
       }
 
 В таком случае, если разместить данный метод в контроллере, например [GreetingController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/GreetingController.java), каждый раз при обращении 
-к методу *.hello() или *.bye() (т.е. вызов приложения через браузер, как вариант) будет происходить обращение к методу
-*.roles() и установка параметров 'roles'. И это будут атрибуты модели - Model.
+к методу *.hello() или *.bye() (т.е. вызов приложения через браузер, как вариант) будет происходить обращение к методу *.roles() и установка параметров 'roles'. И это будут атрибуты модели - Model.
 
-И так, продолжим. Отправка параметров через поле или в теле (body) запроса:
-- Создадим [login.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/user/login.jsp) с формой в которую внесем данные (они же передаваемые параметры), форма с этой страницы будет 
-отправлять запрос на URL '/login' методом POST;
+И так, продолжим. 
+
+Отправка параметров через поле или в теле (body) запроса:
+- Создадим [login.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/user/login.jsp) с формой в которую внесем данные (они же передаваемые параметры), форма с этой страницы будет отправлять запрос на URL '/login' методом POST;
 - В контроллере [LoginController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/LoginController.java) добавим методы public String loginPage() и public String login();
 - Первый из них loginPage() аннотируется [@GetMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/GetMapping.html), а вот второй login() уже, как [@PostMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html);
 - Создадим [LoginDto.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/dto/LoginDto.java) поля которой 'username' и 'password', должны совпадать с именами полей формы [login.jsp](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/webapp/WEB-INF/jsp/user/login.jsp);
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 76 - Варианты перенаправления запросов Forward, Include, Redirect.
 
 Из курса по сервлетам [HTTP_Servlets_Java_EE](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE) мы помним, что вариантов перенаправления запроса как минимум 3-и 
-см. рис. [DispatcherServlet.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/DispatcherServlet.jpg) все они работают через DispatcherServlet в Java EE, а уж в Spring-e тем более, т.к. он тут
-один. Но наиболее универсальный из вариантов перенаправления запросов в HTTP - это 'redirect'.
+см. рис. 
+
+![DispatcherServlet.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/DispatcherServlet.jpg) 
+
+Все они работают через DispatcherServlet в Java EE, а уж в Spring-e тем более, т.к. он тут один. Но наиболее универсальный из вариантов перенаправления запросов в HTTP - это 'redirect'.
 
 В нашем приложении, когда мы обращаемся к форме и обрабатываем запрос методом:
 
+```java
       @PostMapping("/login")
       public String login(Model model, 
                           @ModelAttribute("login") LoginDto loginDto) {
           return "user/login";
       }
+```
 
 В строке return мы можем применить два ключевых слова: 
 
-- forward - и тогда после него мы должны прописать полный путь к сервлету или *.jsp странице, т.к. у нас единственный 
-сервлет, который обрабатывает любые запросы, то нам придется прописать полный путь на требуемую страницу, например так:
-"forward:/WEB-INF/jsp/user/login.jsp". Тут, как только в возвращаемой строке возникает ключевое слово "forward:", Spring 
-понимает, что не надо использовать ViewResolver, а нужно взять страницу отображения (View) как есть, т.е. адрес к *.jsp
-странице;
+- **forward** - и тогда после него мы должны прописать полный путь к сервлету или *.jsp странице, т.к. у нас единственный сервлет, который обрабатывает любые запросы, то нам придется прописать полный путь на требуемую страницу, например так: "forward:/WEB-INF/jsp/user/login.jsp". Тут, как только в возвращаемой строке возникает ключевое слово "forward:", Spring понимает, что не надо использовать ViewResolver, а нужно взять страницу отображения (View) как есть, т.е. адрес к *.jsp странице;
 
-- redirect - а вот тут нужно указать не страницу отображения View, а URL страницы на которую нужно перейти, например,
-"redirect:https://yandex.com";
+- **redirect** - а вот тут нужно указать не страницу отображения View, а URL страницы на которую нужно перейти, например, "redirect:https://yandex.com";
 
 В качестве примера в [LoginController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/src/main/java/spring/oldboy/http/controller/LoginController.java) мы создали метод: 
 
+```java
       @GetMapping("/redirect_to_ya")
       public String testRedirect(Model model) {
           return "redirect:https://yandex.com";
       }
+```
 
-Который при обращении к странице - [http://localhost:8080/redirect_to_ya](http://localhost:8080/redirect_to_ya), перебрасывает пользователя на поисковую страницу
-Яндекса. На рис. [DOC/Example_Redirect_to_Ya.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Example_Redirect_to_Ya.jpg) видно, что сначала идет обращение на [http://localhost:8080/redirect_to_ya](http://localhost:8080/redirect_to_ya),
-далее выбрасывается код 302 и идет перенаправление на https://yandex.com/. Т.е. именно так, как это рассмотрено на 
-[DispatcherServlet.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/DispatcherServlet.jpg) для схемы перенаправления 'redirect'.
+Который при обращении к странице - [http://localhost:8080/redirect_to_ya](http://localhost:8080/redirect_to_ya), перебрасывает пользователя на поисковую страницу Яндекса см. рис. 
 
-________________________________________________________________________________________________________________________
+![Example_Redirect_to_Ya.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Example_Redirect_to_Ya.jpg) 
+
+Видно, что сначала идет обращение на [http://localhost:8080/redirect_to_ya](http://localhost:8080/redirect_to_ya), далее выбрасывается код 302 и идет перенаправление на https://yandex.com/. Т.е. именно так, как это рассмотрено на [DispatcherServlet.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/DispatcherServlet.jpg) для схемы перенаправления 'redirect'.
+
+---
 См. официальные [Guides](https://spring.io/guides):
 - [Getting Started Guides](https://spring.io/guides) - Эти руководства, рассчитанные на 15–30 минут, содержат быстрые
   практические инструкции по созданию «Hello World» для любой задачи разработки с помощью Spring. В большинстве случаев
@@ -649,6 +653,6 @@ ________________________________________________________________________________
 - [Tutorials](https://spring.io/guides#tutorials) - Эти учебники, рассчитанные на 2–3 часа, обеспечивают более глубокое
   контекстное изучение тем разработки корпоративных приложений, что позволяет вам подготовиться к внедрению реальных
   решений.
-________________________________________________________________________________________________________________________
+  
+---
 - [Spring Projects на GitHub](https://github.com/spring-projects) ;
-________________________________________________________________________________________________________________________
