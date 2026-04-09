@@ -205,7 +205,7 @@ Servlet, который проинициализируется единожды.
 
 Для инициализации этого сервлета будет сделано следующее см. 
 
-![DispatcherServletLifeCycle.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletLifeCycle.jpg))
+![DispatcherServletLifeCycle.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/SpringWebServlet/DispatcherServlet/DispatcherServletLifeCycle.jpg)
 
   - **Первое:** загружаем класс сервлета в память JVM (Load Servlet Class), далее, через Reflection API создается экземпляр 
 сервлета (new Servlet Instance), далее, происходит инициализация или вызов метода *.init() (invoke Servlet.init()).
