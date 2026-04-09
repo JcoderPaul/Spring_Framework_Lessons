@@ -494,7 +494,7 @@ ModelAndView bye()` аннотируем специальной аннотаци
 
 ![3_Level_of_Attributes_and_Annotation.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/3_Level_of_Attributes_and_Annotation.jpg)
 
-Ту же схему мы видели при изучении Servlets см. 
+Ту же схему мы видели [при изучении Servlets](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/tree/master) см. 
 
 ![Attributes.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPractice/DOC/Attributes.jpg)
 
