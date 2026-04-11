@@ -105,14 +105,14 @@ public enum HttpStatus
 - *NOT_EXTENDED* - 510 Not Extended
 - *NETWORK_AUTHENTICATION_REQUIRED* - 511 Network Authentication Required.
 
-- *MOVED_TEMPORARILY* - Устарело. Использовать FOUND которого будет возвращено HttpStatus.valueOf(302)
-- *METHOD_FAILURE* - Устарело. См. проект изменений WebDAV.
-- *INSUFFICIENT_SPACE_ON_RESOURCE* - Устарело. См. проект изменений WebDAV.
-- *CHECKPOINT* - Устарело. Использовать EARLY_HINTS которого будет возвращено HttpStatus.valueOf(103)
-- *DESTINATION_LOCKED* - Устарело. См. проект изменений WebDAV.
-- *REQUEST_ENTITY_TOO_LARGE* - Устарело. Использовать PAYLOAD_TOO_LARGE которого будет возвращено HttpStatus.valueOf(413)
-- *REQUEST_URI_TOO_LONG* - Устарело. Использовать URI_TOO_LONG которого будет возвращено HttpStatus.valueOf(414)
-- *USE_PROXY* - Устарело. Из-за проблем безопасности, связанных с внутриполосной настройкой прокси-сервера
+- *MOVED_TEMPORARILY* - **Устарело.** Использовать FOUND которого будет возвращено HttpStatus.valueOf(302)
+- *METHOD_FAILURE* - **Устарело.** См. проект изменений WebDAV.
+- *INSUFFICIENT_SPACE_ON_RESOURCE* - **Устарело.** См. проект изменений WebDAV.
+- *CHECKPOINT* - **Устарело.** Использовать EARLY_HINTS которого будет возвращено HttpStatus.valueOf(103)
+- *DESTINATION_LOCKED* - **Устарело.** См. проект изменений WebDAV.
+- *REQUEST_ENTITY_TOO_LARGE* - **Устарело.** Использовать PAYLOAD_TOO_LARGE которого будет возвращено HttpStatus.valueOf(413)
+- *REQUEST_URI_TOO_LONG* - **Устарело.** Использовать URI_TOO_LONG которого будет возвращено HttpStatus.valueOf(414)
+- *USE_PROXY* - **Устарело.** Из-за проблем безопасности, связанных с внутриполосной настройкой прокси-сервера
 
 ---
 #### Методы
