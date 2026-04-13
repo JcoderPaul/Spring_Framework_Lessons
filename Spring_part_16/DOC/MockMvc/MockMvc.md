@@ -62,7 +62,7 @@ public final class MockMvc extends Object
 ---
 **См. доп. материалы:**
 - [Testing the Web Layer](https://spring.io/guides/gs/testing-web)
-- [Using MockMvc With SpringBootTest vs. Using WebMvcTest](Using MockMvc With SpringBootTest vs. Using WebMvcTest)
+- [Using MockMvc With SpringBootTest vs. Using WebMvcTest](https://www.baeldung.com/spring-mockmvc-vs-webmvctest)
 - [MockMvc](https://docs.spring.io/spring-framework/reference/testing/mockmvc.html)
 - [Spring Boot MockMVC Example](https://www.geeksforgeeks.org/springboot/spring-boot-mockmvc-example/)
 - [A Practical Guide to Testing Spring Controllers With MockMvcTester](https://blog.jetbrains.com/idea/2025/04/a-practical-guide-to-testing-spring-controllers-with-mockmvctester/)
