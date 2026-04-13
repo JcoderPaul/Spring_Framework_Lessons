@@ -49,9 +49,9 @@ public final class MockMvc extends Object
 
 - `ResultActions perform(RequestBuilder requestBuilder)` - Выполните запрос и верните тип, который позволяет связывать дальнейшие действия, такие как утверждение ожиданий, с результатом.
 
-**Параметры:** requestBuilder - используется для подготовки запроса к исполнению; см. статические фабричные методы в [MockMvcRequestBuilders](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/request/MockMvcRequestBuilders.html).
-**Возвращает:** экземпляр [ResultActions](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/ResultActions.html) (никогда null)
-**Исключения:** [Exception](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Exception.html)
+- **Параметры:** requestBuilder - используется для подготовки запроса к исполнению; см. статические фабричные методы в [MockMvcRequestBuilders](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/request/MockMvcRequestBuilders.html).
+- **Возвращает:** экземпляр [ResultActions](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/ResultActions.html) (никогда null)
+- **Исключения:** [Exception](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Exception.html)
 
 ---
 **См. также:**
