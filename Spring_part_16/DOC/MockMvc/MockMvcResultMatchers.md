@@ -48,7 +48,7 @@ public [MockMvcResultMatchers()](https://docs.spring.io/spring-framework/docs/cu
 - `static XpathResultMatchers xpath(String expression, Map<String,String> namespaces, Object... args)` - Доступ к утверждениям тела ответа с использованием выражения XPath для проверки определенного подмножества тела ответа.
 
 ---
-- Методы, унаследованные от класса java.lang.Object: clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait
+- Методы, унаследованные от класса [Object](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#method-summary): clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait
 
 ---
 **Доп. материал:**
