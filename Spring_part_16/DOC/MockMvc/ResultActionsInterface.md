@@ -24,8 +24,7 @@ public interface ResultActions
 **Пример:**
 
 ```java
- static imports: MockMvcRequestBuilders.*,
-                 MockMvcResultMatchers.*
+ static imports: MockMvcRequestBuilders.*, MockMvcResultMatchers.*
 
  mockMvc.perform(get("/form")).andDo(print());
 ```
@@ -67,8 +66,7 @@ public interface ResultActions
 Вместо andExpect() многократного вызова вы можете вызвать andExpectAll(), как показано в следующем примере:
 
 ```java
-// static imports: MockMvcRequestBuilders.*,
-                   MockMvcResultMatchers.*
+ static imports: MockMvcRequestBuilders.*, MockMvcResultMatchers.*
 
  mockMvc.perform(get("/person/1"))
    .andExpectAll(status().isOk(),
