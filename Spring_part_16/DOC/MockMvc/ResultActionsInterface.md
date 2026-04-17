@@ -38,8 +38,7 @@ public interface ResultActions
 Вы можете вызывать `andExpect()` несколько раз, как показано в примере ниже:
 
 ```java
- // static imports: MockMvcRequestBuilders.*,
-                    MockMvcResultMatchers.*
+ static imports: MockMvcRequestBuilders.*, MockMvcResultMatchers.*
 
  mockMvc.perform(get("/person/1"))
    .andExpect(status.isOk())
