@@ -1,0 +1,135 @@
+- [См. исходный (ENG)](https://javadoc.io/doc/org.springframework.boot/spring-boot-autoconfigure/latest/index.html)
+
+---
+****** Spring-boot-autoconfigure API ******
+
+**Примерная структура пакета:**
+
+- `org.springframework.boot.autoconfigure` - Возможности автоматической настройки Spring Boot.
+- [org.springframework.boot.autoconfigure.admin](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/admin/package-summary.html) - Автоматическая настройка функций, связанных с администрированием.
+- [org.springframework.boot.autoconfigure.amqp](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/aop/package-summary.html) - Автоконфигурация для RabbitMQ.
+- [org.springframework.boot.autoconfigure.aop](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/aop/package-summary.html) - Автоконфигурация для Spring AOP.
+- [org.springframework.boot.autoconfigure.availability](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/availability/package-summary.html) - Автоматическая настройка функций доступности приложений.
+- `org.springframework.boot.autoconfigure.batch` - Автоматическая настройка для Spring Batch.
+- [org.springframework.boot.autoconfigure.cache](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/cache/package-summary.html) - Автоматическая настройка абстракции кэша.
+- `org.springframework.boot.autoconfigure.cassandra` - Автоконфигурация для Кассандры.
+- `org.springframework.boot.autoconfigure.codec` - Автоконфигурация для реактивных кодеков.
+- [org.springframework.boot.autoconfigure.condition](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/condition/package-summary.html) - @Condition аннотации и вспомогательные классы.
+- [org.springframework.boot.autoconfigure.context](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/context/package-summary.html) - Автоматическая настройка для контекста Spring.
+- `org.springframework.boot.autoconfigure.couchbase` - Автоматическая настройка для Couchbase.
+- `org.springframework.boot.autoconfigure.dao` - Автоконфигурация для Spring DAO.
+- [org.springframework.boot.autoconfigure.data](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/data/package-summary.html) - Базовые классы - Автоматической настройки для Spring Data.
+- `org.springframework.boot.autoconfigure.data.cassandra` - Автоматическая настройка для Spring Data Cassandra.
+- `org.springframework.boot.autoconfigure.data.couchbase` - Автоматическая настройка для Spring Data Couchbase.
+- `org.springframework.boot.autoconfigure.data.elasticsearch` - Автоматическая настройка для Spring Data Elasticsearch.
+- `org.springframework.boot.autoconfigure.data.jdbc` - Автоматическая настройка для Spring Data JDBC.
+- `org.springframework.boot.autoconfigure.data.jpa` - Автоматическая настройка для Spring Data JPA.
+- `org.springframework.boot.autoconfigure.data.ldap` - Автоматическая настройка Spring Data LDAP.
+- `org.springframework.boot.autoconfigure.data.mongo` - Автоконфигурация для Spring Data Mongo.
+- `org.springframework.boot.autoconfigure.data.neo4j` - Автоконфигурация для Spring Data Neo4j.
+- `org.springframework.boot.autoconfigure.data.r2dbc` - Автоконфигурация для Spring Data R2DBC.
+- `org.springframework.boot.autoconfigure.data.redis` - Автоматическая настройка для Spring Data Redis.
+- `org.springframework.boot.autoconfigure.data.rest` - Автоматическая настройка для Spring Data REST.
+- `org.springframework.boot.autoconfigure.data.web` - Автоматическая настройка веб-поддержки Spring Data.
+- `org.springframework.boot.autoconfigure.domain` - Аннотации и классы предметной области общего назначения.
+- `org.springframework.boot.autoconfigure.elasticsearch` - Автоматическая настройка клиента Elasticsearch.
+- `org.springframework.boot.autoconfigure.flyway` - Автоматическая конфигурация для Flyway.
+- `org.springframework.boot.autoconfigure.freemarker` - Автоконфигурация FreeMarker.
+- `org.springframework.boot.autoconfigure.graphql` - Автоконфигурация для Spring GraphQL.
+- `org.springframework.boot.autoconfigure.graphql.data` - Классы автоматической настройки для интеграции данных с GraphQL.
+- `org.springframework.boot.autoconfigure.graphql.reactive` - Классы автоматической настройки для поддержки WebFlux в pring GraphQL.
+- `org.springframework.boot.autoconfigure.graphql.rsocket` - Классы автоматической настройки для интеграции RSocket с GraphQL.
+- `org.springframework.boot.autoconfigure.graphql.security` - Классы автоматической настройки для поддержки безопасности в Spring GraphQL.
+- `org.springframework.boot.autoconfigure.graphql.servlet` - Классы автоматической настройки для поддержки MVC в Spring GraphQL.
+- `org.springframework.boot.autoconfigure.groovy.template` - Автоматическая настройка шаблонов Groovy.
+- `org.springframework.boot.autoconfigure.gson` - Автоконфигурация для GSON.
+- `org.springframework.boot.autoconfigure.h2` - Автоматическая настройка консоли H2.
+- `org.springframework.boot.autoconfigure.hateoas` - Автоконфигурация для Spring HATEOAS.
+- `org.springframework.boot.autoconfigure.hazelcast` - Автоконфигурация для Hazelcast.
+- `org.springframework.boot.autoconfigure.http` - Автоматическая настройка для проблем HTTP.
+- `org.springframework.boot.autoconfigure.http.codec` - Автоматическая настройка HTTP-кодеков.
+- `org.springframework.boot.autoconfigure.influx` - Автоконфигурация для InfluxDB.
+- [org.springframework.boot.autoconfigure.info](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/info/package-summary.html) - Автоматическая настройка информации о проекте.
+- `org.springframework.boot.autoconfigure.integration` - Автоматическая настройка для интеграции Spring.
+- `org.springframework.boot.autoconfigure.jackson` - Автоконфигурация для Jackson.
+- `org.springframework.boot.autoconfigure.jdbc` - Автоконфигурация для JDBC.
+- `org.springframework.boot.autoconfigure.jdbc.metadata` - Автоматическая настройка метаданных JDBC.
+- `org.springframework.boot.autoconfigure.jersey` - Автоконфигурация для Jersey.
+- `org.springframework.boot.autoconfigure.jms` - Автоконфигурация для JMS.
+- `org.springframework.boot.autoconfigure.jms.activemq` - Автоконфигурация для ActiveMQ.
+- `org.springframework.boot.autoconfigure.jms.artemis` - Автоконфигурация для Artemis.
+- [org.springframework.boot.autoconfigure.jmx](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/jmx/package-summary.html) - Автоконфигурация для JMX.
+- `org.springframework.boot.autoconfigure.jooq` - Автоконфигурация для JOOQ.
+- `org.springframework.boot.autoconfigure.jsonb` - Автоконфигурация для JSON-B.
+- `org.springframework.boot.autoconfigure.kafka` - Автоматическая настройка Apache Kafka.
+- `org.springframework.boot.autoconfigure.ldap` - Автоконфигурация для LDAP.
+- `org.springframework.boot.autoconfigure.ldap.embedded` - Автоматическая настройка встроенного LDAP.
+- `org.springframework.boot.autoconfigure.liquibase` - Автоконфигурация для Liquibase.
+- [org.springframework.boot.autoconfigure.logging](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/logging/package-summary.html) - Автонастройка для ведения журнала.
+- `org.springframework.boot.autoconfigure.mail` - Автоматическая настройка поддержки по электронной почте.
+- `org.springframework.boot.autoconfigure.mongo` - Автоконфигурация для MongoDB.
+- `org.springframework.boot.autoconfigure.mustache` - Автоконфигурация для Mustache.
+- `org.springframework.boot.autoconfigure.neo4j` - Автоконфигурация для Neo4j.
+- `org.springframework.boot.autoconfigure.netty` - Автоматическая настройка библиотеки Netty.
+- `org.springframework.boot.autoconfigure.orm.jpa` - Автоматическая настройка для JPA и Spring ORM.
+- `org.springframework.boot.autoconfigure.pulsar` - Автоматическая настройка Spring для Apache Pulsar.
+- `org.springframework.boot.autoconfigure.quartz` - Автоматическая настройка Quartz Scheduler.
+- `org.springframework.boot.autoconfigure.r2dbc` - Автоконфигурация для R2DBC.
+- `org.springframework.boot.autoconfigure.reactor` - Автоконфигурация для Reactor.
+- `org.springframework.boot.autoconfigure.reactor.netty` - Автоконфигурация для Reactor Netty.
+- `org.springframework.boot.autoconfigure.rsocket` - Автоконфигурация для RSocket.
+- `org.springframework.boot.autoconfigure.security` - Автоматическая настройка Spring Security.
+- `org.springframework.boot.autoconfigure.security.oauth2.client`- Поддержка клиента OAuth 2 Spring Security.
+- `org.springframework.boot.autoconfigure.security.oauth2.client.reactive` - Автоматическая настройка для клиента Spring Security Reactive OAuth 2.
+- `org.springframework.boot.autoconfigure.security.oauth2.client.servlet` - Автоматическая настройка для клиента OAuth 2 Spring Security.
+- `org.springframework.boot.autoconfigure.security.oauth2.resource` - Поддержка сервера ресурсов OAuth2 Spring Security.
+- `org.springframework.boot.autoconfigure.security.oauth2.resource.reactive` - Автоматическая настройка для сервера ресурсов Spring Security Reactive OAuth2.
+- `org.springframework.boot.autoconfigure.security.oauth2.resource.servlet` - Автоматическая настройка сервера ресурсов OAuth2 Spring Security.
+- `org.springframework.boot.autoconfigure.security.oauth2.server.servlet` - Автоматическая настройка сервераавторизации OAuth2 Spring Security.
+- `org.springframework.boot.autoconfigure.security.reactive` - Автоматическая настройка для реактивной Spring Security.
+- `org.springframework.boot.autoconfigure.security.rsocket` - Автоматическая настройка поддержки RSocket в Spring Security.
+- `org.springframework.boot.autoconfigure.security.saml2` - Автоматическая настройка для SAML 2.0 Spring Security.
+- `org.springframework.boot.autoconfigure.security.servlet` - Автоматическая настройка Spring Security на основе сервлетов.
+- `org.springframework.boot.autoconfigure.sendgrid` - Автоматическая настройка SendGrid.
+- `org.springframework.boot.autoconfigure.service.connection` - Поддержка сервисных подключений, влияющих на автоматическую настройку.
+- `org.springframework.boot.autoconfigure.session` - Автоматическая настройка для весенней сессии.
+- `org.springframework.boot.autoconfigure.sql.init` - Автоматическая настройка для базовой инициализации базы данных SQL на основе сценариев.
+- [org.springframework.boot.autoconfigure.ssl](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/ssl/package-summary.html) - Автоматическая настройка пакетов SSL.
+- [org.springframework.boot.autoconfigure.task](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/task/package-summary.html) - Автоматическая настройка выполнения задач и планирования.
+- [org.springframework.boot.autoconfigure.template](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/template/package-summary.html) - Базовые классы для автоконфигурации шаблона.
+- `org.springframework.boot.autoconfigure.thread` - Классы, связанные с потоками.
+- `org.springframework.boot.autoconfigure.thymeleaf` - Автоконфигурация для Thymeleaf.
+- `org.springframework.boot.autoconfigure.transaction` - Автоматическая настройка для поддержки транзакций.
+- `org.springframework.boot.autoconfigure.transaction.jta` - Автоконфигурация для JTA.
+- `org.springframework.boot.autoconfigure.validation` - Автоматическая настройка для проверки (JSR-303).
+- [org.springframework.boot.autoconfigure.web](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/web/package-summary.html) - Автоматическая настройка для решения распространенных веб-проблем.
+- `org.springframework.boot.autoconfigure.web.client` - Автоматическая настройка веб-клиентов.
+- `org.springframework.boot.autoconfigure.web.embedded` - Конфигурация встроенных реактивных и сервлетных веб-серверов.
+- `org.springframework.boot.autoconfigure.web.format` - Классы поддержки веб-форматирования.
+- `org.springframework.boot.autoconfigure.web.reactive` - Автоматическая настройка реактивных веб-серверов и Spring WebFlux.
+- `org.springframework.boot.autoconfigure.web.reactive.error` - Автоматическая настройка для обработки ошибок Spring WebFlux.
+- `org.springframework.boot.autoconfigure.web.reactive.function.client` - Автоматическая настройка функционального веб-клиента Spring Framework.
+- `org.springframework.boot.autoconfigure.web.servlet` - Автоматическая настройка веб-серверов сервлетов и Spring MVC.
+- `org.springframework.boot.autoconfigure.web.servlet.error` - Автоматическая настройка обработки ошибок Spring MVC.
+- `org.springframework.boot.autoconfigure.webservices` - Автоматическая настройка веб-служб Spring.
+- `org.springframework.boot.autoconfigure.webservices.client` - Автоматическая настройка для клиентов Spring Web Services.
+- `org.springframework.boot.autoconfigure.websocket.reactive` - Автоматическая настройка поддержки WebSocket на реактивных веб-серверах.
+- `org.springframework.boot.autoconfigure.websocket.servlet` - Автоматическая настройка поддержки WebSocket на веб-серверах сервлетов.
+
+---
+**Доп. инф.:**
+- [Auto Configuration](https://jcs.ep.jhu.edu/ejava-springboot/coursedocs/content/html_single/autoconfig-notes.html)
+- [Spring Auto-configuration](https://docs.spring.io/spring-boot/reference/using/auto-configuration.html)
+- [Creating Your Own Auto-configuration](https://docs.spring.io/spring-boot/reference/features/developing-auto-configuration.html)
+- [GitHub Project](https://github.com/spring-projects/spring-boot)
+- [Stack Overflow](https://stackoverflow.com/tags/spring-boot)
+- [How Spring Boot Auto-Configuration Works](https://medium.com/@AlexanderObregon/how-spring-boot-auto-configuration-works-68f631e03948)
+- [Spring Boot Security Auto-Configuration](https://www.baeldung.com/spring-boot-security-autoconfiguration)
+- [Understanding Spring Boot Auto‑configuration: How it works behind the scenes](https://medium.com/@khanarishma786/understanding-spring-boot-auto-configuration-how-it-works-behind-the-scenes-7e13a0ff9320)
+- [How Spring Boot’s Autoconfigurations Work](https://www.marcobehler.com/guides/spring-boot-autoconfiguration)
+- [Create a Custom Auto-Configuration with Spring Boo](https://www.baeldung.com/spring-boot-custom-auto-configuration)
+- [Understanding Spring Boot Auto-Configuration](https://www.linkedin.com/pulse/understanding-spring-boot-auto-configuration-syed-annus-ali-shah-kbozc)
+- [How Spring Boot auto-configuration works](https://javadevjournal.com/spring-boot/how-spring-boot-auto-configuration-works/)
+- [Spring Boot Auto Configuration](https://jaxlondon.com/blog/spring-boot-auto-configuration/)
+- [Spring Boot - Configuration/Auto-Configuration](https://www.tutorialspoint.com/spring_boot/spring_boot_configuration.htm)
+- [How Spring Boot Auto-Configuration Works Under the Hood](https://www.springboot-123.com/en/blog/spring-boot-autoconfiguration-mechanism-explained/)
