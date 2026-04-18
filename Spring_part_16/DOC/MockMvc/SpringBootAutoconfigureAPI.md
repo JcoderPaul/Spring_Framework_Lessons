@@ -1,9 +1,9 @@
 - [См. исходный (ENG)](https://javadoc.io/doc/org.springframework.boot/spring-boot-autoconfigure/latest/index.html)
 
 ---
-****** Spring-boot-autoconfigure API ******
+### Spring-boot-autoconfigure API
 
-**Примерная структура пакета:**
+**Примерная структура пакетов:**
 
 - `org.springframework.boot.autoconfigure` - Возможности автоматической настройки Spring Boot.
 - [org.springframework.boot.autoconfigure.admin](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/autoconfigure/admin/package-summary.html) - Автоматическая настройка функций, связанных с администрированием.
