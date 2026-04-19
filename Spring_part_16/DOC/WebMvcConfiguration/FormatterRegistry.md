@@ -32,7 +32,7 @@ public interface FormatterRegistry
 - `void addPrinter(Printer<?> printer)` - Добавляет принтер для печати полей определенного типа.
 
 ---
-Методы, унаследованные от интерфейса org.springframework.core.convert.converter.ConverterRegistry: addConverter, addConverterFactory, removeConvertible
+Методы, унаследованные от интерфейса [ConverterRegistry](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/convert/converter/ConverterRegistry.html): [addConverter](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/convert/converter/ConverterRegistry.html#addConverter(java.lang.Class,java.lang.Class,org.springframework.core.convert.converter.Converter)), [addConverterFactory](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/convert/converter/ConverterRegistry.html#addConverterFactory(org.springframework.core.convert.converter.ConverterFactory)), [removeConvertible](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/convert/converter/ConverterRegistry.html#removeConvertible(java.lang.Class,java.lang.Class))
 
 ---
 **Доп. материалы:**
