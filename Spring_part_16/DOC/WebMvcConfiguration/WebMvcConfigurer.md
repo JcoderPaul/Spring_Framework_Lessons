@@ -76,5 +76,5 @@
 - [Spring WebMvcConfigurer: Customize Default MVC Configurations](https://howtodoinjava.com/spring-mvc/spring-webmvcconfigurer/)
 - [Spring MVC Tutorial](https://www.baeldung.com/spring-mvc-tutorial)
 - [Spring MVC Configuration](https://codegym.cc/quests/lectures/en.questspring.level04.lecture39)
-- [WebMvcConfigurer - What is the use of EnableMvc annotation?(https://medium.com/@himanshugaur1215/webmvcconfigurer-1d30a4b8c6ab)
+- [WebMvcConfigurer - What is the use of EnableMvc annotation?](https://medium.com/@himanshugaur1215/webmvcconfigurer-1d30a4b8c6ab)
 - [Simplify Configuration using @EnableWebMvc in MVC Application (YouTube)](https://www.youtube.com/watch?v=N0dzymNyiHM)
