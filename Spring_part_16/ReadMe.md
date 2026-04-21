@@ -77,7 +77,7 @@
 
 Существует некий негласный стандарт или Best Practices при разработке своего API (естественно необязательный, но все же 
 лучше его придерживаться), для примера можно рассмотреть вариант предложенный в статье: [RESTful API Design](https://phauer.com/2015/restful-api-design-best-practices/).
-или [API_Design_Best_Practices](../DOC/API_Design/API_Design_Best_Practices.md). 
+или [API_Design_Best_Practices](../Spring_part_16/DOC/API_Design/API_Design_Best_Practices.md). 
 
 Попробуем реализовать 'нашу API' согласно предложенному материалу. Создадим еще один контроллер для работы с сущностями
 [User](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/database/entity/User.java), который будет реализовывать CRUD операции - [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java). Для создания и редактирования полей User-ов нам
