@@ -9,7 +9,7 @@
 - [Getting Started Guides](https://spring.io/guides) ;
 - [Developing with Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html) ;
 
----------------------------------------------------------------------------------------------------------------
+---
 Для начала проведем предварительную подготовку (первые 6-ть шагов из предыдущих частей, некоторые пропущены):
 
 Шаг 1. - в файле [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/build.gradle) добавим необходимые plugin-ы: 
@@ -181,12 +181,12 @@ user-a на уровне сервисов и возвращает результ
 - [Пакет org.springframework.web.bind.annotation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/package-summary.html) ;
 - [Пакет org.springframework.transaction.annotation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/package-summary.html) ;
 
----------------------------------------------------------------------------------------------------------------
+---
 #### Lesson 79 - Тестирование разработанного CRUD API на уровне СЕРВИСОВ (Service).
 
 Небольшое напоминание. Мы используем БД развернутую в Docker контейнере, настройки доступа к ней прописаны в файле 
-[application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/resources/application.yml) (путь к базе, логин и пароль), настраиваем нашу IDE. Теперь, в [разделе Test](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_16/src/test), создаем файл для проведения 
-интеграционных тестов - [UserServiceIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/test/java/spring/oldboy/integration/service/UserServiceIT.java), данный класс будет наследником [IntegrationTestBase](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/test/java/spring/oldboy/integration/IntegrationTestBase.java).
+[application.yml](../Spring_part_16/src/main/resources/application.yml) (путь к базе, логин и пароль), настраиваем нашу IDE. Теперь, в [разделе Test](../Spring_part_16/src/test), создаем файл для проведения 
+интеграционных тестов - [UserServiceIT.java](../Spring_part_16/src/test/java/spring/oldboy/integration/service/UserServiceIT.java), данный класс будет наследником [IntegrationTestBase](../Spring_part_16/src/test/java/spring/oldboy/integration/IntegrationTestBase.java).
 
 На уровне сервисов у нас 4-и основных метода (создать запись - CREATE, найти запись - READ, изменить запись - UPDATE, 
 удалить запись - DELETE) отвечающих стандарту и естественно есть и другие расширяющие возможности нашего WEB приложения, 
@@ -195,27 +195,26 @@ user-a на уровне сервисов и возвращает результ
 слово Test (как это было в JUnit 4), все же пропишем его, чтобы визуально отделять методы из разных классов (слоев, 
 разделов).
 
-См. комментарии в: [src\test\java\spring\oldboy\integration\service\UserServiceIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/test/java/spring/oldboy/integration/service/UserServiceIT.java)
-См. док.:
-- [Пакет org.junit.jupiter.api](https://junit.org/junit5/docs/5.0.1/api/org/junit/jupiter/api/package-summary.html) - JUnit Jupiter API для написания тестов ;
+- См. комментарии в: [UserServiceIT.java](../Spring_part_16/src/test/java/spring/oldboy/integration/service/UserServiceIT.java);
+- См. док.: [Пакет org.junit.jupiter.api](https://junit.org/junit5/docs/5.0.1/api/org/junit/jupiter/api/package-summary.html) - JUnit Jupiter API для написания тестов ;
 
 ---------------------------------------------------------------------------------------------------------------
 #### Lesson 80 - Тестирование разработанного CRUD API на уровне КОНТРОЛЛЕРОВ (Controller).
 
-Для начала тестирования слоя контроллеров в нашем приложении создадим [UserControllerIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java), в нем и будут находиться
-тестовые методы. Тут нам придется имитировать запрос по HTTP протоколу и значит мы будем использовать инструментарий [Mockito](https://site.mockito.org/). Для 
+Для начала тестирования слоя контроллеров в нашем приложении создадим [UserControllerIT.java](../Spring_part_16/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java), в нем и будут находиться тестовые методы. Тут нам придется имитировать запрос по HTTP протоколу и значит мы будем использовать инструментарий [Mockito](https://site.mockito.org/). Для 
 авто-конфигурирования Mockito мы помечаем наш тестовый класс аннотацией [@AutoConfigureMockMvc](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/autoconfigure/web/servlet/AutoConfigureMockMvc.html).
 
 Особенность пакета [Spring-Boot-Autoconfigure-API](https://github.com/spring-projects/spring-boot/tree/main/spring-boot-project/spring-boot-test-autoconfigure/src/main/java/org/springframework/boot/test/autoconfigure) в том, что он содержит большой набор инструментов для тестирования 
 отдельных частей (слоев) нашего приложения, а самое главное фреймворков, которые мы можем применять при разработке
 нашего сервиса, что значительно экономит время.
 
-Теперь в нашем тестовом классе [UserControllerIT](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java) появилась возможность внедрить объект класса [MockMvc](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/MockMvc.html) и использовать его
-возможности см. код класса, комментарии и док. [DOC/MockMvc](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_16/DOC/MockMvc). 
+Теперь в нашем тестовом классе [UserControllerIT](../Spring_part_16/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java) появилась возможность внедрить объект класса [MockMvc](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/MockMvc.html) и использовать его
+возможности см. код класса, комментарии и док. [MockMvc](../Spring_part_16/DOC/MockMvc). 
 
 Мы уже отмечали, что на уровне контроллеров у нас открываются транзакции, но по-хорошему так делать не надо, для этого 
-мы внесем изменения в файл свойств - сделаем параметр open-in-view как false в свойствах JPA (см. [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/resources/application.yml)):
+мы внесем изменения в файл свойств - сделаем параметр open-in-view как false в свойствах JPA (см. [application.yml](../Spring_part_16/src/main/resources/application.yml)):
 
+```
     # Настроим свойства Hibernate
     jpa:
       properties.hibernate:
@@ -225,23 +224,24 @@ user-a на уровне сервисов и возвращает результ
         format_sql: true
         hbm2ddl.auto: validate
       open-in-view: false
+```
 
 Это позволит открывать транзакции только на уровне сервисов, это более правильный подход.
 
-См. комментарии в: [src\test\java\spring\oldboy\integration\http\controller\UserControllerIT.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java)
-См.док.:
-- [Пакет org.springframework.boot.test.autoconfigure.web.servlet](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/autoconfigure/web/servlet/package-summary.html) ;
-- [Пакет org.springframework.test.web.servlet](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/package-summary.html) ;
+- См. комментарии в: [UserControllerIT.java](../Spring_part_16/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java);
+- См.док.:
+    - [Пакет org.springframework.boot.test.autoconfigure.web.servlet](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/autoconfigure/web/servlet/package-summary.html) ;
+    - [Пакет org.springframework.test.web.servlet](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/web/servlet/package-summary.html) ;
 
 ---------------------------------------------------------------------------------------------------------------
 #### Lesson 81 - Конвертор дат.
 
 При тестировании нашего слоя контроллеров мы столкнулись с проблемой отправки дат, причем явно эта проблема обрисовалась
-только на этапе тестирования в методе [*.createControllerTest()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java#L57), где мы имитируем HTTP POST запрос и передаем 
-[UserCreateEditDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/UserCreateEditDto.java) полем которого является LocalDate birthDate. Для решения этой задачи существует 3-и решения:
+только на этапе тестирования в методе [*.createControllerTest()](../Spring_part_16/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java#L57), где мы имитируем HTTP POST запрос и передаем [UserCreateEditDto](../Spring_part_16/src/main/java/spring/oldboy/dto/UserCreateEditDto.java) полем которого является LocalDate birthDate. Для решения этой задачи существует 3-и решения:
 
-- Решение 1: Настройка файла свойств [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/resources/application.yml) добавим в раздел spring подраздел format:
+- Решение 1: Настройка файла свойств [application.yml](../Spring_part_16/src/main/resources/application.yml) добавим в раздел spring подраздел format:
 
+```yaml
       spring:
         mvc:
           view:
@@ -249,6 +249,7 @@ user-a на уровне сервисов и возвращает результ
             suffix: .jsp
         format:
           date: iso  
+```
 
 В параметр date устанавливаем значение iso. Теперь при тестировании нашего слоя контроллеров мы сможем передавать даты,
 либо (просто времени) сочетание даты и времени. И обычно рекомендуется использовать данный способ, как состыкованный с 
@@ -256,16 +257,16 @@ user-a на уровне сервисов и возвращает результ
 
 - Решение 2: Данный вариант может понадобиться, когда клиент отправляет специальным образом отформатированную дату. Для
 этого мы используем аннотацию [@DateTimeFormat](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/format/annotation/DateTimeFormat.html)(pattern = "yyyy-MM-dd") из пакета [org.springframework.format.annotation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/format/annotation/package-summary.html). 
-Она ставится над одним из полей, которое требует специального преобразования см. [UserCreateEditDto.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/UserCreateEditDto.java), в параметрах 
+Она ставится над одним из полей, которое требует специального преобразования см. [UserCreateEditDto.java](../Spring_part_16/src/main/java/spring/oldboy/dto/UserCreateEditDto.java), в параметрах 
 передается паттерн преобразования полученных данных.
 
 - Решение 3: Сей вариант тяжел и мощен, т.к. требует вмешательство в конфигурацию Spring-a и создания своих 
-конфигурационных классов, в нашем случае - [WebConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/config/WebConfiguration.java). В нем мы переопределим *.addFormatters()
-метод, интерфейса [WebMvcConfigurer](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/config/annotation/WebMvcConfigurer.html) см. [WebMvcConfigurer.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/DOC/WebMvcConfiguration/WebMvcConfigurer.txt).
+конфигурационных классов, в нашем случае - [WebConfiguration.java](../Spring_part_16/src/main/java/spring/oldboy/config/WebConfiguration.java). В нем мы переопределим *.addFormatters()
+метод, интерфейса [WebMvcConfigurer](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/config/annotation/WebMvcConfigurer.html) см. [WebMvcConfigurer](../Spring_part_16/DOC/WebMvcConfiguration/WebMvcConfigurer.md).
 
 В принципе все три решения реализованные одновременно будут работать, но лучше выбрать первый вариант.
 
-________________________________________________________________________________________________________________________
+---
 См. официальные [Guides](https://spring.io/guides):
 - [Getting Started Guides](https://spring.io/guides) - Эти руководства, рассчитанные на 15–30 минут, содержат быстрые
   практические инструкции по созданию «Hello World» для любой задачи разработки с помощью Spring. В большинстве случаев
@@ -275,6 +276,6 @@ ________________________________________________________________________________
 - [Tutorials](https://spring.io/guides#tutorials) - Эти учебники, рассчитанные на 2–3 часа, обеспечивают более глубокое
   контекстное изучение тем разработки корпоративных приложений, что позволяет вам подготовиться к внедрению реальных
   решений.
-________________________________________________________________________________________________________________________
+  
+---
 - [Spring Projects на GitHub](https://github.com/spring-projects) ;
-________________________________________________________________________________________________________________________
