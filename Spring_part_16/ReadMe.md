@@ -202,7 +202,7 @@ user-a на уровне сервисов и возвращает результ
 #### Lesson 80 - Тестирование разработанного CRUD API на уровне КОНТРОЛЛЕРОВ (Controller).
 
 Для начала тестирования слоя контроллеров в нашем приложении создадим [UserControllerIT.java](../Spring_part_16/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java), в нем и будут находиться тестовые методы. Тут нам придется имитировать запрос по HTTP протоколу и значит мы будем использовать инструментарий [Mockito](https://site.mockito.org/). Для 
-авто-конфигурирования Mockito мы помечаем наш тестовый класс аннотацией [@AutoConfigureMockMvc](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/autoconfigure/web/servlet/AutoConfigureMockMvc.html).
+авто-конфигурирования Mockito мы помечаем наш тестовый класс аннотацией [@AutoConfigureMockMvc](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/webmvc/test/autoconfigure/AutoConfigureMockMvc.html).
 
 Особенность пакета [Spring-Boot-Autoconfigure-API](https://github.com/spring-projects/spring-boot/tree/main/spring-boot-project/spring-boot-test-autoconfigure/src/main/java/org/springframework/boot/test/autoconfigure) в том, что он содержит большой набор инструментов для тестирования 
 отдельных частей (слоев) нашего приложения, а самое главное фреймворков, которые мы можем применять при разработке
