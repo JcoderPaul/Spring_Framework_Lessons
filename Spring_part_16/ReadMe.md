@@ -80,12 +80,14 @@
 или [API_Design_Best_Practices](../Spring_part_16/DOC/API_Design/API_Design_Best_Practices.md). 
 
 Попробуем реализовать 'нашу API' согласно предложенному материалу. Создадим еще один контроллер для работы с сущностями
-[User](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/database/entity/User.java), который будет реализовывать CRUD операции - [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java). Для создания и редактирования полей User-ов нам
-нужен DTO - [UserCreateEditDto.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/UserCreateEditDto.java).
+[User](../Spring_part_16/src/main/java/spring/oldboy/database/entity/User.java), который будет реализовывать CRUD операции - [UserController.java](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java). Для создания и редактирования полей User-ов нам
+нужен DTO - [UserCreateEditDto.java](../Spring_part_16/src/main/java/spring/oldboy/dto/UserCreateEditDto.java).
 
-Еще раз освежим в памяти ['послойную схему MVC'](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg).
+Еще раз освежим в памяти "послойную схему MVC":
 
----------------------------------------------------------------------------------------------------------------
+![Spring_MVC.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_15/DOC/Spring_MVC.jpg).
+
+---
 #### Lesson 78 - CRUD - API Design на уровне Service.
 
 На уровне контроллеров мы создали каркас методов реализующих наш API для класса User - [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java). Теперь нам 
