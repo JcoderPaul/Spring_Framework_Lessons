@@ -196,7 +196,7 @@ user-a на уровне сервисов и возвращает результ
 разделов).
 
 - См. комментарии в: [UserServiceIT.java](../Spring_part_16/src/test/java/spring/oldboy/integration/service/UserServiceIT.java);
-- См. док.: [Пакет org.junit.jupiter.api](https://junit.org/junit5/docs/5.0.1/api/org/junit/jupiter/api/package-summary.html) - JUnit Jupiter API для написания тестов ;
+- См.: [org.junit.jupiter.api](https://junit.org/junit5/docs/5.0.1/api/org/junit/jupiter/api/package-summary.html) - JUnit Jupiter API для написания тестов ;
 
 ---------------------------------------------------------------------------------------------------------------
 #### Lesson 80 - Тестирование разработанного CRUD API на уровне КОНТРОЛЛЕРОВ (Controller).
