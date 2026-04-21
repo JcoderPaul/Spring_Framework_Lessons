@@ -13,7 +13,7 @@
 Для начала проведем предварительную подготовку (первые 6-ть шагов из предыдущих частей, некоторые пропущены):
 
 Шаг 1. - в файле [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/build.gradle) добавим необходимые plugin-ы: 
-
+```
     /* 
        Плагин Spring Boot добавляет необходимые задачи в Gradle 
        и имеет обширную взаимосвязь с другими plugin-ами.
@@ -26,57 +26,58 @@
     id "io.spring.dependency-management" version '1.0.11.RELEASE'
     /* Подключим Lombok */
     id "io.freefair.lombok" version "8.3"
-
+```
 Шаг 2. - подключаем Spring Boot starter:
-
+```
     /* 
        Подключим Spring Boot Starter он включает поддержку 
        авто-конфигурации, логирование и YAML
     */
     implementation 'org.springframework.boot:spring-boot-starter'
-
+```
 Шаг 3. - подключаем блок тестирования (Spring Boot Starter Test) 
 (он будет активен на этапе тестирования):
-
+```
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+```
 Шаг 4. - автоматически Gradle создал тестовую зависимость на Junit5
 (мы можем использовать как Junit4, так и TestNG):
-
+```
     test {
         useJUnitPlatform()
     }
-
+```
 Шаг 5. - подключим блок для работы с БД (Spring Boot Starter Data Jpa):
-
+```
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
+```
 Для работы с PostgreSQL подключим и его зависимости:
-
+```
     implementation 'org.postgresql:postgresql'
-
+```
 Шаг 6. - Для использования средств подобных Hibernate ENVERS:
-
+```
     implementation 'org.springframework.data:spring-data-envers'
-
+```
 Шаг 7. - Подключим миграционный фреймворк Liquibase:
-
+```
     implementation 'org.liquibase:liquibase-core'
-
+```
 Шаг 8. - Подключаем Wed - Starter:
-
+```
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
+```
 Шаг 9. - Подключим Jasper, пока мы не используем Thymeleaf:
-
+```
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+```
 
----------------------------------------------------------------------------------------------------------------
+---
 #### Lesson 77 - CRUD - API Design на уровне Controller.
 
 Существует некий негласный стандарт или Best Practices при разработке своего API (естественно необязательный, но все же 
 лучше его придерживаться), для примера можно рассмотреть вариант предложенный в статье: [RESTful API Design](https://phauer.com/2015/restful-api-design-best-practices/).
-или [DOC/API_Design/API_Design_Best_Practices.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/DOC/API_Design/API_Design_Best_Practices.txt). 
+или [API_Design_Best_Practices](../DOC/API_Design/API_Design_Best_Practices.md). 
 
 Попробуем реализовать 'нашу API' согласно предложенному материалу. Создадим еще один контроллер для работы с сущностями
 [User](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/database/entity/User.java), который будет реализовывать CRUD операции - [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java). Для создания и редактирования полей User-ов нам
