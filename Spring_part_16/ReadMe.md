@@ -90,20 +90,18 @@
 ---
 #### Lesson 78 - CRUD - API Design на уровне Service.
 
-На уровне контроллеров мы создали каркас методов реализующих наш API для класса User - [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java). Теперь нам 
-нужно реализовать уровень сервисов, т.е. его CRUD методы - [UserService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java): 
-- На уровне сервисов у нас уже есть UserService доставшийся нам с первых уроков. Изменим его (естественно если бы его 
-не было мы бы его создали).
-- Дополним полями [UserReadDto.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/UserReadDto.java), тот, что мы создали на прошлом уроке;
-- Добавим к 'id' еще один принимаемый параметр в [CompanyReadDto.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/CompanyReadDto.java), это 'name' - название компании;
-- Временно подправим методы в других классах (и в тестах, в том числе) на которые влияет обновленный CompanyReadDto, 
-просто в параметры вместо названия компании внесем пока 'null'. 
-- Нам понадобятся преобразователи одного класса в другой, или ['мапперы' - mappers](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_16/src/main/java/spring/oldboy/mapper), для примера можно вернуться к урокам
+На уровне контроллеров мы создали каркас методов реализующих наш API для класса User - [UserController.java](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java). Теперь нам 
+нужно реализовать уровень сервисов, т.е. его CRUD методы - [UserService.java](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java): 
+- На уровне сервисов у нас уже есть UserService доставшийся нам с первых уроков. Изменим его (естественно если бы его не было мы бы его создали).
+- Дополним полями [UserReadDto.java](../Spring_part_16/src/main/java/spring/oldboy/dto/UserReadDto.java), тот, что мы создали на прошлом уроке;
+- Добавим к 'id' еще один принимаемый параметр в [CompanyReadDto.java](../Spring_part_16/src/main/java/spring/oldboy/dto/CompanyReadDto.java), это 'name' - название компании;
+- Временно подправим методы в других классах (и в тестах, в том числе) на которые влияет обновленный CompanyReadDto, просто в параметры вместо названия компании внесем пока 'null'. 
+- Нам понадобятся преобразователи одного класса в другой, или ['мапперы' - mappers](../Spring_part_16/src/main/java/spring/oldboy/mapper), для примера можно вернуться к урокам
 по [HTTP_Servlets_Java_EE/MVCPractice/](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/tree/master/MVCPractice). 
-Для этого создаем папку [mapper](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_16/src/main/java/spring/oldboy/mapper) и сразу основной интерфейс [Mapper<F, T>](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/mapper/Mapper.java), в дальнейшем, все классы 'мапперы' будут 
-реализовывать его методы *.map().
-- Создаем первый маппер [UserReadMapper.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java) в котором метод *.map() см. ниже, преобразует объект [User](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/database/entity/User.java) в [UserReadDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/UserReadDto.java):
+Для этого создаем папку [mapper](../Spring_part_16/src/main/java/spring/oldboy/mapper) и сразу основной интерфейс [Mapper<F, T>](../Spring_part_16/src/main/java/spring/oldboy/mapper/Mapper.java), в дальнейшем, все классы 'мапперы' будут реализовывать его методы *.map().
+- Создаем первый маппер [UserReadMapper.java](../Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java) в котором метод *.map() см. ниже, преобразует объект [User](../Spring_part_16/src/main/java/spring/oldboy/database/entity/User.java) в [UserReadDto](../Spring_part_16/src/main/java/spring/oldboy/dto/UserReadDto.java):
 
+```java
         @Override
         public UserReadDto map(User object) {
             return new UserReadDto(
@@ -116,71 +114,67 @@
                       company
             );
         }
+```
 
-И вот тут вместо компании, в качестве параметра наш [UserReadDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/UserReadDto.java) получает [CompanyReadDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/CompanyReadDto.java), а значит нам понадобится еще 
-один преобразователь.
-- Создаем второй маппер-преобразователь [CompanyReadMapper.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/mapper/CompanyReadMapper.java), который реализуя метод *.map() и из Company сделает 
+И вот тут вместо компании, в качестве параметра наш [UserReadDto](../Spring_part_16/src/main/java/spring/oldboy/dto/UserReadDto.java) получает [CompanyReadDto](../Spring_part_16/src/main/java/spring/oldboy/dto/CompanyReadDto.java), а значит нам понадобится еще один преобразователь.
+- Создаем второй маппер-преобразователь [CompanyReadMapper.java](../Spring_part_16/src/main/java/spring/oldboy/mapper/CompanyReadMapper.java), который реализуя метод *.map() и из Company сделает 
 CompanyReadDto.
-- Оба маппера мы аннотируем как компонент Spring или [@Component](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html). Еще раз вспомним, что [@Component](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html) в Spring была создана 
-для того, чтобы избавить разработчиков от необходимости определения bean-ов в XML. Вместо этого, Spring может 
-автоматически находить классы с этой аннотацией при сканировании classpath и автоматически регистрировать их как bean-ы.
+- Оба маппера мы аннотируем как компонент Spring или [@Component](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html). Еще раз вспомним, что [@Component](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html) в Spring была создана для того, чтобы избавить разработчиков от необходимости определения bean-ов в XML. Вместо этого, Spring может автоматически находить классы с этой аннотацией при сканировании classpath и автоматически регистрировать их как bean-ы.
 - Теперь у нас появилась возможность внедрять наши классы мапперы туда куда это необходимо.
-- В текущей ситуации нам в [UserReadMapper](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java) нужно инжектировать (внедрить) [CompanyReadMapper](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/mapper/CompanyReadMapper.java), что мы и делаем см. код. 
-[UserReadMapper.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java).
+- В текущей ситуации нам в [UserReadMapper](../Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java) нужно инжектировать (внедрить) [CompanyReadMapper](../Spring_part_16/src/main/java/spring/oldboy/mapper/CompanyReadMapper.java), что мы и делаем см. код. [UserReadMapper.java](../Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java).
 
-Теперь в нашем [UserService](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java) мы можем использовать наш [UserReadMapper](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java).
+Теперь в нашем [UserService](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java) мы можем использовать наш [UserReadMapper](../Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java).
 
-- У нас уже есть [UserRepository](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/database/repository/user_repository/UserRepository.java) аннотированный как [@Repository](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html) и он уже внедрен в [UserService](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java). Теперь для реализации 
-метода [*.findAll()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L38) у нас все есть, прописываем его код.
-- Возвращаемся на уровень контроллеров - в наш [UserController](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java) и придаем методу [*.findAll(Model model)](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L50) рабочий вид.
+- У нас уже есть [UserRepository](../Spring_part_16/src/main/java/spring/oldboy/database/repository/user_repository/UserRepository.java) аннотированный как [@Repository](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html) и он уже внедрен в [UserService](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java). Теперь для реализации метода [*.findAll()](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L38) у нас все есть, прописываем его код.
+- Возвращаемся на уровень контроллеров - в наш [UserController](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java) и придаем методу [*.findAll(Model model)](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L50) рабочий вид.
 
 И так первый метод на уровне контроллера и сервиса реализован, продолжаем, теперь займемся методом *.findById():
--  Метод *.findById() в интерфейсе [UserRepository](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/database/repository/user_repository/UserRepository.java) в явном виде отсутствует, однако он есть в интерфейсе 
+-  Метод *.findById() в интерфейсе [UserRepository](../Spring_part_16/src/main/java/spring/oldboy/database/repository/user_repository/UserRepository.java) в явном виде отсутствует, однако он есть в интерфейсе 
 [CrudRepository<T, ID> extends Repository<T, ID>](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html) пакета [org.springframework.data.repository](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/package-summary.html).
-- Однако данный метод вернет Optional<User>, а нам нужен Optional<UserReadDto> и мы снова используем наш [UserReadMapper](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java),
-чтобы преобразовать один класс в другой в пределах класса Optional [см. метод и комментарии к нему](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L49) в [UserService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java).
-- На уровне контроллеров [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java) на запрос - найти User-a по ID мы должны вернуть станицу с данными, либо
+- Однако данный метод вернет Optional<User>, а нам нужен Optional<UserReadDto> и мы снова используем наш [UserReadMapper](../Spring_part_16/src/main/java/spring/oldboy/mapper/UserReadMapper.java),
+чтобы преобразовать один класс в другой в пределах класса Optional [см. метод и комментарии к нему](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L49) в [UserService.java](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java).
+- На уровне контроллеров [UserController.java](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java) на запрос - найти User-a по ID мы должны вернуть станицу с данными, либо
 вернуть 404 статус, если пользователя с нужным ID не было найдено.
 
 Теперь займемся созданием User-a или реализуем метод *.create():
-- В данном случае метод в качестве параметра получает объект класса [UserCreateEditDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/dto/UserCreateEditDto.java), который мы должны преобразовать
-в [User](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/database/entity/User.java) и передать в БД (или сохранить в БД), [см. более подробно метод *.create()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L100) в [UserService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java).
-- Для преобразования UserCreateEditDto в User создаем [UserCreateEditMapper.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java), так же помечаем его как @Component и 
-внедряем [CompanyRepository](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/database/repository/company_repository/CompanyRepository.java), чтобы получать данные о компаниях с которыми связан User по ее ID.
-- На уровне контроллеров, в [UserController](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java) дописываем [метод *.create()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L97).
+- В данном случае метод в качестве параметра получает объект класса [UserCreateEditDto](../Spring_part_16/src/main/java/spring/oldboy/dto/UserCreateEditDto.java), который мы должны преобразовать
+в [User](../Spring_part_16/src/main/java/spring/oldboy/database/entity/User.java) и передать в БД (или сохранить в БД), [см. более подробно метод *.create()](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L100) в [UserService.java](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java).
+- Для преобразования UserCreateEditDto в User создаем [UserCreateEditMapper.java](../Spring_part_16/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java), так же помечаем его как @Component и 
+внедряем [CompanyRepository](../Spring_part_16/src/main/java/spring/oldboy/database/repository/company_repository/CompanyRepository.java), чтобы получать данные о компаниях с которыми связан User по ее ID.
+- На уровне контроллеров, в [UserController](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java) дописываем [метод *.create()](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L97).
 - Поскольку после создания новой записи в БД, или после создания некоего ресурса, мы должны об этом сообщить, применяем
-аннотацию [@ResponseStatus](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ResponseStatus.html)(HttpStatus.CREATED) над [нашим методом *.created()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L96).
+аннотацию [@ResponseStatus](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ResponseStatus.html)(HttpStatus.CREATED) над [нашим методом *.created()](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L96).
 
-ТЕПЕРЬ НУЖНО ВСПОМНИТЬ О ТРАНЗАКЦИЯХ! 
+**ТЕПЕРЬ НУЖНО ВСПОМНИТЬ О ТРАНЗАКЦИЯХ!** 
 
 Поскольку мы делаем запросы к БД, то мы используем транзакции. Пока на уровне сервисов мы их не использовали, или явно 
-не задействовали. Основная их часть приходится на [уровень репозитория или UserRepository.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_16/src/main/java/spring/oldboy/database/repository). Однако на уровне 
+не задействовали. Основная их часть приходится на [уровень репозитория или UserRepository.java](../Spring_part_16/src/main/java/spring/oldboy/database/repository). Однако на уровне 
 сервисов могут проходить запросы, которые могут подтягивать lazy initialization сущности, что может привести к броску 
 исключения если такую сущность не подтянуть из базы при запросе. Поэтому на уровне сервисов у нас тоже нужны транзакции.
 Тогда транзакция будет открываться в момент обращения к методу и закрываться автоматически после его завершения. Это 
-можно реализовать при помощи аннотации [@Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html) над всеми классами слоя сервисов, у нас это пока [UserService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java).
+можно реализовать при помощи аннотации [@Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html) над всеми классами слоя сервисов, у нас это пока [UserService.java](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java).
 Так же следует отметить, что правила хорошего тона рекомендуют в параметрах аннотации передавать 'readOnly = true'.
 
 Поскольку на уровне сервисов у нас есть методы в которых мы не просто читаем информацию, а вносим ее, изменяем, именно
-их (помимо самого класса) мы отдельно (каждый, где необходимо) аннотируем той же [@Transactional](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java), но уже без параметров,
-см. [UserService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java). Это позволит вносить изменения без бросков исключений в методах типа *.create(), *.edit() и т.д.
+их (помимо самого класса) мы отдельно (каждый, где необходимо) аннотируем той же [@Transactional](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java), но уже без параметров,
+см. [UserService.java](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java). Это позволит вносить изменения без бросков исключений в методах типа *.create(), *.edit() и т.д.
 
 И так с транзакциями разобрались, продолжаем дорабатывать слой сервисов и контроллеров, реализуем метод *.update():
 - Поскольку мы обращаемся к БД (к User) по ID, то снова можем столкнуться с ситуацией когда не нашли требуемую запись и 
-значит должны вернуть (отобразить) Optional объект - Optional<UserReadDto> см. [UserService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java) в методе [*.update()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L119).
+значит должны вернуть (отобразить) Optional объект - Optional<UserReadDto> см. [UserService.java](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java) в методе [*.update()](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L119).
 - На уровне контроллеров у нас может быть ситуация, когда мы отображаем изменения внесенные в данные user-a по 
 введенному ID (в случае если он есть) или возвращаем статус HTTP 404 - NOT FOUND (в случае если user с нужным ID не 
-найден), что мы и реализуем [см. *.update()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L112) в [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java).
+найден), что мы и реализуем [см. *.update()](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L112) в [UserController.java](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java).
 
 Теперь займемся удалением user-ов, это метод *.delete():
 - На уровне сервисов данный метод однозначно транзакционный и вносит изменения в БД, по-этому он помечается аннотацией 
 [@Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html). Для того чтобы на уровне контроллеров иметь выбор и возможность вернуть страницу отображения или страницу
-с кодом 404 - NOT FOUND (в случае успеха или неуспеха соответственно) данный метод [*.delete()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L135) на уровне сервисов 
+с кодом 404 - NOT FOUND (в случае успеха или неуспеха соответственно) данный метод [*.delete()](../Spring_part_16/src/main/java/spring/oldboy/service/UserService.java#L135) на уровне сервисов 
 возвращает булеву переменную.
-- На [уровне контроллеров](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_16/src/main/java/spring/oldboy/http/controller) есть свой одноименный [метод *.delete()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L123), который обрабатываем результат работы метода удаляющего
+- На [уровне контроллеров](../Spring_part_16/src/main/java/spring/oldboy/http/controller) есть свой одноименный [метод *.delete()](../Spring_part_16/src/main/java/spring/oldboy/http/controller/UserController.java#L123), который обрабатываем результат работы метода удаляющего
 user-a на уровне сервисов и возвращает результат удаления в качестве страницы отображения.
 
-См. коды HTTP статусов: [DOC/HTTP_Status](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_16/DOC/HTTP_Status)
+См. коды HTTP статусов: [DOC/HTTP_Status](../Spring_part_16/DOC/HTTP_Status)
 См. док.: 
 - [Пакет org.springframework.data.repository](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/package-summary.html) ;
 - [Пакет org.springframework.stereotype](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/package-summary.html) ;
