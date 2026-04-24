@@ -17,7 +17,7 @@
 - [GeoPage](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/geo/GeoPage.html);
 - [PageImpl](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/PageImpl.html);
 
-```
+```java
   public interface Page<T> extends Slice<T>
 ```
 
