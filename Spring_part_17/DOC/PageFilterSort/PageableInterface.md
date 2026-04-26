@@ -39,7 +39,7 @@ public interface Pageable
 - `Pageable withPage(int pageNumber)` - Создает новый Pageable с заданным pageNumber.
 
 ---
-**Доп. материалы:"
+**Доп. материалы:**
 - [Paging and Sorting](https://docs.spring.io/spring-data/rest/reference/paging-and-sorting.html)
 - [Pagination and Sorting with Spring Data JPA](https://www.geeksforgeeks.org/advance-java/pagination-and-sorting-with-spring-data-jpa/)
 - [Spring MVC - Pagination with Example](https://www.geeksforgeeks.org/java/spring-mvc-pagination-with-example/)
