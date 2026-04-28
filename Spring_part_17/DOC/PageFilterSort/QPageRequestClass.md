@@ -88,15 +88,15 @@
 * Множественная сортировка: Передайте несколько аргументов OrderSpecifier для сортировки по нескольким полям.
 
 ```java
-/* Сортировка по нескольким полям */
-QPageRequest multiSort = QPageRequest.of(0, 20, 
-    user.lastName.asc(), 
-    user.firstName.asc()
-);
-
-/* Использование готового объекта QSort */
-QSort customSort = new QSort(user.email.desc());
-QPageRequest qSortRequest = QPageRequest.of(0, 50, customSort);
+    /* Сортировка по нескольким полям */
+    QPageRequest multiSort = QPageRequest.of(0, 20, 
+        user.lastName.asc(), 
+        user.firstName.asc()
+    );
+    
+    /* Использование готового объекта QSort */
+    QSort customSort = new QSort(user.email.desc());
+    QPageRequest qSortRequest = QPageRequest.of(0, 50, customSort);
 ```
 
 ---
@@ -104,8 +104,8 @@ QPageRequest qSortRequest = QPageRequest.of(0, 50, customSort);
 
 В то время как обычный PageRequest использует строковые имена свойств (например, "name"), QPageRequest обеспечивает типобезопасность.
 
-* PageRequest: PageRequest.of(0, 10, Sort.by("name")) (есть риск опечатки).
-* QPageRequest: QPageRequest.of(0, 10, user.name.asc()) (проверяется при компиляции).
+* `PageRequest`: `PageRequest.of(0, 10, Sort.by("name"))` (есть риск опечатки).
+* `QPageRequest`: `QPageRequest.of(0, 10, user.name.asc())` (проверяется при компиляции).
 
 ---
 **Важно:** Наш репозиторий должен расширять QuerydslPredicateExecutor<T>, чтобы эффективно использовать эти запросы вместе с предикатами.
