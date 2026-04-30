@@ -46,7 +46,7 @@ java.lang.Object
 ---
 #### Конструкторы
 
-`protected Sort([List](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html)<[Sort.Order](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.Order.html)> orders)`
+protected Sort([List](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html)<[Sort.Order](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Sort.Order.html)> orders)
 
 ---
 #### Методы
