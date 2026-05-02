@@ -116,3 +116,24 @@ Thymeleaf — чрезвычайно расширяемый механизм (н
 
 Это помогает вашему дизайнеру и разработчику работать с одним и тем же файлом шаблона и уменьшать усилия, необходимые
 для преобразования статического прототипа в рабочий файл шаблона. Возможность сделать это — функция Natural Templating.
+
+---
+**Доп. материал:**
+- [Tutorial: Thymeleaf + Spring (ENG)](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html)
+- [Руководство: Thymeleaf + Spring (RUS)](https://habr.com/ru/articles/435062/)
+- [Thymeleaf](https://docs.spring.io/spring-framework/reference/web/webmvc-view/mvc-thymeleaf.html)
+- [Issues with Spring Boot and Thymeleaf](https://stackoverflow.com/questions/52903612/issues-with-spring-boot-and-thymeleaf)
+- [Introduction to Using Thymeleaf in Spring](https://www.baeldung.com/thymeleaf-in-spring-mvc)
+- [Настройка Thymeleaf в Spring](http://aquadc.net/blog/articles/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0_Thymeleaf_%D0%B2_Spring)
+- [Spring MVC + Thymeleaf 3.0: New Features](https://www.baeldung.com/spring-thymeleaf-3)
+- [Java Examples for org.thymeleaf.templateresolver.TemplateResolver](https://www.javatips.net/api/org.thymeleaf.templateresolver.templateresolver)
+- [Spring MVC + Thymeleaf Integration](https://www.concretepage.com/spring-4/spring-mvc-thymeleaf)
+- [Spring MVC: from JSP and Tiles to Thymeleaf](https://spring.io/blog/2012/10/30/spring-mvc-from-jsp-and-tiles-to-thymeleaf)
+- [Template Engines for Spring](https://www.baeldung.com/spring-template-engines)
+- [How to use SpringTemplateEngine when using Spring Boot](https://stackoverflow.com/questions/28993936/how-to-use-springtemplateengine-when-using-spring-boot)
+- [SpringTemplateEngine overwrites any set MessageResolvers #1068](https://github.com/thymeleaf/thymeleaf/issues/1068)
+- [Sending Mails using Thymeleaf — Java Template Engine](https://medium.com/@kumarmukul212/sending-mails-using-thymeleaf-java-template-engine-b8d3773a97e)
+- [Java Examples for org.thymeleaf.spring4.SpringTemplateEngine](https://www.javatips.net/api/org.thymeleaf.spring4.springtemplateengine)
+- [Spring boot view resolver issue with thymeleaf #20316](https://github.com/spring-projects/spring-boot/issues/20316)
+- [SpringMVC with Bootstrap and Thymeleaf pages decoration](https://coderanch.com/t/746489/frameworks/SpringMVC-Bootstrap-Thymeleaf-pages-decoration)
+- [A Guide to the ViewResolver in Spring MVC](https://www.baeldung.com/spring-mvc-view-resolver-tutorial)
