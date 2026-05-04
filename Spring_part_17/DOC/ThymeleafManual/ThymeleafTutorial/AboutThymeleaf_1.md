@@ -117,6 +117,8 @@ Thymeleaf — чрезвычайно расширяемый механизм (н
 Это помогает вашему дизайнеру и разработчику работать с одним и тем же файлом шаблона и уменьшать усилия, необходимые
 для преобразования статического прототипа в рабочий файл шаблона. Возможность сделать это — функция Natural Templating.
 
+[Двигаемся дальше к Template_Engine.](../ThymeleafTutorial/Thymeleaf_2_Template_Engine.md)
+
 ---
 **Доп. материал:**
 - [Tutorial: Thymeleaf + Spring (ENG)](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html)
