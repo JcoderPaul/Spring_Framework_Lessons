@@ -153,7 +153,7 @@ OGNL нужно прочитать [«Руководство по языку OGN
 
 Посмотрим еще:
 
-```html
+```
     /* Доступ к свойствам с использованием точки (.). Эквивалент вызывающим getter свойств */
     ${person.father.name}
     
@@ -181,13 +181,13 @@ OGNL нужно прочитать [«Руководство по языку OGN
 При выполнении выражения OGNL с переменными контекста некоторые объекты становятся доступными для большей гибкости.
 На эти объекты можно ссылаться (по стандарту OGNL), начиная с символа #:
 
-- #ctx: контекст.
-- #vars: переменные контекста.
-- #locale: локаль контекста.
-- #request: (только в Web Contexts) объект HttpServletRequest.
-- #response: (только в Web Contexts) объект HttpServletResponse.
-- #session: (только в Web Contexts) объект HttpSession.
-- #servletContext: (только в Web Contexts) объект ServletContext.
+- `#ctx`: контекст.
+- `#vars`: переменные контекста.
+- `#locale`: локаль контекста.
+- `#request`: (только в Web Contexts) объект HttpServletRequest.
+- `#response`: (только в Web Contexts) объект HttpServletResponse.
+- `#session`: (только в Web Contexts) объект HttpSession.
+- `#servletContext`: (только в Web Contexts) объект ServletContext.
 
 Так же мы можем делать следующее:
 
