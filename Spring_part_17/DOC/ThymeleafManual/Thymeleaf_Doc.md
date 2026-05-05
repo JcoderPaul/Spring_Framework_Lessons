@@ -4,10 +4,10 @@
 
 Учебник: [Использование Thymeleaf ](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial)
 
-- 1 - [Знакомство с Thymeleaf ](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/AboutThymeleaf_1.txt)
-- 2 - [Хорошая виртуальная бакалейная лавка Thymes](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_2_Template_Engine.txt)
-- 3 - [Использование Text](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_3_Usage_Text.txt)
-- 4 - [Стандарт Синтаксиса Выражений/Standard Expression Syntax](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_4_Standard_Expression_Syntax.txt)
+- 1 - [Знакомство с Thymeleaf ](../ThymeleafManual/ThymeleafTutorial/AboutThymeleaf_1.md)
+- 2 - [Хорошая виртуальная бакалейная лавка Thymes](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_2_Template_Engine.md)
+- 3 - [Использование Text](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_3_Usage_Text.md)
+- 4 - [Стандарт Синтаксиса Выражений/Standard Expression Syntax](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_4_Standard_Expression_Syntax.md)
 - 5 - [Установка значений атрибута](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_5_Setting_Attr_Val.txt)
 - 6 - [Итерации](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_6_Iterations.txt)
 - 7 - [Условное выполнение](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_7_Conditional_Statements.txt)
