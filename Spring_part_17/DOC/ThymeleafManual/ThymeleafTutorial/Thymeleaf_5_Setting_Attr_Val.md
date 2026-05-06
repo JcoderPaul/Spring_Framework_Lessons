@@ -104,7 +104,7 @@ Thymeleaf соглашается с вами, и именно поэтому `th
 
 Таких атрибутов достаточно много, каждый из которых нацелен на определенный атрибут HTML5:
 
-|&nbsp;|&nbsp;|&nbsp;|  
+|&nbsp|&nbsp|&nbsp|  
 | --- | --- | --- |
 | th:abbr               | th:accept           | th:accept-charset |
 | th:accesskey          | th:action           | th:align          |
