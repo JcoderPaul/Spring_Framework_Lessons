@@ -1,6 +1,4 @@
-Исходник - [https://habr.com/ru/articles/350862/](https://habr.com/ru/articles/350862/)
-
-См. оригинальную док. - [https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html) 
+См. оригинальную док. (ENG) - [https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html) 
 
 Учебник: [Использование Thymeleaf ](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial)
 
@@ -36,3 +34,5 @@
 - 18 - [Приложение A: Основные выражения](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_18_Appendix_A.txt)
 - 19 - [Приложение B: Полезные выражения](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_19_Appendix_B.txt)
 - 20 - [Приложение C: Синтаксис селектора разметки](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_20_Appendix_C.txt)
+
+Вариант перевода (RUS) - [https://habr.com/ru/articles/350862/](https://habr.com/ru/articles/350862/)
