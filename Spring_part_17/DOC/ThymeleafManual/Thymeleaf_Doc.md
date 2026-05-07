@@ -1,6 +1,4 @@
-См. оригинальную док. (ENG) - [https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html) 
-
-Учебник: [Использование Thymeleaf ](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial)
+См. оригинальную док. (ENG) - [https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
 
 - 1 - [**Знакомство с Thymeleaf**](../ThymeleafManual/ThymeleafTutorial/AboutThymeleaf_1.md)
   - [Технологии View c Thymeleaf](../ThymeleafManual/ThymeleafTutorial/AboutThymeleaf_1.md#%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8-view-c-thymeleaf)
