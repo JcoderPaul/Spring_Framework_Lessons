@@ -302,4 +302,4 @@ W3C Custom Elements (часть большой спецификации W3C Web 
 отказаться от namespaced синтаксиса в будущем 
 !!!**
 
-[Перебор атрибутов мы рассмотрели далее →](../ThymeleafTutorial/Thymeleaf_6_Iterations.md)
+[Перебор элементов мы рассмотрели далее →](../ThymeleafTutorial/Thymeleaf_6_Iterations.md)
