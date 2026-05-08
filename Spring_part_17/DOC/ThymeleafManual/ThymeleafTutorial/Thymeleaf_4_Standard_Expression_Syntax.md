@@ -700,4 +700,4 @@ Thymeleaf определяет синтаксис двойных скобок д
 
 Строка препроцессора `__` может быть экранирована в атрибутах с помощью `\_\_`.
 
-[Продолжим в следующем разделе.](../ThymeleafTutorial/Thymeleaf_5_Setting_Attr_Val.md) 
+[Продолжим в следующем разделе →](../ThymeleafTutorial/Thymeleaf_5_Setting_Attr_Val.md) 
