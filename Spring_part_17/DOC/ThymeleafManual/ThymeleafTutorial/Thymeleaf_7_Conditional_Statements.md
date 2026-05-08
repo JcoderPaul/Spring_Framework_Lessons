@@ -140,3 +140,5 @@
     <p th:case="*">User is some other thing</p>
   </div>
 ```
+
+[И так, продолжим →](../ThymeleafTutorial/Thymeleaf_8_Template_Layout.md)
