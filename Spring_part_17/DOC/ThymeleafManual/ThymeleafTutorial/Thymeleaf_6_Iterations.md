@@ -230,3 +230,5 @@
     <li th:each="u : ${users}" th:text="${u.name}">user name</li>
   </ul>
 ```
+
+[Продолжим в следующей части →](../ThymeleafTutorial/Thymeleaf_7_Conditional_Statements.md)
