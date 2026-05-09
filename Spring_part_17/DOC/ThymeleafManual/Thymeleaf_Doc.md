@@ -58,6 +58,19 @@
   - [7.1 Простые условия: «if» (если) и «unless» (если не)](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_7_Conditional_Statements.md#71-простые-условия-if-если-и-unless-если-не)
   - [7.2 Switch statements](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_7_Conditional_Statements.md#72-switch-statements)
 - [**8 - Макет шаблона**](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_8_Template_Layout.md)
+  - [8.1 Включение фрагментов шаблонов](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_8_Template_Layout.md#81-включение-фрагментов-шаблонов)
+    - Определение и ссылка на фрагменты
+    - Синтаксис фрагмента
+    - Ссылка на фрагменты без `th:fragment`
+    - Разница между `th:insert` и `th:replace` (и `th:include`)
+  - [8.2 Параметризируемые фрагменты](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_8_Template_Layout.md#82-параметризируемые-фрагменты)
+    - Локальные переменные фрагмента без аргументов фрагмента
+    - Атрибут th:assert для утверждений в шаблоне
+  - [8.3 Гибкие макеты: помимо простой вставки фрагментов](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_8_Template_Layout.md#83-гибкие-макеты-помимо-простой-вставки-фрагментов)
+    - Использование пустого фрагмента
+    - Использование «безоперационного» токена
+    - Продвинутые условия вставки фрагмента
+  - [8.4 Удаление шаблонных фрагментов](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_8_Template_Layout.md#84-удаление-шаблонных-фрагментов)
 - 9 - [Локальные переменные](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_9_Local_Variables.txt)
 - 10 - [Приоритет атрибутов](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_10_Attribute_Priority.txt)
 - 11 - [Комментарии и блоки](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_11_Comments_And_Blocks.txt)
