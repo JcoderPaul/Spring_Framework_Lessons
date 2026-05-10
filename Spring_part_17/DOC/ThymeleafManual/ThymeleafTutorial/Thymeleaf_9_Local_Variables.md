@@ -100,4 +100,4 @@ Thymeleaf предлагает вам способ объявить локаль
 
 **Вы могли бы подумать: Приоритет?** Мы еще не говорили об этом! 
 
-[Об этом речь в следующей главе →](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_10_Attribute_Priority.md)
+[Об этом речь в следующей главе →](../ThymeleafTutorial/Thymeleaf_10_Attribute_Priority.md)
