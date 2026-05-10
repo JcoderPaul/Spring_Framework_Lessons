@@ -71,8 +71,8 @@
     - Использование «безоперационного» токена
     - Продвинутые условия вставки фрагмента
   - [8.4 Удаление шаблонных фрагментов](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_8_Template_Layout.md#84-удаление-шаблонных-фрагментов)
-- [**9 - Локальные переменные**](../ThymeleafTutorial/Thymeleaf_9_Local_Variables.md)
-- [**10 - Приоритет атрибутов**](../ThymeleafTutorial/Thymeleaf_10_Attribute_Priority.md)
+- [**9 - Локальные переменные**](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_9_Local_Variables.md)
+- [**10 - Приоритет атрибутов**](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_10_Attribute_Priority.md)
 - 11 - [Комментарии и блоки](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_11_Comments_And_Blocks.md)
 - 12 - [Встраивание](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_12_Inlining.md)
 - 13 - [Текстовые режимы шаблона](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_13_Template_Text_Modes.md)
