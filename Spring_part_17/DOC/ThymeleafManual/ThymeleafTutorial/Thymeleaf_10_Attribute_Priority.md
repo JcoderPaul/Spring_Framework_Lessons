@@ -43,4 +43,4 @@
   </ul>
 ```
 
-[См. следующий раздел →](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_11_Comments_And_Blocks.txt)
+[См. следующий раздел →](../ThymeleafTutorial/Thymeleaf_11_Comments_And_Blocks.md)
