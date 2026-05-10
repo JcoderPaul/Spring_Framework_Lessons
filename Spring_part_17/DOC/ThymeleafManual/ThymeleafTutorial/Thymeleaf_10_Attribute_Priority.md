@@ -42,3 +42,5 @@
     <li th:text="${item.description}" th:each="item : ${items}">Item description here...</li>
   </ul>
 ```
+
+[См. следующий раздел →](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_11_Comments_And_Blocks.txt)
