@@ -130,4 +130,4 @@
   <p><b>Name:</b> <span th:text="${order.customer.name}">Frederic Tomato</span></p>
 ```
 
-[См. далее →](../ThymeleafTutorial/Thymeleaf_15_More_About_Configuration.txt)
+[См. далее →](../ThymeleafTutorial/Thymeleaf_15_More_About_Configuration.md
