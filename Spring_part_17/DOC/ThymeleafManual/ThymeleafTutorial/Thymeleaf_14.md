@@ -2,7 +2,7 @@
 - [Good Thymes Virtual Grocery on GitHub](https://github.com/thymeleaf/thymeleafexamples-gtvg)
 
 ---
-### Еще несколько страниц нашей бакалеи / Some more pages for our grocery
+### Еще несколько страниц нашей "бакалеи" / Some more pages for our grocery
 
 Теперь мы много знаем об использовании Thymeleaf и можем добавить некоторые новые страницы на наш сайт для управления
 заказами. Обратите внимание, что мы сосредоточимся на HTML-коде, но вы можете посмотреть исходный код, если хотите
