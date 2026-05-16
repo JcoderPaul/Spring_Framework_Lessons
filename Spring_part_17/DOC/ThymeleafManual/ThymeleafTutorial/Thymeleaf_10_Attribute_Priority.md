@@ -1,4 +1,5 @@
-- [См. исходник (ENG)](https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#attribute-precedence)
+- [См. исходник (ENG)](https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#more-on-configuration)
+- [Thymeleaf 3.1.5.RELEASE API](https://javadoc.io/doc/org.thymeleaf/thymeleaf/latest/index.html)
 - [Good Thymes Virtual Grocery on GitHub](https://github.com/thymeleaf/thymeleafexamples-gtvg)
 
 ---
