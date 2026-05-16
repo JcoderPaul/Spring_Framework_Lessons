@@ -242,3 +242,5 @@ log4j.logger.org.thymeleaf.TemplateEngine.CONFIG=TRACE
 log4j.logger.org.thymeleaf.TemplateEngine.TIMER=TRACE
 log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE
 ```
+
+[См. далее →](../ThymeleafTutorial/Thymeleaf_16_Template_Cache.md)
