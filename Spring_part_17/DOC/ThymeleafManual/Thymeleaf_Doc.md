@@ -106,7 +106,7 @@
     - Настройка искателя сообщений
   - [15.3 Услуги по преобразованию](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_15_More_About_Configuration.md#153-услуги-по-преобразованию)
   - [15.4 Logging/Логирование](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_15_More_About_Configuration.md#154-loggingлогирование)
-- 16 - [Кэш шаблонов](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_16_Template_Cache.md)
+- [**16 - Кэш шаблонов**](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_16_Template_Cache.md)
 - 17 - [Разделенная логика шаблонов](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md)
 - 18 - [Приложение A: Основные выражения](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_18_Appendix_A.md)
 - 19 - [Приложение B: Полезные выражения](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_19_Appendix_B.md)
