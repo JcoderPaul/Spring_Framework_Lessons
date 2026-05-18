@@ -113,7 +113,7 @@
     - Включение разделенных шаблонов
     - Смешивание соединенной и разделенной логики 
   - [17.3 Атрибут th:ref](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md#173-атрибут-thref)
-  - [17.4 Производительность разделенных шаблонов](/ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md#174-производительность-разделенных-шаблонов)
+  - [17.4 Производительность разделенных шаблонов](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md#174-производительность-разделенных-шаблонов)
   - [17.5. Анализ разделенной логики](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md#175-анализ-разделенной-логики)
 - 18 - [Приложение A: Основные выражения](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_18_Appendix_A.md)
 - 19 - [Приложение B: Полезные выражения](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_19_Appendix_B.md)
