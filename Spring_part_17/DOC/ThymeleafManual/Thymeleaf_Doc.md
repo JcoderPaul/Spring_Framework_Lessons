@@ -107,7 +107,14 @@
   - [15.3 Услуги по преобразованию](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_15_More_About_Configuration.md#153-услуги-по-преобразованию)
   - [15.4 Logging/Логирование](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_15_More_About_Configuration.md#154-loggingлогирование)
 - [**16 - Кэш шаблонов**](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_16_Template_Cache.md)
-- 17 - [Разделенная логика шаблонов](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md)
+- [**17 - Разделенная логика шаблонов**](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md)
+  - [17.1. Разделенная логика: концепция](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md#171-разделенная-логика-концепция)
+  - [17.2 Настройка разделенных шаблонов](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md#172-настройка-разделенных-шаблонов)
+    - Включение разделенных шаблонов
+    - Смешивание соединенной и разделенной логики 
+  - [17.3 Атрибут th:ref](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md#173-атрибут-thref)
+  - [17.4 Производительность разделенных шаблонов](/ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md#174-производительность-разделенных-шаблонов)
+  - [17.5. Анализ разделенной логики](../ThymeleafManual/ThymeleafTutorial/Thymeleaf_17_Separated_Template_Logic.md#175-анализ-разделенной-логики)
 - 18 - [Приложение A: Основные выражения](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_18_Appendix_A.md)
 - 19 - [Приложение B: Полезные выражения](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_19_Appendix_B.md)
 - 20 - [Приложение C: Синтаксис селектора разметки](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_17/DOC/ThymeleafManual/ThymeleafTutorial/Thymeleaf_20_Appendix_C.md)
