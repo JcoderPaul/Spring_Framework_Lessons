@@ -7,7 +7,7 @@
 ### Приложение B: Полезные выражения
 
 ---
-**Информация о выполнении**
+#### Информация о выполнении
 
 - **#execInfo**: выражения, предоставляющие полезную информацию о шаблоне, обрабатываемом внутри [Thymeleaf Standard Expressions](https://www.thymeleaf.org/apidocs/thymeleaf/3.1.1.RELEASE/org/thymeleaf/expression/package-summary.html)
 
@@ -50,7 +50,7 @@
 ```
 
 ---
-**Сообщения**
+#### Сообщения
 
 - **#messages**: утилиты для получения внешних сообщений внутри выражений, так же как они будут получены с использованием синтаксиса `#{...}`
 
@@ -88,7 +88,7 @@
 ```
 
 ---
-**URIs/URLs**
+#### URIs/URLs
 
 - **#uris**: служебный объект для выполнения операций URI/URL (экранирование / деэкранирование) внутри [Thymeleaf Standard Expressions](https://www.thymeleaf.org/apidocs/thymeleaf/3.0.0.BETA03/org/thymeleaf/standard/expression/StandardExpressions.html).
 
@@ -125,7 +125,7 @@
 ```
 
 ---
-**Конвертация/Conversions**
+#### Конвертация/Conversions
 
 - **#conversions**: который позволяет вызывать Conversion Service в любой точке шаблона.
 
@@ -139,7 +139,7 @@
 ```
 
 ---
-**Даты/Dates**
+#### Даты/Dates
 
 - **#dates**: утилиты методов [Date](https://docs.oracle.com/javase/8/docs/api/java/util/Date.html) объектов.
 
@@ -203,7 +203,7 @@
 ```
 
 ---
-**Календари/Calendars**
+#### Календари/Calendars
 
 - **#calendars**: аналогично `#dates`, но для [Calendar](https://docs.oracle.com/javase/8/docs/api/java/util/Calendar.html) объектов.
 
@@ -272,7 +272,7 @@
 ```
 
 ---
-**Числа**
+#### Числа
 
 - **#numbers**: методы для числовых объектов.
 
@@ -362,7 +362,7 @@
 ```
 
 ---
-**Строки/Strings**
+#### Строки/Strings
 
 - **#strings**: полезные методы для строк.
 
@@ -474,7 +474,7 @@
 ```
 
 ---
-**Objects**
+#### Объекты
 
 - **#objects**: полезные методы для объектов в целом.
 
@@ -490,7 +490,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-**Booleans**
+#### Booleans
 
 - #bools: полезные методы для работы с булевыми выражениями.
 
@@ -525,7 +525,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-**Массивы/Arrays**
+#### Массивы/Arrays
 
 - **#arrays**: полезные методы для массивов.
 
@@ -564,7 +564,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-**Списки/Lists**
+#### Списки/Lists
 
 - **#lists**: полезные методы списков.
 
@@ -599,7 +599,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-**Множествав/Sets**
+#### Множествав/Sets
 
 - **#sets**: полезные методы для множеств.
 
@@ -625,7 +625,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-**Карты/Maps**
+#### Карты/Maps
 
 - **#maps**: полезные методы для Map.
 
@@ -649,7 +649,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-*** Агрегирование/Aggregates ***
+#### Агрегирование/Aggregates
 
 - **#aggregates**: полезные методы агрегации массивов или коллекций.
 
@@ -668,7 +668,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-*** IDs ***
+#### IDs
 
 - **#ids**: утилиты для обработки идентификаторов id, которые могут быть повторены (например, в результате итерации).
 
