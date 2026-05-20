@@ -525,7 +525,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-#### Массивы/Arrays
+#### Arrays
 
 - **#arrays**: полезные методы для массивов.
 
@@ -564,7 +564,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-#### Списки/Lists
+#### Lists
 
 - **#lists**: полезные методы списков.
 
@@ -599,7 +599,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-#### Множествав/Sets
+#### Sets
 
 - **#sets**: полезные методы для множеств.
 
@@ -625,7 +625,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 ---
-#### Карты/Maps
+#### Maps
 
 - **#maps**: полезные методы для Map.
 
