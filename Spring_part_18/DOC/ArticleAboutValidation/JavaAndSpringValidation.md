@@ -788,4 +788,4 @@ Spring configuration **configuration.xml**:
 
 Структура проекта см. 
 
-![ProjectStructure.jpg](../ProjectStructure.jpg)
+![ProjectStructure.jpg](../ArticleAboutValidation/ProjectStructure.jpg)
