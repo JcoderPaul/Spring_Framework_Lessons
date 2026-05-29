@@ -148,7 +148,7 @@ class ValidateRequestBodyController {
 `@Valid`. Если проверка не удалась, она вызовет [MethodArgumentNotValidException](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/MethodArgumentNotValidException.html). По умолчанию Spring преобразует это
 исключение в статус HTTP 400 (неверный запрос).
 
-Мы можем проверить это поведение с помощью интеграционного теста:
+Мы можем проверить это поведение с помощью интеграционного теста, [более подробно см. код GitHub](https://github.com/thombergs/code-examples/blob/master/spring-boot/validation/src/test/java/io/reflectoring/validation/controller/requestbody/ValidateRequestBodyControllerTest.java):
 
 ```java
 @ExtendWith(SpringExtension.class)
@@ -275,7 +275,7 @@ class ValidatingService{
 ```
 
 Опять же, `@Validated` аннотация оценивается только на уровне класса, поэтому в этом случае не помещайте ее в метод. Вот
-тест, проверяющий поведение проверки:
+тест, проверяющий поведение проверки [более подробно на GitHub](https://github.com/thombergs/code-examples/blob/master/spring-boot/validation/src/test/java/io/reflectoring/validation/service/ValidatingServiceTest.java):
 
 ```java
 @ExtendWith(SpringExtension.class)
