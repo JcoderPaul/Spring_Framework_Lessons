@@ -220,7 +220,11 @@ ________________________________________________________________________________
 
 ```java
     @PostMapping
-    public String create(@ModelAttribute @Validated ({Default.class, CreateAction.class}) UserCreateEditDto user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String create(@ModelAttribute
+                         @Validated ({Default.class, CreateAction.class})
+                         UserCreateEditDto user,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
     }
 ```
 
@@ -228,8 +232,11 @@ ________________________________________________________________________________
 
 ```java
     @PostMapping("/{id}/update")
-    public String update(@PathVariable("id") Long id,
-                         @ModelAttribute @Validated({Default.class, UpdateAction.class}) UserCreateEditDto user) {
+    public String update(@PathVariable("id")
+                         Long id,
+                         @ModelAttribute
+                         @Validated({Default.class, UpdateAction.class})
+                         UserCreateEditDto user) {
     }
 ```
 
@@ -270,8 +277,8 @@ ________________________________________________________________________________
 ***REST представляет собой согласованный набор ограничений, учитываемых при проектировании распределённой гипермедиа-
 системы. В определённых случаях (интернет-магазины, поисковые системы; прочие системы, основанные на данных) это 
 приводит к повышению производительности и упрощению архитектуры.*** 
----
 
+---
 Попробуем реализовать наш обработчик исключений валидации:
 
 Шаг 1. - Создадим локальный [обработчик ошибок - метод в UserController](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_18/src/main/java/spring/oldboy/http/controller/UserController.java#L68), и аннотируем наш контроллер @Slf4j:
