@@ -5,6 +5,7 @@
 Док. (ссылки) для изучения:
 - [SWAGGER DOC](https://swagger.io/solutions/api-documentation/) (может понадобится прокси);
 ________________________________________________________________________________________________________________________
+- [Spring Framework 7.0.7 API](https://docs.spring.io/spring-framework/docs/current/javadoc-api/index.html)
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) ;
 - [Spring Framework 6.1.5 Documentation](https://spring.io/projects/spring-framework) ;
 - [Spring Framework 3.2.x Reference Documentation](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/index.html) ;
