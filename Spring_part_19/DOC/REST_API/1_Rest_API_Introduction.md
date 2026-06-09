@@ -113,8 +113,8 @@ REST фокусируется на ресурсах и на том, наскол
 - 200 — успех;
 - 404 — страница не найдена;
 - и т.п. см.:
-           - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpStatus.html
-           - https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+  - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpStatus.html
+  - https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 
 ---
 ### Резюме
