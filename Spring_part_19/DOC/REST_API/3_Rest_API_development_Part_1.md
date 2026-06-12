@@ -73,4 +73,9 @@ WSDL обычно используется с веб-сервисами SOAP/XML
   изменений различным потребителям.
 
 ---
+**Доп. материал:**
+- [Rapid Application Development With API First Approach Using Open-API Generator](https://dzone.com/articles/rapid-api-development-using-open-api-generator)
+- [Implementing an API-First Design Methodology](https://dzone.com/articles/implementing-an-api-first-design-methodology)
+
+---
 См. [комментарии к статье в русском исходнике](https://habr.com/ru/articles/483206/).
