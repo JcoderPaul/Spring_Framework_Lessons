@@ -1,4 +1,4 @@
-  - [См. исходник (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.HeadersBuilder.html)
+- [См. исходник (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.HeadersBuilder.html)
 
 ---
 ### Interface ResponseEntity.HeadersBuilder<B extends ResponseEntity.HeadersBuilder<B>>
@@ -20,20 +20,25 @@
 ---
 #### Методы:
 
+---
 - `B allow(HttpMethod... allowedMethods)` - Установливает набор разрешенных HTTP methods, как указано в Allow заголовке.
 
 **См. так же:** [HttpHeaders.setAllow(Set)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
+---
 - `<T> ResponseEntity<T> build()` - Создает объект ответа без тела.
 
+---
 - `B cacheControl(CacheControl cacheControl)` - Устанавливет директивы кэширования для ресурса, как указано в Cache-Control заголовке HTTP 1.1. Экземпляр CacheControl может быть построен как CacheControl.maxAge(3600).cachePublic().noTransform().
 
 **Параметры:** cacheControl- построитель заголовков HTTP-ответов, связанных с кешем.
 
+---
 - `B eTag(String etag)` - Устанавливает тег сущности тела, как указано в ETag заголовке.
 
 **См. так же:** [HttpHeaders.setETag(String)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
+---
 - `B header(String headerName, String... headerValues)` - Добавляет заданное одно значение заголовка под заданным именем.
 
 **Параметры:** 
@@ -42,6 +47,7 @@
 
 **См. так же:** [HttpHeaders.add(String, String)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
+---
 - `B headers(Consumer<HttpHeaders> headersConsumer)` - Управляет заголовками этого объекта с помощью данного потребителя.
 
 Заголовки, предоставляемые потребителю, являются «живыми», поэтому потребитель может использоваться для перезаписи существующих значений заголовков, удаления значений или использования любых других HttpHeaders методов.
@@ -49,6 +55,7 @@
 **Параметры:** 
 - headersConsumer- функция, которая потребляет HttpHeaders;
 
+---
 - `B headers(HttpHeaders headers)` - Скопирует данные заголовки в карту заголовков объекта.
 
 **Параметры:** 
@@ -56,6 +63,7 @@
 
 **См. так же:** [HttpHeaders.add(String, String)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
+---
 - `B lastModified(long lastModified)` - Устанавливает время последнего изменения ресурса, как указано в Last-Modified заголовке. Дата должна быть указана как количество миллисекунд с 1 января 1970 г. по Гринвичу.
 
 **Параметры:** 
@@ -63,6 +71,7 @@
 
 **См. так же:** [HttpHeaders.setLastModified(long)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
+---
 - B lastModified(Instant lastModified) - Устанавливает время последнего изменения ресурса, как указано в Last-Modified заголовке.
 
 **Параметры:**
@@ -70,6 +79,7 @@
 
 **См. так же:** [HttpHeaders.setLastModified(Instant)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
+---
 - `B lastModified(ZonedDateTime lastModified)` - Устанавливает время последнего изменения ресурса, как указано в Last-Modified заголовке.
 
 **Параметры:** 
@@ -77,7 +87,7 @@
 
 **См. так же:** [HttpHeaders.setLastModified(ZonedDateTime)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
-
+---
 - `B location(URI location)` - Устанавливает расположение ресурса, указанное в заголовке Location.
 
 **Параметры:** 
@@ -85,6 +95,7 @@
 
 **См. так же:** [HttpHeaders.setLocation(URI)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
+---
 - `B varyBy(String... requestHeaders)` - Настраивает одно или несколько имен заголовков запроса (например, «Accept-Language»), чтобы добавить их к заголовку ответа «Vary», чтобы информировать клиентов о том, что ответ подлежит согласованию содержимого и отклонениям в зависимости от значения заданных заголовков запроса. Настроенные имена заголовков запроса добавляются, только если они еще не присутствуют в заголовке ответа «Vary».
 
 **Параметры:** 
