@@ -56,7 +56,7 @@
 - headersConsumer- функция, которая потребляет HttpHeaders;
 
 ---
-- `B headers(HttpHeaders headers)` - Скопируйте данные заголовки в карту заголовков объекта.
+- `B headers(HttpHeaders headers)` - Скопирует данные заголовки в карту заголовков объекта.
 
 **Параметры:** 
 - headers - существующие HttpHeaders для копирования;
@@ -72,7 +72,7 @@
 **См. так же:** [HttpHeaders.setLastModified(long)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
 ---
-- B lastModified(Instant lastModified) - Установите время последнего изменения ресурса, как указано в Last-Modified заголовке.
+- B lastModified(Instant lastModified) - Устанавливает время последнего изменения ресурса, как указано в Last-Modified заголовке.
 
 **Параметры:**
 - lastModified - дата последнего изменения;
@@ -80,7 +80,7 @@
 **См. так же:** [HttpHeaders.setLastModified(Instant)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
 ---
-- `B lastModified(ZonedDateTime lastModified)` - Установите время последнего изменения ресурса, как указано в Last-Modified заголовке.
+- `B lastModified(ZonedDateTime lastModified)` - Устанавливает время последнего изменения ресурса, как указано в Last-Modified заголовке.
 
 **Параметры:** 
 - lastModified - дата последнего изменения;
@@ -88,7 +88,7 @@
 **См. так же:** [HttpHeaders.setLastModified(ZonedDateTime)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
 ---
-- `B location(URI location)` - Установите расположение ресурса, указанное в заголовке Location.
+- `B location(URI location)` - Устанавливает расположение ресурса, указанное в заголовке Location.
 
 **Параметры:** 
 - location - Местоположение (локаль);
@@ -96,7 +96,7 @@
 **См. так же:** [HttpHeaders.setLocation(URI)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html)
 
 ---
-- `B varyBy(String... requestHeaders)` - Настройте одно или несколько имен заголовков запроса (например, «Accept-Language»), чтобы добавить их к заголовку ответа «Vary», чтобы информировать клиентов о том, что ответ подлежит согласованию содержимого и отклонениям в зависимости от значения заданных заголовков запроса. Настроенные имена заголовков запроса добавляются, только если они еще не присутствуют в заголовке ответа «Vary».
+- `B varyBy(String... requestHeaders)` - Настраивает одно или несколько имен заголовков запроса (например, «Accept-Language»), чтобы добавить их к заголовку ответа «Vary», чтобы информировать клиентов о том, что ответ подлежит согласованию содержимого и отклонениям в зависимости от значения заданных заголовков запроса. Настроенные имена заголовков запроса добавляются, только если они еще не присутствуют в заголовке ответа «Vary».
 
 **Параметры:** 
 - requestHeaders - запросить имена заголовков;
