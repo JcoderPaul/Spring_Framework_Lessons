@@ -1,7 +1,7 @@
 - [См. исходник (ENG)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.HeadersBuilder.html)
 
 ---
-### Interface ResponseEntity.HeadersBuilder<B extends ResponseEntity.HeadersBuilder<B>>
+### Interface `ResponseEntity.HeadersBuilder<B extends ResponseEntity.HeadersBuilder<B>>`
 
 **Пакет:**  [org.springframework.http](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/package-summary.html)
 
