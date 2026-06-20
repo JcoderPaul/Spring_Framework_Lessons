@@ -15,7 +15,7 @@ java.lang.Object
 
 ```java
     public class ResponseEntity<T> extends HttpEntity<T>
----
+```
 
 Расширение [HttpEntity](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpEntity.html), добавляющее код состояния [HttpStatusCode](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpStatusCode.html). Используется в RestTemplate, а также в методах
 @Controller. В RestTemplate этот класс возвращается методами [getForEntity()](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html#getForEntity(java.lang.String,java.lang.Class,java.lang.Object...)) и [exchange()](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html#exchange(java.lang.String,org.springframework.http.HttpMethod,org.springframework.http.HttpEntity,java.lang.Class,java.lang.Object...)):
