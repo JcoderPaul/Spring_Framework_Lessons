@@ -133,7 +133,7 @@ java.lang.Object
 
 ---
 **См. доп.:**
-- [Using Spring ResponseEntity to Manipulate the HTTP Response](https://www.baeldung.com/spring-response-entity) / [Использование Spring ResponseEntity для управления HTTP-ответом](../ResponseEntity/ResponseEntityExample.md)
+- [Using Spring ResponseEntity to Manipulate the HTTP Response (ENG)](https://www.baeldung.com/spring-response-entity) / [Использование Spring ResponseEntity для управления HTTP-ответом (RUS)](../ResponseEntity/ResponseEntityExample.md)
 - [Spring ResponseEntity best practice](https://stackoverflow.com/questions/49732262/spring-responseentity-best-practice)
 - [Using ResponseEntity for Spring HTTP Responses ](https://codingnomads.com/spring-responseentity)
 - [Изучаем ResponseEntity<?> и избавляемся от него в контроллерах Spring (by habr.com)](https://habr.com/ru/articles/675716/?ysclid=mqlsj66lle817340281)
