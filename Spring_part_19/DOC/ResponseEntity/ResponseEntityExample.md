@@ -111,8 +111,8 @@ ResponseEntity<String> customHeader() {
 Возвращая объект `ResponseEntity<T>` из контроллера, мы можем получить исключение или ошибку во время обработки запроса и
 хотели бы вернуть информацию, связанную с ошибкой, пользователю, представленному как какой-либо другой тип, скажем, E.
 
-В Spring 3.2 реализована поддержка глобального @ExceptionHandler-а с новой аннотацией [@ControllerAdvice](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ControllerAdvice.html) см. [Exception_Handling](../Exception_Handling), которая обрабатывает подобные сценарии. Более подробную 
-информацию можно найти в нашей существующей статье здесь - [Error Handling for REST with Spring](https://www.baeldung.com/exception-handling-for-rest-with-spring).
+В Spring 3.2 реализована поддержка глобального @ExceptionHandler-а с новой аннотацией [@ControllerAdvice](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ControllerAdvice.html) см. [Обработка исключений в Spring MVC](../Exception_Handling/Spring_MVC_Exception_Handling.md), 
+которая обрабатывает подобные сценарии. Более подробную информацию можно найти в нашей существующей статье здесь - [Error Handling for REST with Spring](https://www.baeldung.com/exception-handling-for-rest-with-spring).
 
 Хотя ResponseEntity очень мощный инструмент, нам не следует злоупотреблять им. В простых случаях есть и другие варианты,
 которые удовлетворяют наши потребности и приводят к более чистому коду.
