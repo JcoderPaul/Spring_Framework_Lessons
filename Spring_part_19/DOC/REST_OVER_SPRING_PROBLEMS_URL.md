@@ -4,8 +4,7 @@
 ### REST через Spring: Строгое отображение URL в ресурс
 
 Как вы знаете Spring MVC использует новую модель конфигурации на основе аннотаций начиная с версии 2.5. Чтобы получить
-эти плюшки, нужно использовать тег `<mvc:annotation-driven />` в файле конфигурации. Этот тег регистрирует
-[DefaultAnnotationHandlerMapping, deprecated: It was deprecated in Spring 3.2](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/web/servlet/mvc/annotation/DefaultAnnotationHandlerMapping.html) и [AnnotationMethodHandlerAdaptor](https://docs.spring.io/spring-framework/docs/4.3.1.RELEASE/javadoc-api/org/springframework/web/servlet/mvc/annotation/AnnotationMethodHandlerAdapter.html) в контексте приложения.
+эти плюшки, нужно использовать тег `<mvc:annotation-driven />` в файле конфигурации. Этот тег регистрирует [DefaultAnnotationHandlerMapping, deprecated: It was deprecated in Spring 3.2](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/web/servlet/mvc/annotation/DefaultAnnotationHandlerMapping.html) и [AnnotationMethodHandlerAdaptor](https://docs.spring.io/spring-framework/docs/4.3.1.RELEASE/javadoc-api/org/springframework/web/servlet/mvc/annotation/AnnotationMethodHandlerAdapter.html) в контексте приложения.
 
 DefaultAnnotationHandlerMapping - делает поиск аннотаций [@RequestMapping](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html) 
 в классах и создает отображение на обработчик для каждого плюс два отображения с суффиксамии `.*` и `/` на тот же обработчик. Задача AnnotationMethodHandlerAdaptor-а
