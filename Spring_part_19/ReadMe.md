@@ -111,32 +111,41 @@ Get и Post. И делали это для всех типов действий 
 И это работало, наше приложение - 'сервис' взаимодействовало с пользователем и только. Исходя из материалов по REST, 
 предполагается, что наш сервис будет взаимодействовать не только с живым пользователем, но и с другими сервисами, а 
 значит наше приложение-сервис должно уметь работать с HTTP запросами всех типов и возвращать информацию например в JSON,
-XML и т.п. по 'желанию' стороннего сервиса см. потрясающую статью - [DOC/SimpleAboutREST.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/SimpleAboutREST.txt). 
+XML и т.п. по 'желанию' стороннего сервиса см. потрясающую статью - ["Как я объяснил жене, что такое REST"](../Spring_part_19/DOC/SimpleAboutREST.md). 
 
-Реализуем. Трансформация нашего приложения выглядит так, см. [DOC/OurPastApplication/ReconstructionAppToREST.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/OurPastApplication/ReconstructionAppToREST.jpg). Теперь 
-наши контроллеры будут выстроены исходя из принципов REST API, но это те же HTTP запросы, и ответы будут обрабатываться 
-на стороне пользователя, например, в браузере по средствам [JavaScript](https://ru.wikipedia.org/wiki/JavaScript). И тогда схема приложения будет см.
-[DOC/OurPastApplication/REST_Interaction_Diagram.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/OurPastApplication/REST_Interaction_Diagram.jpg)
+Реализуем. Трансформация нашего приложения выглядит так, см. 
+
+![ReconstructionAppToREST.jpg](../Spring_part_19/DOC/OurPastApplication/ReconstructionAppToREST.jpg). 
+
+Теперь наши контроллеры будут выстроены исходя из принципов REST API, но это те же HTTP запросы, и ответы будут обрабатываться 
+на стороне пользователя, например, в браузере по средствам [JavaScript](https://ru.wikipedia.org/wiki/JavaScript). И тогда схема 
+приложения будет см.
+
+![REST_Interaction_Diagram.jpg](../Spring_part_19/DOC/OurPastApplication/REST_Interaction_Diagram.jpg)
 
 - Шаг. 1 - Мы явным образом должны отключить ModelAndView (установить в null), тогда резолверы занимающиеся отрисовкой
 Model будут дезактивированы и мы сможем вернуть в методе данные 'так как они есть'. Это делается расстановкой аннотации
 [@ResponseBody](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html) над методами (или классом).
-- Шаг. 2 - Создаем папку [rest в папке http](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_19/src/main/java/spring/oldboy/http/rest) нашего приложения, туда мы поместим наш первый Rest контроллер.
-- Шаг. 3 - Создаем наш первый [Rest контроллер на базе UserController](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java), т.е. он будет реализовывать тоже CRUD функционал, но
-с 'REST размахом'.
-- Шаг. 4. - Реализуем простой метод [*.simpleStringResponse()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L50), в нем уже нет Model, а значит и загрузки атрибутов для 
+- Шаг. 2 - Создаем папку [rest в папке http](../Spring_part_19/src/main/java/spring/oldboy/http/rest) нашего приложения, туда мы поместим наш первый Rest контроллер.
+- Шаг. 3 - Создаем наш первый [Rest контроллер на базе UserController](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java), т.е. он будет
+реализовывать тоже CRUD функционал, но с 'REST размахом'.
+- Шаг. 4. - Реализуем простой метод [*.simpleStringResponse()](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L50), в нем уже нет Model, а значит и загрузки атрибутов для 
 ответа на запрос, в идеале - те данные которые возвращает метод будут возвращены пользователю, тут это будет обычный 
 String. 
 
-Запускаем наше приложение [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/SpringAppRunner.java) и в браузере вводим [http://localhost:8080/api/v1/users/string](http://localhost:8080/api/v1/users/string),
+Запускаем наше приложение [SpringAppRunner.java](../Spring_part_19/src/main/java/spring/oldboy/SpringAppRunner.java) и в браузере вводим [http://localhost:8080/api/v1/users/string](http://localhost:8080/api/v1/users/string),
 ответом будет простая строка - 'String response', Content type определен как text, см. 
-[DOC/OurRestAppStepByStep/findAllStringResponse.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/OurRestAppStepByStep/findAllStringResponse.jpg) браузер сам преобразовал возвращенные данные в удобочитаемый вид,
-и HTML код страницы прост:
 
+![findAllStringResponse.jpg](../Spring_part_19/DOC/OurRestAppStepByStep/findAllStringResponse.jpg) 
+
+браузер сам преобразовал возвращенные данные в удобочитаемый вид, и HTML код страницы прост:
+
+```html
     <html>
         <head></head>
         <body>String response</body>
     </html>
+```
 
 И так мы аннотировали метод [@ResponseBody](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html) и он возвращает String или обычный текст, что мы и получили. Если же мы 
 захотим вернуть объект, то клиент запросивший данные скорее всего получит JSON. Проверим это.
