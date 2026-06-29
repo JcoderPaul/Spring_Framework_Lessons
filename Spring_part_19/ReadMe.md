@@ -150,13 +150,17 @@ String.
 И так мы аннотировали метод [@ResponseBody](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html) и он возвращает String или обычный текст, что мы и получили. Если же мы 
 захотим вернуть объект, то клиент запросивший данные скорее всего получит JSON. Проверим это.
 
-- Шаг. 5 - Реализуем метод [*.findAll() возвращающий PagePaginationResponse<UserReadDto>](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L63), т.е. список User-ов, в метод 
+- Шаг. 5 - Реализуем метод [*.findAll() возвращающий PagePaginationResponse<UserReadDto>](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L63), т.е. список User-ов, в метод 
 передавать ничего не будем, т.е. и фильтрация и пагинация будут - 'by default'. Запускаем приложение и обращаемся к:
 [http://localhost:8080/api/v1/users](http://localhost:8080/api/v1/users)
 
-На экране мы видим JSON ответ см. [DOC/OurRestAppStepByStep/http_localhost_8080_api_v1_users.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/OurRestAppStepByStep/http_localhost_8080_api_v1_users.jpg), и конечно Content type:
-JSON, что мы и видим на экране в HTML кодировке:   
+На экране мы видим JSON ответ см. 
 
+![http_localhost_8080_api_v1_users.jpg](../Spring_part_19/DOC/OurRestAppStepByStep/http_localhost_8080_api_v1_users.jpg)
+
+И конечно Content type → JSON, что мы и видим на экране в HTML кодировке:   
+
+```html
     <html>
         <head><meta name="color-scheme" content="light dark"></head>
         <body><pre style="word-wrap: break-word; white-space: pre-wrap;">
@@ -171,86 +175,87 @@ JSON, что мы и видим на экране в HTML кодировке:
               </pre>
         </body>
     </html>
+```
     
 Естественно мы можем управлять Content-type и при запросе (request) и при ответе (response), для этого в наши аннотации
-над методами, например, [@GetMapping мы передаем параметры, в нашем случае - produces = MediaType.APPLICATION_JSON_VALUE](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L62),
+над методами, например, [@GetMapping мы передаем параметры, в нашем случае - produces = MediaType.APPLICATION_JSON_VALUE](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L62),
 это вариант управления ответом (или produces), получаемые данные (или consumes).
 
 См. док.:
 - [Пакет org.springframework.web.bind.annotation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/package-summary.html) ;
 
-
-________________________________________________________________________________________________________________________
+---
 #### Lesson 96 - Практика ч.2 - расширенный REST контроллер и его CRUD методы.
 
-Переносим оставшиеся в [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java) методы в [UserRestController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java) и преобразуем в полноценные REST методы.
+Переносим оставшиеся в [UserController.java](../Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java) методы в [UserRestController.java](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java) и преобразуем в полноценные REST методы.
 
-- Шаг. 1 - При копировании мы могли сразу опустить (или удалить после вставки) метод [*.registration()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java#L173), т.к. основная 
-цель REST контроллера обмен данными между сервисами. Для регистрации user-ов у нас есть обычные контроллеры, они никуда 
-не делись.
-- Шаг. 2 - Корректируем метод [*.findById()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L73), удаляем модель, лишние аддеры в модель, наш метод будет возвращать 
-[UserReadDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/dto/UserReadDto.java) или в случае отсутствия записи с предложенной ID просто вернем 404 статус (без изысков).
-- Шаг. 3 - Метод [*.create()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L87) возвращает просто созданную в БД запись или UserReadDto. Из метода полностью удалям 
+- Шаг. 1 - При копировании мы могли сразу опустить (или удалить после вставки) метод [*.registration()](../Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java#L173), т.к. основная 
+цель REST контроллера обмен данными между сервисами. Для регистрации user-ов у нас есть обычные контроллеры, они никуда не делись.
+- Шаг. 2 - Корректируем метод [*.findById()](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L73), удаляем модель, лишние аддеры в модель, наш метод будет возвращать 
+[UserReadDto](../Spring_part_19/src/main/java/spring/oldboy/dto/UserReadDto.java) или в случае отсутствия записи с предложенной ID просто вернем 404 статус (без изысков).
+- Шаг. 3 - Метод [*.create()](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L87) возвращает просто созданную в БД запись или UserReadDto. Из метода полностью удалям 
 BindingResult и RedirectAttributes (мы никуда не перенаправляем ответ, а возвращаем данные при удачном их создании).
 
 Особенности метода в том, что данные в него придут НЕ с внешней формы, а в теле запроса с внешнего сервиса в формате JSON.
-Для этого в аннотацию [@PostMapping метода передаем параметр - consumes = MediaType.APPLICATION_JSON_VALUE](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L79), т.е. явно 
+Для этого в аннотацию [@PostMapping метода передаем параметр - consumes = MediaType.APPLICATION_JSON_VALUE](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L79), т.е. явно 
 указываем, что 'ожидаем запрос с JSON в теле'. Параметр самого метода также аннотируем, как [@RequestBody](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestBody.html).
 
-- Шаг. 4 - Корректируем метод [*.update()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L94), теперь он как и положено аннотирован [@PutMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PutMapping.html) см. 
-[DOC/REST_API/6_Rest_API_Best_Practices.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/REST_API/6_Rest_API_Best_Practices.txt) или [DOC/ShortAboutREST.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/ShortAboutREST.txt). Аргумент метода user получил аннотацию 
-[@RequestBody](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L96), как и в предыдущем методе, т.е. запрос на обновление будет приходить в теле запроса в JSON формате с 
-какого либо внешнего сервиса.
+- Шаг. 4 - Корректируем метод [*.update()](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L94), теперь он как и положено аннотирован [@PutMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PutMapping.html) см. 
+["Рекомендации по REST API — примеры проектирования веб-сервисов на Java и Spring"](../Spring_part_19/DOC/REST_API/6_Rest_API_Best_Practices.md) или ["Архитектура REST"](../Spring_part_19/DOC/ShortAboutREST.md). Аргумент метода user получил аннотацию [@RequestBody](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L96),
+как и в предыдущем методе, т.е. запрос на обновление будет приходить в теле запроса в JSON формате с какого либо внешнего сервиса.
 
 Тут мы снова никуда не перенаправляем нашего пользователя (или сервис обратившийся к нашему приложению), а возвращаем 
-данные 'как есть' в формате [UserReadDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/dto/UserReadDto.java). Если запрос нужно как-то преобразовать в некий удобочитаемый формат, то это
-происходит на стороне клиента (т.е. того кто сделал запрос)
+данные 'как есть' в формате [UserReadDto](../Spring_part_19/src/main/java/spring/oldboy/dto/UserReadDto.java). Если запрос 
+нужно как-то преобразовать в некий удобочитаемый формат, то это происходит на стороне клиента (т.е. того кто сделал запрос)
 
-- Шаг. 5 - Изменяем метод (пишем с нуля, кому как нравится) [*.delete()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L104). Он получает, как и положено аннотацию 
-[@DeleteMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/DeleteMapping.html) в параметры аннотации идет ID удаляемой записи. В случае удачной операции мы ничего не возвращаем,
-поэтому метод становится void и получает аннотацию [@ResponseStatus(HttpStatus.NO_CONTENT)](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L103). Естественно если запрошенного 
-ID в базе не существует мы возвращаем NOT_FOUND или 404 статус. 
+- Шаг. 5 - Изменяем метод (пишем с нуля, кому как нравится) [*.delete()](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L104). Он получает, как и положено аннотацию [@DeleteMapping](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/DeleteMapping.html) в параметры аннотации идет ID удаляемой записи. В случае удачной операции мы ничего не возвращаем, поэтому метод становится void и получает аннотацию [@ResponseStatus(HttpStatus.NO_CONTENT)](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L103). Естественно если запрошенного ID в базе не существует мы возвращаем NOT_FOUND или 404 статус. 
 
 Мы явно не аннотировали наши методы, как [@ResponseBody](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html), сам класс не пометили как [@Controller](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Controller.html). Зато мы применили 
 аннотацию [@RestController](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RestController.html) объединяющую в себе эти две аннотации важные для нас ([можно глянуть внутреннюю структуру
 этой аннотации для наглядности](https://github.com/spring-projects/spring-framework/blob/main/spring-web/src/main/java/org/springframework/web/bind/annotation/RestController.java)).
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 97 - Практика ч.3 - обработчик ошибок для REST контроллеров.
 
-Мы уже писали обработчик ошибок для наших обычных контроллеров [ControllerExceptionHandler.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/handler/ControllerExceptionHandler.java), немного изменим его,
-добавив параметр в аннотацию [@ControllerAdvice(basePackages = "spring.oldboy.http.controller")](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/handler/ControllerExceptionHandler.java#L18).
+Мы уже писали обработчик ошибок для наших обычных контроллеров [ControllerExceptionHandler.java](../Spring_part_19/src/main/java/spring/oldboy/http/handler/ControllerExceptionHandler.java), немного изменим его, добавив параметр в аннотацию [@ControllerAdvice(basePackages = "spring.oldboy.http.controller")](../Spring_part_19/src/main/java/spring/oldboy/http/handler/ControllerExceptionHandler.java#L18).
 
 Шаг. 1 - Создадим обработчик ошибок нашего REST контроллера. В папку spring/oldboy/http/handler добавим наш обработчик
-ошибок REST контролера - [RestControllerExceptionHandler.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/handler/RestControllerExceptionHandler.java).
+ошибок REST контролера - [RestControllerExceptionHandler.java](../Spring_part_19/src/main/java/spring/oldboy/http/handler/RestControllerExceptionHandler.java).
 
 Особенности данного обработчика это аннотация [@RestControllerAdvice](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/RestControllerAdvice.html), тут мы явно видим намек на то, что идет обработка
-REST методов, в параметрах явно указываем связь с папкой 'rest' - [basePackages = "spring.oldboy.http.rest"](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/handler/RestControllerExceptionHandler.java#L6)
+REST методов, в параметрах явно указываем связь с папкой 'rest' - [basePackages = "spring.oldboy.http.rest"](../Spring_part_19/src/main/java/spring/oldboy/http/handler/RestControllerExceptionHandler.java#L6)
 
 См. док. (код):
 - [Пакет org.springframework.web.bind.annotation (doc)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/package-summary.html) ;
 - [Пакте org.springframework.web.bind.annotation (на GitHub)](https://github.com/spring-projects/spring-framework/tree/main/spring-web/src/main/java/org/springframework/web/bind/annotation) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 98 - Ручное тестирование REST методов, SWAGGER API DOCs.
 
 При работе с ранними версиями Spring применялись другие библиотеки и прописывались другие зависимости, например:
 
+```
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+```
 
 или 
 
+```
     implementation "org.springdoc:springdoc-openapi-ui:1.7.0"
+```
 
 Изучая примеры 2-х летней давности понял, что с текущей версией Spring Boot, при подключении их, могут возникнуть 
 определенные затруднения, изучив вопрос на stackoverflow понял, как новичку, эти горы мне не взять. Как я понял, при 
 наличии Spring Security внедрение Swagger-a будет такой же веселой, но это позже. Поэтому пока, подключим в Spring 
-зависимость для Swagger немного по-другому ([build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/build.gradle)):
+зависимость для Swagger немного по-другому ([build.gradle](../Spring_part_19/build.gradle)):
 
+```
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.springdoc}"
+```
 
-Пропишем версию библиотеки в ([version.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/version.gradle)):
+Пропишем версию библиотеки в ([version.gradle](../Spring_part_19/version.gradle)):
 
+```
     ext {
         versions = [
             'testcontainers': '1.17.6',
@@ -258,6 +263,7 @@ ________________________________________________________________________________
             'springdoc': '2.3.0'
         ]
     }
+```
 
 Судя по подключенным зависимостям мы подключили те же библиотеки (или очень похожие), что были бы в первых двух случаях.
 
@@ -271,19 +277,18 @@ ________________________________________________________________________________
 методов.
 
 Особенность подключенного Swagger-a в том, что он реализован, как spring boot starter. Это позволяем управлять 
-настройками Swagger-а через наш [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/application.yml) используя префикс "springdoc".
+настройками Swagger-а через наш [application.yml](../Spring_part_19/src/main/resources/application.yml) используя префикс "springdoc".
 
-Для получения описание нашего приложения Swagger-ом (наше приложение должно быть запущено!), нам нужно обратиться по - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs). Тут мы 
-получим JSON одной строкой, скопируем в созданный нами файл - [resources/test.json](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/test.json) (применим к файлу Ctrl+Alt+Shift+L) и 
+Для получения описание нашего приложения Swagger-ом (наше приложение должно быть запущено!), нам нужно обратиться по - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs). Тут мы получим JSON одной строкой, скопируем в созданный нами файл - [resources/test.json](../Spring_part_19/src/main/resources/test.json) (применим к файлу Ctrl+Alt+Shift+L) и 
 получим удобочитаемый JSON файл. К интерфейсу Swagger-a обратимся по - [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
-Теперь мы имеем наглядную схему API нашего приложения [resources/test.json](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/test.json), подробно описаны методы, их входные и 
+Теперь мы имеем наглядную схему API нашего приложения [resources/test.json](../Spring_part_19/src/main/resources/test.json), подробно описаны методы, их входные и 
 выходные параметры, наша модель и т.д. В web-интерфейсе нам доступны методы приложения и мы можем делать те запросы для
 которых они были написаны. Т.е. мы можем попробовать в действии запросы GET, PUT, DELETE, POST и т.д. При этом, можем 
 передавать и json формат в тех запросах, где это нужно и сразу видеть результаты, и Request URL и Response Body и код 
 ответа от сервера и Response Headers. Мы так же можем специально передавать ошибки и видеть результаты.
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 99 - Upload-image - 'загрузка картинок' в таблицу users БД.
 
 Особенность нашего (и не только) REST контроллера в том, что он возвращает данные 'как есть', это удобно если мы 
@@ -293,12 +298,11 @@ ________________________________________________________________________________
 - затем отобразим ее на странице user-a;
 
 - Шаг. 1 - Создадим в таблицах users и users_aud поля для ссылок на загруженные картинки. Для этого мы создаем файл - 
-[resources/db/changelog/db.changelog-3.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/db/changelog/db.changelog-3.0.sql) в котором прописываем скрипты для изменения таблиц. Мы не храним сами 
-картинки в БД, а только ссылки на них. Реальные картинки положим в корень нашего приложения, а в сети они могут 
-храниться, как на площадях хостинг провайдера, так и в облаке.
-- Шаг. 2 - Добавляем наш новый [resources/db/changelog/db.changelog-3.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/db/changelog/db.changelog-3.0.sql) в [db.changelog-master.yaml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/db/changelog/db.changelog-master.yaml). Запускаем 
-приложение и проверяем, внедрились ли наши изменения в таблицы БД:
+[resources/db/changelog/db.changelog-3.0.sql](../Spring_part_19/src/main/resources/db/changelog/db.changelog-3.0.sql) в котором прописываем скрипты для изменения таблиц. Мы не храним сами 
+картинки в БД, а только ссылки на них. Реальные картинки положим в корень нашего приложения, а в сети они могут храниться, как на площадях хостинг провайдера, так и в облаке.
+- Шаг. 2 - Добавляем наш новый [resources/db/changelog/db.changelog-3.0.sql](../Spring_part_19/src/main/resources/db/changelog/db.changelog-3.0.sql) в [db.changelog-master.yaml](../Spring_part_19/src/main/resources/db/changelog/db.changelog-master.yaml). Запускаем приложение и проверяем, внедрились ли наши изменения в таблицы БД:
 
+```
       INFO 9848 --- [main] liquibase.database    : Set default schema name to public
       INFO 9848 --- [main] liquibase.changelog   : Reading from public.databasechangelog
       INFO 9848 --- [main] liquibase.lockservice : Successfully acquired change log lock
@@ -323,19 +327,18 @@ ________________________________________________________________________________
                                                    Liquibase: Update has been successful. Rows affected: 2
       INFO 9848 --- [main] liquibase.lockservice : Successfully released change log lock
       INFO 9848 --- [main] liquibase.command     : Command execution complete
+```
 
 - Шаг. 3 - Создадим сервис для загрузки-сохранения картинок на жесткий диск нашего компьютера см. комментарии в 
-[spring/oldboy/service/ImageService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/service/ImageService.java)
-- Шаг. 4 - В форму регистрации - [resources/templates/user/registration.html](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/templates/user/registration.html), добавим [кнопку загрузить аватарку](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/templates/user/registration.html#L31) и 
-поменяем атрибут в [enctype="multipart/form-data"](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/templates/user/registration.html#L16).
+[spring/oldboy/service/ImageService.java](../Spring_part_19/src/main/java/spring/oldboy/service/ImageService.java)
+- Шаг. 4 - В форму регистрации - [resources/templates/user/registration.html](../Spring_part_19/src/main/resources/templates/user/registration.html), добавим [кнопку загрузить аватарку](../Spring_part_19/src/main/resources/templates/user/registration.html#L31) и 
+поменяем атрибут в [enctype="multipart/form-data"](../Spring_part_19/src/main/resources/templates/user/registration.html#L16).
 - Шаг. 5 - В форму отображения user-ов так же добавляем возможность отображать и изменять аватар, это файл - 
-[resources/templates/user/user.html](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/templates/user/user.html). В нем нужно провести те же изменения, что и на шаге 4, т.е. добавить атрибут
-[enctype="multipart/form-data"](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/templates/user/user.html#L10)
-- Шаг. 6 - В нашем обычном контроллере [UserController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java) в методах [*.create()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java#L215) и [*.update()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java#L240) мы очень удачно используем 
-один и тот же DTO - [UserCreateEditDto.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/dto/UserCreateEditDto.java), который мы немного подправим. Для загрузки и отображения img - аватарки, 
-нам нужно еще поле. В [org.springframework.web.multipart](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/multipart/package-summary.html) есть специальный класс реализующий [MultipartFile](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/multipart/MultipartFile.html), его и добавляем. Имя поля 'image' в 
-UserCreateEditDto:
+[resources/templates/user/user.html](../Spring_part_19/src/main/resources/templates/user/user.html). В нем нужно провести те же изменения, что и на шаге 4, т.е. добавить атрибут
+[enctype="multipart/form-data"](../Spring_part_19/src/main/resources/templates/user/user.html#L10)
+- Шаг. 6 - В нашем обычном контроллере [UserController.java](../Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java) в методах [*.create()](../Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java#L215) и [*.update()](../Spring_part_19/src/main/java/spring/oldboy/http/controller/UserController.java#L240) мы очень удачно используем один и тот же DTO - [UserCreateEditDto.java](../Spring_part_19/src/main/java/spring/oldboy/dto/UserCreateEditDto.java), который мы немного подправим. Для загрузки и отображения img - аватарки, нам нужно еще поле. В [org.springframework.web.multipart](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/multipart/package-summary.html) есть специальный класс реализующий [MultipartFile](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/multipart/MultipartFile.html), его и добавляем. Имя поля 'image' в UserCreateEditDto:
 
+```java
       @Value
       @FieldNameConstants
       @UserInfo(groups = CreateAction.class)
@@ -345,76 +348,73 @@ UserCreateEditDto:
           
           MultipartFile image;
       }
+```
 
 Должно совпадать с именем переменной 'name' в теге 'input' формы:
 
+```html
       <label for="image">Image:
           <input id="image" type="file" name="image">
       </label><br>
+```
 
-- Шаг. 8 - Добавим в нашу сущность [User](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/database/entity/User.java) - поле [String image](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/database/entity/User.java#L68);
-- Шаг. 9 - Необходимо отредактировать наш преобразователь сущностей или маппер - [UserCreateEditMapper.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java). Поскольку у
-нас, в БД, могут быть записи без аватарок, то желательно это учесть, как в самом методе, так и в формах. Нам понадобится
-'Кот Шредингера' - Optional, см. код и комментарии [UserCreateEditMapper](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java).
-- Шаг. 10 - Редактируем методы на уровне сервисов, чтобы иметь возможность загрузить картинку-аватарку. В 
-классе [UserService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/service/UserService.java) корректируем методы [*.create()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/service/UserService.java#L125) и [*.update()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/service/UserService.java#L150) см. комментарии в коде методов.
+- Шаг. 8 - Добавим в нашу сущность [User](../Spring_part_19/src/main/java/spring/oldboy/database/entity/User.java) - поле [String image](../Spring_part_19/src/main/java/spring/oldboy/database/entity/User.java#L68);
+- Шаг. 9 - Необходимо отредактировать наш преобразователь сущностей или маппер - [UserCreateEditMapper.java](../Spring_part_19/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java). Поскольку у нас, в БД, могут быть записи без аватарок, то желательно это учесть, как в самом методе, так и в формах. Нам понадобится 'Кот Шредингера' - Optional, см. код и комментарии [UserCreateEditMapper](../Spring_part_19/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java).
+- Шаг. 10 - Редактируем методы на уровне сервисов, чтобы иметь возможность загрузить картинку-аватарку. В классе [UserService.java](../Spring_part_19/src/main/java/spring/oldboy/service/UserService.java) корректируем методы [*.create()](../Spring_part_19/src/main/java/spring/oldboy/service/UserService.java#L125) и [*.update()](../Spring_part_19/src/main/java/spring/oldboy/service/UserService.java#L150) см. комментарии в коде методов.
 
 Запускаем, проверяем.
 
 См. док.:
 - [Пакет org.springframework.web.multipart](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/multipart/package-summary.html) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 100 - Get-image - отображение картинок в 'профиле user-ов'.
 
 В предыдущем примере мы научились 'загружать файл-картинку' в таблицу users нашей БД, конечно только ссылку на нее. 
 Теперь нам хочется отображать картинку-аватар в 'профиле пользователя', т.е. на странице отображения данных о нем.
 
-- Шаг. 1 - Начнем с [ImageService](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/service/ImageService.java), реализуем метод [*.getAvatar()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/service/ImageService.java#L62) для чтения (получения) уже загруженной (установленной) 
+- Шаг. 1 - Начнем с [ImageService](../Spring_part_19/src/main/java/spring/oldboy/service/ImageService.java), реализуем метод [*.getAvatar()](../Spring_part_19/src/main/java/spring/oldboy/service/ImageService.java#L62) для чтения (получения) уже загруженной (установленной) 
 картинки у user-a.
 
 Мы помним, что при получении HTML страницы происходит не один запрос, а такое их количество, которое позволяет загрузить
 все содержимое страницы, т.е. ссылки на картинки, файлы css и т.п. Значит на слое сервисов нам нужен метод позволяющий 
 извлечь картинку из БД. У нас в записи пользователя хранится только название картинки, значит нужно получить ее.
 
-- Шаг. 2 - В классе [UserService](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/service/UserService.java) добавляем метод извлекающий картинку из БД - [*.findAvatar()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/service/UserService.java#L207). К этому методу мы будем 
-обращаться с уровня контроллеров, но на этот раз из [UserRestController-а](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java). 
-- Шаг. 3 - В [UserReadDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/dto/UserReadDto.java) добавим поле [String image](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/dto/UserReadDto.java#L15), чтобы можно было использовать его в HTML форме.
-- Шаг. 4 - В [UserReadMapper](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/mapper/UserReadMapper.java) добавим [object.getImage()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/mapper/UserReadMapper.java#L36), в метод [*.map()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/mapper/UserReadMapper.java#L20).
-- Шаг. 5 - В REST контроллере [UserRestController](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java) создаем метод для поиска аватарок - [*.findAvatar()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L111) с окончательным 
-endpoint-ом: /api/v1/users/[{id}/avatar](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L110), см. аннотации над классом [@RequestMapping("/api/v1/users")](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L37) и методом 
-@GetMapping(value = "/{id}/avatar", . . .). К нему мы и будем обращаться когда захотим получить картинку - аватарку.
-- Шаг. 6 - На странице отображения [resources/templates/user/user.html](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/templates/user/user.html) добавляем [блок с отображением картинки](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/resources/templates/user/user.html#L33):
+- Шаг. 2 - В классе [UserService](../Spring_part_19/src/main/java/spring/oldboy/service/UserService.java) добавляем метод извлекающий картинку из БД - [*.findAvatar()](../Spring_part_19/src/main/java/spring/oldboy/service/UserService.java#L207). К этому методу мы будем обращаться с уровня контроллеров, но на этот раз из [UserRestController-а](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java). 
+- Шаг. 3 - В [UserReadDto](../Spring_part_19/src/main/java/spring/oldboy/dto/UserReadDto.java) добавим поле [String image](../Spring_part_19/src/main/java/spring/oldboy/dto/UserReadDto.java#L15), чтобы можно было использовать его в HTML форме.
+- Шаг. 4 - В [UserReadMapper](../Spring_part_19/src/main/java/spring/oldboy/mapper/UserReadMapper.java) добавим [object.getImage()](../Spring_part_19/src/main/java/spring/oldboy/mapper/UserReadMapper.java#L36), в метод [*.map()](../Spring_part_19/src/main/java/spring/oldboy/mapper/UserReadMapper.java#L20).
+- Шаг. 5 - В REST контроллере [UserRestController](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java) создаем метод для поиска аватарок - [*.findAvatar()](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L111) с окончательным endpoint-ом: /api/v1/users/[{id}/avatar](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L110), см. аннотации над классом [@RequestMapping("/api/v1/users")](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java#L37) и методом @GetMapping(value = "/{id}/avatar", . . .). К нему мы и будем обращаться когда захотим получить картинку - аватарку.
+- Шаг. 6 - На странице отображения [resources/templates/user/user.html](../Spring_part_19/src/main/resources/templates/user/user.html) добавляем [блок с отображением картинки](../Spring_part_19/src/main/resources/templates/user/user.html#L33):
 
+```html
       <div th:if="${user.image}">
           <img th:src="@{/api/v1/users/{userId}/avatar(userId=${user.id})}" alt="User image">
       </div>
+```
 
 Теперь, в случае, если user имеет картинку она будет динамически отображаться на его странице. При этом запрос на поиск
-аватарки пойдет не в UserController, а в [UserRestController](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java), т.к. запрос из блока картинки идет на адрес (endpoint) - 
-/api/v1/users/{userId}/avatar. Если же у user-a вовсе нет картинки, то блок с аватаркой не активируется, th:if - false.  
+аватарки пойдет не в UserController, а в [UserRestController](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestController.java), т.к. запрос из блока картинки идет на адрес (endpoint) - `/api/v1/users/{userId}/avatar`. Если же у user-a вовсе нет картинки, то блок с аватаркой не активируется, `th:if` - false.  
 
 Запускаем, проверяем.
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 101 - Использование ResponseEntity в методах контроллеров.
 
-Для демонстрации кода с методами возвращающими [ResponseEntity](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html) создадим отдельный контроллер - [UserRestControllerV2](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestControllerV2.java), в
+Для демонстрации кода с методами возвращающими [ResponseEntity](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html) создадим отдельный контроллер - [UserRestControllerV2](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestControllerV2.java), в
 котором реализуем только 4-и метода с использованием [ResponseEntity](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html)
 
-В качестве ознакомительной документации см. [DOC/ResponseEntity](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_19/DOC/ResponseEntity) :
-- Достоинства и недостатки ResponseEntity - [DOC/ResponseEntity/ResponseEntityExploring.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/ResponseEntity/ResponseEntityExploring.txt) ;
-- Использование Spring ResponseEntity для управления HTTP-ответом - [DOC/ResponseEntity/ResponseEntityExample.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/ResponseEntity/ResponseEntityExample.txt) ;
-- Описание класса ResponseEntity<T> (офф. док.) - [DOC/ResponseEntity/ResponseEntityClass.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/ResponseEntity/ResponseEntityClass.txt) ;
-- Интерфейс ResponseEntity.HeadersBuilder (офф. док.) - [DOC/ResponseEntity/ResponseEntity.HeadersBuilder.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/ResponseEntity/ResponseEntity.HeadersBuilder.txt) ;
-- Интерфейс ResponseEntity.BodyBuilder (офф. док.) - [DOC/ResponseEntity/ResponseEntity.BodyBuilder.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/ResponseEntity/ResponseEntity.BodyBuilder.txt) ;
+В качестве ознакомительной документации см. [ResponseEntity](../Spring_part_19/DOC/ResponseEntity) :
+- [Достоинства и недостатки ResponseEntity](../Spring_part_19/DOC/ResponseEntity/ResponseEntityExploring.md) ;
+- [Использование Spring ResponseEntity для управления HTTP-ответом](../Spring_part_19/DOC/ResponseEntity/ResponseEntityExample.md) ;
+- [Описание класса ResponseEntity<T> (офф. док.)](../Spring_part_19/DOC/ResponseEntity/ResponseEntityClass.md) ;
+- [Интерфейс ResponseEntity.HeadersBuilder (офф. док.)](../Spring_part_19/DOC/ResponseEntity/ResponseEntity.HeadersBuilder.md) ;
+- [Интерфейс ResponseEntity.BodyBuilder (офф. док.)](../Spring_part_19/DOC/ResponseEntity/ResponseEntity.BodyBuilder.md) ;
 
-Проверить работоспособность методов в [UserRestControllerV2](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestControllerV2.java) можно, как через Swagger, так и через HTTP запрос (для POST 
-и GET методов) см. комментарии к методам в самом классе.
+Проверить работоспособность методов в [UserRestControllerV2](../Spring_part_19/src/main/java/spring/oldboy/http/rest/UserRestControllerV2.java) можно, как через Swagger, так и через HTTP запрос (для POST и GET методов) см. комментарии к методам в самом классе.
 
 См. (при запущенном приложении-сервисе): [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
-________________________________________________________________________________________________________________________
+---
 См. официальные [Guides](https://spring.io/guides):
 - [Getting Started Guides](https://spring.io/guides) - Эти руководства, рассчитанные на 15–30 минут, содержат быстрые
   практические инструкции по созданию «Hello World» для любой задачи разработки с помощью Spring. В большинстве случаев
@@ -424,6 +424,6 @@ ________________________________________________________________________________
 - [Tutorials](https://spring.io/guides#tutorials) - Эти учебники, рассчитанные на 2–3 часа, обеспечивают более глубокое
   контекстное изучение тем разработки корпоративных приложений, что позволяет вам подготовиться к внедрению реальных
   решений.
-________________________________________________________________________________________________________________________
+  
+---
 - [Spring Projects на GitHub](https://github.com/spring-projects) ;
-________________________________________________________________________________________________________________________
