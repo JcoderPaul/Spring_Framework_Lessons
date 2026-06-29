@@ -74,17 +74,17 @@ ________________________________________________________________________________
 #### REST - Введение.
 
 В качестве введения в тему REST собрал, на скорую руку, материал ознакомительный и более специфичный на данном этапе:
-- [Как я объяснил жене, что такое REST](../DOC/SimpleAboutREST.md) - Самая полезная из возможных статей для ознакомления с принципами REST;
-- [Архитектура REST](../DOC/ShortAboutREST.md) - Коротко о REST из WIKI и HABR-a;
-- [Мифология REST](../DOC/RESTs_Mythology.md) - Очень вдумчивая и подробная статья о REST, есть ссылка на GitHub с книгой по API;
-- [REST-сервис на Java — это просто](../DOC/REST_SERVICE_ON_JAVA.md) - Пример написания REST сервиса на Java, немного текста и кода;
-- [REST через Spring: Строгое отображение URL в ресурс](../DOC/REST_OVER_SPRING_PROBLEMS_URL.md) - Рассмотрена проблематика отображения URL в Spring REST контроллерах;
-- [Важные аспекты RESTful API для вашего проекта](../DOC/ImportantAspectsOfRESTfulAPI.md) - Рассмотрена методология и идеология создания REST сервисов;
-- [Взаимодействия - RPC vs REST vs MQ](../DOC/RPCvsRESTvsMQ/RPCvsRESTvsMQ.md);
-- [REST_vs_SOAP](../DOC/REST_vs_SOAP);
-- [REST_API](../DOC/REST_API) - Обширный переводной материал с примерами, рассматриваются: REST, SWAGGER, HATEOAS и т.д.;
-- [JAX-RS](../DOC/JAX-RS);
-- [Умеем ли мы готовить Java, Kotlin RestController?](../DOC/Java_Kotlin_RestController/Java_Kotlin_RestController.md) - Рассмотрен пример взаимодействия Lombok-a, Spring-a и Kotlin при написании REST 
+- [Как я объяснил жене, что такое REST](../Spring_part_19/DOC/SimpleAboutREST.md) - Самая полезная из возможных статей для ознакомления с принципами REST;
+- [Архитектура REST](../Spring_part_19/DOC/ShortAboutREST.md) - Коротко о REST из WIKI и HABR-a;
+- [Мифология REST](../Spring_part_19/DOC/RESTs_Mythology.md) - Очень вдумчивая и подробная статья о REST, есть ссылка на GitHub с книгой по API;
+- [REST-сервис на Java — это просто](../Spring_part_19/DOC/REST_SERVICE_ON_JAVA.md) - Пример написания REST сервиса на Java, немного текста и кода;
+- [REST через Spring: Строгое отображение URL в ресурс](../Spring_part_19/DOC/REST_OVER_SPRING_PROBLEMS_URL.md) - Рассмотрена проблематика отображения URL в Spring REST контроллерах;
+- [Важные аспекты RESTful API для вашего проекта](../Spring_part_19/DOC/ImportantAspectsOfRESTfulAPI.md) - Рассмотрена методология и идеология создания REST сервисов;
+- [Взаимодействия - RPC vs REST vs MQ](../Spring_part_19/DOC/RPCvsRESTvsMQ/RPCvsRESTvsMQ.md);
+- [REST_vs_SOAP](../Spring_part_19/DOC/REST_vs_SOAP);
+- [REST_API](../Spring_part_19/DOC/REST_API) - Обширный переводной материал с примерами, рассматриваются: REST, SWAGGER, HATEOAS и т.д.;
+- [JAX-RS](../Spring_part_19/DOC/JAX-RS);
+- [Умеем ли мы готовить Java, Kotlin RestController?](../Spring_part_19/DOC/Java_Kotlin_RestController/Java_Kotlin_RestController.md) - Рассмотрен пример взаимодействия Lombok-a, Spring-a и Kotlin при написании REST 
 контроллеров;
 
 Ссылки на исходные материалы содержаться в статьях, можно изучить познавательные комментарии и полезные ссылки не 
