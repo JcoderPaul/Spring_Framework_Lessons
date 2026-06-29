@@ -101,7 +101,7 @@ Get и Post. И делали это для всех типов действий 
 
 Происходило следующее см. 
 
-![OurAppRestrictions.jpg](../DOC/OurPastApplication/OurAppRestrictions.jpg): 
+![OurAppRestrictions.jpg](../Spring_part_19/DOC/OurPastApplication/OurAppRestrictions.jpg): 
 
 - пользователь делал через браузер запрос;
 - запрос подхватывал интегрированный (embedded) в приложение TomCat;
