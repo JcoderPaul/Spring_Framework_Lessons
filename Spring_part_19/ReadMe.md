@@ -15,6 +15,7 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________
 Для начала проведем предварительную подготовку (подгрузим зависимости в build.gradle):
 
+```
     /* 
        Плагин Spring Boot добавляет необходимые задачи в Gradle 
        и имеет обширную взаимосвязь с другими plugin-ами.
@@ -67,22 +68,23 @@ ________________________________________________________________________________
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+```
 
-________________________________________________________________________________________________________________________
+---
 #### REST - Введение.
 
 В качестве введения в тему REST собрал, на скорую руку, материал ознакомительный и более специфичный на данном этапе:
-- [DOC/SimpleAboutREST.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/SimpleAboutREST.txt) - Самая полезная из возможных статей для ознакомления с принципами REST;
-- [DOC/ShortAboutREST.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/ShortAboutREST.txt) - Коротко о REST из WIKI и HABR-a;
-- [DOC/RESTs_Mythology.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/RESTs_Mythology.txt) - Очень вдумчивая и подробная статья о REST, есть ссылка на GitHub с книгой по API;
-- [DOC/REST_SERVICE_ON_JAVA.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/REST_SERVICE_ON_JAVA.txt) - Пример написания REST сервиса на Java, немного текста и кода;
-- [DOC/REST_OVER_SPRING_PROBLEMS_URL.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/REST_OVER_SPRING_PROBLEMS_URL.txt) - Рассмотрена проблематика отображения URL в Spring REST контроллерах;
-- [DOC/ImportantAspectsOfRESTfulAPI.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/ImportantAspectsOfRESTfulAPI.txt) - Рассмотрена методология и идеология создания REST сервисов;
-- [DOC/RPCvsRESTvsMQ](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_19/DOC/RPCvsRESTvsMQ);
-- [DOC/REST_vs_SOAP](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_19/DOC/REST_vs_SOAP);
-- [DOC/REST_API](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_19/DOC/REST_API) - Обширный переводной материал с примерами, рассматриваются: REST, SWAGGER, HATEOAS и т.д.;
-- [DOC/JAX-RS](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_19/DOC/JAX-RS);
-- [DOC/Java_Kotlin_RestController](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_19/DOC/Java_Kotlin_RestController) - Рассмотрен пример взаимодействия Lombok-a, Spring-a и Kotlin при написании REST 
+- [Как я объяснил жене, что такое REST](../DOC/SimpleAboutREST.md) - Самая полезная из возможных статей для ознакомления с принципами REST;
+- [Архитектура REST](../DOC/ShortAboutREST.md) - Коротко о REST из WIKI и HABR-a;
+- [Мифология REST](../DOC/RESTs_Mythology.md) - Очень вдумчивая и подробная статья о REST, есть ссылка на GitHub с книгой по API;
+- [REST-сервис на Java — это просто](../DOC/REST_SERVICE_ON_JAVA.md) - Пример написания REST сервиса на Java, немного текста и кода;
+- [REST через Spring: Строгое отображение URL в ресурс](../DOC/REST_OVER_SPRING_PROBLEMS_URL.md) - Рассмотрена проблематика отображения URL в Spring REST контроллерах;
+- [Важные аспекты RESTful API для вашего проекта](../DOC/ImportantAspectsOfRESTfulAPI.md) - Рассмотрена методология и идеология создания REST сервисов;
+- [Взаимодействия - RPC vs REST vs MQ](../DOC/RPCvsRESTvsMQ/RPCvsRESTvsMQ.md);
+- [REST_vs_SOAP](../DOC/REST_vs_SOAP);
+- [REST_API](../DOC/REST_API) - Обширный переводной материал с примерами, рассматриваются: REST, SWAGGER, HATEOAS и т.д.;
+- [JAX-RS](../DOC/JAX-RS);
+- [Умеем ли мы готовить Java, Kotlin RestController?](../DOC/Java_Kotlin_RestController/Java_Kotlin_RestController.md) - Рассмотрен пример взаимодействия Lombok-a, Spring-a и Kotlin при написании REST 
 контроллеров;
 
 Ссылки на исходные материалы содержаться в статьях, можно изучить познавательные комментарии и полезные ссылки не 
@@ -97,7 +99,10 @@ Get и Post. И делали это для всех типов действий 
 приложения с внешним миром происходило по HTTP протоколу, и это хорошо, но возвращались на все запросы HTML страницы с 
 ответами (Response). 
 
-Происходило следующее см. [DOC/OurPastApplication/OurAppRestrictions.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_19/DOC/OurPastApplication/OurAppRestrictions.jpg): 
+Происходило следующее см. 
+
+![OurAppRestrictions.jpg](../DOC/OurPastApplication/OurAppRestrictions.jpg): 
+
 - пользователь делал через браузер запрос;
 - запрос подхватывал интегрированный (embedded) в приложение TomCat;
 - сервер TomCat передавал запрос на DispatcherServlet;
