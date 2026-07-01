@@ -9,13 +9,13 @@
 - [Principal](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/security/Principal.html),
 - [Serializable](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html)
                       
-**Все известные реализующие классы: **
+**Все известные реализующие классы:**
 - [AbstractAuthenticationToken](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AbstractAuthenticationToken.html)
 - [AbstractOAuth2TokenAuthenticationToken](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/server/resource/authentication/AbstractOAuth2TokenAuthenticationToken.html)
 - [AnonymousAuthenticationToken](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AnonymousAuthenticationToken.html)
 - [BearerTokenAuthentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/server/resource/authentication/BearerTokenAuthentication.html)
 - [BearerTokenAuthenticationToken](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/server/resource/authentication/BearerTokenAuthenticationToken.html) 
-- [CasAssertionAuthenticationToken](href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/cas/authentication/CasAssertionAuthenticationToken.html) 
+- [CasAssertionAuthenticationToken](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/cas/authentication/CasAssertionAuthenticationToken.html) 
 - [CasAuthenticationToken](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/cas/authentication/CasAuthenticationToken.html), 
 - [CasServiceTicketAuthenticationToken](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/cas/authentication/CasServiceTicketAuthenticationToken.html), 
 - [DPoPAuthenticationToken](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/server/resource/authentication/DPoPAuthenticationToken.html), 
