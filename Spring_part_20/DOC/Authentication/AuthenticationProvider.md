@@ -65,9 +65,9 @@
 
 - `Authentication authenticate(Authentication authentication)` - Выполняет аутентификацию с помощью того же контракта, что и [AuthenticationManager.authenticate(Authentication)](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AuthenticationManager.html#authenticate(org.springframework.security.core.Authentication)).
 
-**Параметры:** `authentication` - объект запроса аутентификации.
-**Возвращает:** полностью аутентифицированный объект, включая учетные данные. Может вернуться null, если `AuthenticationProvider` не может поддерживать аутентификацию переданного Authentication объекта. В таком случае будет опробован следующий класс `AuthenticationProvider`, поддерживающий представленный Authentication класс.
-**Исключения:** [AuthenticationException](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/AuthenticationException.html) - если аутентификация не удалась.
+- **Параметры:** `authentication` - объект запроса аутентификации.
+- **Возвращает:** полностью аутентифицированный объект, включая учетные данные. Может вернуться null, если `AuthenticationProvider` не может поддерживать аутентификацию переданного Authentication объекта. В таком случае будет опробован следующий класс `AuthenticationProvider`, поддерживающий представленный Authentication класс.
+- **Исключения:** [AuthenticationException](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/AuthenticationException.html) - если аутентификация не удалась.
 
 ---
 - `boolean supports(Class<?> authentication)` - Возвращает, true если это `AuthenticationProvider` поддерживает указанный `Authentication` объект.
@@ -76,8 +76,8 @@
 
 Выбор AuthenticationProvider способного выполнить аутентификацию проводится во время выполнения ProviderManager.
 
-**Параметры:** `authentication` - поддерживаемый класс.
-**Возвращает:** true если реализация может более внимательно оценить Authentication представленный класс.
+- **Параметры:** `authentication` - поддерживаемый класс.
+- **Возвращает:** true если реализация может более внимательно оценить Authentication представленный класс.
 
 ---
 **Доп. материал:**
