@@ -81,15 +81,11 @@
 
 ---
 **Доп. материал:**
-- []()
-- []()
-- []()
-- []()
-- []()
-- []()
-- []()
-- []()
-- []()
-- []()
-- []()
-- []()
+- [The AuthenticationManager, ProviderManager and AuthenticationProviders](https://docs.spring.io/spring-security/site/docs/3.1.x/reference/core-services.html)
+- [Spring Security Authentication Provider](https://www.baeldung.com/spring-security-authentication-provider)
+- [Implement custom AuthenticationProvider in Spring Security 2.06](https://stackoverflow.com/questions/8649818/implement-custom-authenticationprovider-in-spring-security-2-06)
+- [Why AuthenticationProvider is the Heart of Spring Security (And How to Use It)](https://medium.com/@praveengaddam319/why-authenticationprovider-is-the-heart-of-spring-security-and-how-to-use-it-eb053988d047)
+- [Spring Security - Authentication Providers](https://www.geeksforgeeks.org/java/spring-security-authentication-providers/)
+- [Spring Security - Authentication Provider](https://www.tutorialspoint.com/spring_security/spring_security_authentication_provider.htm)
+- [Spring Security: Authentication Provider](https://www.javaguides.net/2024/04/spring-security-authentication-provider.html)
+- [Dive into the Spring Security Architecture](https://dev.to/sohailshah/dive-into-the-spring-security-architecture-1dhf)
