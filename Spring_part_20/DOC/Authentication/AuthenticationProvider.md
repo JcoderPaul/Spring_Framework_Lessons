@@ -60,9 +60,9 @@
 
 Указывает, что класс может обрабатывать определенную реализацию [аутентификации - Authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html).
 
----
-#### Методы:
+### Методы:
 
+---
 - `Authentication authenticate(Authentication authentication)` - Выполняет аутентификацию с помощью того же контракта, что и [AuthenticationManager.authenticate(Authentication)](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AuthenticationManager.html#authenticate(org.springframework.security.core.Authentication)).
 
 - **Параметры:** `authentication` - объект запроса аутентификации.
