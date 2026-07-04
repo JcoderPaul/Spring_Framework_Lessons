@@ -79,7 +79,7 @@ eraseCredentials. Ожидается, что реализации будут в�
 
 ---
 **См. доп.:**
-- [CredentialsContainer](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/credentials-container.html
+- [CredentialsContainer](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/credentials-container.html)
 - [CredentialsContainer.java](https://github.com/spring-projects/spring-security/blob/main/core/src/main/java/org/springframework/security/core/CredentialsContainer.java)
 - [How to Implement Basic Access Authentication in Spring Boot](https://dev.to/antozanini/how-to-implement-basic-access-authentication-in-spring-boot-3hnl)
 - [Building a Login System with Spring Boot and Spring Security](https://medium.com/@AlexanderObregon/building-a-login-system-with-spring-boot-and-spring-security-2ef6f110a9cb)
