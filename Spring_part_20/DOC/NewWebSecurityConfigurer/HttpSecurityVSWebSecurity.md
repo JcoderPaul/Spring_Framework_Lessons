@@ -185,5 +185,10 @@ HttpSecurity для `/admin/**`.
 ---
 **Доп. материал:**
 - [Securing a Web Application](https://spring.io/guides/gs/securing-web)
-- []()
-- []()
+- [Web Security Considerations](https://www.geeksforgeeks.org/ethical-hacking/web-security-considerations/)
+- [Spring Security](https://spring.io/projects/spring-security)
+- [Spring Security - Secure Your Web Application](https://www.geeksforgeeks.org/java/spring-security-secure-your-web-application/)
+- [Spring Security: Securing Web Applications with Spring](https://cdinuwan.medium.com/spring-security-securing-web-applications-with-spring-d7f4578c9d92)
+- [Configuring Web Application Security with HttpSecurity](https://hyperskill.org/learn/step/40251)
+- [Authorize Request for Certain URL and HTTP Method in Spring Security](https://www.baeldung.com/spring-security-url-http-authorization)
+- [A Custom Spring SecurityConfigurer](https://www.baeldung.com/spring-security-custom-configurer)
