@@ -309,4 +309,4 @@
 - [Introduction to Java Config for Spring Security](https://www.baeldung.com/java-config-spring-security)
 - [Spring Security Basic Authentication](https://www.baeldung.com/spring-security-basic-authentication)
 - [Class HttpSecurity](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/HttpSecurity.html)
-- [[Class HttpSecurity (from 5.2.0.RELEASE)](https://javadoc.io/doc/org.springframework.security/spring-security-config/5.2.0.RELEASE/org/springframework/security/config/annotation/web/builders/HttpSecurity.html)
+- [Class HttpSecurity (from 5.2.0.RELEASE)](https://javadoc.io/doc/org.springframework.security/spring-security-config/5.2.0.RELEASE/org/springframework/security/config/annotation/web/builders/HttpSecurity.html)
