@@ -64,10 +64,10 @@ public final class WebSecurity
 - `void setServletContext(jakarta.servlet.ServletContext servletContext)`
 
 ---
-- **Методы, унаследованные от класса [org.springframework.security.config.annotation.AbstractConfiguredSecurityBuilder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/AbstractConfiguredSecurityBuilder.html):** apply, beforeConfigure, beforeInit, doBuild, getConfigurer, getConfigurers, getOrBuild, getSharedObject, getSharedObjects, objectPostProcessor, postProcess, removeConfigurer, removeConfigurers, setSharedObject, with
-- **Методы, унаследованные от класса [org.springframework.security.config.annotation.AbstractSecurityBuilder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/AbstractSecurityBuilder.html):** build, getObject
-- **Методы, унаследованные от класса [java.lang.Object](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html):** clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait
-- **Методы, унаследованные от интерфейса [org.springframework.security.config.annotation.SecurityBuilder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/SecurityBuilder.html):** build
+- **Методы, унаследованные от класса [AbstractConfiguredSecurityBuilder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/AbstractConfiguredSecurityBuilder.html):** apply, beforeConfigure, beforeInit, doBuild, getConfigurer, getConfigurers, getOrBuild, getSharedObject, getSharedObjects, objectPostProcessor, postProcess, removeConfigurer, removeConfigurers, setSharedObject, with
+- **Методы, унаследованные от класса [AbstractSecurityBuilder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/AbstractSecurityBuilder.html):** build, getObject
+- **Методы, унаследованные от класса [Object](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html):** clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait
+- **Методы, унаследованные от интерфейса [SecurityBuilder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/SecurityBuilder.html):** build
 
 ---
 **Доп. материал:**
