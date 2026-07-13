@@ -8,7 +8,7 @@
 ```
 java.lang.Object
     org.springframework.security.config.annotation.AbstractSecurityBuilder<O>
-        org.springframework.security.config.annotation.AbstractConfiguredSecurityBuilder<jakarta.servlet.Filter,- WebSecurity>
+        org.springframework.security.config.annotation.AbstractConfiguredSecurityBuilder<jakarta.servlet.Filter, WebSecurity>
             org.springframework.security.config.annotation.web.builders.WebSecurity
 ```
 
@@ -20,7 +20,9 @@ java.lang.Object
 
 ```java
 public final class WebSecurity extends AbstractConfiguredSecurityBuilder<jakarta.servlet.Filter, WebSecurity>
-                    implements SecurityBuilder<jakarta.servlet.Filter>, org.springframework.context.ApplicationContextAware, org.springframework.web.context.ServletContextAware
+                    implements SecurityBuilder<jakarta.servlet.Filter>, 
+                    org.springframework.context.ApplicationContextAware, 
+                    org.springframework.web.context.ServletContextAware
 ```
 
 [WebSecurity](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/WebSecurity.html) создается [WebSecurityConfiguration](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.html) для создания [FilterChainProxy](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html), известного, как цепочка фильтров безопасности Spring (springSecurityFilterChain). SpringSecurityFilterChain — это фильтр,
