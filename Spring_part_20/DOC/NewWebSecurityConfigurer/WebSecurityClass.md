@@ -1,7 +1,7 @@
 - [См. исходник (ENG)](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/WebSecurity.html)
 
 ---
-### Class - WebSecurity
+### Class WebSecurity
 
 **Пакет:**[org.springframework.security.config.annotation.web.builders](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/package-summary.html)
 
@@ -19,10 +19,11 @@ java.lang.Object
 - [ServletContextAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/ServletContextAware.html)
 
 ```java
-public final class WebSecurity extends AbstractConfiguredSecurityBuilder<jakarta.servlet.Filter, WebSecurity>
+public final class WebSecurity
+    extends AbstractConfiguredSecurityBuilder<jakarta.servlet.Filter, WebSecurity>
                     implements SecurityBuilder<jakarta.servlet.Filter>, 
-                    org.springframework.context.ApplicationContextAware, 
-                    org.springframework.web.context.ServletContextAware
+                               org.springframework.context.ApplicationContextAware, 
+                               org.springframework.web.context.ServletContextAware
 ```
 
 [WebSecurity](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/WebSecurity.html) создается [WebSecurityConfiguration](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.html) для создания [FilterChainProxy](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html), известного, как цепочка фильтров безопасности Spring (springSecurityFilterChain). SpringSecurityFilterChain — это фильтр,
