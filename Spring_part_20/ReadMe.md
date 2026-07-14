@@ -6,16 +6,18 @@
 - [Spring Security](https://docs.spring.io/spring-security/reference/index.html) ;
 - [Security with Spring (by www.baeldung.com)](https://www.baeldung.com/security-spring) ;
 - [SWAGGER DOC](https://swagger.io/solutions/api-documentation/) (может понадобится прокси);
-________________________________________________________________________________________________________________________
+
+---
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) ;
 - [Spring Framework 6.1.5 Documentation](https://spring.io/projects/spring-framework) ;
 - [Spring Framework 3.2.x Reference Documentation](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/index.html) ;
 - [Getting Started Guides](https://spring.io/guides) ;
 - [Developing with Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html) ;
 
-________________________________________________________________________________________________________________________
-Для начала проведем предварительную подготовку (подгрузим зависимости в [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/build.gradle)):
+---
+Для начала проведем предварительную подготовку, подгрузим зависимости в [build.gradle](../build.gradle):
 
+```
     /* 
        Плагин Spring Boot добавляет необходимые задачи в Gradle 
        и имеет обширную взаимосвязь с другими plugin-ами.
@@ -68,13 +70,13 @@ ________________________________________________________________________________
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+```
 
-________________________________________________________________________________________________________________________
+---
 #### Security-Starter. Введение, определения, понятия (теория).
 
 **Аутентификация** - (англ. authentication, греч. "реальный, подлинный") - процедура проверки подлинности, например:
-- проверка подлинности пользователя, путём сравнения введённого им пароля (для указанного логина) с паролем, сохранённым 
-в базе данных пользовательских логинов;
+- проверка подлинности пользователя, путём сравнения введённого им пароля (для указанного логина) с паролем, сохранённым в базе данных пользовательских логинов;
 - подтверждение подлинности электронного письма, путём проверки цифровой подписи письма по открытому ключу отправителя;
 - проверка контрольной суммы файла на соответствие сумме, заявленной автором этого файла.
 
@@ -112,8 +114,11 @@ ________________________________________________________________________________
 аутентифицированный пользователь права на получение доступа к ресурсам приложения (для web-сервиса, доступ к конкретному
 endpoint-у или набору endpoint-ов сервиса), манипуляции с ресурсами и т.п.
 
-В курсе по [HTTP_Servlets_Java_EE](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/tree/master), мы рассмотрели каким образом происходит аутентификация и авторизация пользователей 
-приложения см. [MVCPracticeAdvanced](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/tree/master/MVCPracticeAdvanced) и [ServletFilter.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPracticeAdvanced/DOC/ServletFilter.jpg) 
+В курсе по [HTTP_Servlets_Java_EE](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/tree/master), мы рассмотрели каким 
+образом происходит аутентификация и авторизация пользователей приложения см. [MVCPracticeAdvanced](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/tree/master/MVCPracticeAdvanced) и 
+
+![ServletFilter.jpg](https://github.com/JcoderPaul/HTTP_Servlets_Java_EE/blob/master/MVCPracticeAdvanced/DOC/ServletFilter.jpg) 
+
 В данном процессе нам помогают фильтры, которые 'докручивают' запрос до момента пока он не попал в DispatcherServlet, а 
 могут и вовсе не позволить запросу до него добраться сразу вернув ответ. Каждый фильтр имеет свой жизненный цикл, а 
 набор фильтров составляют - цепочку фильтров (filter chain). Однако, вся эта технологическая цепочка, со всеми жизненными
@@ -121,16 +126,19 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 жизненные циклы и нам необходимо, чтобы жизненные циклы фильтров совпадали с жизненными циклами сущностей Spring-a.
 Т.е. нам нужно, чтобы фильтры стали bean-ами Spring, чтобы было просто ими манипулировать. 
 
-Схематично реализация этой задачи выглядит следующим образом см. [DOC/SpringFilterProxyForAuth.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/SpringFilterProxyForAuth.jpg) или см. док. [Spring Security Architecture](https://docs.spring.io/spring-security/reference/servlet/architecture.html). В стандартной цепочке 
-фильтров появляется фильтр [DelegatingFilterProxy](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/DelegatingFilterProxy.html), который содержит цепочку фильтров от Spring-a (фактически его bean) 
-[FilterChainProxy](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html). Данная цепочка фильтров (самых обычных фильтров), теперь уже подчиняется жизненному циклу Spring-a, и 
+Схематично реализация этой задачи выглядит следующим образом см. 
+
+![SpringFilterProxyForAuth.jpg](../DOC/SpringFilterProxyForAuth.jpg) 
+
+или см. док. [Spring Security Architecture](https://docs.spring.io/spring-security/reference/servlet/architecture.html). В стандартной цепочке 
+фильтров появляется фильтр [DelegatingFilterProxy](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/DelegatingFilterProxy.html), 
+который содержит цепочку фильтров от Spring-a (фактически его bean) [FilterChainProxy](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html). 
+Данная цепочка фильтров (самых обычных фильтров), теперь уже подчиняется жизненному циклу Spring-a, и 
 самое главное упорядочена определенным образом. Тут, как и в случае сервлет фильтров, фильтры в [SecurityFilterChain](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/SecurityFilterChain.html) 
 вызываются в заранее заданной последовательности (т.е. например, без обязательной аутентификации не может запуститься 
 процесс авторизации - нельзя субъекту дать права, если не знаешь, что это за субъект).
 
-Теперь у нас есть [DelegatingFilterProxy](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/DelegatingFilterProxy.html), который подчиняется жизненным циклам фильтров Servlet контейнера сервера. В 
-свою очередь он содержит в себе Spring-овый bean - [FilterChainProxy](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html), который уже подчиняется жизненным циклам сущностей
-Spring-a. Именно он - FilterChainProxy - содержит цепочку вызовов фильтров отвечающих за безопасность в Spring приложении.
+Теперь у нас есть [DelegatingFilterProxy](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/DelegatingFilterProxy.html), который подчиняется жизненным циклам фильтров Servlet контейнера сервера. В свою очередь он содержит в себе Spring-овый bean - [FilterChainProxy](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html), который уже подчиняется жизненным циклам сущностей Spring-a. Именно он - FilterChainProxy - содержит цепочку вызовов фильтров отвечающих за безопасность в Spring приложении.
 Т.е. тут все необходимые Security фильтры Spring-a, как бы вынесены за пределы Servlet контейнера и его жизненного цикла.
 
 См. док.:
@@ -138,20 +146,25 @@ Spring-a. Именно он - FilterChainProxy - содержит цепочку
 - [Пакет org.springframework.web.filter](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/package-summary.html) ;
 - [Пакет org.springframework.security.web](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/package-summary.html) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Security-Starter. [Подключение зависимости](https://docs.spring.io/spring-security/reference/getting-spring-security.html) (теория).
 
 Для подключения системы безопасности Spring-a нам нужна зависимость:
 
+```
     implementation 'org.springframework.boot:spring-boot-starter-security'
+```
 
-В разделе зависимостей мы видим полученные связи см. [DOC/SpringSecurityDependencies.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/SpringSecurityDependencies.jpg). Поскольку мы реализуем 
-web-приложение, то нам как раз и нужен пакет - [org.springframework.security.web](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/package-summary.html). Именно тут реализуется методика 
-безопасности с применением фильтров (фильтры не единственная технология позволяющая организовать Security процесс).  
+В разделе зависимостей мы видим полученные связи см. 
+
+![SpringSecurityDependencies.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/SpringSecurityDependencies.jpg)
+
+Поскольку мы реализуем web-приложение, то нам как раз и нужен пакет - [org.springframework.security.web](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/package-summary.html). Именно тут реализуется методика безопасности с применением фильтров (фильтры не единственная технология позволяющая организовать Security процесс).  
 
 При подключении Security-Starter в работу по конфигурированию безопасности приложения включается  
 [SecurityFilterAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.html) см. [код на GitHub](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.java):
 
+```
     @AutoConfiguration(after = SecurityAutoConfiguration.class)
     @ConditionalOnWebApplication(type = Type.SERVLET)
     @EnableConfigurationProperties(SecurityProperties.class)
@@ -159,6 +172,7 @@ web-приложение, то нам как раз и нужен пакет - [
     public class SecurityFilterAutoConfiguration {
         ...
     }
+```
 
 Тут мы видим общие свойства безопасности [SecurityProperties.class](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/SecurityProperties.html), как параметр аннотации [@EnableConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/EnableConfigurationProperties.html):
 
