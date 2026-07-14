@@ -174,7 +174,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
     }
 ```
 
-Тут мы видим общие свойства безопасности [SecurityProperties.class](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/SecurityProperties.html), как параметр аннотации [@EnableConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/EnableConfigurationProperties.html):
+Тут мы видим общие свойства безопасности [SecurityProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/SecurityProperties.html), как параметр аннотации [@EnableConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/EnableConfigurationProperties.html):
 
 ```java
     @ConfigurationProperties(prefix = "spring.security")
@@ -200,7 +200,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 ```
 
 Используя данный класс мы можем настраивать User-a, его пароль, так же фильтры, их порядок и ситуации при которых они будут срабатывать. 
-Конечно [SecurityFilterAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.html) содержит метод - securityFilterChainRegistration, по созданию цепочки фильтров безопасности см. 
+Конечно [SecurityFilterAutoConfiguration](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/security/autoconfigure/web/servlet/SecurityFilterAutoConfiguration.html) содержит метод - securityFilterChainRegistration, по созданию цепочки фильтров безопасности см. 
 
 ![SpringFilterProxyForAuth.jpg](../Spring_part_20/DOC/SpringFilterProxyForAuth.jpg):
 
@@ -242,7 +242,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 ```
 
 В данный класс импортируется важная для нашего web-приложения конфигурация, которая и создает цепочку фильтров 
-безопасности [SpringBootWebSecurityConfiguration](https://docs.spring.io/spring-boot/docs/2.0.6.RELEASE/api/org/springframework/boot/autoconfigure/security/servlet/SpringBootWebSecurityConfiguration.html) см. [код на GitHub](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/security/servlet/SpringBootWebSecurityConfiguration.java):
+безопасности [SpringBootWebSecurityConfiguration](https://docs.spring.io/spring-boot/docs/2.0.6.RELEASE/api/org/springframework/boot/autoconfigure/security/servlet/SpringBootWebSecurityConfiguration.html):
 
 ```java
     @Configuration(proxyBeanMethods = false)
