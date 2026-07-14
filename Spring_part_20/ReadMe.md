@@ -128,7 +128,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 
 Схематично реализация этой задачи выглядит следующим образом см. 
 
-![SpringFilterProxyForAuth.jpg](../DOC/SpringFilterProxyForAuth.jpg) 
+![SpringFilterProxyForAuth.jpg](../Spring_part_20/DOC/SpringFilterProxyForAuth.jpg) 
 
 или см. док. [Spring Security Architecture](https://docs.spring.io/spring-security/reference/servlet/architecture.html). В стандартной цепочке 
 фильтров появляется фильтр [DelegatingFilterProxy](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/DelegatingFilterProxy.html), 
@@ -157,7 +157,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 
 В разделе зависимостей мы видим полученные связи см. 
 
-![SpringSecurityDependencies.jpg](../DOC/SpringSecurityDependencies.jpg)
+![SpringSecurityDependencies.jpg](../Spring_part_20/DOC/SpringSecurityDependencies.jpg)
 
 Поскольку мы реализуем web-приложение, то нам как раз и нужен пакет - [org.springframework.security.web](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/package-summary.html). Именно тут реализуется методика безопасности с применением фильтров (фильтры не единственная технология позволяющая организовать Security процесс).  
 
@@ -202,7 +202,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 Используя данный класс мы можем настраивать User-a, его пароль, так же фильтры, их порядок и ситуации при которых они будут срабатывать. 
 Конечно [SecurityFilterAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.html) содержит метод - securityFilterChainRegistration, по созданию цепочки фильтров безопасности см. 
 
-![SpringFilterProxyForAuth.jpg](../DOC/SpringFilterProxyForAuth.jpg):
+![SpringFilterProxyForAuth.jpg](../Spring_part_20/DOC/SpringFilterProxyForAuth.jpg):
 
 ```java
     public class DelegatingFilterProxyRegistrationBean 
@@ -268,16 +268,16 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 
 Ниже мы рассмотрим настройку каждого фильтра безопасности в цепочке (Security Filter Chain) по-отдельности.
 
-________________________________________________________________________________________________________________________
+---
 #### Security-Starter. Authentication фильтр (теория).
 
 См. док. : [Servlet Authentication Architecture](https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html) ;
 
 Пользователь, который прошел аутентификацию (в сервисе с использованием средств Spring Security) будет упакован в объект
 [Authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html), тот в свою очередь хранит три значения: 
-- Principal (см. [DOC/Authentication/AuthenticatedPrincipal.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/AuthenticatedPrincipal.txt) и [DOC/Authentication/UserDetails.txt)](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/UserDetails.txt), ну или наш UserDTO; 
-- Credentials (см. [DOC/Authentication/CredentialsContainer.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/CredentialsContainer.txt));
-- GrantedAuthority-ы (см. [DOC/Authentication/GrantedAuthority.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/GrantedAuthority.txt)) или роли, которых может быть много и они должны 
+- Principal (см. [AuthenticatedPrincipal](../Spring_part_20/DOC/Authentication/AuthenticatedPrincipal.md) и [UserDetails](../Spring_part_20/DOC/Authentication/UserDetails.md)), ну или наш UserDTO; 
+- Credentials (см. [CredentialsContainer](../Spring_part_20/DOC/Authentication/CredentialsContainer.md));
+- GrantedAuthority-ы (см. [GrantedAuthority](../Spring_part_20/DOC/Authentication/GrantedAuthority.md)) или роли, которых может быть много и они должны 
 реализовывать интерфейс [GrantedAuthority](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/GrantedAuthority.html), в нашем приложении это Enum;
 
 Весь объект [Authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html) обернут в [SecurityContext](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContext.html) см. [DOC/SecurityContext/SecurityContextInterface.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/SecurityContext/SecurityContextInterface.txt), фактически 
