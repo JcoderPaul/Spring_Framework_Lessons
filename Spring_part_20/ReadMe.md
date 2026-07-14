@@ -164,7 +164,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 При подключении Security-Starter в работу по конфигурированию безопасности приложения включается  
 [SecurityFilterAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.html) см. [код на GitHub](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.java):
 
-```
+```java
     @AutoConfiguration(after = SecurityAutoConfiguration.class)
     @ConditionalOnWebApplication(type = Type.SERVLET)
     @EnableConfigurationProperties(SecurityProperties.class)
@@ -176,6 +176,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 
 Тут мы видим общие свойства безопасности [SecurityProperties.class](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/SecurityProperties.html), как параметр аннотации [@EnableConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/EnableConfigurationProperties.html):
 
+```java
     @ConfigurationProperties(prefix = "spring.security")
     public class SecurityProperties {
         . . . 	
@@ -196,11 +197,14 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
         . . .
         }
     }
+```
 
-Используя данный класс мы можем настраивать User-a, его пароль, так же фильтры, их порядок и ситуации при которых они 
-будут срабатывать. Конечно [SecurityFilterAutoConfiguratio](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.html)n содержит метод - securityFilterChainRegistration, по созданию
-цепочки фильтров безопасности см. [DOC/SpringFilterProxyForAuth.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/SpringFilterProxyForAuth.jpg):
+Используя данный класс мы можем настраивать User-a, его пароль, так же фильтры, их порядок и ситуации при которых они будут срабатывать. 
+Конечно [SecurityFilterAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.html) содержит метод - securityFilterChainRegistration, по созданию цепочки фильтров безопасности см. 
 
+![SpringFilterProxyForAuth.jpg](../DOC/SpringFilterProxyForAuth.jpg):
+
+```java
     public class DelegatingFilterProxyRegistrationBean 
                                 extends AbstractFilterRegistrationBean<DelegatingFilterProxy>
                                         implements ApplicationContextAware {
@@ -221,6 +225,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
         . . .
 
     }
+```
 
 Именно этот класс, см. выше, содержит метод создающий фильтр живущий в жизненном цикле Spring-а. В данном случае это 
 авто-конфигурация для фильтра безопасности - security filter. Но у нас есть так же класс авто-конфигурации, который  
