@@ -162,7 +162,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 Поскольку мы реализуем web-приложение, то нам как раз и нужен пакет - [org.springframework.security.web](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/package-summary.html). Именно тут реализуется методика безопасности с применением фильтров (фильтры не единственная технология позволяющая организовать Security процесс).  
 
 При подключении Security-Starter в работу по конфигурированию безопасности приложения включается  
-[SecurityFilterAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.html) см. [код на GitHub](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/security/servlet/SecurityFilterAutoConfiguration.java):
+[SecurityFilterAutoConfiguration](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/security/autoconfigure/web/servlet/SecurityFilterAutoConfiguration.html) см. [код на GitHub](https://github.com/spring-projects/spring-boot/blob/4c346884f379af3032d45041d8f620cc147b1a79/module/spring-boot-security/src/main/java/org/springframework/boot/security/autoconfigure/web/servlet/SecurityFilterAutoConfiguration.java):
 
 ```java
     @AutoConfiguration(after = SecurityAutoConfiguration.class)
