@@ -1,6 +1,6 @@
 ### Spring Boot lessons part 20 - Security Starter - PART 1
 
-В [папке DOC sql-скрипты](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_20/DOC) и др. полезные файлы.
+В [папке DOC sql-скрипты](../Spring_part_20/DOC) и др. полезные файлы.
 
 Док. (ссылки) для изучения:
 - [Spring Security](https://docs.spring.io/spring-security/reference/index.html) ;
