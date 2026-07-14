@@ -130,7 +130,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 
 ![SpringFilterProxyForAuth.jpg](../Spring_part_20/DOC/SpringFilterProxyForAuth.jpg) 
 
-или см. док. [Spring Security Architecture](https://docs.spring.io/spring-security/reference/servlet/architecture.html). В стандартной цепочке 
+Или см. док. [Spring Security Architecture](https://docs.spring.io/spring-security/reference/servlet/architecture.html). В стандартной цепочке 
 фильтров появляется фильтр [DelegatingFilterProxy](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/DelegatingFilterProxy.html), 
 который содержит цепочку фильтров от Spring-a (фактически его bean) [FilterChainProxy](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html). 
 Данная цепочка фильтров (самых обычных фильтров), теперь уже подчиняется жизненному циклу Spring-a, и 
@@ -231,6 +231,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 авто-конфигурация для фильтра безопасности - security filter. Но у нас есть так же класс авто-конфигурации, который  
 должен быть загружен в первую очередь - [@AutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/AutoConfiguration.html)(after = SecurityAutoConfiguration.class):  
 
+```java
     @AutoConfiguration(before = UserDetailsServiceAutoConfiguration.class)
     @ConditionalOnClass(DefaultAuthenticationEventPublisher.class)
     @EnableConfigurationProperties(SecurityProperties.class)
@@ -238,10 +239,12 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
     public class SecurityAutoConfiguration {
         . . .
     }
+```
 
 В данный класс импортируется важная для нашего web-приложения конфигурация, которая и создает цепочку фильтров 
 безопасности [SpringBootWebSecurityConfiguration](https://docs.spring.io/spring-boot/docs/2.0.6.RELEASE/api/org/springframework/boot/autoconfigure/security/servlet/SpringBootWebSecurityConfiguration.html) см. [код на GitHub](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/security/servlet/SpringBootWebSecurityConfiguration.java):
 
+```java
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnWebApplication(type = Type.SERVLET)
     class SpringBootWebSecurityConfiguration {
@@ -262,6 +265,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
         }
         . . .
     }
+```
 
 Наша задача в дальнейшем будет связана с настройкой конфигурации цепочки фильтров безопасности - [SecurityFilterChain](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/SecurityFilterChain.html),
 т.е. настройка разрешений на доступ к ресурсам, проверка ролей пользователей и т.д. 
@@ -271,7 +275,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 ---
 #### Security-Starter. Authentication фильтр (теория).
 
-См. док. : [Servlet Authentication Architecture](https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html) ;
+**См. док.:** [Servlet Authentication Architecture](https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html) ;
 
 Пользователь, который прошел аутентификацию (в сервисе с использованием средств Spring Security) будет упакован в объект
 [Authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html), тот в свою очередь хранит три значения: 
@@ -280,31 +284,33 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 - GrantedAuthority-ы (см. [GrantedAuthority](../Spring_part_20/DOC/Authentication/GrantedAuthority.md)) или роли, которых может быть много и они должны 
 реализовывать интерфейс [GrantedAuthority](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/GrantedAuthority.html), в нашем приложении это Enum;
 
-Весь объект [Authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html) обернут в [SecurityContext](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContext.html) см. [DOC/SecurityContext/SecurityContextInterface.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/SecurityContext/SecurityContextInterface.txt), фактически 
-этот объект хранит всю информацию о нашем авторизированном пользователе. Для того чтобы получить доступ к данным в 
-SecurityContext-е мы будем использовать класс [SecurityContextHolder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContextHolder.html), см. [Spring_part_21/DOC/SecurityContext/SecurityContextHolder.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/SecurityContext/SecurityContextHolder.txt).
+Весь объект [Authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html) обернут в [SecurityContext](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContext.html) см. [SecurityContextInterface](../Spring_part_21/DOC/SecurityContext/SecurityContextInterface.md), фактически 
+этот объект хранит всю информацию о нашем авторизированном пользователе. Для того чтобы получить доступ к данным в SecurityContext-е мы будем использовать класс [SecurityContextHolder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContextHolder.html), см. [SecurityContextHolder](../Spring_part_21/DOC/SecurityContext/SecurityContextHolder.md).
 Данный класс позволяет определять различные подходы по хранению контекста, но по умолчанию применяется - MODE_THREADLOCAL.
 
-Каждый раз когда нам будет необходимо получить SecurityContext (данные текущего пользователя) в HTTP Request-e, мы будем 
-обращаться к [SecurityContextHolder-у](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContextHolder.html). Как только приходит запрос после удачной аутентификации пользователя мы помещаем 
-данные о нем в ThreadLocal переменную, и как только мы создадим ответ (response) и отправим пользователю приложения, мы
-должны будем почистить эту переменную в массиве ThreadLocal<SecurityContext> context-ы.
+Каждый раз когда нам будет необходимо получить SecurityContext (данные текущего пользователя) в HTTP Request-e, мы будем обращаться к [SecurityContextHolder-у](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContextHolder.html). Как только приходит запрос после удачной аутентификации пользователя мы помещаем 
+данные о нем в ThreadLocal переменную, и как только мы создадим ответ (response) и отправим пользователю приложения, мы должны будем почистить эту переменную в массиве `ThreadLocal<SecurityContext> context`.
 
-Схематично фильтр аутентификации работает следующим образом см. [DOC/FilterFunctionality.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/FilterFunctionality.jpg):
-- Шаг 1. - создается объект аутентификации см. [DOC/SecurityContext.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/SecurityContext.jpg), того объекта, который хранит данные значения: 
-Principal, Credentials, Authority. См. [DOC/Authentication/AuthenticationInterface.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/AuthenticationInterface.txt);
-- Шаг 2. - получаем менеджер аутентификации см. [DOC/Authentication/AuthenticationManager.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/AuthenticationManager.txt);
+Схематично фильтр аутентификации работает следующим образом см. 
+
+![FilterFunctionality.jpg](../Spring_part_20/DOC/FilterFunctionality.jpg):
+
+- Шаг 1. - создается объект аутентификации см. 
+
+![SecurityContext.jpg](../Spring_part_20/DOC/SecurityContext.jpg)
+
+Того объекта, который хранит данные значения: Principal, Credentials, Authority. См. [AuthenticationInterface](../Spring_part_20/DOC/Authentication/AuthenticationInterface.md);
+- Шаг 2. - получаем менеджер аутентификации см. [AuthenticationManager](../Spring_part_20/DOC/Authentication/AuthenticationManager.md);
 - Шаг 3. - передаем объект аутентификации в метод [AuthenticationManager.authenticate(Authentication)](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/AuthenticationManager.html#authenticate(org.springframework.security.core.Authentication));
-- Шаг 4. - менеджер аутентификации в цикле перебирает все доступные провайдеры аутентификации см.
-[DOC/Authentication/AuthenticationProvider.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/AuthenticationProvider.txt), пока не будет подобран подходящий, если в приложении их настроено 
-несколько;
+- Шаг 4. - менеджер аутентификации в цикле перебирает все доступные провайдеры аутентификации см. [AuthenticationProvider](../Spring_part_20/DOC/Authentication/AuthenticationProvider.md), 
+пока не будет подобран подходящий, если в приложении их настроено несколько;
 
 См.док.:
 - [Constant Field Values (of org.springframework.*)](https://docs.spring.io/spring-security/site/docs/current/api/constant-values.html) ;
 - [Пакет org.springframework.security.core](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/package-summary.html) ;
 - [Пакет org.springframework.security.authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/package-summary.html) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Security-Starter. Запуск приложения и изучение Authentication фильтров по умолчанию (теория).
 
 И так мы установили систему аутентификации, пока по-умолчанию, но уже понятно, что любой запрос к нашему приложению и 
@@ -312,26 +318,42 @@ ________________________________________________________________________________
 режиме отладки и посмотрим что получим.  
 - При запуске приложения мы получили сгенерированный пароль для дефолтного пользователя "user" (например):
 
+```
         Using generated security password: 212379aa-f9d5-4bc5-b428-72707ef4c523
+```
 
-- Пробуем загрузить список записей из таблицы users нашей БД - [http://localhost:8080/users](http://localhost:8080/users) и получаем доступ к списку 
-фильтров в цепочке загруженных фильтров аутентификации см. [DOC/DefaultAppFilterChain.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/DefaultAppFilterChain.jpg). Так же мы видим наш 
-единственный DispatcherServlet, который будет обрабатывать запросы. 
-- Наконец мы видим DelegatingFilterProxy см. [DOC/SpringFilterProxyForAuth.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/SpringFilterProxyForAuth.jpg), в котором находится цепочка фильтров 
-безопасности от Spring-a см. [DOC/springSecurityFilterChain.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/springSecurityFilterChain.jpg), названия оных говорят сами за себя. В списке приведенных 
-фильтров мы можем заметить, например, те из них, что генерируют страницы LogIn и LogOut по умолчанию.
+- Пробуем загрузить список записей из таблицы users нашей БД - [http://localhost:8080/users](http://localhost:8080/users) и получаем доступ к списку фильтров в цепочке загруженных фильтров аутентификации см. 
+
+![DefaultAppFilterChain.jpg](../Spring_part_20/DOC/DefaultAppFilterChain.jpg)
+
+Так же мы видим наш единственный DispatcherServlet, который будет обрабатывать запросы. 
+
+- Наконец мы видим DelegatingFilterProxy см. 
+
+![SpringFilterProxyForAuth.jpg](../Spring_part_20/DOC/SpringFilterProxyForAuth.jpg)
+
+В котором находится цепочка фильтров безопасности от Spring-a см. 
+
+![springSecurityFilterChain.jpg](../Spring_part_20/DOC/springSecurityFilterChain.jpg)
+
+Названия оных говорят сами за себя. В списке приведенных фильтров мы можем заметить, например, те из них, что генерируют страницы LogIn и LogOut по умолчанию.
 - Продолжим шаг за шагом двигаться по фильтрам и видим, что запрос - [http://localhost:8080/users](http://localhost:8080/users) - не прошел, как это 
 было без использования системы безопасности. Произошла переадресация на страницу аутентификации по-умолчанию см. 
-[DOC/AppSecurityDefaultPage/AppSecurityDefaultLogInPage.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/AppSecurityDefaultPage/AppSecurityDefaultLogInPage.jpg).
+
+![AppSecurityDefaultLogInPage.jpg](../Spring_part_20/DOC/AppSecurityDefaultPage/AppSecurityDefaultLogInPage.jpg)
+
 - И так, у нас есть логин по-умолчанию "user" и сгенерированный пароль. Вводим их в форму аутентификации и вуаля.
 - Все мы аутентифицированы и попали на нужную нам страницу. Мы даже можем прыгать по страницам приложения, как и раньше.
 
 Поскольку мы имеем и страницу LogOut, мы можем ей воспользоваться - [http://localhost:8080/logout](http://localhost:8080/logout) и получаем см. 
-[DOC/AppSecurityDefaultPage/AppSecurityDefaultLogOutPage.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/AppSecurityDefaultPage/AppSecurityDefaultLogOutPage.jpg). Подтверждаем действие и снова теряем доступ к приложению см.
-[DOC/AppSecurityDefaultPage/AppSecurityDefaultSignedOutPage.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/AppSecurityDefaultPage/AppSecurityDefaultSignedOutPage.jpg).
 
-Попробуем умышленно ввести неверные данные в поля данных аутентификации, любые и получим ответ о неверных данных 
-пользователя или "Bad credentials".
+![AppSecurityDefaultLogOutPage.jpg](../Spring_part_20/DOC/AppSecurityDefaultPage/AppSecurityDefaultLogOutPage.jpg)
+
+Подтверждаем действие и снова теряем доступ к приложению см.
+
+![AppSecurityDefaultSignedOutPage.jpg](../Spring_part_20/DOC/AppSecurityDefaultPage/AppSecurityDefaultSignedOutPage.jpg)
+
+Попробуем умышленно ввести неверные данные в поля данных аутентификации, любые и получим ответ о неверных данных пользователя или "Bad credentials".
 
 Тут мы можем увидеть, что текущая сессия аутентификации пользователя приложения привязана к cookies и самое главное к
 JSESSIONID и если мы ее умышленно удалим после аутентификации из браузера, то снова потеряем доступ к нашему приложению,
@@ -339,11 +361,13 @@ JSESSIONID и если мы ее умышленно удалим после ау
 
 Все эти cookies отправляется на наш сервер приложения и там в виде MAP хранится список аутентифицированных пользователей.
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 102 - [Dao Authentication Provider](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/dao-authentication-provider.html).
 
-Посмотрим на внутреннюю структуру [DaoAuthenticationProvider](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/dao/DaoAuthenticationProvider.html) см. [код на GitHub](https://github.com/spring-projects/spring-security/blob/main/core/src/main/java/org/springframework/security/authentication/dao/DaoAuthenticationProvider.java):
+Посмотрим на внутреннюю структуру [DaoAuthenticationProvider](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/dao/DaoAuthenticationProvider.html) 
+см. [код на GitHub](https://github.com/spring-projects/spring-security/blob/main/core/src/main/java/org/springframework/security/authentication/dao/DaoAuthenticationProvider.java):
 
+```java
     public class DaoAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
         private static final String USER_NOT_FOUND_PASSWORD = "userNotFoundPassword";
@@ -360,10 +384,13 @@ ________________________________________________________________________________
     
         . . . some methods
     }
+```
 
 Из структуры класса мы видим, что вводимые пароли user-ов будут закодированы - '[PasswordEncoder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/password/PasswordEncoder.html)', нам необходимо будет 
-реализовать - '[UserDetailsService](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetailsService.html)', данный интерфейс имеет один метод позволяющий загружать данные пользователей:
+реализовать - '[UserDetailsService](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetailsService.html)', 
+данный интерфейс имеет один метод позволяющий загружать данные пользователей:
 
+```java
     public interface UserDetailsService {
          /*
          Находит пользователя по 'имени пользователя'. В реальной реализации поиск
@@ -383,36 +410,37 @@ ________________________________________________________________________________
         UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
     
     }
+```
 
-Т.е. мы передаем в метод String username, а получаем [UserDetails](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetails.html) или наш UserDTO. Это [интерфейс UserDetails](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetails.html) содержит все
-необходимые методы для получения информации о user-ах см. [DOC/Authentication/UserDetails.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/UserDetails.txt). При этом в Spring уже есть 
-реализация класса User см. [DOC/Authentication/UserClass.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/UserClass.txt) которой мы можем воспользоваться (но не будем, пока).
+Т.е. мы передаем в метод String username, а получаем [UserDetails](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetails.html) или наш UserDTO. 
+Это [интерфейс UserDetails](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetails.html) содержит все
+необходимые методы для получения информации о user-ах см. [UserDetails](../Spring_part_20/DOC/Authentication/UserDetails.md). При этом в Spring уже есть 
+реализация класса User см. [UserClass](../Spring_part_20/DOC/Authentication/UserClass.md) которой мы можем воспользоваться (но не будем, пока).
 
 Реализуем аутентификацию наших пользователей при помощи провайдера - [DaoAuthenticationProvider](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/dao/DaoAuthenticationProvider.html):
 - Шаг 1. - Добавим в наши таблицы users и users_aud поля для хранения паролей - password. Делаем это через нашу систему
-миграции БД - [db/changelog/db.changelog-4.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/db/changelog/db.changelog-4.0.sql). Прописываем изменения в файле - [db/changelog/db.changelog-master.yaml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/db/changelog/db.changelog-master.yaml);
-- Шаг 2. - В файле [db/changelog/db.changelog-4.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/db/changelog/db.changelog-4.0.sql) каждому полю password зададим значение пароля по-умолчанию - 
-[DEFAULT '{noop}123'](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/db/changelog/db.changelog-4.0.sql#L5), но, пока, префикс показывает, что мы не используем шифрацию паролей - {noop};
-- Шаг 3. - Добавляем поле '[password](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/database/entity/User.java#L63)' именно в наш класс User - [spring/oldboy/database/entity/User.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/database/entity/User.java);
-- Шаг 4. - Наш интерфейс Role - [spring/oldboy/database/entity/Role.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/database/entity/Role.java), должен реализовывать интерфейс [GrantedAuthority](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/GrantedAuthority.html),
-см. [DOC/Authentication/GrantedAuthority.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/Authentication/GrantedAuthority.txt). Хотя мы могли, как и в случае с User использовать уже готовую реализацию 
-этого интерфейса;
-- Шаг 5. - Реализуем [UserDetailsService](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetailsService.html). Это мы будем делать в нашем [spring/oldboy/service/UserService.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/service/UserService.java). Для этого 
-наш сервисный класс должен имплементировать интерфейс UserDetailsService, что и делает, а так же реализовать метод -
-[loadUserByUsername(String username)](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetailsService.html#loadUserByUsername(java.lang.String)), как было описано выше. Основные комментарии смотреть в классе - [UserService](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/service/UserService.java);
-- Шаг 6. - В интерфейсе [UserRepository](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/database/repository/user_repository/UserRepository.java) создаем метод [*.findByUsername(username)](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/database/repository/user_repository/UserRepository.java#L61);
+миграции БД - [db/changelog/db.changelog-4.0.sql](../Spring_part_20/src/main/resources/db/changelog/db.changelog-4.0.sql). Прописываем изменения в файле - [db/changelog/db.changelog-master.yaml](../Spring_part_20/src/main/resources/db/changelog/db.changelog-master.yaml);
+- Шаг 2. - В файле [db/changelog/db.changelog-4.0.sql](../Spring_part_20/src/main/resources/db/changelog/db.changelog-4.0.sql) каждому полю password зададим значение пароля по-умолчанию - 
+[DEFAULT '{noop}123'](../Spring_part_20/src/main/resources/db/changelog/db.changelog-4.0.sql#L5), но, пока, префикс показывает, что мы не используем шифрацию паролей - {noop};
+- Шаг 3. - Добавляем поле '[password](../Spring_part_20/src/main/java/spring/oldboy/database/entity/User.java#L63)' именно в наш класс User - [spring/oldboy/database/entity/User.java](../Spring_part_20/src/main/java/spring/oldboy/database/entity/User.java);
+- Шаг 4. - Наш интерфейс Role - [spring/oldboy/database/entity/Role.java](../Spring_part_20/src/main/java/spring/oldboy/database/entity/Role.java), должен реализовывать интерфейс [GrantedAuthority](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/GrantedAuthority.html), см. [GrantedAuthority](../Spring_part_20/DOC/Authentication/GrantedAuthority.md). 
+Хотя мы могли, как и в случае с User использовать уже готовую реализацию этого интерфейса;
+- Шаг 5. - Реализуем [UserDetailsService](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetailsService.html). Это мы будем делать в нашем [UserService.java](../Spring_part_20/src/main/java/spring/oldboy/service/UserService.java). Для этого наш сервисный класс должен имплементировать интерфейс UserDetailsService, что и делает, а так же реализовать метод -
+[loadUserByUsername(String username)](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetailsService.html#loadUserByUsername(java.lang.String)), как было описано выше. Основные комментарии смотреть в классе - [UserService](../Spring_part_20/src/main/java/spring/oldboy/service/UserService.java);
+- Шаг 6. - В интерфейсе [UserRepository](../Spring_part_20/src/main/java/spring/oldboy/database/repository/user_repository/UserRepository.java) создаем метод [*.findByUsername(username)](../Spring_part_20/src/main/java/spring/oldboy/database/repository/user_repository/UserRepository.java#L61);
 
 Для проверки работы предоставленного нами UserDetailsService-a запускаем приложение и заходим под одной из уже готовых 
-записей в таблице users БД, через default Login страницу - [http://localhost:8080/login](http://localhost:8080/login). Пароль по умолчанию мы задали: 
-'123'. И если все пройдет нормально мы не увидим default пользователя и пароля при загрузке Spring-a.
+записей в таблице users БД, через default Login страницу - [http://localhost:8080/login](http://localhost:8080/login). 
+Пароль по умолчанию мы задали: '123'. И если все пройдет нормально мы не увидим default пользователя и пароля при загрузке Spring-a.
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 103 - Form-Login ([фильтр Username and Password](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/index.html)).
 
 Для входа в систему безопасности нашего приложения мы заменим предоставленную нам Spring Security Starter-ом (default) 
 страницу аутентификации на свою. Её мы должны предоставить системе вместо существующей. Для этого изучим структуру 
 исходной HTML страницы предоставленной Spring-ом:
 
+```html
     <div class="container">
           <form class="form-signin" method="post" action="/login">
             <h2 class="form-signin-heading">Please sign in</h2>
@@ -437,10 +465,12 @@ ________________________________________________________________________________
             . . .
           </form>
     </div>
+```
 
-Мы имеем форму, которая методом POST отправляется на endpoint "/login". И самое главное, поля ввода или input-поля с 
+Мы имеем форму, которая методом POST отправляется на endpoint `/login`. И самое главное, поля ввода или input-поля с 
 именами, именно теми 'name', что ждем система безопасности, а точнее класс [UsernamePasswordAuthenticationFilter](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/authentication/UsernamePasswordAuthenticationFilter.html) см. [код на GitHub](https://github.com/spring-projects/spring-security/blob/main/web/src/main/java/org/springframework/security/web/authentication/UsernamePasswordAuthenticationFilter.java):
 
+```java
     public class UsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     
         public static final String SPRING_SECURITY_FORM_USERNAME_KEY = "username";
@@ -449,45 +479,47 @@ ________________________________________________________________________________
         
         . . . some parameter and method . . .
     }
+```
 
 И так создаем самописный вход (Login) в приложение:
 - Шаг 1. - Создать или переделать предложенную Spring-ом форму Login. У нас уже была своя форма аутентификации 
-совмещенная с регистрацией см. [templates/user/login.html](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/templates/user/login.html). Доработаем ее, добавим немного поясняющего текста и блок 
-предупреждающий о неверно введенных данных.
-- Шаг 2. - В нашем [spring/oldboy/http/controller/LoginController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/http/controller/LoginController.java). Метод *.login() из Lesson 75 нам не нужен, 
-удаляем.
+совмещенная с регистрацией см. [templates/user/login.html](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/templates/user/login.html). Доработаем ее, добавим немного поясняющего текста и блок предупреждающий о неверно введенных данных.
+- Шаг 2. - В нашем [spring/oldboy/http/controller/LoginController.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/http/controller/LoginController.java). Метод *.login() из Lesson 75 нам не нужен, удаляем.
 - Шаг 3. - Создаем свой конфигурационный файл безопасности [SecurityConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java). Как я и подозревал ранее для 
-новичка эта горка с наскока не далась, см. [DOC/NewWebSecurityConfigurer](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_20/DOC/NewWebSecurityConfigurer). Применяем аннотации, прописываем метод 
-[*.filterChain()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java#L55) и конфигурируем в нем [HttpSecurity](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/HttpSecurity.html) или см. [DOC/NewWebSecurityConfigurer/HttpSecurityClass.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/NewWebSecurityConfigurer/HttpSecurityClass.txt).
+новичка эта горка с наскока не далась, см. [NewWebSecurityConfigurer](../Spring_part_20/DOC/NewWebSecurityConfigurer). Применяем аннотации, прописываем метод 
+[*.filterChain()](../Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java#L55) и конфигурируем в нем [HttpSecurity](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/HttpSecurity.html) или см. [HttpSecurityClass](../Spring_part_20/DOC/NewWebSecurityConfigurer/HttpSecurityClass.md).
 
 В данном случае применена простая настройка (без изысков) с перенаправлением на нашу страничку [Login](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/templates/user/login.html). 
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 104 - [HTTP-Basic-Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/basic.html).
 
-В прошлом уроке и уроках ранее мы изучили вариант аутентификации через форму Login (нашу самописную или предложенную 
-Spring-ом). Это один из видов фильтров безопасности см. [DOC/AuthenticationProcess.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/AuthenticationProcess.jpg). Теперь рассмотрим вариант 
-стандартного [HTTP-Basic-Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/basic.html) фильтра, 
-краткая схема см. [DOC/HttpBasicAuthentication/HTTPBasicAuthentication.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/HttpBasicAuthentication/HTTPBasicAuthentication.jpg).
+В прошлом уроке и уроках ранее мы изучили вариант аутентификации через форму Login (нашу самописную или предложенную Spring-ом). 
+Это один из видов фильтров безопасности см. 
+
+![AuthenticationProcess.jpg](../Spring_part_20/DOC/AuthenticationProcess.jpg)
+
+Теперь рассмотрим вариант стандартного [HTTP-Basic-Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/basic.html) фильтра, краткая схема см. 
+
+![HTTPBasicAuthentication.jpg](../Spring_part_20/DOC/HttpBasicAuthentication/HTTPBasicAuthentication.jpg).
 
 В случае аутентификации с использованием HTTPBasic фильтра вся информация передается в специальном хедере - Authentication,
 в котором передается префикс Basic. В значении 'value' этой переменной передается пароль и логин разделенные двоеточием - 
 (username:password). Данное сочетание после конкатенации шифруется при помощи - base64, т.е. отправляется в специальный
 класс шифратор. Полученная закодированная строка отправляется в хедере Authentication нашего HTTP запроса.
 
-Мы можем изучить (попробовать, в качестве демонстрации), как выглядит строка закодированная или раскодированная в коде 
-base64 используя сайты:
+Мы можем изучить (попробовать, в качестве демонстрации), как выглядит строка закодированная или раскодированная в коде base64 используя сайты:
 - [https://www.base64encode.org/](https://www.base64encode.org/) - для кодирования;
 - [https://www.base64decode.org/](https://www.base64decode.org/) - для декодирования;
 
-Попробуем закодировать: ivanov_vanya@gmail.com:123 
-Получим на выходе закодированную в base64 строку: aXZhbm92X3ZhbnlhQGdtYWlsLmNvbToxMjM=
+Попробуем закодировать: `ivanov_vanya@gmail.com:123`
+Получим на выходе закодированную в base64 строку: `aXZhbm92X3ZhbnlhQGdtYWlsLmNvbToxMjM=`
 
-Т.е. после получения декодер развернет код в обратную сторону, распарсит данные с разделением по двоеточию и проведет 
-аутентификацию. Для изучения варианта HTTP аутентификации сделаем следующее:
-- Шаг 1. - Отключим (закомментируем) режим аутентификации через [нашу Login форму](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/templates/user/login.html) в нашем же [SecurityConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java);
+Т.е. после получения декодер развернет код в обратную сторону, распарсит данные с разделением по двоеточию и проведет аутентификацию. Для изучения варианта HTTP аутентификации сделаем следующее:
+- Шаг 1. - Отключим (закомментируем) режим аутентификации через [нашу Login форму](../Spring_part_20/src/main/resources/templates/user/login.html) в нашем же [SecurityConfiguration.java](../Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java);
 - Шаг 2. - Подключим дефолтный HTTP кастомайзер:
 
+```java
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
@@ -498,19 +530,26 @@ base64 используя сайты:
         return http.build();
         
         }
+```
 
 Хотя, как мы помним, у нас есть возможность использовать цепочку фильтров. Теперь мы можем проверить работу этого 
-фильтра безопасности - запускаем наше приложение и обращаемся к странице '/users'. Форму Login мы отключили и поэтому
-ловим другую форму см. [DOC/HttpBasicAuthentication/HttpBasicAuthenticationForm.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/HttpBasicAuthentication/HttpBasicAuthenticationForm.jpg). В браузере в режиме разработчика мы 
-видим адрес запроса и ответ 401 - (Unauthorized), это означает, что мы пытаемся получить доступ к странице, на которую 
-нужно сначала войти, используя действительный ID пользователя и пароль для просмотра. А так же, можем увидеть хедер 
-Www-Authenticate: Basic. Данный хедер разъяснил браузеру, что мы используем в качестве механизма аутентификации и 
-браузер сгенерировал всплывающую форму запроса пароль/логин.
+фильтра безопасности - запускаем наше приложение и обращаемся к странице `/users`. Форму Login мы отключили и поэтому
+ловим другую форму см. 
 
-- Шаг 3. - Вводим доступные нам данные логин - ivanov_vanya@gmail.com и пароль - 123 (естественно таковой должен быть в БД);
+![HttpBasicAuthenticationForm.jpg](../Spring_part_20/DOC/HttpBasicAuthentication/HttpBasicAuthenticationForm.jpg)
 
-Все мы вошли в наше приложение см. [DOC/HttpBasicAuthentication/HttpBasicAuthenticationLogIn.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/HttpBasicAuthentication/HttpBasicAuthenticationLogIn.jpg). Мы видим результат 
-работы страницы '/users', а самое главное, ответ и хедер - Authorization: Basic aXZhbm92X3ZhbnlhQGdtYWlsLmNvbToxMjM=
+В браузере в режиме разработчика мы видим адрес запроса и ответ 401 - (Unauthorized), это означает, что мы пытаемся 
+получить доступ к странице, на которую нужно сначала войти, используя действительный ID пользователя и пароль для 
+просмотра. А так же, можем увидеть хедер Www-Authenticate: Basic. Данный хедер разъяснил браузеру, что мы используем 
+в качестве механизма аутентификации и браузер сгенерировал всплывающую форму запроса пароль/логин.
+
+- Шаг 3. - Вводим доступные нам данные логин - `ivanov_vanya@gmail.com` и пароль - `123` (естественно таковой должен быть в БД);
+
+Все мы вошли в наше приложение см. 
+
+![HttpBasicAuthenticationLogIn.jpg](../Spring_part_20/DOC/HttpBasicAuthentication/HttpBasicAuthenticationLogIn.jpg)
+
+Мы видим результат работы страницы `/users`, а самое главное, ответ и хедер - `Authorization: Basic aXZhbm92X3ZhbnlhQGdtYWlsLmNvbToxMjM=`
 
 Что легко сравнить с работой энкодера на сайте [https://www.base64encode.org/](https://www.base64encode.org/) см. выше.
 
@@ -520,10 +559,10 @@ Www-Authenticate: Basic. Данный хедер разъяснил браузе
 
 И конечно реализацию метода *.convert() интерфейса [AuthenticationConverter](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/authentication/AuthenticationConverter.html).
 
-В классе [SecurityConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java) возвращаем форму аутентификации через Login, *.httpBasic(Customizer.withDefaults())
-комментируем и переходим к следующему примеру.
+В классе [SecurityConfiguration.java](../Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java) возвращаем форму аутентификации 
+через Login, *.httpBasic(Customizer.withDefaults()) комментируем и переходим к следующему примеру.
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 105 - PasswordEncoder.
 
 Вполне логично, что поле пароль (password) таблицы users нашей БД должно быть зашифровано. На данный момент часть паролей
@@ -531,6 +570,7 @@ ________________________________________________________________________________
 пароль перед отправкой в БД шифруется или проходит через некий энкодер. Обычно происходит сравнение зашифрованных паролей.
 Если мы посмотрим внутреннюю структуру класса [DaoAuthenticationProvider](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authentication/dao/DaoAuthenticationProvider.html), то увидим методы позволяющие задать энкодер см. [на GitHub](https://github.com/spring-projects/spring-security/blob/main/core/src/main/java/org/springframework/security/authentication/dao/DaoAuthenticationProvider.java):
 
+```java
     public class DaoAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
     
         private static final String USER_NOT_FOUND_PASSWORD = "userNotFoundPassword";
@@ -570,9 +610,11 @@ ________________________________________________________________________________
       . . . some code . . . 
     
     }
+```
 
-Именно это поле - passwordEncoder, будет использоваться для сравнения паролей [см. метод этого же класса](https://github.com/spring-projects/spring-security/blob/main/core/src/main/java/org/springframework/security/authentication/dao/DaoAuthenticationProvider.java#L127):
+Именно это поле - `passwordEncoder`, будет использоваться для сравнения паролей [см. метод этого же класса](https://github.com/spring-projects/spring-security/blob/main/core/src/main/java/org/springframework/security/authentication/dao/DaoAuthenticationProvider.java#L127):
 
+```java
       @Override
       protected Authentication createSuccessAuthentication(Object principal, 
                                                            Authentication authentication,
@@ -586,6 +628,7 @@ ________________________________________________________________________________
               }
           return super.createSuccessAuthentication(principal, authentication, user);
       }
+```
 
 Кодировщики паролей создаются (берутся) из класса см. [PasswordEncoderFactories](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/factory/PasswordEncoderFactories.html), список этих энкодеров достаточно широк.
 
@@ -596,18 +639,20 @@ ________________________________________________________________________________
 энкодер, чтобы мы могли использовать шифрование паролей в наших формах взаимодействия с пользователями. 
 
 Начнем:
-- Шаг 1. - Добавим в [SecurityConfiguration метод возвращающий](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java#L94) см. [PasswordEncoder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/password/PasswordEncoder.html);
-- Шаг 2. - Редактируем нашу страницу регистрации - [resources/templates/user/registration.html](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/templates/user/registration.html), под текущие задачи, 
-добавляем [input поля пароль](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/templates/user/registration.html#L26) (rowPassword);
-- Шаг 3. - В класс [UserCreateEditDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/dto/UserCreateEditDto.java) добавляем поле пароля - [rawPassword](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/dto/UserCreateEditDto.java#L51), см. комментарии в классе.
-- Шаг 4. - В классе преобразователе [UserCreateEditMapper](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java), в методе [*.copy()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java#L47) добавляем работу с паролем:
+- Шаг 1. - Добавим в [SecurityConfiguration метод возвращающий](../Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java#L94) см. [PasswordEncoder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/crypto/password/PasswordEncoder.html);
+- Шаг 2. - Редактируем нашу страницу регистрации - [resources/templates/user/registration.html](../Spring_part_20/src/main/resources/templates/user/registration.html), под текущие задачи, 
+добавляем [input поля пароль](../Spring_part_20/src/main/resources/templates/user/registration.html#L26) (rowPassword);
+- Шаг 3. - В класс [UserCreateEditDto](../Spring_part_20/src/main/java/spring/oldboy/dto/UserCreateEditDto.java) добавляем поле пароля - [rawPassword](../Spring_part_20/src/main/java/spring/oldboy/dto/UserCreateEditDto.java#L51), см. комментарии в классе.
+- Шаг 4. - В классе преобразователе [UserCreateEditMapper](../Spring_part_20/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java), в методе [*.copy()](../Spring_part_20/src/main/java/spring/oldboy/mapper/UserCreateEditMapper.java#L47) добавляем работу с паролем:
 
+```java
         Optional.ofNullable(object.getRawPassword())
                 .filter(str -> StringUtils.hasText(str))
                 .map(rawPassword -> passwordEncoder.encode(rawPassword))
                 .ifPresent(password -> user.setPassword(password));
+```
 
-- Шаг 5. - В классе [UserController](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/http/controller/UserController.java) в методе [*.create()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/http/controller/UserController.java#L173) добавляем строку создающую user-a и возвращаем страницу Login-a, 
+- Шаг 5. - В классе [UserController](../Spring_part_20/src/main/java/spring/oldboy/http/controller/UserController.java) в методе [*.create()](../Spring_part_20/src/main/java/spring/oldboy/http/controller/UserController.java#L173) добавляем строку создающую user-a и возвращаем страницу Login-a, 
 т.е. если все прошло успешно и пользователь зарегистрировался в системе он должен пройти аутентификацию;
 
 Проверяем работу, пока только с уже ранее созданным пользователем (кнопка Registration у нас пока не работает), т.е. 
@@ -617,7 +662,7 @@ Login. Теперь просто вводим вновь созданные да
 
 В нашей БД мы видим нашего нового user-a (в таблице users) с зашифрованным паролем с префиксом {bcrypt}.
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 106 - [Logout](https://docs.spring.io/spring-security/reference/servlet/authentication/logout.html).
 
 Уроки выше показали, как настроить формы и фильтры чтобы пользователь нашего приложения-сервиса смог 
@@ -629,26 +674,28 @@ ________________________________________________________________________________
 метод *.doFilter() этого класса удаляет данные о нашем пользователе из MAP-ы сервера, хранящей сведения о JSESSIONID
 (то, что мы проделывали вручную, когда тестировали работу LogIn формы), т.е. чистит сессию.
 
-Данный фильтр можно добавить в нашу цепочку в методе *.filterChain() класса [SecurityConfiguration](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java) и донастроить:
+Данный фильтр можно добавить в нашу цепочку в методе *.filterChain() класса [SecurityConfiguration](../Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java) и донастроить:
 - Шаг 1. - Добавляем метод *.logout() в построитель цепочки фильтров:
 
+```java
         .logout(logout -> logout.logoutUrl("/logout")
                                 .logoutSuccessUrl("/login")
                                 .deleteCookies("JSESSIONID"))
+```
 
 - Шаг 2. - Создадим кнопку LogOut как универсальный элемент всех наших страниц (это может быть, как хедер, так и футер).
-см. [templates/fragments/logout.html](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/templates/fragments/logout.html)
-- Шаг 3. - Для проверки внедрим нашу кнопку в одну из страниц, например [users.html](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/templates/user/users.html). Это будет отдельный блок с нотацией
-Thymeleaf:
-  
+см. [templates/fragments/logout.html](../Spring_part_20/src/main/resources/templates/fragments/logout.html)
+- Шаг 3. - Для проверки внедрим нашу кнопку в одну из страниц, например [users.html](../Spring_part_20/src/main/resources/templates/user/users.html). Это будет отдельный блок с нотацией Thymeleaf:
+
+```html
         <div th:insert="~{fragments/logout :: header}"></div>
+```
 
 Запускаем приложение, логинимся и попадаем на страницу с пагинацией (так настроено), видим кнопку Logout. Можно перейти 
 на любую другую страницу и там эта кнопка, как внедренный элемент (фрагмент) будет доступна. Нажав на нее мы 
-разлогиневаемся и автоматически (так настроена [цепочка фильтров в методе *.filterChain()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java#L67) класса [SecurityConfiguration](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java)) 
-попадаем на страницу [Login](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/src/main/resources/templates/user/login.html).
+разлогиневаемся и автоматически (так настроена [цепочка фильтров в методе *.filterChain()](../Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java#L67) класса [SecurityConfiguration](../Spring_part_20/src/main/java/spring/oldboy/config/SecurityConfiguration.java)) попадаем на страницу [Login](../Spring_part_20/src/main/resources/templates/user/login.html).
 
-________________________________________________________________________________________________________________________
+---
 См. официальные [Guides](https://spring.io/guides):
 - [Getting Started Guides](https://spring.io/guides) - Эти руководства, рассчитанные на 15–30 минут, содержат быстрые
   практические инструкции по созданию «Hello World» для любой задачи разработки с помощью Spring. В большинстве случаев
@@ -658,6 +705,6 @@ ________________________________________________________________________________
 - [Tutorials](https://spring.io/guides#tutorials) - Эти учебники, рассчитанные на 2–3 часа, обеспечивают более глубокое
   контекстное изучение тем разработки корпоративных приложений, что позволяет вам подготовиться к внедрению реальных
   решений.
-________________________________________________________________________________________________________________________
-- [Spring Projects на GitHub](https://github.com/spring-projects) ;
-________________________________________________________________________________________________________________________
+
+---
+- [Spring Projects на GitHub](https://github.com/spring-projects);
