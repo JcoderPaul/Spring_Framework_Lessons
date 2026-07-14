@@ -157,7 +157,7 @@ endpoint-у или набору endpoint-ов сервиса), манипуля�
 
 В разделе зависимостей мы видим полученные связи см. 
 
-![SpringSecurityDependencies.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/DOC/SpringSecurityDependencies.jpg)
+![SpringSecurityDependencies.jpg](../DOC/SpringSecurityDependencies.jpg)
 
 Поскольку мы реализуем web-приложение, то нам как раз и нужен пакет - [org.springframework.security.web](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/package-summary.html). Именно тут реализуется методика безопасности с применением фильтров (фильтры не единственная технология позволяющая организовать Security процесс).  
 
