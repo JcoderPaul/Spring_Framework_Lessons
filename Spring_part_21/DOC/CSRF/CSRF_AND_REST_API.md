@@ -11,7 +11,7 @@
 ### Требуется ли REST API защита CSRF?
 
 Во-первых, мы можем найти пример CSRF-атаки в нашем специальном руководстве [A Guide to CSRF Protection in Spring Security](https://www.baeldung.com/spring-security-csrf#example) 
-или [Руководство по защите CSRF в Spring Security](../DOC/CSRF/CSRFGuideProtection.md#две-простые-csrf-атаки) данного раздела.
+или [Руководство по защите CSRF в Spring Security](../CSRF/CSRFGuideProtection.md#две-простые-csrf-атаки) данного раздела.
 
 Теперь, прочитав это руководство, мы можем подумать, что REST API без сохранения состояния не будет затронут такого
 рода атакой, поскольку на стороне сервера нет сеанса, который можно было бы украсть. Но, давайте возьмем типичный
