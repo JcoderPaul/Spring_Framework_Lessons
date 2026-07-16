@@ -1,17 +1,17 @@
-См. исходник (ENG):
-https://www.baeldung.com/csrf-stateless-rest-api
-________________________________________________________________________________________________________________________
-****** CSRF с REST API без сохранения состояния ******
+- [См. исходник (ENG)](https://www.baeldung.com/csrf-stateless-rest-api)
 
-В нашей предыдущей статье - https://www.baeldung.com/csrf-thymeleaf-with-spring-security мы объяснили, как атаки CSRF
-влияют на приложение Spring MVC. В этой статье будут рассмотрены различные случаи, чтобы определить, может ли REST API
-без сохранения состояния (stateless) быть уязвимым для атак CSRF, и если да, то как защитить его от них.
+---
+### CSRF с REST API без сохранения состояния
 
-________________________________________________________________________________________________________________________
-*** Требуется ли REST API защита CSRF? ***
+В нашей предыдущей статье [CSRF Protection with Spring MVC and Thymeleaf](https://www.baeldung.com/csrf-thymeleaf-with-spring-security) 
+мы объяснили, как атаки CSRF влияют на приложение Spring MVC. В этой статье будут рассмотрены различные случаи, чтобы определить, 
+может ли REST API без сохранения состояния (stateless) быть уязвимым для атак CSRF, и если да, то как защитить его от них.
 
-Во-первых, мы можем найти пример CSRF-атаки в нашем специальном руководстве -
-https://www.baeldung.com/spring-security-csrf#example или DOC/CSRF/CSRFGuideProtection.txt данного раздела.
+---
+### Требуется ли REST API защита CSRF?
+
+Во-первых, мы можем найти пример CSRF-атаки в нашем специальном руководстве [A Guide to CSRF Protection in Spring Security](https://www.baeldung.com/spring-security-csrf#example) 
+или [Руководство по защите CSRF в Spring Security](../DOC/CSRF/CSRFGuideProtection.md#две-простые-csrf-атаки) данного раздела.
 
 Теперь, прочитав это руководство, мы можем подумать, что REST API без сохранения состояния не будет затронут такого
 рода атакой, поскольку на стороне сервера нет сеанса, который можно было бы украсть. Но, давайте возьмем типичный
