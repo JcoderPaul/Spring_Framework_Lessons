@@ -46,7 +46,7 @@
 и отправить токен вместе с запросом**. 
 
 В этом случае мы должны защитить наше приложение [Prevent Cross-Site Scripting (XSS) in a Spring Application](https://www.baeldung.com/spring-prevent-xss) 
-или [Предотвращение межсайтового скриптинга (XSS) в приложении Spring](../CSRF/CrossSiteScripting_XSS.txt).
+или [Предотвращение межсайтового скриптинга (XSS) в приложении Spring](../CSRF/CrossSiteScripting_XSS.md).
 
 ---
 #### Учетные данные, хранящиеся в файлах cookie
