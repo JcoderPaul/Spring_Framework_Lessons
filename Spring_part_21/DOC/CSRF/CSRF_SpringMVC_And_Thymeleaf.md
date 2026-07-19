@@ -206,57 +206,58 @@ thymeleaf-spring4. 5-ую версию зависимостей можно на�
 Обратите внимание, что сеанс HTTP используется для хранения токенов CSRF. Когда запрос отправляется, Spring сравнивает
 сгенерированный токен с токеном, хранящимся в сеансе, чтобы подтвердить, что пользователь не взломан.
 
-________________________________________________________________________________________________________________________
-*** Тестирование атак JUnit CSRF ***
+---
+### Тестирование атак JUnit CSRF
 
 Если вы не хотите тестировать атаку CSRF с помощью браузера, вы также можете сделать это с помощью быстрого
 интеграционного теста; давайте начнем с конфигурации Spring для этого теста:
 
-************************************************************************************************************************
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@ContextConfiguration(classes = {WebApp.class,
-                                 WebMVCConfig.class,
-                                 WebMVCSecurity.class,
-                                 InitSecurity.class })
-public class CsrfEnabledIntegrationTest {
-
-    // configuration
-
-}
-************************************************************************************************************************
+```java
+	@RunWith(SpringJUnit4ClassRunner.class)
+	@WebAppConfiguration
+	@ContextConfiguration(classes = {WebApp.class,
+	                                 WebMVCConfig.class,
+	                                 WebMVCSecurity.class,
+	                                 InitSecurity.class })
+	public class CsrfEnabledIntegrationTest {
+	
+	    // configuration
+	
+	}
+```
 
 И переходим к реальным тестам:
 
-************************************************************************************************************************
-@Test
-public void addStudentWithoutCSRF() throws Exception {
-    mockMvc.perform(post("/saveStudent")
-           .contentType(MediaType.APPLICATION_JSON)
-           .param("id", "1234567")
-           .param("name", "Joe")
-           .param("gender", "M")
-           .with(testUser()))
-           .andExpect(status().isForbidden());
-}
+```java
+	@Test
+	public void addStudentWithoutCSRF() throws Exception {
+	    mockMvc.perform(post("/saveStudent")
+	           .contentType(MediaType.APPLICATION_JSON)
+	           .param("id", "1234567")
+	           .param("name", "Joe")
+	           .param("gender", "M")
+	           .with(testUser()))
+	           .andExpect(status().isForbidden());
+	}
+	
+	@Test
+	public void addStudentWithCSRF() throws Exception {
+	    mockMvc.perform(post("/saveStudent")
+	           .contentType(MediaType.APPLICATION_JSON)
+	           .param("id", "1234567")
+	           .param("name", "Joe")
+	           .param("gender", "M")
+	           .with(testUser())
+	           .with(csrf()))
+	           .andExpect(status().isOk());
+	}
+```
 
-@Test
-public void addStudentWithCSRF() throws Exception {
-    mockMvc.perform(post("/saveStudent")
-           .contentType(MediaType.APPLICATION_JSON)
-           .param("id", "1234567")
-           .param("name", "Joe")
-           .param("gender", "M")
-           .with(testUser())
-           .with(csrf()))
-           .andExpect(status().isOk());
-}
-************************************************************************************************************************
+Первый тест приведет к "запрещенному" - forbidden статусу из-за отсутствия токена CSRF, тогда как второй будет выполнен правильно.
 
-Первый тест приведет к запрещенному статусу из-за отсутствия токена CSRF, тогда как второй будет выполнен правильно.
-
-________________________________________________________________________________________________________________________
-*** ИТОГ ***
+---
+### ИТОГ
 
 В этой статье мы обсудили, как предотвратить атаки CSRF с помощью Spring Security и платформы Thymeleaf.
-Код с примерами на GitHub - https://github.com/eugenp/tutorials/tree/master/spring-web-modules/spring-thymeleaf-5
+
+[Код с примерами на GitHub](https://github.com/eugenp/tutorials/tree/master/spring-web-modules/spring-thymeleaf-5)
