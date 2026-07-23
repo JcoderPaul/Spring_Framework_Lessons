@@ -1,0 +1,201 @@
+- [См. исходник (ENG)](https://www.baeldung.com/spring-security-httpsecurity-vs-websecurity)
+- 
+---
+### HttpSecurity против WebSecurity в Spring Security
+
+Платформа [Spring Security](https://www.baeldung.com/security-spring) предоставляет классы WebSecurity и HttpSecurity 
+для предоставления как глобальных, так и специфичных для ресурсов механизмов ограничения доступа к API и активам. Класс 
+WebSecurity помогает настроить безопасность на глобальном уровне, а HttpSecurity предоставляет методы для настройки 
+безопасности для конкретного ресурса.
+
+В этой статье мы подробно рассмотрим использование ключей HttpSecurity и WebSecurity. Также мы увидим различия между
+двумя классами.
+
+---
+### HTTP-безопасность (HttpSecurity)
+
+Класс [HttpSecurity](https://www.baeldung.com/java-config-spring-security#HTTP=) помогает настроить безопасность для 
+определенных HTTP-запросов. Кроме того, он позволяет использовать метод requestMatcher() для ограничения конфигурации 
+безопасности определенной конечной точкой HTTP (endpoint). Так же, он обеспечивает гибкость настройки авторизации для 
+конкретного HTTP-запроса. Мы можем создать аутентификацию на основе ролей с помощью метода hasRole().
+
+Вот пример кода, который использует класс HttpSecurity для ограничения доступа к `/admin/**`:
+
+```java
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/admin/**")
+          .authenticated()
+          .anyRequest()
+          .permitAll())
+          .formLogin(withDefaults());
+    
+        return http.build();
+    }
+```
+
+В приведенном выше коде мы используем класс HttpSecurity для ограничения доступа к конечной точке `/admin/**`. Любой
+запрос, сделанный к конечной точке, потребует аутентификации, прежде чем доступ будет предоставлен.
+
+Кроме того, HttpSecurity предоставляет метод настройки авторизации для ограниченной конечной точки. Давайте изменим наш
+пример кода, чтобы разрешить доступ к конечной точке « /admin/** » только пользователю с ролью администратора:
+
+```java
+    // ...
+    http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/admin/**").hasRole("ADMIN")
+    // ...
+```
+
+Здесь мы обеспечиваем дополнительные уровни безопасности запроса, разрешая доступ к конечной точке только пользователям
+с ролью «ADMIN».
+
+Кроме того, класс HttpSecurity помогает настроить защиту CORS и CSRF в Spring Security.
+
+---
+### Веб-безопасность (WebSecurity)
+
+Класс WebSecurity помогает настроить безопасность на глобальном уровне в приложении Spring. Мы можем настроить
+WebSecurity, открыв bean-компонент [WebSecurityCustomizer](https://www.baeldung.com/spring-deprecated-websecurityconfigureradapter).
+
+В отличие от класса HttpSecurity, который помогает настраивать правила безопасности для конкретных шаблонов URL-адресов
+или отдельных ресурсов, конфигурация WebSecurity применяется глобально ко всем запросам и ресурсам.
+
+Кроме того, он предоставляет методы для отладки журналирования (логирования, logging) для фильтров Spring Security,
+игнорирования проверок безопасности для определенных запросов и ресурсов или настройки брандмауэра для приложения
+Spring.
+
+---
+### Метод игнорирования - ignoring()
+
+Класс WebSecurity предоставляет метод ignore(). Он помогает Spring Security игнорировать экземпляр RequestMatcher.
+Рекомендуется, чтобы запросы на регистрацию содержали только статические ресурсы.
+
+Вот пример, в котором метод ignore() используется для игнорирования статических ресурсов в приложении Spring:
+
+```java
+    @Bean
+    WebSecurityCustomizer ignoringCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/resources/**", "/static/**");
+    }
+```
+
+Здесь мы используем метод ignore() для обхода статических ресурсов при проверке безопасности.
+
+Примечательно, что Spring советует использовать метод ignore() не для динамических запросов, а только для статических
+ресурсов, поскольку он обходит цепочку фильтров Spring Security. Это рекомендуется для статических ресурсов, таких как
+CSS, изображения и т. д.
+
+Однако динамические запросы должны проходить аутентификацию и авторизацию, чтобы обеспечить разные правила доступа,
+поскольку они содержат конфиденциальные данные. Кроме того, если мы полностью игнорируем динамические конечные точки,
+мы теряем полный контроль безопасности. Это может открыть приложение для различных атак, таких как CSRF-атаки или
+SQL-инъекции.
+
+---
+### Метод отладки - debug()
+
+Метод debug() позволяет вести [журнал внутренних компонентов Spring Security](https://www.baeldung.com/spring-security-enable-logging), 
+чтобы помочь в отладке конфигурации или при сбоях запросов. Это может быть полезно при диагностике правил безопасности без необходимости 
+использования отладчика.
+
+Давайте посмотрим пример кода, который использует метод debug() для отладки безопасности:
+
+```java
+    @Bean
+    WebSecurityCustomizer debugSecurity() {
+        return (web) -> web.debug(true);
+    }
+```
+
+Здесь мы вызываем debug() для экземпляра WebSecurity и устанавливаем для него значение true. Это глобально включает
+ведение журнала отладки для всех фильтров безопасности.
+
+---
+### Метод httpFirewall ()
+
+Класс WebSecurity предоставляет метод httpFirewall() для настройки [брандмауэра для приложения Spring](https://www.baeldung.com/spring-security-request-rejected-exception#spring-security-httpfirewall-interface). Это помогает устанавливать правила, разрешающие определенные действия на глобальном уровне.
+
+Давайте воспользуемся методом httpFirewall(), чтобы определить, какие методы HTTP следует разрешить в нашем приложении:
+
+```java
+    @Bean
+    HttpFirewall allowHttpMethod() {
+        List<String> allowedMethods = new ArrayList<String>();
+        allowedMethods.add("GET");
+        allowedMethods.add("POST");
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowedHttpMethods(allowedMethods);
+        return firewall;
+    }
+    
+    @Bean
+    WebSecurityCustomizer fireWall() {
+        return (web) -> web.httpFirewall(allowHttpMethod());
+    }
+```
+
+В приведенном выше коде мы предоставляем bean-компонент HttpFirewall для настройки брандмауэра для методов HTTP. По
+умолчанию разрешены методы DELETE, GET, HEAD, OPTIONS, PATCH, POST и PUT. Однако в нашем примере мы настраиваем
+приложение только с помощью методов GET и POST.
+
+Мы создаем объект StrictHttpFirewall и вызываем для него метод setAllowedHttpMethods(). Метод принимает в качестве
+аргумента список разрешенных методов HTTP.
+
+Наконец, мы предоставляем bean-компонент WebSecurityCustomizer для глобальной настройки брандмауэра, передавая метод
+allowHttpMethod() методу httpFirewall(). Любой запрос, отличный от GET или POST, вернет ошибку HTTP из-за брандмауэра.
+
+---
+### Ключевые различия
+
+Конфигурации HttpSecurity и WebSecurity не конфликтуют, а могут работать вместе, обеспечивая глобальные и специфичные
+для ресурсов правила безопасности. Однако если в обоих случаях настроены одинаковые правила безопасности, конфигурация
+WebSecurity имеет наивысший приоритет:
+
+```java
+    @Bean
+    WebSecurityCustomizer ignoringCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/admin/**");
+    }
+```
+
+```java
+    // ...
+     http.authorizeHttpRequests((authorize) -> authorize.antMatchers("/admin/**").hasRole("ADMIN")
+    // ...
+```
+
+Здесь мы игнорируем путь `/admin/**` глобально в конфигурации WebSecurity, но также настраиваем правила доступа для
+путей `/admin/**` в HttpSecurity. В этом случае настройки ignoring() от WebSecurity переопределят авторизацию
+HttpSecurity для `/admin/**`.
+
+Самое главное, что в SecurityFilterChain конфигурация WebSecurity выполняется первой при построении цепочки фильтров, и
+только затем оцениваются правила HttpSecurity.
+
+Вот таблица, показывающая ключевые различия между классами HttpSecurity и WebSecurity:
+
+| Особенность        | WebSecurity                                                  | HTTPSecurity                                       |
+|--------------------|--------------------------------------------------------------|----------------------------------------------------|
+| Объем              | Глобальное правило безопасности по умолчанию.                | Правила безопасности для конкретных ресурсов.      |
+| Примеры            | Конфигурация брандмауэра, игнорирование пути, режим отладки. | Правила URL, авторизация, CORS, CSRF.              |
+| Подход к настройке | Условная конфигурациядля каждого ресурса.                    | Глобальная многоразовая конфигурация безопасности. |
+
+---
+### ИТОГ
+
+В этой статье мы изучили ключевое использование HttpSecurity и WebSecurity на примерах кода. Кроме того, мы увидели,
+как HttpSecurity позволяет настраивать правила безопасности для конкретных ресурсов, а WebSecurity устанавливает
+глобальные правила по умолчанию.
+
+Их совместное использование обеспечивает гибкость для защиты приложения Spring как на глобальном уровне, так и на уровне
+ресурсов.
+
+[Как всегда, полный код примеров доступен на GitHub](https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-core-2)
+
+---
+**Доп. материал:**
+- [Java Configuration (from Spring Doc)](https://docs.spring.io/spring-security/site/docs/4.1.0.RC1/reference/html/jc.html)
+- [Spring security servlet applications architecture (from Spring Doc)](https://docs.spring.io/spring-security/reference/servlet/architecture.html)
+- [Spring Security without the WebSecurityConfigurerAdapter](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)
+- [Spring Security Configuration - HttpSecurity vs WebSecurity](https://stackoverflow.com/questions/56388865/spring-security-configuration-httpsecurity-vs-websecurity)
+- [The difference between WebSecurity and HttpSecurity in Spring Security](https://www.springcloud.io/post/2022-02/websecurity-and-httpsecurity/#gsc.tab=0)
+- [How Spring Security Works: Architecture, Authentication & Best Practices](https://www.penligent.ai/hackinglabs/how-spring-security-works-architecture-authentication-best-practices/)
+- [ServerHttpSecurity vs. HttpSecurity in Spring Security](https://medium.com/@infinityTime/serverhttpsecurity-vs-httpsecurity-in-spring-security-3f45894c5832)
