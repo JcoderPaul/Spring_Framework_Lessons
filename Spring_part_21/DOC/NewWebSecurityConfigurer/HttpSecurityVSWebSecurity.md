@@ -1,5 +1,5 @@
 - [См. исходник (ENG)](https://www.baeldung.com/spring-security-httpsecurity-vs-websecurity)
-- 
+
 ---
 ### HttpSecurity против WebSecurity в Spring Security
 
