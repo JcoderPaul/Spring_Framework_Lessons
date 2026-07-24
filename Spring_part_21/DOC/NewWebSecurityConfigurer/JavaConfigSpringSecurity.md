@@ -35,7 +35,7 @@ pom.xml:
 
 Последнюю версию зависимостей можно найти в [Group: Spring Boot](https://mvnrepository.com/artifact/org.springframework.boot).
 
-```
+---
 ### Веб-безопасность с настройкой Java
 
 Начнем с простого примера конфигурации Java Spring Security:
