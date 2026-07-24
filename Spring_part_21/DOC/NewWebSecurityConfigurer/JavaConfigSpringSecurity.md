@@ -109,17 +109,30 @@ pom.xml:
     }
 ```
 
+Свежий вариант настройки:
+
+```java
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+          .authorizeHttpRequests((authz) -> authz
+            .anyRequest().authenticated())
+          .httpBasic(withDefaults());
+        return http.build();
+    }
+```
+
 Приведенная выше конфигурация гарантирует, что любой запрос к приложению аутентифицируется с помощью входа в систему на
 основе формы или базовой аутентификации HTTP.
 
 Кроме того, это точно похоже на следующую конфигурацию XML:
 
 ```xml
-<http>
-    <intercept-url pattern="/**" access="isAuthenticated()"/>
-    <form-login />
-    <http-basic />
-</http>
+    <http>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <form-login />
+        <http-basic />
+    </http>
 ```
 
 ---
@@ -139,6 +152,20 @@ pom.xml:
           .loginPage("/login")
           .permitAll();
     
+        return http.build();
+    }
+```
+
+Современный (все течет, все изменяется - следите за обновлениями) вариант настройки:
+
+```java
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+          .authorizeHttpRequests((authz) -> authz
+            .anyRequest().authenticated())
+          .formLogin(withDefaults())
+          .httpBasic(withDefaults());
         return http.build();
     }
 ```
@@ -206,84 +233,191 @@ pom.xml:
         return http.build();
     }
 ```
+Или актуальный вариант:
+
+```java
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+          // ...
+          .logout(withDefaults());
+        return http.build();
+    }
+```
 
 Однако, если вы хотите получить больше контроля над доступными обработчиками, вот как будет выглядеть более полная
 реализация:
 
-************************************************************************************************************************
-@Bean
- public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.logout().logoutUrl("/my/logout")
-      .logoutSuccessUrl("/my/index")
-      .logoutSuccessHandler(logoutSuccessHandler)
-      .invalidateHttpSession(true)
-      .addLogoutHandler(logoutHandler)
-      .deleteCookies(cookieNamesToClear)
-      .and()
-      // some other method calls
+```java
+    @Bean
+     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.logout().logoutUrl("/my/logout")
+          .logoutSuccessUrl("/my/index")
+          .logoutSuccessHandler(logoutSuccessHandler)
+          .invalidateHttpSession(true)
+          .addLogoutHandler(logoutHandler)
+          .deleteCookies(cookieNamesToClear)
+          .and()
+          // some other method calls
+    
+        return http.build();
+    }
+```
 
-    return http.build();
-}
-************************************************************************************************************************
+Актуальная реализация:
 
-________________________________________________________________________________________________________________________
-*** Аутентификация ***
+```java
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, 
+        LogoutSuccessHandler webSecurityUserLogoutHandler)
+        throws Exception {
+        http
+          // ...
+          .logout((logout) -> logout
+            .logoutSuccessUrl("/")
+            .invalidateHttpSession(true)
+            .logoutSuccessHandler(webSecurityUserLogoutHandler)
+            .deleteCookies("JSESSIONID")
+          );
+        return http.build();
+    }
+    
+    @Bean
+    public LogoutSuccessHandler webSecurityUserLogoutHandler() {
+        return (request, response, authentication) -> {
+          System.out.println("User logged out successfully!");
+          response.sendRedirect("/app");
+        };
+    }
+```
+
+---
+### Аутентификация
 
 Давайте посмотрим на другой способ разрешения аутентификации с помощью Spring Security.
 
-________________________________________________________________________________________________________________________
-*** Аутентификация в памяти ***
+---
+#### Аутентификация в памяти
 
 Начнем с простой конфигурации в памяти:
 
-************************************************************************************************************************
-@Autowired
-public void configureGlobal(AuthenticationManagerBuilder auth)
-  throws Exception {
-    auth.inMemoryAuthentication()
-      .withUser("user")
-            .password(passwordEncoder()
-                      .encode("password"))
-      .roles("USER")
-      .and()
-      .withUser("admin")
-            .password(passwordEncoder()
-                      .encode("password"))
-      .roles("USER", "ADMIN");
-}
-************************************************************************************************************************
+```java
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth)
+      throws Exception {
+        auth.inMemoryAuthentication()
+          .withUser("user")
+                .password(passwordEncoder()
+                          .encode("password"))
+          .roles("USER")
+          .and()
+          .withUser("admin")
+                .password(passwordEncoder()
+                          .encode("password"))
+          .roles("USER", "ADMIN");
+    }
+```
 
-________________________________________________________________________________________________________________________
-*** JDBC-аутентификация ***
+Или более новый вариант:
+
+```java
+    @Bean
+    public UserDetailsService inMemoryUserDetailsService(
+        PasswordEncoder passwordEncoder) {
+        UserDetails user = User.builder()
+          .username("user")
+          .password(passwordEncoder.encode("password"))
+          .roles("USER")
+          .build();
+        UserDetails admin = User.builder()
+          .username("admin")
+          .password(passwordEncoder.encode("password"))
+          .roles("ADMIN")
+          .build();
+        return new InMemoryUserDetailsManager(user, admin);
+    }
+```
+
+---
+#### JDBC-аутентификация
 
 Чтобы перенести это в JDBC, все, что вам нужно сделать, это определить источник данных в приложении и использовать его
 напрямую:
 
-************************************************************************************************************************
-@Autowired
-private DataSource dataSource;
+```java
+    @Autowired
+    private DataSource dataSource;
+    
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth)
+      throws Exception {
+        auth.jdbcAuthentication()
+            .dataSource(dataSource)
+            .withDefaultSchema()
+            .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
+            .and()
+            .withUser("admin").password(passwordEncoder().encode("password")).roles("USER", "ADMIN");
+    }
+```
 
-@Autowired
-public void configureGlobal(AuthenticationManagerBuilder auth)
-  throws Exception {
-    auth.jdbcAuthentication()
-        .dataSource(dataSource)
-        .withDefaultSchema()
-        .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
-        .and()
-        .withUser("admin").password(passwordEncoder().encode("password")).roles("USER", "ADMIN");
-}
-************************************************************************************************************************
+Более подробно процесс будет выглядеть так:
 
-Конечно, в обоих приведенных выше примерах нам также необходимо определить компонент PasswordEncoder, как описано в
-разделе выше.
+1. Добавим зависимость h2 в наш файл pom.xml :
 
-________________________________________________________________________________________________________________________
-См. так же:
-- Кодировщик паролей по умолчанию в Spring Security 5 -
-https://www.baeldung.com/spring-security-5-default-password-encoder
+```xml
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+```
 
-- Базовая аутентификация Spring Security -
-https://www.baeldung.com/spring-security-basic-authentication
+2. Необходимо настроить базу данных H2 в файле `application.properties` проекта:
 
-________________________________________________________________________________________________________________________
+```
+    spring.datasource.url=jdbc:h2:mem:testdb
+    spring.datasource.username=sa
+    spring.datasource.password=
+    spring.datasource.driver-class-name=org.h2.Driver
+    spring.sql.init.schema-locations=classpath:org/springframework/security/core/userdetails/jdbc/users.ddl
+```
+
+3. Определям источник данных, на который мы можем полагаться в следующей части:
+
+```java
+    @Bean
+    public UserDetailsManager jdbcUserDetailsManager(DataSource dataSource,
+        PasswordEncoder passwordEncoder) {
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        UserDetails user = User.builder()
+          .username("user")
+          .password(passwordEncoder.encode("password"))
+          .roles("USER")
+          .build();
+        UserDetails admin = User.builder()
+          .username("admin")
+          .password(passwordEncoder.encode("password"))
+          .roles("ADMIN")
+          .build();
+        jdbcUserDetailsManager.createUser(user);
+        jdbcUserDetailsManager.createUser(admin);
+        return jdbcUserDetailsManager;
+    }
+```
+
+4. Необходимо настроить встроенный источник данных, инициализируемый схемой пользователя по умолчанию.
+
+Конечно, в обоих приведенных выше примерах нам также необходимо определить bean-компонент PasswordEncoder, 
+как описано. Spring Security предоставляет его в файле `org/springframework/security/core/userdetails/jdbc/users.ddl`.
+
+Мы используем [аннотацию @Profile](https://www.baeldung.com/spring-profiles) (в памяти или JDBC) для выбора активных 
+компонентов UserDetailsManager:
+
+```
+    spring.profiles.active=inmemory
+```
+
+---
+**См. так же:**
+- [Кодировщик паролей по умолчанию в Spring Security 5](https://www.baeldung.com/spring-security-5-default-password-encoder)
+- [Базовая аутентификация Spring Security](https://www.baeldung.com/spring-security-basic-authentication)
