@@ -1,17 +1,14 @@
-См. отредактированный исходник (ENG):
-https://www.baeldung.com/spring-deprecated-websecurityconfigureradapter
-________________________________________________________________________________________________________________________
-****** Spring Security: обновление устаревшего адаптера WebSecurityConfigurerAdapter ******
+- [См. отредактированный исходник (ENG)](https://www.baeldung.com/spring-deprecated-websecurityconfigureradapter)
+
+---
+### Spring Security: обновление устаревшего адаптера WebSecurityConfigurerAdapter
 
 При создании собственной конфигурации системы безопасности, а вернее, при попытке перенаправить пользователя на нашу
 собственную страницу Login (не default от Spring), мы столкнулись с тем, что интересующий нас класс является Deprecated,
-а именно - WebSecurityConfigurerAdapter. Сие неудовольствие начинается с версии Spring-a - 5.7 и выше. См. док.
-https://docs.spring.io/spring-security/site/docs/5.7.0-M2/api/org/springframework/security/config/annotation/web/configuration/WebSecurityConfigurerAdapter.html
+а именно - [WebSecurityConfigurerAdapter](https://docs.spring.io/spring-security/site/docs/5.7.0-M2/api/org/springframework/security/config/annotation/web/configuration/WebSecurityConfigurerAdapter.html). 
+Сие неудовольствие начинается с версии Spring-a - 5.7 и выше. См. статью - ["Spring Security without the WebSecurityConfigurerAdapter"](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)
 
-________________________________________________________________________________________________________________________
-!!! Класс устарел !!! Используйте компонент SecurityFilterChain для настройки HttpSecurity
-                      или компонент WebSecurityCustomizer для настройки WebSecurity.
-________________________________________________________________________________________________________________________
+**!!! Класс устарел !!! Используйте компонент SecurityFilterChain для настройки HttpSecurity или компонент WebSecurityCustomizer для настройки WebSecurity.**
 
 Ранее WebSecurityConfigurerAdapter предоставлял удобный базовый класс для создания экземпляра WebSecurityConfigurer.
 Реализация позволяла настраивать путем переопределения методов. Автоматически применяла результат поиска
@@ -19,21 +16,18 @@ AbstractHttpConfigurer из SpringFactoriesLoader, чтобы позволить
 Для этого вам необходимо было создать класс, расширяющий AbstractHttpConfigurer, а затем создать в пути к классам
 файл «META-INF/spring.factories», который выглядит примерно так:
 
-************************************************************************************************************************
-
-  org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer =
-                                                                    sample.MyClassThatExtendsAbstractHttpConfigurer
-
-************************************************************************************************************************
+```
+  org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer = sample.MyClassThatExtendsAbstractHttpConfigurer
+```
 
 Если у вас есть несколько классов, которые необходимо добавить, вы могли использовать «,» для разделения значений.
 Например:
 
-************************************************************************************************************************
+```
   org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer =
                         sample.MyClassThatExtendsAbstractHttpConfigurer,
                         sample.OtherThatExtendsAbstractHttpConfigurer
-************************************************************************************************************************
+```
 
 И т.д. все методы класса естественно тоже устарели.
 
@@ -43,29 +37,28 @@ AbstractHttpConfigurer из SpringFactoriesLoader, чтобы позволить
 
 Рассмотрим, как заменить устаревший вариант настройки приложения Spring Boot.
 
-________________________________________________________________________________________________________________________
-*** Spring Security без адаптера WebSecurityConfigurerAdapter ***
+---
+### Spring Security без адаптера WebSecurityConfigurerAdapter
 
-Обычно мы видим классы конфигурации безопасности HTTP Spring, которые расширяют класс WebSecurityConfigureAdapter см.
-https://www.baeldung.com/java-config-spring-security
+Обычно мы видим классы конфигурации безопасности HTTP Spring, которые расширяют [класс WebSecurityConfigureAdapter](https://www.baeldung.com/java-config-spring-security)
 
 Однако, начиная со Spring 5.7.0-M2, происходит отказ от WebSecurityConfigureAdapter и предлагается создавать
-конфигурации без него см. https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
+конфигурации без него см. ["Spring Security without the WebSecurityConfigurerAdapter"](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)
 Давайте создадим пример приложения Spring Boot, использующего аутентификацию в памяти, чтобы продемонстрировать этот
 новый тип конфигурации.
 
 Сначала мы определим наш класс конфигурации:
 
-************************************************************************************************************************
-@Configuration
-@EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfig {
-
-    /* config */
-
-}
-************************************************************************************************************************
+```java
+  @Configuration
+  @EnableWebSecurity
+  @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
+  public class SecurityConfig {
+  
+      /* config */
+  
+  }
+```
 
 Мы добавим аннотации безопасности метода см. https://www.baeldung.com/spring-security-method-security, чтобы включить
 обработку на основе разных ролей.
@@ -309,21 +302,13 @@ ________________________________________________________________________________
 Примеры рабочего кода можно найти на GitHub -
 https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-boot-4
 
-________________________________________________________________________________________________________________________
-*** Полезные статьи ***
+---
+**См. доп. материалы:**
 
-- Spring Security without the WebSecurityConfigurerAdapter -
-https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
-
-- Introduction to Java Config for Spring Security -
-https://www.baeldung.com/java-config-spring-security
-
-- Spring Security Basic Authentication -
-https://www.baeldung.com/spring-security-basic-authentication
-
-- Class HttpSecurity -
-https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/HttpSecurity.html
-или
-https://javadoc.io/doc/org.springframework.security/spring-security-config/5.2.0.RELEASE/org/springframework/security/config/annotation/web/builders/HttpSecurity.html
-
-________________________________________________________________________________________________________________________
+- [Spring Security without the WebSecurityConfigurerAdapter](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)
+- [Introduction to Java Config for Spring Security](https://www.baeldung.com/java-config-spring-security)
+- [Introduction to Spring Method Security](https://www.baeldung.com/spring-security-method-security)
+- [Spring Security Basic Authentication](https://www.baeldung.com/spring-security-basic-authentication)
+- [Class HttpSecurity](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/HttpSecurity.html)
+- [Class HttpSecurity (ver. 5.2.x)](https://javadoc.io/doc/org.springframework.security/spring-security-config/5.2.0.RELEASE/org/springframework/security/config/annotation/web/builders/HttpSecurity.html)
+- [Class WebSecurityConfigurerAdapter](https://docs.spring.io/spring-security/site/docs/5.7.0-M2/api/org/springframework/security/config/annotation/web/configuration/WebSecurityConfigurerAdapter.html)
