@@ -292,6 +292,52 @@ SecurityFilterChain.
 ```
 
 ---
+### Обработка устаревших функций csrf() и requiresChannel()
+
+В связи с недавними обновлениями Spring Security некоторые методы, используемые в конфигурации безопасности HTTP, 
+такие как csrf() и requiresChannel() , имеют устаревшие версии, которые требуют корректировки при миграции на 
+последние версии Spring Boot. 
+
+В этом разделе мы обсудим обновленный способ настройки этих методов с использованием лямбда-выражений.
+
+Настройка защиты от CSRF-атак, ранее осуществлявшаяся простым вызовом функции http.csrf().disable() , теперь 
+адаптирована для синтаксиса лямбда-выражений:
+
+```java
+  http.csrf(csrf -> csrf.disable());
+```
+
+**Используя этот подход, мы определяем конфигурации CSRF функциональным образом, соответствующим последним обновлениям Spring Security.**
+
+Аналогичным образом, метод requiresChannel() , используемый для обеспечения соблюдения протокола HTTPS, перешёл на лямбда-выражение:
+
+```java
+  http.requiresChannel(channel -> channel.anyRequest().requiresSecure());
+```
+
+Мы можем включить обновленные конфигурации CSRF и requiresChannel в один bean-компонент SecurityFilterChain. 
+Такая настройка обеспечивает использование HTTPS для всех запросов и отключает CSRF для простоты:
+
+```java
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+      http.csrf(csrf->csrf.disable())
+        .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+        .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+          uthorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+            .requestMatchers("/admin/**").hasAnyRole("ADMIN")
+            .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+            .requestMatchers("/login/**").permitAll()
+            .anyRequest().authenticated())
+        .httpBasic(Customizer.withDefaults())
+        .sessionManagement(httpSecuritySessionManagementConfigurer -> 
+          httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+  
+      return http.build();
+  }
+```
+
+---
 ### Итог:
 
 Мы коротко рассмотрели, как создать конфигурацию Spring Security без использования WebSecurityConfigureAdapter и
