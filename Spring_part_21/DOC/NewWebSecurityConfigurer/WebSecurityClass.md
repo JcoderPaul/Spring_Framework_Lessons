@@ -1,47 +1,49 @@
-См. исходник (ENG):
-https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/- WebSecurity.html
-________________________________________________________________________________________________________________________
-****** Class - WebSecurity ******
+- [См. исходник (ENG)](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/WebSecurity.html)
 
-Пакет: org.springframework.security.config.annotation.web.builders
+---
+### Class WebSecurity
 
+**Пакет:** [org.springframework.security.config.annotation.web.builders](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/package-summary.html)
+
+```
 java.lang.Object
     org.springframework.security.config.annotation.AbstractSecurityBuilder<O>
-        org.springframework.security.config.annotation.AbstractConfiguredSecurityBuilder<jakarta.servlet.Filter,- WebSecurity>
-            org.springframework.security.config.annotation.web.builders.- WebSecurity
+        org.springframework.security.config.annotation.AbstractConfiguredSecurityBuilder<jakarta.servlet.Filter,WebSecurity>
+            org.springframework.security.config.annotation.web.builders.WebSecurity
+```
 
-Все реализованные интерфейсы: org.springframework.beans.factory.Aware,
-                              org.springframework.context.ApplicationContextAware,
-                              SecurityBuilder<jakarta.servlet.Filter>,
-                              org.springframework.web.context.ServletContextAware
-________________________________________________________________________________________________________________________
-public final class - WebSecurity
-                extends AbstractConfiguredSecurityBuilder<jakarta.servlet.Filter,- WebSecurity>
+**Все реализованные интерфейсы:** 
+- [Aware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/Aware.html),
+- [ApplicationContextAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ApplicationContextAware.html),
+- [SecurityBuilder<jakarta.servlet.Filter>](https://docs.spring.io/spring-security/reference/api/java/org/springframework/security/config/annotation/SecurityBuilder.html),
+- [ServletContextAware](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/ServletContextAware.html)
+
+```java
+public final class WebSecurity
+                extends AbstractConfiguredSecurityBuilder<jakarta.servlet.Filter, WebSecurity>
                     implements SecurityBuilder<jakarta.servlet.Filter>,
                                org.springframework.context.ApplicationContextAware,
                                org.springframework.web.context.ServletContextAware
-________________________________________________________________________________________________________________________
+```
 
-- WebSecurity создается - WebSecurityConfiguration -
-https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/- WebSecurityConfiguration.html
-для создания FilterChainProxy - https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html,
-известного, как цепочка фильтров безопасности Spring (springSecurityFilterChain). SpringSecurityFilterChain — это фильтр,
-которому делегирует DelegatingFilterProxy.
+[WebSecurity](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/WebSecurity.html) создается [WebSecurityConfiguration](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.html)
+для создания [FilterChainProxy](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/FilterChainProxy.html), известного, как цепочка фильтров безопасности Spring (springSecurityFilterChain). SpringSecurityFilterChain — это фильтр, которому делегирует DelegatingFilterProxy.
 
-Настроить - WebSecurity можно путем создания - WebSecurityConfigurer -
-https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/- WebSecurityConfigurer.html
-или предоставления bean-компонента - WebSecurityCustomizer -
-https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/- WebSecurityCustomizer.html
+Настроить [WebSecurity](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/WebSecurity.html) можно путем создания [WebSecurityConfigurer](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/WebSecurityConfigurer.html) или предоставления bean-компонента [WebSecurityCustomizer](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/WebSecurityCustomizer.html)
 
-________________________________________________________________________________________________________________________
-*** Вложенные классы ***
+**См. также:**
+- [EnableWebSecurity](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/EnableWebSecurity.html)
+- [WebSecurityConfiguration](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.html)
 
-- class - WebSecurity.IgnoredRequestConfigurer - Позволяет регистрировать RequestMatcher экземпляры, которые Spring
-                                               Security должен игнорировать.
-________________________________________________________________________________________________________________________
-*** Конструктор ***
+---
+### Вложенные классы
 
-- - WebSecurity(ObjectPostProcessor<Object> objectPostProcessor) - Создает новый экземпляр.
+- class [WebSecurity.IgnoredRequestConfigurer](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/builders/WebSecurity.IgnoredRequestConfigurer.html) - Позволяет регистрировать [RequestMatcher](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/util/matcher/RequestMatcher.html) экземпляры, которые Spring Security должен игнорировать.
+
+---
+### Конструктор
+
+- WebSecurity(ObjectPostProcessor<Object> objectPostProcessor) - Создает новый экземпляр.
 
 Где, параметр: objectPostProcessor - используемый ObjectPostProcessor.
 Смотреть также: - WebSecurityConfiguration -
