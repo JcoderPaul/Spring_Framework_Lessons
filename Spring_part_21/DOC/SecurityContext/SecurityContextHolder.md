@@ -41,7 +41,7 @@
 - `static final String MODE_THREADLOCAL`
 - `static final String SYSTEM_PROPERTY`
 
-**См. [Constant Field Values](https://docs.spring.io/spring-security/site/docs/current/api/constant-values.html)
+**См. [Constant Field Values](https://docs.spring.io/spring-security/site/docs/current/api/constant-values.html)**
 
 ---
 #### Конструктор
