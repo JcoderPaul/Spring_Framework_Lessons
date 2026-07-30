@@ -6,16 +6,18 @@
 - [Spring Security](https://docs.spring.io/spring-security/reference/index.html) ;
 - [Security with Spring (by www.baeldung.com)](https://www.baeldung.com/security-spring) ;
 - [SWAGGER DOC](https://swagger.io/solutions/api-documentation/) (может понадобится прокси);
-________________________________________________________________________________________________________________________
+
+---
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) ;
 - [Spring Framework 6.1.5 Documentation](https://spring.io/projects/spring-framework) ;
 - [Spring Framework 3.2.x Reference Documentation](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/index.html) ;
 - [Getting Started Guides](https://spring.io/guides) ;
 - [Developing with Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html) ;
 
-________________________________________________________________________________________________________________________
+---
 Для начала проведем предварительную подготовку (подгрузим зависимости в build.gradle):
 
+```
     /* 
        Плагин Spring Boot добавляет необходимые задачи в Gradle 
        и имеет обширную взаимосвязь с другими plugin-ами.
@@ -71,19 +73,25 @@ ________________________________________________________________________________
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+```
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 107 - Authorization фильтр.
 
 Выше мы рассмотрели несколько фильтров позволяющих аутентифицировать пользователя и дезавуировать его аутентификацию, 
-теперь рассмотрим вопрос авторизации ([определение см. выше](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/ReadMe.md#security-starter-%D0%B2%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BE%D0%BF%D1%80%D0%B5%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BF%D0%BE%D0%BD%D1%8F%D1%82%D0%B8%D1%8F-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F)). В цепочке фильтров, Authorization фильтр идет последним и
-определяет права пользователей приложения на доступ к ресурсам, см. [DOC/AuthenticationProcess.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/AuthenticationProcess.jpg). Т.е. проверяются 
-Authorities объекта [Authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html) см. [DOC/SecurityContext.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/SecurityContext.jpg) и [DOC/Authentication](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_20/DOC/Authentication).
+теперь рассмотрим вопрос авторизации ([определение см. выше](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_20/ReadMe.md#security-starter-%D0%B2%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BE%D0%BF%D1%80%D0%B5%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BF%D0%BE%D0%BD%D1%8F%D1%82%D0%B8%D1%8F-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F)). В цепочке фильтров, Authorization фильтр идет последним и определяет права пользователей приложения на доступ к ресурсам, см. 
+
+![AuthenticationProcess.jpg](../Spring_part_21/DOC/AuthenticationProcess.jpg). 
+
+Т.е. проверяются Authorities объекта [Authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html) см. 
+
+![SecurityContext.jpg](../Spring_part_21/DOC/SecurityContext.jpg) 
+
+и [Authentication](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_20/DOC/Authentication).
 
 Заглянем в класс [AuthorizationFilter](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/access/intercept/AuthorizationFilter.html),
-где основной ['фильтрующий' метод - *.doFilter()](https://github.com/spring-projects/spring-security/blob/main/web/src/main/java/org/springframework/security/web/access/intercept/AuthorizationFilter.java#L76), проводит проверку авторизации доступа. Основную 'работу' проделывает 
-метод [*.check()](https://github.com/spring-projects/spring-security/blob/main/core/src/main/java/org/springframework/security/authorization/AuthorizationManager.java#L55) интерфейса [AuthorizationManager](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authorization/AuthorizationManager.html), 
-т.е. фильтр авторизации, ограничивает доступ к URL-адресу с помощью методов этого интерфейса. Т.е. менеджер авторизации 
+где основной ['фильтрующий' метод - *.doFilter()](https://github.com/spring-projects/spring-security/blob/main/web/src/main/java/org/springframework/security/web/access/intercept/AuthorizationFilter.java#L76), проводит проверку авторизации доступа. Основную 'работу' проделывает метод [*.check()](https://github.com/spring-projects/spring-security/blob/main/core/src/main/java/org/springframework/security/authorization/AuthorizationManager.java#L55) интерфейса [AuthorizationManager](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/authorization/AuthorizationManager.html), 
+т.е. фильтр авторизации, который ограничивает доступ к URL-адресу с помощью методов этого интерфейса. Менеджер авторизации 
 определяет, имеет ли [Authentication](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html) 
 пользователь доступ к определенному объекту (ресурсу). Да, вот такое 'масло в маргарине'. 
 
