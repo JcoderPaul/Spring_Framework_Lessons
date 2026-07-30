@@ -284,7 +284,7 @@ permitAll, все остальные обычно имеют denyAll, в том 
 
 Именно этот метод мы будем переделывать, чтобы в БД фиксировать того пользователя, который в действительности внес 
 изменения. Это стало возможно именно по тому что мы подключили систему аутентификации. И так делаем:
-- Шаг 1. - В классе [AuditConfiguration](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/src/main/java/spring/oldboy/config/AuditConfiguration.java) в методе [*.auditorAware()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/src/main/java/spring/oldboy/config/AuditConfiguration.java#L36): 
+- Шаг 1. - В классе [AuditConfiguration](../Spring_part_21/src/main/java/spring/oldboy/config/AuditConfiguration.java) в методе [*.auditorAware()](../Spring_part_21/src/main/java/spring/oldboy/config/AuditConfiguration.java#L36): 
   - Шаг 1.1 - Получаем доступ к хранителю контекста безопасности - [SecurityContextHolder](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContextHolder.html)
   - Шаг 1.2 - Из которого извлекаем [SecurityContext](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/context/SecurityContext.html), 
   - Шаг 1.3 - Уже из SecurityContext получаем объект [аутентификации](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/Authentication.html) 
@@ -297,89 +297,102 @@ permitAll, все остальные обычно имеют denyAll, в том 
 хотя мы могли бы привести полученный Object к любому классу представляющему нашего user-a;
   - Шаг 2.2 - Из UserDetails получаем 'username' аутентифицированного пользователя;
 
-- Шаг 3. - Полученное имя пользователя - 'username' будет сохранено в поле 'created_by' таблицы 'users' при следующем 
-создании/изменении данных в нашей БД.
+- Шаг 3. - Полученное имя пользователя - 'username' будет сохранено в поле 'created_by' таблицы 'users' при следующем создании/изменении данных в нашей БД.
 
 Кроме такого способа получения контекста безопасности мы можем использовать аннотации в параметрах метода, например:
 - [@CurrentSecurityContext](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/annotation/CurrentSecurityContext.html) - Аннотация, которая используется для разрешения SecurityContext в качестве аргумента метода;
-- [@AuthenticationPrincipal](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/annotation/AuthenticationPrincipal.html) - Аннотация, которая используется для преобразования Authentication.getPrincipal() в аргумент метода. 
-Данная аннотация, скорее всего, будет использоваться чаще в силу удобства получения данных о принципале;
+- [@AuthenticationPrincipal](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/annotation/AuthenticationPrincipal.html) - Аннотация, которая используется для преобразования Authentication.getPrincipal() в аргумент метода. Данная аннотация, скорее всего, будет использоваться чаще в силу удобства получения данных о принципале;
 
-Добавим обе аннотации в метод [*.findById()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/src/main/java/spring/oldboy/http/controller/UserController.java#L110) нашего [UserController](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/src/main/java/spring/oldboy/http/controller/UserController.java), в качестве параметров, и в режиме пошаговой отладки 
-посмотрим на доступные переменные и объекты. 
+Добавим обе аннотации в метод [*.findById()](../Spring_part_21/src/main/java/spring/oldboy/http/controller/UserController.java#L110) нашего [UserController](../Spring_part_21/src/main/java/spring/oldboy/http/controller/UserController.java), в качестве параметров, и в режиме пошаговой отладки посмотрим на доступные 
+переменные и объекты. 
 
 Войдем в наше приложение как rocky@yahoo.com (в БД такая запись естественно есть). Добравшись до метода *.findById() мы
-видим, что установлен и securityContext и userDetails см. [DOC/AnnotationAccessSecurityContext/UserControllerAnotationSecurityParam.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/AnnotationAccessSecurityContext/UserControllerAnotationSecurityParam.jpg),
-а если их развернуть, то мы видим один и тот же объект аутентификации в разном представлении см. [DOC/AnnotationAccessSecurityContext/UserDetailsAndSecurityContext.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/AnnotationAccessSecurityContext/UserDetailsAndSecurityContext.jpg).
+видим, что установлен и securityContext и userDetails см. 
+
+![UserControllerAnotationSecurityParam.jpg](../Spring_part_21/DOC/AnnotationAccessSecurityContext/UserControllerAnotationSecurityParam.jpg)
+
+А если их развернуть, то мы видим один и тот же объект аутентификации в разном представлении см. 
+
+![UserDetailsAndSecurityContext.jpg](../Spring_part_21/DOC/AnnotationAccessSecurityContext/UserDetailsAndSecurityContext.jpg)
+
 Естественно в обоих случаях поле password = null, т.к. пароль после аутентификации чиститься.
 
 Последний шаг - проверка нашего аудита действий. Под тем же логином администратора редактируем любого пользователя в 
 таблице users и смотрим на результат. В поле 'modified_by' попал 'username' - rocky@yahoo.com, в поле 'modified_at' 
 попала дата и время модификации.
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 110 - Доступ к аутентифицированному пользователю на HTML страницах с применением Thymeleaf.
 
 Мы так же можем получить доступ к данным нашего пользователя из контекста и внедрить их (отобразить) на наших HTML
 страницах. Spring при помощи Thymeleaf позволяет проделать это. Для этого нам понадобится внедрить новую зависимость:
 
+```
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
+```
 
 Теперь, на странице с внедренным Thymeleaf, мы получили доступ к объектам аутентификации и авторизации и можем 
-отобразить аутентифицированного пользователя рядом с кнопкой Logout - [resources/templates/fragments/logout.html](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/src/main/resources/templates/fragments/logout.html):
+отобразить аутентифицированного пользователя рядом с кнопкой Logout - [resources/templates/fragments/logout.html](../Spring_part_21/src/main/resources/templates/fragments/logout.html):
 
+```html
     <span th:text="${#authentication.principal.username}">Username</span>
+```
 
 По факту, поскольку у нас есть доступ к объекту Authentication, мы можем получить все данные из нашего UserDTO.
 
 Проверяем как username отображается на всех страницах вместе с кнопкой Logout.
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 111 - CSRF-Filter (CSRF атаки).
 
-Сборник статей по CSRF - [DOC/CSRF](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_21/DOC/CSRF) раскрывает вопрос безопасности передачи HTTP запросов и их уязвимость см. 
-[DOC/CSRF/Image/CSRF_Attack_Scheme.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/CSRF/Image/CSRF_Attack_Scheme.jpg). Простая атака выглядит именно так:
-1. - Добрый человек проходит этап аутентификации на сайте (в примере банка) хранящем важные данные, возвращается ответ
-200 и данные попадают в cookie отслеживающие сессию;
-2. - Добрый человек отправляет форму на сайт банка методом POST, при этом данные о текущей сессии и самом пользователе
-системы, которые хранятся в cookie и идентифицируют его (на сайте банка) уходят на сервер;
+[Сборник статей по CSRF](../Spring_part_21/DOC/CSRF) раскрывает вопрос безопасности передачи HTTP запросов и их уязвимость см.
+
+![CSRF_Attack_Scheme.jpg](../Spring_part_21/DOC/CSRF/Image/CSRF_Attack_Scheme.jpg)
+
+Простая атака выглядит именно так:
+1. - Добрый человек проходит этап аутентификации на сайте (в примере банка) хранящем важные данные, возвращается ответ 200 и данные попадают в cookie отслеживающие сессию;
+2. - Добрый человек отправляет форму на сайт банка методом POST, при этом данные о текущей сессии и самом пользователе системы, которые хранятся в cookie и идентифицируют его (на сайте банка) уходят на сервер;
 3. - Плохой человек (очень нуждающийся в деньгах) создает фишинговый сайт и размещает на нем некую кнопку (картинку, 
 скрипт) со ссылкой на сайт банка, но уже со своими данными и уваровывает у доброго человека деньги (важные данные), 
 поскольку cookie привязаны к host-у, то они при переходе по скрытой ссылке подхватываются автоматически и происходит 
 транзакция;
 
 Кратко данный процесс описан тут (и методы защиты):
-- [DOC/CSRF/ABOUT_CSRF.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/CSRF/ABOUT_CSRF.txt) ;
-- [DOC/CSRF/CSRF_FROM_SPRING_DOC.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/CSRF/CSRF_FROM_SPRING_DOC.txt) ;
-- [DOC/CSRF/CSRFGuideProtection.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/CSRF/CSRFGuideProtection.txt) ;
+- [Кратко о CSRF атаках](../Spring_part_21/DOC/CSRF/ABOUT_CSRF.md) ;
+- [Cross Site Request Forgery (CSRF) - Подделка межсайтовых запросов (CSRF)](../Spring_part_21/DOC/CSRF/CSRF_FROM_SPRING_DOC.md) ;
+- [Руководство по защите CSRF в Spring Security](../Spring_part_21/DOC/CSRF/CSRFGuideProtection.md) ;
 
 Spring предоставляет два механизма защиты от атак CSRF:
 - Шаблон токена синхронизатора (Synchronizer Token Pattern);
 - Указание атрибута SameSite в файле cookie сеанса;
 
 В качестве защиты от CSRF атак мы будем использовать в нашем уроке настройки Synchronizer Token Pattern-a схема см.
-[DOC/CSRF/Image/SynchronizeTokenPattern.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/CSRF/Image/SynchronizeTokenPattern.jpg). Все важные формы изменяющие состояние записей в БД защищаются скрытым 
-полем с name = "_csrf" и случайным токен-кодом, который генерируется и может храниться на сервере. Токен присваивается 
-при аутентификации, он случаен и имеет срок жизни, сервер при получении существенных запросов POST, DELETE и т.д., 
-сверяет токены полученный с хранящимся у него и дает добро на выполнение команды или нет. Злой хакер в своей подставной 
-форме не может проделать (хотелось бы верить) ту же операцию, т.к., например, сгенерированный (подставленный) его 
-формой токен будет отличаться от хранящейся на сервере (или его вовсе не будет), и его форма вылетает с 403 статусом.
+
+![SynchronizeTokenPattern.jpg](../Spring_part_21/DOC/CSRF/Image/SynchronizeTokenPattern.jpg)
+
+Все важные формы изменяющие состояние записей в БД защищаются скрытым полем с name = "_csrf" и случайным токен-кодом, 
+который генерируется и может храниться на сервере. Токен присваивается при аутентификации, он случаен и имеет срок жизни, 
+сервер при получении существенных запросов POST, DELETE и т.д., сверяет токены полученный с хранящимся у него и дает 
+добро на выполнение команды или нет. Злой хакер в своей подставной форме не может проделать (хотелось бы верить) ту же 
+операцию, т.к., например, сгенерированный (подставленный) его формой токен будет отличаться от хранящейся на сервере 
+(или его вовсе не будет), и его форма вылетает с 403 статусом.
 
 Настроим наше приложение, by default защита CSRF в Spring включена, но мы ее отключили в цепочке фильтров класса 
 SecurityConfiguration:
 
+```java
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
       http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
         . . . some code . . .
     }            
+```
 
 Меняем разрешение на - enable, т.е. просто комментируем запрет на CSRF защиту. Отсюда выходит, что теперь в нашей 
 цепочке фильтров появится [CsrfFilter](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/csrf/CsrfFilter.html),
-если заглянуть в код метода [*.doFilterInternal()](https://github.com/spring-projects/spring-security/blob/main/web/src/main/java/org/springframework/security/web/csrf/CsrfFilter.java#L107) данного класса, то можно увидеть как генерируется csrf токен. Изучая
-класс [HttpSessionCsrfTokenRepository](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/csrf/HttpSessionCsrfTokenRepository.html) 
-мы можем увидеть [как и куда сохраняется токен](https://github.com/spring-projects/spring-security/blob/main/web/src/main/java/org/springframework/security/web/csrf/HttpSessionCsrfTokenRepository.java#L50), а так же структуру полей:
+если заглянуть в код метода [*.doFilterInternal()](https://github.com/spring-projects/spring-security/blob/main/web/src/main/java/org/springframework/security/web/csrf/CsrfFilter.java#L107) данного класса, то можно увидеть как генерируется csrf токен. Изучая класс [HttpSessionCsrfTokenRepository](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/csrf/HttpSessionCsrfTokenRepository.html) мы можем увидеть [как и куда сохраняется токен](https://github.com/spring-projects/spring-security/blob/main/web/src/main/java/org/springframework/security/web/csrf/HttpSessionCsrfTokenRepository.java#L50), а так же структуру полей:
 
+```java
     public final class HttpSessionCsrfTokenRepository implements CsrfTokenRepository {
 
         private static final String DEFAULT_CSRF_PARAMETER_NAME = "_csrf";
@@ -403,11 +416,13 @@ SecurityConfiguration:
     . . . class code . . .
 
     }
+```
 
 Токен попадает в атрибут сессии, а дефолтные имена которые будут отслеживаться для формы - "_csrf", и для хэдера -
 "X-CSRF-TOKEN". Добавить токен в нашу форму можно двумя способами: руками (хардкод) или используя интеграцию с Thymeleaf.
 Вариант ручного добавления в форму Login:
 
+```java
       <!DOCTYPE html>
       <html lang="en" xmlns:th="http://www.thymeleaf.org">
       <head>
@@ -430,27 +445,34 @@ SecurityConfiguration:
       </form>
       </body>
       </html>
-      
+```
+
 Однако руками добавлять код на все страницы (с методом POST) - накладно. Поэтому тут приходит на помощь Thymeleaf 
 интегрированный со Spring-ом. Класс [CsrfRequestDataValueProcessor](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/web/servlet/support/csrf/CsrfRequestDataValueProcessor.html),
 Spring-а, добавляет к POST формам скрытое поле методом [*.getExtraHiddenFields()](https://github.com/spring-projects/spring-security/blob/main/web/src/main/java/org/springframework/security/web/servlet/support/csrf/CsrfRequestDataValueProcessor.java#L63). Поскольку он у нас установлен и 
-настроен, достаточно в форме использовать нотацию 'th:' и синтаксис Thymeleaf-а:
+настроен, достаточно в форме использовать нотацию `th:` и синтаксис Thymeleaf-а:
 
+```html
       <form th:action="@{/login}" method="post">
+```
 
-Данный синтаксис позволяет автоматически внедрить скрытый токен '_csrf' в форму, отправляемую методом POST. Теперь нам 
-нужно только переписать все формы где method="post" по данному шаблону и проверить работу приложения. Запускаем и видим
-в режиме разработчика браузера см. [DOC/CSRF/Image/HiddenCsrfToken.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/CSRF/Image/HiddenCsrfToken.jpg), а так же два токена на одной странице для двух 
-POST форм см. [DOC/CSRF/Image/2HiddenCsrfTokenInOnePage.jpg ](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/DOC/CSRF/Image/2HiddenCsrfTokenInOnePage.jpg)
+Данный синтаксис позволяет автоматически внедрить скрытый токен `_csrf` в форму, отправляемую методом POST. Теперь нам 
+нужно только переписать все формы где `method="post"` по данному шаблону и проверить работу приложения. Запускаем и видим
+в режиме разработчика браузера см. 
 
-________________________________________________________________________________________________________________________
+![HiddenCsrfToken.jpg](../Spring_part_21/DOC/CSRF/Image/HiddenCsrfToken.jpg)
+
+А так же два токена на одной странице для двух POST форм см. 
+
+![2HiddenCsrfTokenInOnePage.jpg](../Spring_part_21/DOC/CSRF/Image/2HiddenCsrfTokenInOnePage.jpg)
+
+---
 #### Lesson 112 - Security-Testing.
 
-Если мы просто запустим наши [UserControllerIT](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java) тесты, то сразу поймаем ошибку, т.к. в [UserServiceIT](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/src/test/java/spring/oldboy/integration/service/UserServiceIT.java) мы не исправили 
-структуру U[serCreateEditDto](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/src/main/java/spring/oldboy/dto/UserCreateEditDto.java) - нам нужно добавить туда пароль, иначе все методы где применяется UserCreateEditDto будут 
-сигнализировать об ошибках. Нам нужно отредактировать код тестов в соответствии с обновленным кодом приложения. Запустим 
+Если мы просто запустим наши [UserControllerIT](../Spring_part_21/src/test/java/spring/oldboy/integration/http/controller/UserControllerIT.java) тесты, то сразу поймаем ошибку, т.к. в [UserServiceIT](../Spring_part_21/src/test/java/spring/oldboy/integration/service/UserServiceIT.java) мы не исправили структуру [UserCreateEditDto](../Spring_part_21/src/main/java/spring/oldboy/dto/UserCreateEditDto.java) - нам нужно добавить туда пароль, иначе все методы где применяется UserCreateEditDto будут сигнализировать об ошибках. Нам нужно отредактировать код тестов в соответствии с обновленным кодом приложения. Запустим 
 тест еще раз и получим:
 
+```java
       MockHttpServletRequest:
             HTTP Method = GET
             Request URI = /users
@@ -478,20 +500,24 @@ ________________________________________________________________________________
                   Forwarded URL = null
                   Redirected URL = http://localhost/login
                   Cookies = []
+```
 
-Тест завалился, т.к. ожидали - Expected :SUCCESSFUL, а получили - Actual :REDIRECTION. И тут не подкопаешься, если 
+Тест завалился, т.к. ожидали - `Expected :SUCCESSFUL`, а получили - `Actual :REDIRECTION`. И тут не подкопаешься, если 
 пользователь у нас в системе не аутентифицирован, то он перенаправляется на страницу Login-a. Для того чтобы тестировать
 наши методы, нам нужно аутентифицировать тестового пользователя. Для реализации такого функционала нам понадобится 
 зависимость позволяющая тестировать приложение с подключенной системой безопасности:
 
+```
       testImplementation 'org.springframework.security:spring-security-test'
+```
 
 После подключения этой зависимости у нас есть возможность подставить в контекст безопасности тестового пользователя, 
 рассмотрим несколько способов:
 
-- Способ 1. - Ручная установка SecurityContext:
+---
+- **Способ 1. - Ручная установка SecurityContext:**
 
-
+```java
       @AutoConfigureMockMvc
       @RequiredArgsConstructor
       class UserControllerIT extends IntegrationTestBase {
@@ -528,6 +554,7 @@ ________________________________________________________________________________
       }
       . . . test methods . . .
     }
+```
 
 - Шаг 1. - Создаем тестового User-a;
 - Шаг 2. - Создаем [SecurityContext](https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/context/SecurityContext.html) используя [SecurityContextHolder](https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/core/context/SecurityContextHolder.html);
@@ -536,12 +563,12 @@ ________________________________________________________________________________
 - Шаг 4. - В SecurityContext помещаем наш TestingAuthenticationToken;
 - Шаг 5. - Через SecurityContextHolder связываем новый поток SecurityContext с текущим потоком выполнения;
 
-Теперь мы получили тестового пользователя в контексте безопасности и можем проводить тесты см. 
-[UserControllerSecurityTestIT](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_21/src/test/java/spring/oldboy/integration/http/controller/UserControllerSecurityTest.java).
+Теперь мы получили тестового пользователя в контексте безопасности и можем проводить тесты см. [UserControllerSecurityTestIT](../Spring_part_21/src/test/java/spring/oldboy/integration/http/controller/UserControllerSecurityTest.java).
 
-- Способ 2. - Аннотации: в данном случае мы используем специальные аннотации для установки 'тестового пользователя', 
-например - [@WithMockUser](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/test/context/support/WithMockUser.html). В параметры аннотации мы передаем тестовые данные и запускаем тест:
+---
+- **Способ 2. - Аннотации:** в данном случае мы используем специальные аннотации для установки 'тестового пользователя', например - [@WithMockUser](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/test/context/support/WithMockUser.html). В параметры аннотации мы передаем тестовые данные и запускаем тест:
 
+```java
         @Test
         @WithMockUser(username = "test@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
         void findAllControllerTest() throws Exception {
@@ -550,11 +577,13 @@ ________________________________________________________________________________
                     .andExpect(view().name("user/users"))
                     .andExpect(model().attributeExists("users"));
         }
+```
 
 Естественно использовать эту аннотацию над каждым тестом накладно и лучше вынести ее сразу над нашим тестовым классом 
 или, что еще более интересно аннотировать наш абстрактный класс - IntegrationTestBase, и тогда все наши интеграционные 
 тесты (и текущие, и будущие) окажутся с предустановленным тестовым пользователем:
 
+```java
         @IT
         @Sql({
         "classpath:sql_scripts/data.sql"
@@ -563,9 +592,12 @@ ________________________________________________________________________________
         public abstract class IntegrationTestBase {
           . . . somу code . . .
         }
+```
 
-- Способ 3. - Передача параметров в тестовый метод, тут используется класс [SecurityMockMvcRequestPostProcessors](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/test/web/servlet/request/SecurityMockMvcRequestPostProcessors.html):
+---
+- **Способ 3. - Передача параметров в тестовый метод:** тут используется класс [SecurityMockMvcRequestPostProcessors](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/test/web/servlet/request/SecurityMockMvcRequestPostProcessors.html):
 
+```java
         @Test
         void findAllControllerWithInnerTestUser() throws Exception {
             mockMvc.perform(get("/users").with(user("test@gmail.com")
@@ -574,14 +606,14 @@ ________________________________________________________________________________
                     .andExpect(view().name("user/users"))
                     .andExpect(model().attributeExists("users"));
         }
+```
 
-
-Док. для изучения (ENG): 
+**Док. для изучения (ENG):**
 - [Testing - Servlet Applications](https://docs.spring.io/spring-security/site/docs/5.2.x/reference/html/test.html);
 - [Class SecurityMockMvcRequestPostProcessors](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/test/web/servlet/request/SecurityMockMvcRequestPostProcessors.html);
 - [Annotation Interface WithMockUser](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/test/context/support/WithMockUser.html);
 
-________________________________________________________________________________________________________________________
+---
 См. официальные [Guides](https://spring.io/guides):
 - [Getting Started Guides](https://spring.io/guides) - Эти руководства, рассчитанные на 15–30 минут, содержат быстрые
   практические инструкции по созданию «Hello World» для любой задачи разработки с помощью Spring. В большинстве случаев
@@ -591,6 +623,6 @@ ________________________________________________________________________________
 - [Tutorials](https://spring.io/guides#tutorials) - Эти учебники, рассчитанные на 2–3 часа, обеспечивают более глубокое
   контекстное изучение тем разработки корпоративных приложений, что позволяет вам подготовиться к внедрению реальных
   решений.
-________________________________________________________________________________________________________________________
-- [Spring Projects на GitHub](https://github.com/spring-projects) ;
-________________________________________________________________________________________________________________________
+
+---
+- [Spring Projects на GitHub](https://github.com/spring-projects);
