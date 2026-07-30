@@ -270,15 +270,17 @@ permitAll, все остальные обычно имеют denyAll, в том 
 ---
 #### Lesson 109 - Доступ к аутентифицированному пользователю.
 
-В одном из уроков, точнее в [Lesson 58 - "Spring JPA Auditing - Аудит работы нашего приложения"](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_10#lesson-58---spring-jpa-auditing---%D0%B0%D1%83%D0%B4%D0%B8%D1%82-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D0%BD%D0%B0%D1%88%D0%B5%D0%B3%D0%BE-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F), мы изучали принципы 
+В одном из уроков, точнее в [Lesson 58 - "Spring JPA Auditing - Аудит работы нашего приложения"](../Spring_part_10#lesson-58---spring-jpa-auditing---%D0%B0%D1%83%D0%B4%D0%B8%D1%82-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D0%BD%D0%B0%D1%88%D0%B5%D0%B3%D0%BE-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F), мы изучали принципы 
 аудита. Исходя из которых мы уяснили важность фиксации любых изменений происходящих в БД, а самое главное, подробную 
 запись того: кто, когда, создал, изменил и т.п. соответствующую запись в таблицах БД. В первой версии конфигурации 
-нашей системы аудита - [AuditConfiguration](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_10/src/main/java/spring/oldboy/config/AuditConfiguration.java), мы 'хардкодом' назначили себя 'виновником всех бед'. Поэтому в поле 'created_by' таблицы 'users' у всех записей одинаковое значение, прописанное в старой версии метода [*.auditorAware()](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_10/src/main/java/spring/oldboy/config/AuditConfiguration.java#L34):
+нашей системы аудита - [AuditConfiguration](../Spring_part_10/src/main/java/spring/oldboy/config/AuditConfiguration.java), мы 'хардкодом' назначили себя 'виновником всех бед'. Поэтому в поле 'created_by' таблицы 'users' у всех записей одинаковое значение, прописанное в старой версии метода [*.auditorAware()](../Spring_part_10/src/main/java/spring/oldboy/config/AuditConfiguration.java#L34):
 
+```java
     @Bean
     public AuditorAware<String> auditorAware() {
         return () -> Optional.of("spring/oldboy");
     }
+```
 
 Именно этот метод мы будем переделывать, чтобы в БД фиксировать того пользователя, который в действительности внес 
 изменения. Это стало возможно именно по тому что мы подключили систему аутентификации. И так делаем:
