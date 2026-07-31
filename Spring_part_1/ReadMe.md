@@ -82,14 +82,18 @@ Spring Framework может быть рассмотрен как коллекц�
 ________________________________________________________________________________________________________________________
 #### Lesson 1 - Схема зависимостей объектов в коде (простой пример)
 
-Зависимости объектов см. [DOC/ObjectDependencies.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/ObjectDependencies.jpg) ([UserService](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/java/spring/oldboy/service/UserService.java) зависит от [UserRepository](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/java/spring/oldboy/repository/UserRepository.java),
+Зависимости объектов см. 
+
+![DOC/ObjectDependencies.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/ObjectDependencies.jpg) 
+
+([UserService](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/java/spring/oldboy/service/UserService.java) зависит от [UserRepository](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/java/spring/oldboy/repository/UserRepository.java),
 который зависит от [Connection pool](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/java/spring/oldboy/pool/StarterConnectionPool.java)).
 
 - [ClassDependenciesDemo.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/java/spring/oldboy/lesson_1/ClassDependenciesDemo.java) - пример зависимости объектов;
 - [IoCDemo.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/java/spring/oldboy/lesson_1/IoCDemo.java) - пример инверсии контроля (IoC);
 
-- [DOC/DI](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1/DOC/DI) - что такое внедрение зависимостей;
-- [DOC/IOC](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1/DOC/IOC) - что такое инверсия контроля;
+- [DOC/DI](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1/DOC/DI/DI_step_by_step.md) - что такое внедрение зависимостей;
+- [DOC/IOC](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_1/DOC/IOC/IoC.md) - что такое инверсия контроля;
 - [DOC/SpringAppScheme](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/SpringAppScheme/SpringAppScheme.jpg) - схема классического Spring приложения и способы конфигурирования Bean Definition;
 
 ________________________________________________________________________________________________________________________
@@ -168,9 +172,11 @@ ________________________________________________________________________________
 один и тот же объект, который кэшируется. Любые изменения объекта будут отражены во всех ссылках на 
 компонент. Эта область видимости является значением по умолчанию, если не указана другая область.
 
-В итоге при запросе singleton bean-a spring берет наши bean definition и прогоняет их через всю цепочку
-жизненного цикла [DOC/BeansLifeCycle/BeansLifeCycle.png](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/BeansLifeCycle/BeansLifeCycle.png) и далее кеширует полученный bean и возвращает его 
-на любой запрос.
+В итоге при запросе singleton bean-a spring берет наши bean definition и прогоняет их через всю цепочку жизненного цикла см.
+
+![DOC/BeansLifeCycle/BeansLifeCycle.png](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/BeansLifeCycle/BeansLifeCycle.png) 
+
+и далее кеширует полученный bean и возвращает его на любой запрос.
 
 - [Prototype Scope](https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html#beans-factory-scopes-prototype) - Bean с областью действия prototype (прототип) будет возвращать другой экземпляр 
 каждый раз, когда он запрашивается из контейнера. Он определяется установкой прототипа значения в 
@@ -185,8 +191,10 @@ ________________________________________________________________________________
 #### Lesson 7 - Beans Initialisation and Destruction CallBacks
 
 Spring поставляется с различными вариантами вызова метода инициализации. В общем, нам нужно 
-инициализировать некоторые ресурсы во время создания bean-a. Мы можем добиться этого (см. 
-[DOC/BeansLifeCycle/LifeCycleCallbacks.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/BeansLifeCycle/LifeCycleCallbacks.jpg)):
+инициализировать некоторые ресурсы во время создания bean-a. Мы можем добиться этого см. 
+
+![DOC/BeansLifeCycle/LifeCycleCallbacks.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/DOC/BeansLifeCycle/LifeCycleCallbacks.jpg)
+
 - аннотация [@PostConstruct](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/postconstruct-and-predestroy-annotations.html);
 - внедрение интерфейс [org.springframework.beans.factory.InitializingBean](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html) в наш Spring bean; 
 - использование *.init() метода и настройки [resources/application.xml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_1/src/main/resources/application.xml); 

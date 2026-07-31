@@ -1,0 +1,488 @@
+- [Исходник всего материала (ENG)](https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-five-querydsl/)
+- [Исходный код на GitHub](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master)
+
+---
+[См. настройка Spring проекта](https://start.spring.io/)
+
+---
+### Spring Data JPA Tutorial: Creating Database Queries With Querydsl
+
+Хотя создавать простые `criteria queries` легко, у `JPA Criteria API` есть один существенный недостаток: очень сложно
+реализовать сложные запросы и еще труднее их читать. В этом разделе мы попытаемся решить эти проблемы с помощью `Querydsl`.
+
+---
+### Получение необходимых зависимостей
+
+Прежде чем мы сможем использовать `QueryDsl` со `Spring Data JPA`, нам необходимо добавить модуль `Querydsl JPA` в наш
+путь к классам. Мы можем сделать это, добавив следующее объявление зависимостей в раздел зависимостей - `<dependency>`
+нашего файла `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>com.mysema.querydsl</groupId>
+    <artifactId>querydsl-jpa</artifactId>
+    <version>3.4.3</version>
+</dependency>
+```
+
+После того, как мы добавили зависимость `QueryDsl JPA` в наш файл `pom.xml`, мы должны убедиться, что Maven создает типы
+запросов `QueryDsl` при компиляции нашего проекта.
+
+---
+### Создание типов запросов Querydsl
+
+**Типы запросов Querydsl** — это классы, которые:
+- **Описывают структуру наших классов** модели предметной области, таких как **сущности и классы `@Embeddable`**.
+- Предоставляют нам **способ создания условий запросов** к базе данных.
+
+Мы можем создать эти классы автоматически с помощью плагина [Maven APT](https://github.com/querydsl/apt-maven-plugin).
+
+Мы можем **настроить плагин Maven APT**, выполнив следующие шаги:
+- Шаг 1. Добавим объявление плагина *Maven APT (версия 1.1.3)* в раздел плагинов файла `pom.xml`.
+- Шаг 2. Настроим зависимости этого плагина и *добавим зависимость querydsl-apt (версия 3.4.3)* в раздел зависимостей плагина.
+- Шаг 3. Создадим экзекутера, который вызывает цель процесса плагина при компиляции нашего проекта.
+- Шаг 4. Убедимся, что *типы запросов Querydsl созданы* в каталоге `target/generated-sources/apt`.
+- Шаг 5. Убедимся, что *плагин запускает только `com.mysema.query.apt.jpa.JPAAnnotationProcessor`*. Этот обработчик аннотаций сканирует наши сущности и встраиваемые классы и создает типы запросов `Querydsl`.
+
+Конфигурация плагина Maven APT выглядит следующим образом:
+
+```xml
+<plugin>
+    <groupId>com.mysema.maven</groupId>
+    <artifactId>apt-maven-plugin</artifactId>
+    <version>1.1.3</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>process</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>target/generated-sources/apt</outputDirectory>
+                <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+            </configuration>
+        </execution>
+    </executions>
+    <dependencies>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>3.4.3</version>
+        </dependency>
+    </dependencies>
+</plugin>
+```
+
+---
+**Дополнительное чтение:**
+- [Справочная документация Querydsl: 2.1.1 Интеграция Maven](http://querydsl.com/static/querydsl/3.4.3/reference/html_single/#d0e123)
+- [Введение в жизненный цикл сборки Maven](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
+- [Javadoc класса JPAAnnotationProcessor](http://querydsl.com/static/querydsl/3.4.3/apidocs/com/mysema/query/apt/jpa/JPAAnnotationProcessor.html)
+
+---
+Когда мы *компилируем наш проект*, вызванный *обработчик аннотаций создает типы запросов `Querydsl` в каталоге `target/generated-sources/apt`*. Поскольку наша модель предметной области имеет только одну сущность, процессор аннотаций создает только один класс с именем `QTodo`. Исходный код класса `QTodo` выглядит следующим образом:
+
+```java
+package net.petrikainulainen.springdata.jpa.todo;
+
+import static com.mysema.query.types.PathMetadataFactory.*;
+
+import com.mysema.query.types.path.*;
+
+import com.mysema.query.types.PathMetadata;
+import javax.annotation.Generated;
+import com.mysema.query.types.Path;
+
+
+@Generated("com.mysema.query.codegen.EntitySerializer")
+public class QTodo extends EntityPathBase<Todo> {
+
+    private static final long serialVersionUID = -797939782L;
+
+    public static final QTodo todo = new QTodo("todo");
+
+    public final StringPath createdByUser = createString("createdByUser");
+
+    public final DateTimePath<java.time.ZonedDateTime> creationTime = createDateTime("creationTime",
+                                                                                     java.time.ZonedDateTime.class);
+
+    public final StringPath description = createString("description");
+
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final DateTimePath<java.time.ZonedDateTime> modificationTime = createDateTime("modificationTime",
+                                                                                         java.time.ZonedDateTime.class);
+
+    public final StringPath modifiedByUser = createString("modifiedByUser");
+
+    public final StringPath title = createString("title");
+
+    public final NumberPath<Long> version = createNumber("version", Long.class);
+
+    public QTodo(String variable) {
+        super(Todo.class, forVariable(variable));
+    }
+
+    public QTodo(Path<Todo> path) {
+        super(path.getType(), path.getMetadata());
+    }
+
+    public QTodo(PathMetadata<?> metadata) {
+        super(Todo.class, metadata);
+    }
+
+}
+```
+
+Каждый тип запроса `Querydsl` создается в том же пакете, что и соответствующий объект.
+
+Давайте **выясним, как мы можем создавать запросы к базе данных** с помощью `Querydsl`.
+
+---
+### Создание запросов к базе данных с помощью Querydsl
+
+Мы можем создавать запросы к базе данных с помощью `Querydsl`, выполнив следующие действия:
+- **Делай раз** - *Изменить интерфейс репозитория для поддержки запросов*, использующих `Querydsl`.
+- **Делай два** - *Указать условия вызванного запроса* к базе данных.
+- **Делай три** - *Вызвать запрос* к базе данных.
+
+Давайте начнем.
+
+---
+### Делай раз - Изменение интерфейса репозитория
+
+Интерфейс `QueryDslPredicateExecutor<T>` объявляет методы, которые можно использовать для вызова запросов к базе данных,
+использующих `Querydsl`. Этот **интерфейс имеет один параметр** типа `<T>`, который **описывает тип запрашиваемой сущности**.
+
+Другими словами, если нам нужно изменить интерфейс нашего репозитория для поддержки запросов к базе данных, использующих `Querydsl`, мы должны выполнить следующие шаги:
+- Шаг 1. - Расширить интерфейс `QueryDslPredicateExecutor<T>`.
+- Шаг 2. - Установить тип запрашиваемой сущности.
+
+---
+**Пример:** Единственный репозиторий `Spring Data JPA` нашего примера приложения **TodoRepository** управляет объектами `Todo`.
+        После того, как мы изменили этот репозиторий для поддержки `Querydsl`, его исходный код выглядит следующим
+        образом:
+
+```java
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.repository.Repository;
+
+interface TodoRepository extends Repository<Todo, Long>,
+                                 QueryDslPredicateExecutor<Todo> {
+
+}
+```
+
+После того как мы расширили интерфейс `QueryDslPredicateExecutor<T>`, классы, использующие интерфейс нашего репозитория, получают доступ к следующим методам:
+- `long count(Predicate predicate)` - метод возвращает количество объектов, которые удовлетворяют условиям, заданным объектом `Predicate`, переданным в качестве параметра метода.
+- `boolean exists(Predicate predicate)` - метод (предикат предиката) проверяет, существуют ли объекты, которые удовлетворяют условиям, заданным объектом `Predicate`, заданным в качестве параметров метода. Если такие объекты найдены, этот метод возвращает **true**. В противном случае этот метод возвращает **false**.
+- `Iterable <T> findAll(Predicate predicate)` - метод возвращает объекты, которые удовлетворяют условиям, заданным объектом `Predicate`, заданным в качестве параметра метода.
+- `T findOne(Predicate predicate)` - метод возвращает объект, который удовлетворяет условиям, заданным объектом `Predicate`, заданным в качестве параметра метода. Если объект не найден, этот метод возвращает значение **null**.
+
+Интерфейс `QueryDslPredicateExecutor<T>` объявляет также другие методы, которые используются для сортировки и разбиения
+на страницы объектов, соответствующих условиям, заданным объектом `Predicate`. Мы поговорим об этих методах подробнее,
+когда научимся сортировать и разбивать на страницы результаты запросов.
+
+------------------------------------------------------------------------------------------------------------------------
+**Дополнительное чтение:**
+- [Javadoc интерфейса QueryDslPredicateExecutor<T>](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/querydsl/QuerydslPredicateExecutor.html)
+
+---
+Давайте выясним, как мы можем указать условия вызываемого запроса к базе данных.
+
+---
+### Делай два - Указание условий вызванного запроса к базе данных
+
+Мы можем указать условия вызванного запроса к базе данных, используя сгенерированные типы запросов `Querydsl`. Чтобы быть
+более конкретным, мы должны выполнить следующие шаги:
+- Шаг 1. - *Получим ссылку на объект запроса*, описывающий запрашиваемую сущность.
+- Шаг 2. - *Создадим объект `Predicate`*, который задает условия вызванного запроса к базе данных.
+
+**ВО-ПЕРВЫХ**, мы можем получить ссылку на объект запроса, описывающий запрашиваемую сущность, выполнив следующие шаги:
+- Шаг 1. - *Найдем тип запроса*, который описывает запрашиваемую сущность.
+- Шаг 2. - *Получим ссылку* из статического поля.
+
+Если нам нужно запросить объекты `Todo`, мы можем получить необходимую ссылку из поля `todo` класса `QTodo`. Соответствующая часть класса `QTodo` выглядит следующим образом:
+
+```java
+public class QTodo extends EntityPathBase<Todo> {
+
+    public static final QTodo todo = new QTodo("todo");
+}
+```
+
+Исходный код нашего кода генерации запроса выглядит следующим образом:
+
+```java
+QTodo todo = QTodo.todo;
+```
+
+**ВО-ВТОРЫХ**, нам нужно создать объект `Predicate`, который определяет условия вызываемого запроса к базе данных.
+
+Мы можем создать условие, ограничивающее значения одного поля, выполнив следующие действия:
+- Выберем целевое поле условия.
+- Укажем условие.
+
+Если мы хотим создать объект `Predicate`, который возвращает объекты `Todo` с заголовком «Foo», мы можем создать объект `Predicate`, используя следующий код:
+
+```java
+Predicate titleIs = QTodo.todo.title.eq("Foo");
+```
+
+Мы также можем объединить несколько объектов `Predicate`, используя класс `BooleanExpression`. Следующие примеры демонстрируют, как мы можем использовать этот класс:
+
+**Пример 1.** Если мы хотим выбрать записи задач с заголовком «Foo» **И** описанием «Bar», мы можем создать объект `Predicate`, используя следующий код:
+
+```java
+Predicate titleAndDescriptionAre = QTodo.todo.title.eq("Foo").and(QTodo.todo.description.eq("Bar"));
+```
+
+**Пример 2.** Если мы хотим выбрать записи задач с заголовком «Foo» **ИЛИ** «Bar», мы можем создать объект `Predicate`, используя следующий код:
+
+```java
+Predicate titleIs = QTodo.todo.title.eq("Foo").or(QTodo.todo.title.eq("Bar"));
+```
+
+**Пример 3.** Если мы хотим выбрать записи задач с заголовком «Foo», а описанием **НЕ** «Bar», мы можем создать объект `Predicate`, используя следующий код:
+
+```java
+Predicate titleIsAndDescriptionIsNot = QTodo.todo.title.eq("Foo").and(QTodo.todo.description.eq("Bar").not());
+```
+
+Пакет [com.mysema.query.types.expr](http://querydsl.com/static/querydsl/3.4.3/apidocs/com/mysema/query/types/expr/package-summary.html) содержит различные выражения, которые мы можем использовать при создании запросов к БД.
+
+---
+**Дополнительное чтение:**
+- [Справочная документация Querydsl: 2.1.5 Использование типов запросов](http://querydsl.com/static/querydsl/3.4.3/reference/html_single/#d0e202)
+- [Javadoc класса BooleanExpression](http://querydsl.com/static/querydsl/3.4.3/apidocs/com/mysema/query/types/expr/BooleanExpression.html)
+- [Javadoc интерфейса Predicate](http://querydsl.com/static/querydsl/3.4.3/apidocs/com/mysema/query/types/Predicate.html)
+- [Сводка пакета com.mysema.query.types.expr](http://querydsl.com/static/querydsl/3.4.3/apidocs/com/mysema/query/types/expr/package-summary.html)
+
+---
+Очевидный следующий вопрос: **Где нам следует создавать эти объекты Predicate?**
+
+Существует мнение, что нам следует создавать эти объекты, используя классы построения предикатов, потому что таким
+образом мы соберем нашу логику генерации запросов в одном месте. Другими словами, мы не засоряем исходный код наших
+сервисных классов (или других компонентов) логикой генерации запросов.
+
+Например, мы можем создать класс построителя предикатов, выполнив следующие шаги:
+- Шаг 1. Создадим `final` класс `TodoPredicates`. Имя этого класса не важно, но будем использовать соглашение об именовании: [Имя запрашиваемого класса сущности]Predicates.
+- Шаг 2. Добавим `private` конструктор созданного класса. Это фиксирует, что никто не сможет создать экземпляр нашего класса строителя предикатов.
+- Шаг 3. Добавим в этот класс статические методы построения предикатов. В нашем случае мы добавим в этот класс только один метод построения предикатов `*.hasTitle(String title)` и реализуем его, возвращая новый объект `Predicate`.
+
+Исходный код класса `TodoPredicates` выглядит следующим образом:
+
+```java
+import com.mysema.query.types.Predicate;
+
+final class TodoPredicates {
+
+    private TodoPredicates() {}
+
+    static Predicate hasTitle(String title) {
+        return QTodo.todo.title.eq(title);
+    }
+}
+```
+
+Давайте продолжим и выясним, как мы можем вызвать созданный запрос к базе данных.
+
+---
+### Делай три - Вызов созданного запроса к базе данных
+
+После того как мы указали условия вызванного запроса, создав новый объект `Predicate`, мы можем вызвать запрос к базе
+данных, используя методы, предоставляемые интерфейсом `QueryDslPredicateExecutor<T>`.
+
+Следующие примеры демонстрируют, как мы можем вызывать различные запросы к базе данных:
+
+**Пример 1.** Если мы хотим **получить количество объектов** `Todo` с заголовком «foo», нам нужно создать и вызвать запрос к базе данных, используя этот код:
+
+```java
+Predicate pred = TodoPredicates.hasTitle("foo");
+long count = repository.count(pred);
+```
+
+**Пример 2.** Если мы хотим **узнать, содержит ли** база данных объекты `Todo` с заголовком «foo», нам нужно создать и вызвать запрос к базе данных, используя этот код:
+
+```java
+Predicate pred = TodoPredicates.hasTitle("foo");
+boolean exists = repository.exists(pred);
+```
+
+**Пример 3.** Если мы хотим **получить все объекты** Todo с заголовком «foo», нам нужно создать и вызвать запрос к базе данных, используя этот код:
+
+```java
+Predicate pred = TodoPredicates.hasTitle("foo");
+Iterable<Todo> todoEntries = repository.findAll(pred);
+```
+
+**Пример 4.** Если мы хотим **получить объект** Todo с заголовком «foo», нам нужно создать и вызвать запрос к базе данных, используя этот код:
+
+```java
+Predicate pred = TodoPredicates.hasTitle("foo");
+Todo todoEntry = repository.findOne(pred);
+```
+
+Давайте выясним, как можно реализовать функцию поиска.
+
+---
+### Реализация функции поиска - Implementing the Search Function
+
+Мы можем реализовать нашу функцию поиска, выполнив следующие шаги:
+- Шаг 1. - *Изменим интерфейс нашего репозитория* для поддержки `Querydsl`.
+- Шаг 2. - *Создадим класс построитель предикатов**, который создает объекты `Predicate`.
+- Шаг 3. - *Реализуем метод* сервиса, который использует наш класс построитель предикатов и вызывает созданный запрос к базе данных, используя наш интерфейс репозитория.
+
+Начнем с изменения интерфейса нашего репозитория.
+
+---
+### Шаг 1. - Изменение интерфейса нашего репозитория - Modifying Our Repository Interface
+
+Мы можем внести необходимые изменения в интерфейс нашего репозитория, выполнив следующие шаги:
+- Шаг 1.1 - Расширяем интерфейс `QueryDslPredicateExecutor<T>`.
+- Шаг 1.2 - Задаем тип запрашиваемой сущности в `Todo`.
+
+Исходный код интерфейса нашего репозитория выглядит следующим образом:
+
+```java
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.repository.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+interface TodoRepository extends Repository<Todo, Long>, QueryDslPredicateExecutor<Todo> {
+
+    void delete(Todo deleted);
+
+    List<Todo> findAll();
+
+    Optional<Todo> findOne(Long id);
+
+    void flush();
+
+    Todo save(Todo persisted);
+}
+```
+
+Давайте двинемся дальше и создадим класс строитель (builder) предикатов.
+
+---
+### Шаг 2. - Создание класса строителя предикатов - Creating the Predicate Builder Class
+
+Мы можем создать класс строитель предикатов, который соответствует требованиям нашей функции поиска, выполнив следующие шаги:
+- Шаг 2.1 - *Создадим класс строитель предикатов* и убедимся, что его экземпляр не может быть создан извне.
+- Шаг 2.2 - Добавим статический метод `titleOrDescriptionContainsIgnoreCase(String searchTerm)` в класс строитель предикатов и установим для него тип возвращаемого значения `Predicate`.
+- Шаг 2.3 - Реализуем метод `titleOrDescriptionContainsIgnoreCase(String searchTerm)`, следуя таким правилам:
+            - Если `searchTerm` имеет значение **NULL или пусто**, вернем объект `Predicate`, который возвращает все записи задач.
+            - Если `searchTerm` **не имеет значения null**, вернем объект `Predicate`, который игнорирует регистр и возвращает:
+              записи задач, заголовок или описание которых содержит заданный поисковый запрос.
+
+Исходный код нашего класса построителя предикатов выглядит следующим образом:
+
+```java
+import com.mysema.query.types.Predicate;
+
+final class TodoPredicates {
+
+    private TodoPredicates() {}
+
+    static Predicate titleOrDescriptionContainsIgnoreCase(String searchTerm) {
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return QTodo.todo.isNotNull();
+        }
+        else {
+            return QTodo.todo.description.containsIgnoreCase(searchTerm)
+                    .or(QTodo.todo.title.containsIgnoreCase(searchTerm));
+        }
+    }
+}
+```
+
+Давайте выясним, как мы можем реализовать метод службы, который создает и вызывает запрос к базе данных.
+
+---
+### Шаг 3. - Реализация метода обслуживания - Implementing the Service Method
+
+Первое, что нам нужно сделать, это создать интерфейс под названием `TodoSearchService`. Этот интерфейс объявляет один
+метод под названием `findBySearchTerm()`. Этот метод принимает поисковый запрос в качестве параметра метода и возвращает
+список объектов `TodoDTO`. Исходный код интерфейса `TodoSearchService` выглядит следующим образом:
+
+```java
+import java.util.List;
+
+public interface TodoSearchService {
+
+    List<TodoDTO> findBySearchTerm(String searchTerm);
+}
+```
+
+Мы можем *реализовать этот интерфейс*, выполнив следующие шаги:
+- Шаг 3.1 - Создаем класс `RepositoryTodoSearchService`, реализуем интерфейс `TodoSearchService` и добавляем к классу аннотацию `@Service`.
+- Шаг 3.2 - Добавляем `private final` поле `TodoRepository` в созданный класс.
+- Шаг 3.3 - Создаем конструктор, который внедряет объект `TodoRepository` в созданное поле с помощью внедрения конструктора.
+- Шаг 3.4 - Переопределяем метод `*.findBySearchTerm()`. Добавляем к методу аннотацию `@Transactional` и убеждаемся, что транзакция доступна только для чтения.
+- Шаг 3.5 - Реализуем метод `*.findBySearchTerm()`, выполнив следующие действия:
+            - Получаем объект `Predicate`, вызвав статический метод `titleOrDescriptionContainsIgnoreCase()` класса `TodoPredicates`.
+            - Получаем записи задач, заголовок или описание которых содержит заданный поисковый запрос, вызвав метод `findAll()` интерфейса `QueryDslPredicateExecutor<T>`. Передаем созданный объект `Predicate` в качестве параметра метода.
+            - Преобразуйте объект `Iterable<Todo>` в список объектов `TodoDTO` и возвращаем созданный список.
+
+Исходный код нашего класса обслуживания выглядит следующим образом:
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static net.petrikainulainen.springdata.jpa.todo.TodoPredicates.titleOrDescriptionContainsIgnoreCase;
+
+@Service
+final class RepositoryTodoSearchService implements TodoSearchService {
+
+    private final TodoRepository repository;
+
+    @Autowired
+    public RepositoryTodoSearchService(TodoRepository repository) {
+        this.repository = repository;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<TodoDTO> findBySearchTerm(String searchTerm) {
+        Predicate searchPred = titleOrDescriptionContainsIgnoreCase(searchTerm);
+        Iterable<Todo> searchResults = repository.findAll(searchPred);
+        return TodoMapper.mapEntitiesIntoDTOs(searchResults);
+    }
+}
+```
+
+---
+### Когда нам следует использовать `Querydsl`?
+
+Мы уже *разобрались, как можем создавать статические запросы* к базе данных, используя имена методов наших запросов,
+аннотацию `@Query` и именованные запросы. Хотя эти методы генерации запросов очень полезны и помогают нам избавиться
+от шаблонного кода, мы не можем использовать их, если нам нужно создавать динамические запросы (т. е. запросы,
+которые не имеют постоянного количества условий).
+
+Если нам нужно *создавать динамические запросы к базе данных, мы можем использовать либо `JPA Criteria API`*, либо `QueryDsl`.
+
+**Плюсы** использования `Querydsl`:
+- Он **поддерживает динамические запросы**.
+- У него очень **чистый API**. Другими словами, с помощью `Querydsl` легко создавать сложные запросы, а **код генерации запросов легко читать**.
+- Он также **поддерживает JDO, Lucene и MongoDB**.
+
+Единственная **«проблема» QueryDsl** заключается в том, что **это не стандартный способ создания динамических запросов
+с помощью `Java Persistence API`**. Хотя, это и не является настоящей проблемой, но если мы можем использовать только
+стандартные API, для нас это определенно проблема.
+
+Мы **помним**, что нам следует **использовать `JPA Criteria API`** только **тогда, когда у нас нет выбора**. Поэтому если нам
+нужно создавать динамические запросы к базе данных, нам следует предпочесть использование `QueryDsl`.
+
+---
+**Подведем итог:**
+- Мы можем создавать типы запросов `Querydsl` с помощью плагина `Maven APT`.
+- Если мы хотим вызывать запросы, использующие `Querydsl`, наш интерфейс репозитория должен расширять интерфейс `QueryDslPredicateExecutor<T>`.
+- Мы можем указать условия запросов к базе данных, создав новые объекты `Predicate`.
+- Мы должны создавать наши объекты `Predicate`, используя классы построения предикатов.
+- Если нам нужно **создавать динамические запросы** к базе данных, нам **следует (предпочтительно)** использовать `Querydsl`.

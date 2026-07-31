@@ -3,8 +3,8 @@
 Перед началом изучения Spring Boot желательно прочитать официальную документацию или краткие статьи.
 
 В [папке DOC](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_6/DOC) sql-скрипты и др. полезные файлы:
-- [DOC/SpringBootArticleShort.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/DOC/SpringBootArticleShort.txt) - краткая статья о SpringBoot;
-- [DOC/SpringBootStarters.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/DOC/SpringBootStarters.txt) - кратко о SpringBoot стартерах;
+- [краткая статья о SpringBoot](./DOC/SpringBootArticleShort.md);
+- [кратко о SpringBoot стартерах](./DOC/SpringBootStarters.md);
 
 Док. для изучения:
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) ;
@@ -90,7 +90,7 @@ ________________________________________________________________________________
 кроме того, любая составленная пользователем аннотация, мета-аннотированная с помощью @Conditional, не должна объявляться как [@Inherited](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/annotation/Inherited.html).
 ________________________________________________________________________________________________________________________
 
-Краткая документация: [DOC/ConditionalAnnotationSpring.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/DOC/ConditionalAnnotationSpring.txt) и [DOC/ConditionalONTable.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/DOC/ConditionalONTable.txt)
+Краткая документация: [ConditionalAnnotationSpring](./DOC/ConditionalAnnotationSpring.md) и [ConditionalONTable](./DOC/ConditionalONTable.md)
 
 Создадим свои условия:
 - Шаг 1. - Создадим конфигурационный файл для управления bean-ами при взаимодействии с БД (имитация) - [JpaConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/src/main/java/spring/oldboy/config/JpaConfiguration.java);
@@ -348,7 +348,7 @@ Spring Boot использует особый PropertySource порядок, п�
 ________________________________________________________________________________________________________________________
 #### Lesson 29 - Yaml format.
 
-Смотреть краткий обзор: [DOC/YAML_SHORT_REVIEW.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_6/DOC/YAML_SHORT_REVIEW.txt)
+Смотреть краткий обзор: [YAML_SHORT_REVIEW](./DOC/YAML_SHORT_REVIEW.md)
 
 При добавлении: 
 

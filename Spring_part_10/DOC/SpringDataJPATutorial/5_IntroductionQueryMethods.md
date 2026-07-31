@@ -1,0 +1,228 @@
+- [Исходник всего материала (ENG)](https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-introduction-to-query-methods/)
+- [Исходники кода на GitHub](https://github.com/pkainulainen/spring-data-jpa-examples/tree/master)
+
+---
+- [См. настройка Spring проекта](https://start.spring.io/)
+
+---
+### Spring Data JPA Tutorial: Introduction to Query Methods (методы запросов).
+
+Ранее мы создали наш первый JPA-репозиторий [Spring Data](./4_SpringDataJPACRUD.md), который
+предоставляет CRUD операции для записей ежедневника (нашего приложения). Хотя это хорошее начало, оно не поможет нам
+писать реальные приложения, поскольку мы понятия не имеем, как можно запрашивать информацию из базы данных, используя
+пользовательские (custom) критерии поиска.
+
+Одним из способов **поиска информации в базе данных** является использование **методов запроса**. Однако прежде чем мы сможем
+создавать собственные запросы к базе данных с помощью методов запроса, нам необходимо понять:
+- *Что такое методы запроса?*
+- *Какие возвращаемые значения мы можем использовать?*
+- *Как мы можем передавать параметры нашим методам запроса?*
+
+---
+### Очень краткое введение в методы запросов
+
+**Методы запроса** — это методы, которые **ищут информацию в базе данных** и **объявляются в интерфейсе репозитория**. Например,
+если мы хотим создать запрос к базе данных, который находит объект Todo с определенным идентификатором, мы можем создать
+метод запроса, добавив метод `findById()` в интерфейс `TodoRepository`. После того, как мы это сделали, интерфейс нашего
+репозитория выглядит следующим образом:
+
+```Java
+import org.springframework.data.repository.Repository;
+
+interface TodoRepository extends Repository<Todo, Long> {
+    /* This is a query method */
+    Todo findById(Long id);
+}
+```
+
+---
+### Возврат значений из методов запроса
+
+Метод запроса может возвращать только один результат или несколько результатов. Кроме того, мы можем создать метод
+запроса, который вызывается асинхронно. В этом разделе рассматривается каждая из этих ситуаций и описывается, какие
+возвращаемые значения мы можем использовать в каждой ситуации.
+
+- **ВО-ПЕРВЫХ**, если мы пишем запрос, который должен возвращать только один результат, мы **можем возвращать следующие типы**:
+    - *Базовый тип.* Наш метод запроса вернет найденный базовый тип или значение null.
+    - *Сущность (Entity).* Наш метод запроса вернет объект сущности или значение null.
+    - *Optional <T>.* Наш метод запроса вернет Optional объект, содержащий найденный объект,
+      или пустой опциональный объект.
+
+Вот несколько примеров методов запроса, которые возвращают только один результат:
+
+```Java
+import java.util.Optional;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
+
+interface TodoRepository extends Repository<Todo, Long> {
+
+    @Query("SELECT t.title FROM Todo t where t.id = :id")
+    String findTitleById(@Param("id") Long id);
+
+    @Query("SELECT t.title FROM Todo t where t.id = :id")
+    Optional<String> findTitleById(@Param("id") Long id);
+
+    Todo findById(Long id);
+
+    Optional<Todo> findById(Long id);
+}
+```
+
+---
+**Дополнительное чтение:**
+- [Что нового в Spring Data Dijkstra — поддержка типов-оболочек в качестве возвращаемых значений](https://spring.io/blog/2014/05/21/what-s-new-in-spring-data-dijkstra#support-for-wrapper-types-as-return-values)
+- [Spring Data — примеры Java 8](https://github.com/spring-projects/spring-data-examples/tree/main/jpa)
+- [Javadoc класса Optional<T>](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html)
+------------------------------------------------------------------------------------------------------------------------
+
+- **ВО-ВТОРЫХ**, если мы пишем метод запроса, который должен возвращать более одного результата, мы можем возвращать следующие типы:
+    - *List<Т>* - Наш метод запроса вернет список, содержащий результаты запроса, или пустой список.
+    - *Stream<T>* - Наш метод запроса вернет Stream, который можно использовать для доступа к результатам запроса, или пустой Stream.
+
+Вот несколько примеров методов запроса, которые возвращают более одного результата:
+
+```Java
+import java.util.stream.Stream;
+import org.springframework.data.repository.Repository;
+
+interface TodoRepository extends Repository<Todo, Long> {
+
+    List<Todo> findByTitle(String title);
+
+    Stream<Todo> findByTitle(String title);
+}
+```
+
+---
+**Дополнительное чтение:**
+- [Справочное руководство Spring Data JPA: 3.4.6 Потоковая передача результатов запроса](https://docs.spring.io/spring-data/jpa/docs/1.8.x/reference/html/#repositories.query-streaming)
+- [Javadoc интерфейса Stream<T>](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html)
+
+---
+- **В-ТРЕТЬИХ**, если мы хотим, чтобы наш метод запроса выполнялся асинхронно, мы должны пометить его аннотацией `@Async` и
+  вернуть объект `Future<T>`. Вот несколько примеров методов запроса, которые выполняются асинхронно:
+
+```Java
+import java.util.concurrent.Future;
+import java.util.stream.Stream;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.scheduling.annotation.Async;
+
+interface TodoRepository extends Repository<Todo, Long> {
+
+    @Async
+    @Query("SELECT t.title FROM Todo t where t.id = :id")
+    Future<String> findTitleById(@Param("id") Long id);
+
+    @Async
+    @Query("SELECT t.title FROM Todo t where t.id = :id")
+    Future<Optional<String>> findTitleById(@Param("id") Long id);
+
+    @Async
+    Future<Todo> findById(Long id);
+
+    @Async
+    Future<Optional<Todo>> findById(Long id);
+
+    @Async
+    Future<List<Todo>> findByTitle(String title);
+
+    @Async
+    Future<Stream<Todo>> findByTitle(String title);
+}
+```
+
+---
+**Дополнительное чтение:**
+- [Что нового в Spring Data Dijkstra — асинхронный вызов метода репозитория](https://spring.io/blog/2014/05/21/what-s-new-in-spring-data-dijkstra#asynchronous-repository-method-invocations)
+- [Справочное руководство Spring Framework: 28.4.3 Аннотация @Async](https://docs.spring.io/spring-framework/docs/4.1.x/spring-framework-reference/htmlsingle/#scheduling-annotation-support-async)
+- [Javadoc аннотации @Async](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Async.html)
+- [Интерфейс Javadoc of the Future<V>](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html)
+
+Давайте продолжим и выясним, как мы можем передавать параметры метода нашим методам запроса.
+
+---
+### Передача параметров метода в методы запроса
+
+Мы можем передавать параметры нашим запросам к базе данных, передавая параметры самих. `Spring Data JPA` поддерживает как
+привязку параметров на основе позиции, так и именованные параметры. Оба эти варианта описаны ниже:
+
+- **Вариант первый:** Привязка параметров на основе позиции означает, что порядок параметров нашего метода определяет, какие заполнители ими будут заменены. Другими словами, первый заполнитель заменяется первым параметром метода, второй заполнитель заменяется вторым параметром метода и так далее.
+
+Вот несколько методов запроса, которые используют привязку параметров на основе позиции:
+
+```Java
+import java.util.Optional
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
+
+
+interface TodoRepository extends Repository<Todo, Long> {
+
+    public Optional<Todo> findByTitleAndDescription(String title, String description);
+
+    @Query("SELECT t FROM Todo t where t.title = ?1 AND t.description = ?2")
+    public Optional<Todo> findByTitleAndDescription(String title, String description);
+
+    @Query(value = "SELECT * FROM todos t where t.title = ?0 AND t.description = ?1",
+        nativeQuery=true
+    )
+    public Optional<Todo> findByTitleAndDescription(String title, String description);
+}
+```
+
+---
+**!!! Однако !!!** 
+
+    Использование привязки параметров на основе позиции подвержено небольшим ошибкам, поскольку мы не можем
+    изменить порядок параметров метода или порядок заполнителей, не нарушая запрос к базе данных. Мы можем
+    решить эту проблему, используя именованные параметры.
+
+---
+- **Второй вариант:** Мы можем использовать именованные параметры, заменяя числовые заполнители, найденные в наших запросах к базе данных, конкретными именами параметров и аннотируя параметры нашего метода аннотацией `@Param`.
+
+Аннотация `@Param` настраивает имя именованного параметра, которое заменяется значением параметра метода. Вот несколько
+методов запроса, использующих именованные параметры:
+
+```Java
+import java.util.Optional
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
+
+
+interface TodoRepository extends Repository<Todo, Long> {
+
+    @Query("SELECT t FROM Todo t where t.title = :title AND t.description = :description")
+    public Optional<Todo> findByTitleAndDescription(@Param("title") String title,
+                                                    @Param("description") String description);
+
+    @Query(
+        value = "SELECT * FROM todos t where t.title = :title AND t.description = :description",
+        nativeQuery=true
+    )
+    public Optional<Todo> findByTitleAndDescription(@Param("title") String title,
+                                                    @Param("description") String description);
+}
+```
+
+---
+**Дополнительное чтение:**
+- [Javadoc аннотации @Param](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/query/Param.html)
+- [Справочное руководство Spring Data JPA: 4.3.5 Использование именованных параметров](https://docs.spring.io/spring-data/jpa/docs/1.8.x/reference/html/#jpa.named-parameters)
+
+---
+**В итоге** мы знаем, что:
+- **Методы запроса** — это методы, которые **ищут информацию из базы данных** и объявляются в интерфейсе репозитория.
+- **Spring Data** - **имеет довольно универсальную поддержку различных возвращаемых значений**, которые мы можем использовать при
+  добавлении методов запросов в наши репозитории Spring Data JPA.
+- Мы можем передавать **параметры в запросы к базе данных, используя либо привязку параметров на основе позиции, либо
+  именованные параметры**.
+
+---
+[В следующей части обзора по `Spring Data JPA` описывается, как мы можем создавать запросы к базе данных на основе имен
+наших методов запроса →](./6_QueriesFromMethodNames.md)

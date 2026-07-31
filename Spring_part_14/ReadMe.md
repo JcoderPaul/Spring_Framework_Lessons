@@ -6,18 +6,19 @@
 - [Liquibase Documentation](https://docs.liquibase.com/home.html) ;
 - [PostgreSQL Documentation (Manuals) 12-16](https://www.postgresql.org/docs/) ;
 - [Docker Documentation](https://docs.docker.com/) ;
-________________________________________________________________________________________________________________________
+
+---
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) ;
 - [Spring Framework 6.1.5 Documentation](https://spring.io/projects/spring-framework) ;
 - [Spring Framework 3.2.x Reference Documentation](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/index.html) ;
 - [Getting Started Guides](https://spring.io/guides) ;
 - [Developing with Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html) ;
 
-________________________________________________________________________________________________________________________
+---
 Для начала проведем предварительную подготовку:
 
 Шаг 1. - в файле [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/build.gradle) добавим необходимые plugin-ы: 
-
+```
     /* 
        Плагин Spring Boot добавляет необходимые задачи в Gradle 
        и имеет обширную взаимосвязь с другими plugin-ами.
@@ -30,47 +31,54 @@ ________________________________________________________________________________
     id "io.spring.dependency-management" version '1.0.11.RELEASE'
     /* Подключим Lombok */
     id "io.freefair.lombok" version "8.3"
+```
 
 Шаг 2. - подключаем Spring Boot starter:
-
+```
     /* 
        Подключим Spring Boot Starter он включает поддержку 
        авто-конфигурации, логирование и YAML
     */
     implementation 'org.springframework.boot:spring-boot-starter'
+```
 
 Шаг 3. - подключаем блок тестирования (Spring Boot Starter Test) 
 (он будет активен на этапе тестирования):
-
+```
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+```
 
 Шаг 4. - автоматически Gradle создал тестовую зависимость на Junit5
 (мы можем использовать как Junit4, так и TestNG):
-
+```
     test {
         useJUnitPlatform()
     }
+```
 
 Шаг 5. - подключим блок для работы с БД (Spring Boot Starter Data Jpa):
-
+```
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+```
 
-________________________________________________________________________________________________________________________
+---
+```
+    !!! НЕ ЗАБЫВАЕМ !!! У нас есть классы (см. ConnectionPool.java и комментарии), где мы пытаемся
+    внедрить параметры в     поля через аннотации, с использованием аннатационного же конструктора
+    @RequiredArgsConstructor. Фокус не пройдет без создания и настройки файла конфигурации:
+    lombok.config - 'контекст' просто завалится. 
 
-    !!! НЕ ЗАБЫВАЕМ !!! У нас есть классы (см. ConnectionPool.java и комментарии), где мы пытаемся внедрить параметры в 
-    поля через аннотации, с использованием аннатационного же конструктора @RequiredArgsConstructor. Фокус не пройдет без 
-    создания и настройки файла конфигурации: lombok.config - 'контекст' просто завалится. 
+    Либо все делаем руками от начала и до конца, либо помним какие вспомогательные средства используем
+    и какие их особенности могут повлиять на работу приложения.
+```
 
-    Либо все делаем руками от начала и до конца, либо помним какие вспомогательные средства используем и какие их особенности
-    могут повлиять на работу приложения.
-
-________________________________________________________________________________________________________________________
-
+---
 Шаг 6. - Для использования средств подобных Hibernate ENVERS подключим такую же поддержку от Spring:
-
+```
     implementation 'org.springframework.data:spring-data-envers'
+```
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 66 - Миграционный фреймворк Liquibase (теория)
 
 В ранних уроках можно было заметить, как при запуске тестов Hibernate формирует таблицы БД ('накатывает БД'). Делает он 
@@ -89,13 +97,16 @@ ________________________________________________________________________________
 
 Для реализации подобного функционала можно заморочиться и в структуру своей программы зашить код реализующий GIT подобные
 методы для отслеживания и отката изменений в схемах БД. Либо можно использовать т.н. миграционные фреймворки, например, 
-Flyway или Liquibase (см. [https://www.liquibase.org/](https://www.liquibase.com/)). 
+Flyway или Liquibase см. [https://www.liquibase.org/](https://www.liquibase.com/). 
 
 Миграционные фреймворки используют похожий принцип (и схожие схемы реализации своего функционала), в случае Liquibase см. 
-[DOC/Pictures/MigrationFrameworkStructure.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/Pictures/MigrationFrameworkStructure.jpg), имеются две таблицы: databasechangelog и databasechangeloglock. В процессе 
-работы Liquibase отправляет запрос к БД, чтобы заблокировать доступ к БД для всех процессов способных внести изменения 
-в схему базы. Т.е. в данной ситуации у других процессов (микросервисов), если их несколько, которые пытаются внести 
-изменения в БД ('накатить' какие-либо скрипты), такой возможности не будет. 
+
+![MigrationFrameworkStructure.jpg](./DOC/Pictures/MigrationFrameworkStructure.jpg), 
+
+имеются две таблицы: *databasechangelog* и *databasechangeloglock*. В процессе работы Liquibase отправляет запрос к БД, 
+чтобы заблокировать доступ к БД для всех процессов способных внести изменения в схему базы. Т.е. в данной ситуации у 
+других процессов (микросервисов), если их несколько, которые пытаются внести изменения в БД ('накатить' какие-либо скрипты), 
+такой возможности не будет. 
 
 Далее фреймворк lock-кирует базу, вносит изменения, и информация о текущих изменениях (примененном скрипте) заносится в 
 таблицу databasechangelog. Именно в этой талице хранится информация о том какие изменения были совершены и кем, а также 
@@ -107,88 +118,113 @@ Flyway или Liquibase (см. [https://www.liquibase.org/](https://www.liquibas
 применены к БД и не допустить нарушения порядка этих изменений, дабы сохранить возможность максимально корректного отката
 внесенных изменений. 
 
-Основные понятия в Liquibase (см. [https://docs.liquibase.com/concepts/home.html](https://docs.liquibase.com/concepts/home.html) и [DOC/Pictures/LiquibaseConcepts.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/Pictures/LiquibaseConcepts.jpg)):  
-- changelog (журнал изменений) - текстовый файл журнала изменений для последовательного перечисления всех изменений, 
-                                 внесенных в нашу базу данных. Этот реестр помогает Liquibase проверять нашу БД и 
-                                 выполнять любые изменения, которые еще не применены. Мы можем хранить и редактировать 
-                                 наш журнал изменений в любом инструменте контроля версий.
-- changeset (набор изменений) - это базовая единица изменения в Liquibase, мы сохраняем все свои наборы изменений в 
-                                нашем сhangelog-е (журнале изменений). Наш набор изменений содержит типы изменений, 
-                                которые определяют, что делает каждое изменение, например: создание новой таблицы или 
-                                добавление столбца в существующую таблицу.
+Основные понятия в Liquibase см. [https://docs.liquibase.com/concepts/home.html](https://docs.liquibase.com/concepts/home.html) и 
 
-    
+![LiquibaseConcepts.jpg](./DOC/Pictures/LiquibaseConcepts.jpg)
+
+- **changelog (журнал изменений)** - текстовый файл журнала изменений для последовательного перечисления всех изменений, 
+внесенных в нашу базу данных. Этот реестр помогает Liquibase проверять нашу БД и выполнять любые изменения, которые еще
+не применены. Мы можем хранить и редактировать наш журнал изменений в любом инструменте контроля версий.
+
+- **changeset (набор изменений)** - это базовая единица изменения в Liquibase, мы сохраняем все свои наборы изменений в 
+нашем сhangelog-е (журнале изменений). Наш набор изменений содержит типы изменений, которые определяют, что делает каждое
+изменение, например: создание новой таблицы или добавление столбца в существующую таблицу.
+
+```    
     /* Обязательный комментарий в SQL скрипте помечающий 'набор изменений' как (автор изменений:id изменений) */
     --changeset nvoxland:1
     create table company (
     id int primary key,
     address varchar(255)
     );
+```
 
 Набор изменений помечен author и id, как уникальным атрибутом (author:id), так и путем к файлу журнала изменений. ID - 
 это просто идентификатор, он не определяет порядок выполнения изменений и необязательно должен быть целым числом. Обычно 
 набор изменений проходят в одной транзакции.
 
-!!! ID уникален для конкретного автора (author) только в пределах одного журнала изменений (changelog-a) см. 
-[DOC/Pictures/LiquibaseConcepts.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/Pictures/LiquibaseConcepts.jpg) и [DOC/Pictures/LiquibaseChangelogs.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/Pictures/LiquibaseChangelogs.jpg) !!!
+**!!! ID уникален для конкретного автора (author) только в пределах одного журнала изменений (changelog-a) !!!** см. 
 
-- change (минимальное изменение) - минимальное изменение БД (создать таблицу, добавить/удалить столбец в таблице и т.д.)
-                                   в пределах одного набора изменений.
+![LiquibaseConcepts.jpg](./DOC/Pictures/LiquibaseConcepts.jpg) 
 
-!!! Несложно заметить см. [DOC/Pictures/LiquibaseConcepts.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/Pictures/LiquibaseConcepts.jpg), что в пределах одного набора изменений (changeset) может
-находиться как один change, так и некое количество, но сам набор этих изменений находится в пределах одной транзакции. 
-Хорошей практикой считается 'условная атомарность изменений' - когда в пределах одного набора изменений находится одно
-изменение, т.е. одна транзакция - одно изменение в БД. Это позволяет проводить эффективный rollback (откат) изменений !!!
+и 
 
-- checksums (контрольная сумма) - когда Liquibase во время выполнения достигает набора изменений (changeset) в нашем 
-                                  журнале изменений (changelog), он вычисляет контрольную сумму и сохраняет ее в MD5SUM 
-                                  столбце таблицы DATABASECHANGELOG. Это говорит Liquibase, был ли changeset изменен с 
-                                  момента его запуска.
+![LiquibaseChangelogs.jpg](./DOC/Pictures/LiquibaseChangelogs.jpg)
+
+- **change (минимальное изменение)** - минимальное изменение БД (создать таблицу, добавить/удалить столбец в таблице и т.д.)
+в пределах одного набора изменений.
+
+**!!! Несложно заметить !!!** см. 
+
+![LiquibaseConcepts.jpg](./DOC/Pictures/LiquibaseConcepts.jpg)
+
+Что в пределах одного набора изменений (changeset) может находиться как один change, так и некое количество, но сам набор этих 
+изменений находится в пределах одной транзакции. Хорошей практикой считается 'условная атомарность изменений' - когда в пределах 
+одного набора изменений находится одно изменение, т.е. одна транзакция - одно изменение в БД. Это позволяет проводить эффективный 
+rollback (откат) изменений !!!
+
+- **checksums (контрольная сумма)** - когда Liquibase во время выполнения достигает набора изменений (changeset) в нашем журнале
+изменений (changelog), он вычисляет контрольную сумму и сохраняет ее в MD5SUM столбце таблицы DATABASECHANGELOG. Это говорит
+Liquibase, был ли changeset изменен с момента его запуска.
 
 Поскольку файлов содержащих changelog-и может быть много ими тоже нужно управлять и обычно структура всех изменений в БД
-под управлением Liquibase выглядит следующим образом см. [DOC/Pictures/StructureMigrationScriptFiles.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/Pictures/StructureMigrationScriptFiles.jpg) или [DOC/Pictures/LiquibaseChangelogs.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/Pictures/LiquibaseChangelogs.jpg).
-Советы по оптимизации работы с миграционными фреймворками описаны в [DOC/ArticlesAboutLiquibase/Liquibase_10_advice_to_no_headache.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/ArticlesAboutLiquibase/Liquibase_10_advice_to_no_headache.txt).
+под управлением Liquibase выглядит следующим образом см. 
+
+![StructureMigrationScriptFiles.jpg](./DOC/Pictures/StructureMigrationScriptFiles.jpg) 
+
+или 
+
+![LiquibaseChangelogs.jpg](./DOC/Pictures/LiquibaseChangelogs.jpg)
+
+Советы по оптимизации работы с миграционными фреймворками описаны в ["Использование Liquibase без головной боли. 10 советов из опыта реальной разработки"](./DOC/ArticlesAboutLiquibase/Liquibase_10_advice_to_no_headache.md).
 
 См. статьи по Liquibase: 
-- [DOC/ArticlesAboutLiquibase/DBMigrationManagement.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/ArticlesAboutLiquibase/DBMigrationManagement.txt);
-- [DOC/ArticlesAboutLiquibase/Liquibase_10_advice_to_no_headache.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/ArticlesAboutLiquibase/Liquibase_10_advice_to_no_headache.txt);
-- [DOC/ArticlesAboutLiquibase/LiquibaseShortTutorial.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/ArticlesAboutLiquibase/LiquibaseShortTutorial.txt);
+- ["Управление миграциями БД с Liquibase"](./DOC/ArticlesAboutLiquibase/DBMigrationManagement.md);
+- ["Использование Liquibase без головной боли. 10 советов из опыта реальной разработки"](./DOC/ArticlesAboutLiquibase/Liquibase_10_advice_to_no_headache.md);
+- ["Учебное пособие по Liquibase: научитесь управлять схемой базы данных"](./DOC/ArticlesAboutLiquibase/LiquibaseShortTutorial.md);
 
 См. статьи о миграции БД (как облегчить взаимодействие с миграционным фреймворком):
-- [DOC/DatabaseMigration/DatabaseMigration.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/DatabaseMigration/DatabaseMigration.txt);
-- [DOC/DatabaseMigration/DBMigrationFeatureFlags.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/DatabaseMigration/DBMigrationFeatureFlags.txt);
-- [DOC/DatabaseMigration/FeatureFlag.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/DOC/DatabaseMigration/FeatureFlag.txt);
+- ["Миграция базы данных: что это такое и как это сделать"](./DOC/DatabaseMigration/DatabaseMigration.md);
+- ["Снижение риска миграции базы данных с помощью флагов функций"](./DOC/DatabaseMigration/DBMigrationFeatureFlags.md);
+- ["Руководство по началу работы с флагом Ultimate Feature"](./DOC/DatabaseMigration/FeatureFlag.md);
 
 См. офф. документацию:
 - [Liquibase](https://docs.liquibase.com/home.html) ;
 - [Flyway](https://documentation.red-gate.com/fd) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 67 - Миграционный фреймворк Liquibase (практика)
 
-- Шаг 1. - Для подключения Liquibase к нашему проекту вносим изменения в build.gradle (добавляем зависимость):
-
+- **Шаг 1.** - Для **подключения Liquibase к нашему проекту** вносим изменения в build.gradle (добавляем зависимость):
+```
         implementation 'org.liquibase:liquibase-core'
+```
 
-Если заглянуть в код класса [LiquibaseProperties](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/liquibase/LiquibaseProperties.java), то можно обнаружить массу настроек которые в случае чего мы модем 
-скорректировать если default-ные нас не устраивают. В частости, там мы можем увидеть где должен находиться управляющий
-наборами изменений файл:
+Если заглянуть в код класса [LiquibaseProperties](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/liquibase/LiquibaseProperties.java), то можно обнаружить массу настроек 
+которые в случае чего мы модем скорректировать если default-ные нас не устраивают. В частости, там мы можем увидеть где должен находиться 
+управляющий наборами изменений файл:
 
+```java
         private String changeLog = "classpath:/db/changelog/db.changelog-master.yaml";
+```
 
-- Шаг 2. - Создадим папку для хранения мастер-changelog файла см. [db.changelog-master.yaml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-master.yaml) (и его 'подопечных' см. 
-[db.changelog-1.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-1.0.sql) и т.д.), согласно значениям по-умолчанию приведенным выше. Для удобства и простоты положим все файлы
-журналов изменений в папку ресурсов: [resources/db/changelog](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_14/src/main/resources/db/changelog). Структура мастер-файла всех changelog-ов:
+- **Шаг 2.** - **Создадим папку для хранения мастер-changelog файла** см. [db.changelog-master.yaml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-master.yaml)
+(и его 'подопечных' см. [db.changelog-1.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-1.0.sql) и т.д.),
+согласно значениям по-умолчанию приведенным выше. Для удобства и простоты положим все файлы журналов изменений в папку ресурсов: [resources/db/changelog](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_14/src/main/resources/db/changelog).
 
+Структура мастер-файла всех changelog-ов:
+```
         databaseChangeLog: #параметр в котором находятся миграции
          - include: # список активных миграций
              file: db/changelog/***.yaml (***.sql) # путь к файлу миграции из classpath
+```
 
-- Шаг 3. - Заполняем файлы db.changelog-[number_of_changelog_version].sql (sql скриптами) предстоящими изменениями нашей 
-БД. Это может быть большой sql script с множеством sql функций, например тут это создание таблиц, которые могут быть 
-объединены в один changeset, но как было описано выше, чем меньше changeset, тем проще его откатывать, поэтому здесь 
-одна sql-команда на один changeset (см. [db/changelog/db.changelog-1.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-1.0.sql)):
+- **Шаг 3.** - **Заполняем файлы db.changelog-[number_of_changelog_version].sql** (sql скриптами) предстоящими изменениями нашей 
+БД. Это может быть большой sql script с множеством sql функций, например тут это создание таблиц, которые могут быть объединены в
+один changeset, но как было описано выше, чем меньше changeset, тем проще его откатывать, поэтому здесь одна sql-команда на один
+changeset см. [db/changelog/db.changelog-1.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-1.0.sql):
 
+```
         --liquibase formatted sql /* Специальная метка указывающая на changelog sql файл */
         
         --changeset oldboy:1 /* Специальная метка указывающая на changeset с ключом [имя_создателя:ID_changeset-a] */
@@ -209,22 +245,24 @@ ________________________________________________________________________________
         description VARCHAR(255) NOT NULL ,
         PRIMARY KEY (company_id, lang)
         );
+```
 
-В нашем файле [db.changelog-1.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-1.0.sql) мы имеем 6-ть changeset-ов, а значит будет запущено 6-ть транзакций, которые будет 
-проще откатить, нежели сделай мы один большой changeset из 6-и sql запросов втиснув их в одну транзакцию. 
+В нашем файле [db.changelog-1.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-1.0.sql) 
+мы имеем 6-ть changeset-ов, а значит будет запущено 6-ть транзакций, которые будет проще откатить, нежели сделай мы один большой changeset из 6-и sql запросов втиснув их в 
+одну транзакцию. 
 
 И так, мы имеем 3-и sql-файла с changelog-ами (т.е. весь процесс создания БД делаем мы 'руками', а не средствами Hibernate):
 1. [db.changelog-1.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-1.0.sql) - создание таблиц БД;
 2. [db.changelog-2.0.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-2.0.sql) - внесение изменений (добавили поля) в таблицу users для аудирования БД;
 3. [db.changelog-2.1.sql](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/resources/db/changelog/db.changelog-2.1.sql) - добавляем таблицы для аудита;
 
-- Шаг 4. - Для проверки работы Liquibase почистим от таблиц базу в Docker контейнере. Далее запускаем наше 
-приложение [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/java/spring/oldboy/SpringAppRunner.java) и смотрим, что произойдет. Если ошибок нет, то в нашей БД появятся все таблицы из
-db.changelog-1.0.sql, в таблице users появятся столбцы из db.changelog-2.0.sql и будут созданы таблицы для аудита из
-db.changelog-2.1.sql. И самое главное появятся две таблицы созданные Liquibase: databasechangelog и databasechangeloglock.
+- **Шаг 4.** - Для проверки работы Liquibase почистим от таблиц базу в Docker контейнере. Далее запускаем наше приложение [SpringAppRunner.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/main/java/spring/oldboy/SpringAppRunner.java) и смотрим,
+что произойдет. Если ошибок нет, то в нашей БД появятся все таблицы из db.changelog-1.0.sql, в таблице users появятся столбцы из db.changelog-2.0.sql
+и будут созданы таблицы для аудита из db.changelog-2.1.sql. И самое главное появятся две таблицы созданные Liquibase: *databasechangelog* и *databasechangeloglock*.
 
-При этом в таблице databasechangelog уже будут записи проведенных миграций:
+При этом в таблице *databasechangelog* уже будут записи проведенных миграций:
 
+```text
     id	author	filename	                        dateexecuted	          orderexecuted	  exectype	md5sum	                            description	comments	tag	  liquibase	 contexts	labels	deployment_id
     1	oldboy	db/changelog/db.changelog-1.0.sql	5 ноя 23 'г'., 17:44:56	  1	          EXECUTED      8:6885701ee92d04fb09bef0325c8914de	sql			          4.20.0			        9195495519
     2	oldboy	db/changelog/db.changelog-1.0.sql	5 ноя 23 'г'., 17:44:56	  2	          EXECUTED      8:671c8d8c96f99dacb448f1ae1f3e4e24	sql			          4.20.0			        9195495519
@@ -235,33 +273,37 @@ db.changelog-2.1.sql. И самое главное появятся две та�
     1	oldboy	db/changelog/db.changelog-2.0.sql	5 ноя 23 'г'., 17:44:56	  7	          EXECUTED      8:a214acf16f900e5b7b1c316fe0459bcd	sql			          4.20.0			        9195495519
     1	oldboy	db/changelog/db.changelog-2.1.sql	5 ноя 23 'г'., 17:44:56	  8	          EXECUTED      8:340ecd45e2f311ec6736346bf9371a0f	sql			          4.20.0			        9195495519
     2	oldboy	db/changelog/db.changelog-2.1.sql	5 ноя 23 'г'., 17:44:56	  9	          EXECUTED      8:4be0aeb5e449a3461e1e549e177c8ecb	sql			          4.20.0			        9195495519
+```
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 68 - Миграционный фреймворк Liquibase (практика) ч.2 - Liquibase в тестах
 
 #### Особенность 1:
 
 Как уже было написано выше все примененные миграции имеют свой рассчитанный хэш см. таблицу выше столбец md5sum и если 
 внести изменения в код changeset-а, то значение контрольной суммы изменится, и мы словим исключение. Это легко проверить,
-умышленно изменим скрипт в db.changelog-2.1.sql (заменим SERIAL на BIGSERIAL):
-
+умышленно изменим скрипт в `db.changelog-2.1.sql` (заменим SERIAL на BIGSERIAL):
+```
     --changeset oldboy:1
     CREATE TABLE IF NOT EXISTS revision
     (
     id BIGSERIAL PRIMARY KEY ,
     timestamp BIGINT NOT NULL
     );
+```
 
 Запустим наше приложение еще раз, в результате на экране:
-    
+
+```text    
     Caused by: liquibase.exception.ValidationFailedException: Validation Failed:
                    1 changesets check sum
                      db/changelog/db.changelog-2.1.sql::1::oldboy 
                             was: 8:340ecd45e2f311ec6736346bf9371a0f but is 
                             now: 8:9e3d00afcdd2f5bb1a327ab26ee08cc5
+```
 
 Свою задачу по контролю последовательности вносимых изменений Liquibase блюдет четко. Конечно мы можем умышленно удалить 
-из выше показанной таблицы databasechangelog вторую снизу запись, относящуюся к "changeset oldboy:1" из db.changelog-2.1.sql.
+из выше показанной таблицы *databasechangelog* вторую снизу запись, относящуюся к "changeset oldboy:1" из `db.changelog-2.1.sql`.
 И тогда при запуске приложения Liquibase не найдя этих изменений в контрольной таблице снова их применит ('накатит').
 
 #### Особенность 2:
@@ -270,18 +312,20 @@ ________________________________________________________________________________
 всех таблиц и записей, а так же еще и отслеживаем эти изменения, то не можем допустить некие неконтролируемые манипуляции
 с БД, например, изменения вносимые Hibernate. Изменим настройку в файле тестовых свойств [application-test.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_14/src/test/resources/application-test.yml):
 
+```yaml
     spring:
       datasource:
         ...
       jpa:
         properties.hibernate:
           hbm2ddl.auto: update /* меняем на validate */ 
+```
 
 Т.е. теперь, ни в самом приложении, ни в тестах, мы не пользуемся автоматической генерацией от Hibernate. Мы должны 
 отслеживать все что происходит с БД и с этого момента используем миграционный фреймворк. Ну и напоследок, при текущей 
 настройке нашего проекта мы можем запустить все интеграционные тесты разом и убедиться, что все работает.
 
-________________________________________________________________________________________________________________________
+---
 См. официальные [Guides](https://spring.io/guides):
 - [Getting Started Guides](https://spring.io/guides) - Эти руководства, рассчитанные на 15–30 минут, содержат быстрые
   практические инструкции по созданию «Hello World» для любой задачи разработки с помощью Spring. В большинстве случаев

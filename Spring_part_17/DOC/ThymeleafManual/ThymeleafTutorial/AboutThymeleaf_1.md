@@ -1,0 +1,143 @@
+- [См. исходник (ENG)](https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#more-on-configuration)
+- [Thymeleaf 3.1.5.RELEASE API](https://javadoc.io/doc/org.thymeleaf/thymeleaf/latest/index.html)
+- [Good Thymes Virtual Grocery on GitHub](https://github.com/thymeleaf/thymeleafexamples-gtvg)
+- [См. исходник (RUS на habr.com)](https://habr.com/ru/articles/350864/);
+
+---
+**!!! 
+Представления (view) приложения на Spring MVC работают в пределах внутренних границ "доверия" этого приложения.
+Представления имеют доступ ко всем бинам контекста вашего приложения. Поэтому НЕ рекомендуется использовать
+средства поддержки шаблонов Spring MVC в приложениях, где шаблоны могут редактироваться внешними источниками,
+поскольку это может иметь последствия для безопасности! 
+!!!**
+
+---
+### Технологии View c Thymeleaf
+
+**Thymeleaf** – это современный шаблонизатор Java на стороне сервера, который делает упор на естественные HTML-шаблоны,
+которые можно предварительно просмотреть в браузере двойным щелчком мыши, что очень удобно при самостоятельной работе
+над шаблонами пользовательского интерфейса (например, дизайнеру) без необходимости наличия работающего сервера. Если
+необходимо заменить страницы JSP, Thymeleaf предусматривает один из самых обширных наборов функций для облегчения
+такого преобразования. Thymeleaf активно развивается и поддерживается. 
+
+Более полную вводную информацию можно найти на домашней [странице проекта Thymeleaf](https://www.thymeleaf.org/).
+
+Интеграция Thymeleaf со Spring MVC управляется проектом Thymeleaf. Конфигурация состоит из нескольких объявлений бинов,
+таких, как [ServletContextTemplateResolver](https://www.thymeleaf.org/apidocs/thymeleaf/3.0.0.BETA03/org/thymeleaf/templateresolver/ServletContextTemplateResolver.html), [SpringTemplateEngine](https://www.thymeleaf.org/apidocs/thymeleaf-spring5/3.0.3.M1/org/thymeleaf/spring5/SpringTemplateEngine.html) и [ThymeleafViewResolver](https://www.thymeleaf.org/apidocs/thymeleaf-spring5/3.0.3.M1/index.html?org/thymeleaf/spring5/view/ThymeleafViewResolver.html). Более подробную информацию см. в [разделе "Thymeleaf+Spring"](https://www.thymeleaf.org/documentation.html).
+
+Thymeleaf — современный серверный механизм Java-шаблонов для веб- и автономных сред, способный обрабатывать HTML, XML,
+JavaScript, CSS и даже простой текст.
+
+Основной целью Thymeleaf является создание элегантного и удобного способа шаблонизации. Чтобы достичь этого, Thymeleaf
+основывается на концепции Natural Templates, чтобы внедрить свою логику в файлы шаблонов таким образом, чтобы этот
+шаблон не влиял на отображение прототипа дизайна. Это улучшает коммуникацию в команде и уменьшает разрыв между
+дизайнерскими и программистскими группами.
+
+Thymeleaf также был разработан с самого начала с учетом стандартов Web, особенно HTML5, что позволяет вам создавать
+полностью соответствующие стандарту шаблоны.
+
+---
+### Какие типы шаблонов может обрабатывать Thymeleaf?
+
+Из коробки, Thymeleaf позволяет работать с шестью типами шаблонов, каждый из которых называется «Формат шаблона/Template
+Mode»: - HTML;
+       - XML;
+       - TEXT;
+       - JAVASCRIPT;
+       - CSS;
+       - RAW;
+
+Итого: два markup фармата (HTML and XML), три текстовых формата (TEXT, JAVASCRIPT и CSS) и простой формат (RAW).
+
+HTML формат подразумевает HTML стандарт, включая HTML5, HTML 4 и XHTML. Валидация не выполняется, и код структура
+оригинального шаблона будут соблюдаться в максимально возможной степени.
+
+Формат шаблона XML позволит создать XML шаблон. В этом случае ожидается, что код будет хорошо сформирован, иначе без
+закрытых тегов, без кавычек атрибутов и прочего парсер сгенерирует исключения. Обратите внимание, что не будет проведена
+проверка DTD или XML-схемы.
+
+Режим шаблона TEXT позволяет использовать специальный синтаксис для шаблонов без разметки. Примерами таких шаблонов
+могут быть текстовые письма или шаблонные документы. Обратите внимание, что HTML или XML-шаблоны также могут
+обрабатываться как TEXT, и в этом случае разметка не анализируется, и каждый тег, DOCTYPE, комментарий и прочее будет
+рассматриваться как простой текст.
+
+Режим шаблона JAVASCRIPT позволит обрабатывать файлы JavaScript в приложении Thymeleaf. Это означает возможность
+использовать данные моделей внутри файлов JavaScript так же, как это можно сделать в HTML-файлах, но с интеграциями,
+специфичными для JavaScript, такими как специализированное экранирование или скриптинг. Режим шаблона JAVASCRIPT
+считается текстовым режимом и поэтому использует тот же специальный синтаксис, что и режим шаблона TEXT.
+
+Режим шаблона CSS позволяет обрабатывать файлы CSS, участвующие в приложении Thymeleaf. Подобно режиму JAVASCRIPT,
+режим шаблона CSS также является текстовым режимом и использует специальный синтаксис обработки из режима шаблона TEXT.
+
+Режим шаблона RAW просто не будет обрабатывать шаблоны. Он предназначен для вставки нетронутых ресурсов (файлов,
+ответов на URL и тп.) в обрабатываемые шаблоны. Например, внешние, неконтролируемые ресурсы в формате HTML могут быть
+включены в шаблоны приложений, надежно зная, что любой код Thymeleaf, который эти ресурсы включает, не будет выполнен.
+
+---
+### Диалекты: Стандартный диалект
+
+Thymeleaf — чрезвычайно расширяемый механизм (на самом деле его можно назвать платформой шаблонов), который позволяет
+вам определять и настраивать способ обработки ваших шаблонов до тонкого уровня детализации.
+
+Объект, который применяет некоторую логику к артефакту разметки (тегу, текст, комментарию) называется процессором, а
+набор этих процессоров — плюс, возможно, некоторые дополнительные артефакты — это то, из чего состоит диалект. Из
+коробки основная библиотека Thymeleaf предоставляет диалект, называемый стандартным диалектом, которого должно быть
+достаточно для большинства пользователей.
+
+Этот материал охватывает стандартный диалект. Каждый атрибут и синтаксис, о которых вы узнаете на следующих страницах,
+определяется этим диалектом, даже если это явно не упоминается.
+
+Разумеется, пользователи могут создавать свои собственные диалекты (даже расширяя стандартный), если они хотят
+определить свою собственную логику обработки, используя преимущества расширенных функций библиотеки. Thymeleaf также
+может быть настроен на одновременное использование нескольких диалектов.
+
+Официальные пакеты интеграции «thymeleaf-spring3» и «thymeleaf-spring4» определяют диалект, называемый
+"SpringStandard Dialect", который в основном совпадает со стандартным диалектом, но с небольшими адаптациями, чтобы
+лучше использовать некоторые функции Spring Framework (например, Spring Expression Language (SPEL) или SpringEL
+вместо OGNL). Поэтому, если вы являетесь пользователем Spring MVC, данный материал будет полезен, так как почти
+все, что вы узнаете здесь, может быть использовано в ваших приложениях Spring.
+
+Большинство процессоров стандартного диалекта являются процессорами атрибутов. Это позволяет браузерам правильно
+отображать шаблоны HTML даже без обработки, поскольку они просто игнорируют дополнительные атрибуты. Например, в то
+время как JSP с использованием библиотек тегов может включать фрагмент кода, который не может отображаться
+непосредственно браузером, например:
+
+```
+    <form:inputText name="userName" value="${user.name}" />
+```
+
+… Thymeleaf Standard Dialect позволит нам достичь функциональности с:
+
+```
+    <input type="text" name="userName" value="James Carrot" th:value="${user.name}" />
+```
+
+Мало того, что это будет правильно отображаться браузерами, но это также позволяет нам (необязательно) указать в нем
+атрибут value («James Сarrot»), который будет отображаться, когда прототип статически открыт в браузере, и который будет
+заменен значением полученным в результате выполнения `${user.name}` во время обработки шаблона.
+
+Это помогает вашему дизайнеру и разработчику работать с одним и тем же файлом шаблона и уменьшать усилия, необходимые
+для преобразования статического прототипа в рабочий файл шаблона. Возможность сделать это — функция Natural Templating.
+
+[Двигаемся дальше к Template_Engine →](../ThymeleafTutorial/Thymeleaf_2_Template_Engine.md)
+
+---
+**Доп. материал:**
+- [Tutorial: Thymeleaf + Spring (ENG)](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html)
+- [Руководство: Thymeleaf + Spring (RUS)](https://habr.com/ru/articles/435062/)
+- [Thymeleaf](https://docs.spring.io/spring-framework/reference/web/webmvc-view/mvc-thymeleaf.html)
+- [Issues with Spring Boot and Thymeleaf](https://stackoverflow.com/questions/52903612/issues-with-spring-boot-and-thymeleaf)
+- [Introduction to Using Thymeleaf in Spring](https://www.baeldung.com/thymeleaf-in-spring-mvc)
+- [Настройка Thymeleaf в Spring](http://aquadc.net/blog/articles/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0_Thymeleaf_%D0%B2_Spring)
+- [Spring MVC + Thymeleaf 3.0: New Features](https://www.baeldung.com/spring-thymeleaf-3)
+- [Java Examples for org.thymeleaf.templateresolver.TemplateResolver](https://www.javatips.net/api/org.thymeleaf.templateresolver.templateresolver)
+- [Spring MVC + Thymeleaf Integration](https://www.concretepage.com/spring-4/spring-mvc-thymeleaf)
+- [Spring MVC: from JSP and Tiles to Thymeleaf](https://spring.io/blog/2012/10/30/spring-mvc-from-jsp-and-tiles-to-thymeleaf)
+- [Template Engines for Spring](https://www.baeldung.com/spring-template-engines)
+- [How to use SpringTemplateEngine when using Spring Boot](https://stackoverflow.com/questions/28993936/how-to-use-springtemplateengine-when-using-spring-boot)
+- [SpringTemplateEngine overwrites any set MessageResolvers #1068](https://github.com/thymeleaf/thymeleaf/issues/1068)
+- [Sending Mails using Thymeleaf — Java Template Engine](https://medium.com/@kumarmukul212/sending-mails-using-thymeleaf-java-template-engine-b8d3773a97e)
+- [Java Examples for org.thymeleaf.spring4.SpringTemplateEngine](https://www.javatips.net/api/org.thymeleaf.spring4.springtemplateengine)
+- [Spring boot view resolver issue with thymeleaf #20316](https://github.com/spring-projects/spring-boot/issues/20316)
+- [SpringMVC with Bootstrap and Thymeleaf pages decoration](https://coderanch.com/t/746489/frameworks/SpringMVC-Bootstrap-Thymeleaf-pages-decoration)
+- [A Guide to the ViewResolver in Spring MVC](https://www.baeldung.com/spring-mvc-view-resolver-tutorial)

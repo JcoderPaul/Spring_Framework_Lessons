@@ -5,17 +5,19 @@
 Док. для изучения:
 - [Simple Logging Facade for Java (SLF4J)](https://www.slf4j.org/) ;
 - [SLF4J user manual](https://www.slf4j.org/manual.html) ;
-________________________________________________________________________________________________________________________
+
+---
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) ;
 - [Spring Framework 6.1.5 Documentation](https://spring.io/projects/spring-framework) ;
 - [Spring Framework 3.2.x Reference Documentation](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/index.html) ;
 - [Getting Started Guides](https://spring.io/guides) ;
 - [Developing with Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html) ;
-________________________________________________________________________________________________________________________
+
+---
 - [Архив Spring-Boot Docs](https://docs.spring.io/spring-boot/docs/) ;
 - [Архив Spring-Framework Docs](https://docs.spring.io/spring-framework/docs/) ;
 
-________________________________________________________________________________________________________________________
+---
 Для начала проведем предварительную подготовку:
 
 Шаг 1. - в файле [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/build.gradle) добавим необходимые plugin-ы: 
@@ -41,10 +43,13 @@ ________________________________________________________________________________
     */
     implementation 'org.springframework.boot:spring-boot-starter'
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 31 - Logging Starter.
 
-Java имеет массу фреймворков [для логирования](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.logging) см. [DOC/Logging_System.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/Logging_System.jpg):
+Java имеет массу фреймворков [для логирования](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.logging) см. 
+
+![Logging_System](./DOC/Logging_System.jpg)
+
 - [Log4J](https://logging.apache.org/log4j/2.x/) ;
 - [Jdk14l](https://docs.oracle.com/en/java/javase/17/docs/api/java.logging/java/util/logging/package-summary.html) ;
 - [LogBack](https://logback.qos.ch/) ;
@@ -65,8 +70,9 @@ Java имеет массу фреймворков [для логирования
 
 Уровни логирования имеют приоритет и отображение их идет от худшего к менее критичному, т.е. если мы настроили 
 систему логирования на запись только FATAL ситуаций, то только они и будут фиксироваться, если же, например, на
-ERROR (см. [DOC/Log_Level.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/Log_Level.jpg)), то теперь будут записываться уже и FATAL и ERROR. И так далее по иерархии вниз до
-TRACE (пишем абсолютно все уровни логирования).
+ERROR см. 
+
+![Log_Level](./DOC/Log_Level.jpg)), то теперь будут записываться уже и FATAL и ERROR. И так далее по иерархии вниз до TRACE (пишем абсолютно все уровни логирования).
 
 Подключить систему логирования к классу просто, например, используя аннотацию [@Slf4j](https://projectlombok.org/api/lombok/extern/slf4j/Slf4j) над всем классом. А сервисные
 сообщения можно передавать в логер (см. [JpaConfiguration.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/src/main/java/spring/oldboy/config/JpaConfiguration.java)):
@@ -85,7 +91,7 @@ TRACE (пишем абсолютно все уровни логирования)
 - [Spring Boot features 2.1.13.RELEASE (Logging)](https://docs.spring.io/spring-boot/docs/2.1.13.RELEASE/reference/html/boot-features-logging.html) ;
 - [Spring Boot features 3.3.* (Logging)](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.logging) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 32 - Logback Configuration.
 
 Конфигурировать логер в нашем Spring Boot, на верхнем уровне, достаточно просто, можно использовать [application.yml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/src/main/resources/application.yml) (выгрузка событий происходит и в консоль, и [в файл](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/Logs/oldboy.log)):
@@ -100,7 +106,10 @@ ________________________________________________________________________________
         file.name: Logs/oldboy.log
 
 Основные default настройки Spring Boot находятся в *.XML файлах самого Spring пакета см. 
-[DOC/Logback_base_etc_XML.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/Logback_base_etc_XML.jpg) (или саму структуру jar файла), но мы можем создавать свои файлы конфигурации. 
+
+![Logback_base_etc_XML](./DOC/Logback_base_etc_XML.jpg) 
+
+(или саму структуру jar файла), но мы можем создавать свои файлы конфигурации. 
 
 Внутренняя структура [base.xml](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot/src/main/resources/org/springframework/boot/logging/logback/base.xml) для примера:
     
@@ -125,11 +134,11 @@ ________________________________________________________________________________
 Spring приложениях с использованием Logback (данные местами устаревшие, но раскрывающие логику 
 происходящего):
 
-- [DOC/ArticlesAboutLogging/YAML_SpringBoot_Config_Logback.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/ArticlesAboutLogging/YAML_SpringBoot_Config_Logback.txt) - описание настройки *.yaml файлов для 
+- [YAML_SpringBoot_Config_Logback](./DOC/ArticlesAboutLogging/YAML_SpringBoot_Config_Logback.md) - описание настройки *.yaml файлов для 
 конфигурирования Spring Boot Logging;
-- [DOC/ArticlesAboutLogging/LoggingBegin.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/ArticlesAboutLogging/LoggingBegin.txt) - описание принципов работы логеров в Spring Boot;
-- [DOC/ArticlesAboutLogging/LoggingWithXML.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/ArticlesAboutLogging/LoggingWithXML.txt) - конфигурирование Logback при помощи *.XML файлов;
-- [DOC/ArticlesAboutLogging/LogbackWithSpringBoot.txt](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/ArticlesAboutLogging/LogbackWithSpringBoot.txt) - применение Logback в Spring приложениях;
+- [LoggingBegin](./DOC/ArticlesAboutLogging/LoggingBegin.md) - описание принципов работы логеров в Spring Boot;
+- [LoggingWithXML](./DOC/ArticlesAboutLogging/LoggingWithXML.md) - конфигурирование Logback при помощи *.XML файлов;
+- [LogbackWithSpringBoot](./DOC/ArticlesAboutLogging/LogbackWithSpringBoot.md) - применение Logback в Spring приложениях;
 
 Как описано в статьях, если мы захотим полностью переписать (максимально кастомизировать) настройки
 по логированию нашего приложения нам придется создать файлы свойств и настроек в одном из удобных для 
@@ -149,9 +158,11 @@ Spring приложениях с использованием Logback (данн�
 logback-spring.xml (для просмотра переименовали в [logback_spring_demo.xml](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/src/main/resources/logback_spring_demo.xml)) и прописать там все наши 
 демонстрационные настройки (взятые из документации по Logback, как пример).
  
-И это работает для любой системы логирования см. [DOC/Logging_System.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_7/DOC/Logging_System.jpg).
+И это работает для любой системы логирования см. 
 
-________________________________________________________________________________________________________________________
+![Logging_System.jpg](./DOC/Logging_System.jpg).
+
+---
 См. официальные [Guides](https://spring.io/guides):
 - [Getting Started Guides](https://spring.io/guides) - Эти руководства, рассчитанные на 15–30 минут, содержат быстрые 
 практические инструкции по созданию «Hello World» для любой задачи разработки с помощью Spring. В большинстве случаев
@@ -161,6 +172,6 @@ ________________________________________________________________________________
 - [Tutorials](https://spring.io/guides#tutorials) - Эти учебники, рассчитанные на 2–3 часа, обеспечивают более глубокое 
 контекстное изучение тем разработки корпоративных приложений, что позволяет вам подготовиться к внедрению реальных 
 решений.
-________________________________________________________________________________________________________________________
+
+---
 - [Spring Projects на GitHub](https://github.com/spring-projects) ;
-________________________________________________________________________________________________________________________

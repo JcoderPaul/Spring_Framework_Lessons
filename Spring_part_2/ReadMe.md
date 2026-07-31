@@ -27,7 +27,9 @@ ________________________________________________________________________________
     
     <context:annotation-config/>
 
-Который добавляет еще 4-и важных bean-a (см. DOC/Context/Context_Annotation_Config.jpg): 
+Который добавляет еще 4-и важных bean-a см.
+
+![DOC/Context/Context_Annotation_Config.jpg](./DOC/Context/Context_Annotation_Config.jpg) 
 
 ________________________________________________________________________________________________________________________
 #### Lesson 10 - [@PostConstruct и @PreDestroy](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/postconstruct-and-predestroy-annotations.html)
@@ -43,7 +45,10 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________
 #### Lesson 11 - [BeansPostProcessor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanPostProcessor.html) (теория).
 
-И так полный жизненный цикл Bean-ов состоит из (см. DOC/Context/Bean_LifeCycle_With_PostProcessors.jpg):
+И так полный жизненный цикл Bean-ов состоит из см.
+
+![DOC/Context/Bean_LifeCycle_With_PostProcessors.jpg](./DOC/Context/Bean_LifeCycle_With_PostProcessors.jpg)
+
 - Представления [Bean Definition](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanDefinition.html)s, которые поступают в [IoC Container](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/beans.html) (передача чертежа в контейнер);
 - IoC Container направляет 'конструктор bean-a' в [BeanFactoryPostProcessor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanFactoryPostProcessor.html) (пост-процессоров может быть 
 много и они необходимы, чтобы добавить дополнительные параметры к нашему 'bean чертежу', что называется - 
