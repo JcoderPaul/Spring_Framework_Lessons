@@ -1,20 +1,20 @@
-См. исходники и дополнения (RUS):
-https://habr.com/ru/companies/dododev/articles/520046/
-https://habr.com/ru/companies/nixys/articles/566910/
+**См. исходники и дополнения (RUS):**
+- [Тонкости авторизации: обзор технологии OAuth 2.0](https://habr.com/ru/companies/dododev/articles/520046/)
+- [OpenID Connect простыми словами](https://habr.com/ru/companies/nixys/articles/566910/)
+- [Cтандарт (схема) авторизации OAuth](https://ru.wikipedia.org/wiki/OAuth)
+- [The OAuth 2.0 Authorization Framework](https://datatracker.ietf.org/doc/html/rfc6749)
+- [Уголок сельского джависта](https://alexkosarev.name/)
 
-https://ru.wikipedia.org/wiki/OAuth
-https://datatracker.ietf.org/doc/html/rfc6749
+---
+### Технология OAuth 2.0
 
-https://alexkosarev.name/
-________________________________________________________________________________________________________________________
-****** Технология OAuth 2.0 ******
-
-________________________________________________________________________________________________________________________
-*** Взаимодействие между пользователем и приложениями без OAuth ***
+---
+#### Взаимодействие между пользователем и приложениями без OAuth
 
 В простом и честном мире (почти честном) нам бы не пришлось заботиться о безопасности наших данных и возможно
 взаимодействие обычного пользователя с различными сервисами (приложениями) выглядело бы так см.
-DOC/OAuth_2_0/images/SimpleOperationApplicationsWithoutOAuth.jpg.
+
+![SimpleOperationApplicationsWithoutOAuth.jpg](../OAuth_2_0/images/SimpleOperationApplicationsWithoutOAuth.jpg).
 
 В данном случае, одно приложение - 'Кинокасса', после покупки билетов, просит у пользователя разрешение на доступ к
 приложению - 'Календарь'. Причем не просто доступ на разовую операцию - добавить напоминание о походе в кино, а полный
