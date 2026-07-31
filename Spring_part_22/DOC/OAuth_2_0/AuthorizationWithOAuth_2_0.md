@@ -218,7 +218,7 @@ Scope – это параметр, который состоит из разде
 
 - Device authorization (добавлен в RFC 8628) – используется для авторизации устройств, которые могут не иметь веб-браузеров, но могут работать через интернет. Например, это консольные приложения, умные устройства или Smart TV, см.
 
-![DeviceAuthorizationGrant.jpg](../OAuth_2_0/images/DeviceAuthorizationGrant.jpg)
+![DeviceAuthorizationGrant.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_22/DOC/OAuth_2_0/images/DeviceAuthorizationGrant.jpg)
 
 Актуальными можно считать только Authorization code (с PKCE), Client credentials и Device authorization grant, но мы
 рассмотрим все. Рассматривать Grant будем в порядке возрастания сложности понимания.
@@ -339,7 +339,7 @@ Client secret из соображений безопасности — прил�
 
 Возможно, схема кажется сложной из-за обилия стрелок. Разберём её также пошагово, как и разбирали сложные flow до него см. 
 
-![DeviceAuthorizationGrant.jpg](../OAuth_2_0/images/DeviceAuthorizationGrant.jpg)
+![DeviceAuthorizationGrant.jpg](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_22/DOC/OAuth_2_0/images/DeviceAuthorizationGrant.jpg)
 
 Представим, что мы пытаемся авторизоваться на web-сервисе с помощью телевизора. Мы видим кнопку «Авторизоваться как
 устройство» и нажимаем. В этот момент начинается наш Device flow:
