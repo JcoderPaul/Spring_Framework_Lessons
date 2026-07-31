@@ -27,7 +27,7 @@
 Решением может быть введение 'посредника' между приложениями 'Кинокасса' и 'Календарь', который раздает разрешения и
 ограничения на доступ к данным и их модификации (конечно с разрешения пользователя обоих приложений) см.
 
-![SimpleOAuthModel.jpg](../DOC/OAuth_2_0/images/SimpleOAuthModel.jpg)
+![SimpleOAuthModel.jpg](../OAuth_2_0/images/SimpleOAuthModel.jpg)
 
 Тут происходит следующее:
 - 'Кинокасса' (Клиент) просит у владельца ресурсов (пользователя) разрешение на добавление события в календарь.
@@ -93,7 +93,7 @@ owner, и запрашивать доступ к своим же ресурса�
                 
 Существует всего 2 типа клиентов см.
   
-![OAuthTypesClients.jpg](../DOC/OAuth_2_0/images/OAuthTypesClients.jpg)
+![OAuthTypesClients.jpg](../OAuth_2_0/images/OAuthTypesClients.jpg)
   
 - **Confidential** — клиент, который может безопасно хранить свои учётные данные. Например, к такому типу клиентов относят web-приложения, имеющие backend.
 - **Public** — не может безопасно хранить свои учётные данные. Этот клиент работает на устройстве владельца ресурса, например, браузерные или мобильные приложения.
@@ -111,7 +111,7 @@ owner, и запрашивать доступ к своим же ресурса�
 не имеет значения для клиента. Токен — это ключ доступа к чему-либо, например, к защищённому ресурсу (access token) или
 к новому токену (refresh Token) см. 
 
-![KeysTokens.jpg](../DOC/OAuth_2_0/images/KeysTokens.jpg)
+![KeysTokens.jpg](../OAuth_2_0/images/KeysTokens.jpg)
 
 У каждого токена своё время жизни. Но у refresh token оно должно быть больше, т.к. он используется для получения access
 token. Например, если срок жизни access token около часа, то refresh token можно оставить жить на целую неделю. Refresh
@@ -129,7 +129,7 @@ Access token с помощью refresh token. В случае, если refresh 
 
 Права доступа выдаются клиенту в виде scope см. 
 
-![TokenScope.jpg](../DOC/OAuth_2_0/images/TokenScope.jpg)
+![TokenScope.jpg](../OAuth_2_0/images/TokenScope.jpg)
 
 Scope – это параметр, который состоит из разделённых пробелами строк: scope-token. Каждый scope-token представляет определённые права, выдающиеся
 клиенту. Например, scope-token doc_read может предоставлять доступ на чтение к какому-то документу на resource server-e, а employee - доступ к 
@@ -144,7 +144,7 @@ Scope – это параметр, который состоит из разде
 авторизации клиента, владелец ресурсов может отобрать часть прав без повторной авторизации сервиса, но, чтобы выдать
 дополнительные разрешения, потребуется повторная авторизация клиента см. 
 
-![FinalScope.jpg](../DOC/OAuth_2_0/images/FinalScope.jpg)
+![FinalScope.jpg](../OAuth_2_0/images/FinalScope.jpg)
 
 ---
 ### Абстрактный OAuth 2.0. Flow c применением Access token
@@ -152,11 +152,11 @@ Scope – это параметр, который состоит из разде
 Мы рассмотрели роли, рассмотрели виды токенов, а также как выглядят scope. Посмотрим на flow предоставления доступа к
 сервису. Ниже представлена абстрактная схема (или flow) взаимодействия между участниками см. 
 
-![AbstractDescriptionOAuth.jpg](../DOC/OAuth_2_0/images/AbstractDescriptionOAuth.jpg)
+![AbstractDescriptionOAuth.jpg](../OAuth_2_0/images/AbstractDescriptionOAuth.jpg)
 
 Или более предметно: 
 
-![SimpleOAuthModel.jpg](../DOC/OAuth_2_0/images/SimpleOAuthModel.jpg)
+![SimpleOAuthModel.jpg](../OAuth_2_0/images/SimpleOAuthModel.jpg)
 
 Все шаги на данной схеме выполняются строго сверху вниз.
 
@@ -174,7 +174,7 @@ Scope – это параметр, который состоит из разде
 Первый и второй шаги опущены из данной схемы — они ничем не отличаются от схемы абстрактного flow. В общем случае схема
 с применением Refresh token-а будет выглядеть так см. 
 
-![AbstractOAuthWithRefreshToken.jpg](../DOC/OAuth_2_0/images/AbstractOAuthWithRefreshToken.jpg)
+![AbstractOAuthWithRefreshToken.jpg](../OAuth_2_0/images/AbstractOAuthWithRefreshToken.jpg)
 
 Схема по шагам (еще раз 1-ый и 2-ой шаги опущены, но они есть):
 - Шаг 3. Client отправляет Authorization grant на Authorization server и просит предоставить ему ключ доступа Access token и токен на обновление ключа доступа (Refresh token).
@@ -201,24 +201,24 @@ Scope – это параметр, который состоит из разде
 **Существует 4 + 1 способа получения grant — grant type:**
 - Authorization code — используется для confedencial клиентов — web-сервисов, см.
 
-![AuthorizationCodeGrant.jpg](../DOC/OAuth_2_0/images/AuthorizationCodeGrant.jpg)
+![AuthorizationCodeGrant.jpg](../OAuth_2_0/images/AuthorizationCodeGrant.jpg)
 
 - Client credentials — используется для confedential клиентов, которые запрашивают доступ к своим ресурсам или ресурсам, заранее согласованным с сервером авторизации, см. 
 
-![ClientCredentials.jpg](../DOC/OAuth_2_0/images/ClientCredentials.jpg)
+![ClientCredentials.jpg](../OAuth_2_0/images/ClientCredentials.jpg)
 
 - Implicit — использовался public-клиентами, которые умеют работать с redirection URI (например, для браузерных и мобильных приложений), но был вытеснен Authorization code grant с PKCE (Proof Key for Code Exchange — дополнительная проверка, позволяющая убедиться, что token получит тот же сервис, что его и запрашивал. Прочитать подробнее — RFC 7636), см. 
 
-![ImplicitGrant.jpg](../DOC/OAuth_2_0/images/ImplicitGrant.jpg)
+![ImplicitGrant.jpg](../OAuth_2_0/images/ImplicitGrant.jpg)
 
 - Resource owner password credentials - в RFC 6819, посвящённому безопасности в OAuth 2.0, данный тип grant считается ненадёжным. Если раньше его разрешалось использовать только для миграции сервисов на OAuth 2.0, то в данный момент его не разрешено использовать совсем, см. 
 
-![ResourceOwnerPasswordCredentials.jpg](../DOC/OAuth_2_0/images/ResourceOwnerPasswordCredentials.jpg)
+![ResourceOwnerPasswordCredentials.jpg](../OAuth_2_0/images/ResourceOwnerPasswordCredentials.jpg)
 
 
 - Device authorization (добавлен в RFC 8628) – используется для авторизации устройств, которые могут не иметь веб-браузеров, но могут работать через интернет. Например, это консольные приложения, умные устройства или Smart TV, см.
 
-![DeviceAuthorizationGrant.jpg](../DOC/OAuth_2_0/images/DeviceAuthorizationGrant.jpg)
+![DeviceAuthorizationGrant.jpg](../OAuth_2_0/images/DeviceAuthorizationGrant.jpg)
 
 Актуальными можно считать только Authorization code (с PKCE), Client credentials и Device authorization grant, но мы
 рассмотрим все. Рассматривать Grant будем в порядке возрастания сложности понимания.
@@ -231,12 +231,12 @@ Scope – это параметр, который состоит из разде
 аутентификации требуется client secret, который должен соответствующе храниться, данный flow могут использовать только
 confedential клиенты см. 
 
-![OAuthTypesClients.jpg](../DOC/OAuth_2_0/images/OAuthTypesClients.jpg)
+![OAuthTypesClients.jpg](../OAuth_2_0/images/OAuthTypesClients.jpg)
 
 Схема проста: клиент аутентифицируется на сервере авторизации передавая client id и client secret. В ответ получает
 access token, с которым уже может получить доступ к нужному сервису см. 
 
-![ClientCredentials.jpg](../DOC/OAuth_2_0/images/ClientCredentials.jpg)
+![ClientCredentials.jpg](../OAuth_2_0/images/ClientCredentials.jpg)
 
 Этот flow требуется, когда клиент пытается получить доступ к своим ресурсам или ресурсам, заранее согласованным с
 сервером авторизации. Например, сервису А нужно время от времени ходить в сервис Б и актуализировать там данные о
@@ -249,7 +249,7 @@ access token, с которым уже может получить доступ 
 По текущим рекомендациям безопасности описанных в данном RFC, данный flow не рекомендуется использовать вовсе из-за
 явных проблем с безопасностью см. 
 
-![ResourceOwnerPasswordCredentials.jpg](../DOC/OAuth_2_0/images/ResourceOwnerPasswordCredentials.jpg)
+![ResourceOwnerPasswordCredentials.jpg](../OAuth_2_0/images/ResourceOwnerPasswordCredentials.jpg)
 
 Resource owner передаёт свой логин и пароль клиенту, например, через формы на клиенте. Клиент, в свою очередь, с помощью
 него получает access token (и, опционально, refresh token). Здесь есть проблема. Resource owner просто берёт и отдаёт в
@@ -264,7 +264,7 @@ Resource owner передаёт свой логин и пароль клиент
 
 Самый распространённый flow на данный момент см. 
 
-![AuthorizationCodeGrant.jpg](../DOC/OAuth_2_0/images/AuthorizationCodeGrant.jpg)
+![AuthorizationCodeGrant.jpg](../OAuth_2_0/images/AuthorizationCodeGrant.jpg)
 
 В основном используется для confidential клиентов, но с появлением дополнительной проверки с помощью PKCE, может
 применяться и для public-клиентов.
@@ -297,7 +297,7 @@ owner (владелец ресурсов) и перешли на страниц�
 
 Это оптимизация Authorization code grant flow для public-клиентов см. 
 
-![OAuthTypesClients.jpg](../DOC/OAuth_2_0/images/OAuthTypesClients.jpg)
+![OAuthTypesClients.jpg](../OAuth_2_0/images/OAuthTypesClients.jpg)
 
 которые умеют работать с redirection URI. Например, для браузерных приложений на JavaScript, или мобильных приложений.
 Требование к User-agent, с помощью которого взаимодействуют клиент (приложение, сервис) и Resource owner, сохраняется:
@@ -339,7 +339,7 @@ Client secret из соображений безопасности — прил�
 
 Возможно, схема кажется сложной из-за обилия стрелок. Разберём её также пошагово, как и разбирали сложные flow до него см. 
 
-![DeviceAuthorizationGrant.jpg](../DOC/OAuth_2_0/images/DeviceAuthorizationGrant.jpg)
+![DeviceAuthorizationGrant.jpg](../OAuth_2_0/images/DeviceAuthorizationGrant.jpg)
 
 Представим, что мы пытаемся авторизоваться на web-сервисе с помощью телевизора. Мы видим кнопку «Авторизоваться как
 устройство» и нажимаем. В этот момент начинается наш Device flow:
