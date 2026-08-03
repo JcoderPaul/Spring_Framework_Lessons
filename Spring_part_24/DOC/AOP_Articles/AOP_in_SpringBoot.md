@@ -7,8 +7,10 @@
 конфигурирования зависимостей (dependency injection-DI) и абстракции сервисов (Enterprise Service Abstraction) являются
 основными принципами см. 
 
-![SimpleObjectTriangle.jpg](../AOP_Articles/images/SimpleObjectTriangle.jpg)
-
+<p align="center">
+  ![SimpleObjectTriangle.jpg](../AOP_Articles/images/SimpleObjectTriangle.jpg)
+</p>
+  
 На которых построен главный продукт компании
 SpringSource – Spring Framework см. https://docs.spring.io/spring-framework/reference/index.html
 
