@@ -516,7 +516,7 @@ IntelliJ IDEA или Springsource Toolsuite (STS) имеют встроенны�
 | Выражение @AspectJ | Описание |
 |--------------------|----------|
 | execution          | Определяет точки соединения на основании имени метода. Наиболее часто используемое выражение для определения jointpoint. При использовании выражения execution возможно указывать пакет, имя класса, название метода, видимость метода, тип возвращаемого объекта и тип аргументов.
-Например:
+|                    | Например:
 - execution(String com.package.subpackage.Classname.someMethod(..)) - определяет вызов метода someMethod класса com.package.subpackage.Classname с любым количеством аргументов и возвращающий строку;
 - execution(* com.package.subpackage.Classname.*(..)) – вызов любого метода класса com.package.subpackage.Classname;
 - execution(* someMethod(..)) – вызов метода с именем someMethod у любого класса; |
