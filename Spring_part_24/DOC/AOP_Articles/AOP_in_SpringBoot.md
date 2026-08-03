@@ -1,10 +1,15 @@
-См. исходники и дополнения (RUS): https://www.finecosoft.ru/spring-aop
-________________________________________________________________________________________________________________________
-****** Аспектно-Ориентированное Программирование в Spring ******
+[См. исходники и дополнения (RUS)](https://www.finecosoft.ru/spring-aop)
+
+---
+### Аспектно-Ориентированное Программирование в Spring
 
 Аспектно-ориентированное программирование, сокращенно АОП (Aspect Oriented Programming или AOP) вместе с принципом
 конфигурирования зависимостей (dependency injection-DI) и абстракции сервисов (Enterprise Service Abstraction) являются
-основными принципами см. DOC/AOP_Articles/images/SimpleObjectTriangle.jpg, на которых построен главный продукт компании
+основными принципами см. 
+
+![SimpleObjectTriangle.jpg](../AOP_Articles/images/SimpleObjectTriangle.jpg)
+
+На которых построен главный продукт компании
 SpringSource – Spring Framework см. https://docs.spring.io/spring-framework/reference/index.html
 
 В основе аспектно-ориентированного программирования лежит понятие crosscutting concerns (сквозные задачи, в разрезе
