@@ -516,108 +516,102 @@ IntelliJ IDEA или Springsource Toolsuite (STS) имеют встроенны�
 | Выражение @AspectJ | Описание |
 |--------------------|----------|
 | execution          | Определяет точки соединения на основании имени метода. Наиболее часто используемое выражение для определения jointpoint. При использовании выражения execution возможно указывать пакет, имя класса, название метода, видимость метода, тип возвращаемого объекта и тип аргументов.
-
 Например:
 - execution(String com.package.subpackage.Classname.someMethod(..)) - определяет вызов метода someMethod класса com.package.subpackage.Classname с любым количеством аргументов и возвращающий строку;
 - execution(* com.package.subpackage.Classname.*(..)) – вызов любого метода класса com.package.subpackage.Classname;
 - execution(* someMethod(..)) – вызов метода с именем someMethod у любого класса; |
 | within             | Определяет возможные точки соединения только у объектов заданного типа или у классов, определенных в заданном пакете и его подпакетах.
-                   
 Пример использования:
 - within(com.package.subpackage.*) – определяет вызовы методов всех классов, определенных в пакете com.package.subpackage;
 - within(com.package.subpackage..*) – определяет вызовы методов всех классов, определенных в пакете com.package.subpackage и всех дочерних пакетах; |
 | this               | Определяет точки соединения для всех объектов, у которых объект посредника (AOP proxy) реализует указанный в аннотации тип.
-
 Пример использования:
 - this(com.package.InterfaceName) – определяет вызовы методов у объектов-посредников, реализующих интерфейс com.package.InterfaceName; |
 | target             | Определяет точки соединения для всех объектов, у которых целевой объект (target) реализует указанный в аннотации тип.
-
 Пример использования:
 - target(com.package.InterfaceName) – определяет вызовы методов объектов, целевой класс которых реализует интерфейс com.package.InterfaceName; |
 | args               | Определяет точки соединения сравнением аргументов вызываемого метода с типами аргументов, указанных в аннотации.
-
 Пример использования:
 - args(String) – определяет методы, у которых определен один строковый аргумент; |
 | bean               | Определяет точки соединения для управляемых компонентов (beans), имеющих определенный в аннотации идентификатор или имя (атрибуты id или name компонента). При указании имени bean-a возможно использовать групповой символ (wildcard).
-
 Пример использования:
 - bean(„justABean“) – определяет точки соединения для управляемого компонента с именем (идентификатором) justABean;
 - bean(„*Bean“) - определяет точки соединения для всех управляемых компонент с именем (идентификатором) заканчивающимся на Bean; |
 | @annotation        | Задает точки соединения для методов, которые были «помечены» указанной аннотацией.
-
 Пример использования:
 - @annotation(com.package.annotation.Annotation) |
 
-Однако наличие у класса аннотации @Aspect не означает, что окружение автоматически обнаружит и инициализирует его. Для
-этого необходимо:
-- Во-первых, чтобы в окружении Spring существовала поддержка @AspectJ, которая по умолчанию отсутствует. Один из
+Однако наличие у класса аннотации @Aspect не означает, что окружение автоматически обнаружит и инициализирует его. 
+
+Для этого необходимо:
+- **Во-первых, чтобы в окружении Spring существовала поддержка @AspectJ**, которая по умолчанию отсутствует. Один из
   возможных способов обеспечения поддержки @AspectJ является указание в конфигурационном файле XML элемента
   <aop:aspectj-autoproxy/>.
-- Во-вторых необходимо, чтобы аспект также являлся управляемым компонентов, то есть существовал в контексте окружения.
+- **Во-вторых необходимо, чтобы аспект также являлся управляемым компонентов**, то есть существовал в контексте окружения.
   Для этого существует множество возможных способов, можно например использовать аннотацию @Component при определении
   класса и в конфигурационном файле зарегистрировать механизм поиска context:component-scan (подробнее об этом можно
   узнать из статьи на нашем сайте Dependency Injection и Spring - https://www.finecosoft.ru/SpringDI).
 
 В данном случае аспект явно объявлен в конфигурационном файле:
 
-************************************************************************************************************************
-<?xml version="1.0" encoding="UTF-8"?>
-<beans      xmlns="http://www.springframework.org/schema/beans"
-            xmlns:context="http://www.springframework.org/schema/context"
-            xmlns:aop="http://www.springframework.org/schema/aop"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="
-                  http://www.springframework.org/schema/beans
-                  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-                  http://www.springframework.org/schema/context
-                  http://www.springframework.org/schema/context/spring-context-3.0.xsd
-                  http://www.springframework.org/schema/aop
-                  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-
-      <bean class="com.finecosoft.aop.aspectj.AnnotatedLogInterceptor"/>
-      <bean id="longRunner" class="com.finecosoft.aop.aspectj.ContainingLongRunningMethodClass"/>
-      <aop:aspectj-autoproxy/>
-</beans>
-************************************************************************************************************************
+```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <beans      xmlns="http://www.springframework.org/schema/beans"
+              xmlns:context="http://www.springframework.org/schema/context"
+              xmlns:aop="http://www.springframework.org/schema/aop"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="
+                    http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/context
+                    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                    http://www.springframework.org/schema/aop
+                    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+  
+        <bean class="com.finecosoft.aop.aspectj.AnnotatedLogInterceptor"/>
+        <bean id="longRunner" class="com.finecosoft.aop.aspectj.ContainingLongRunningMethodClass"/>
+        <aop:aspectj-autoproxy/>
+  </beans>
+```
 
 Целевой класс, его экземпляр также объявлен в конфигурационном файле, может выглядеть следующим образом (основным
 моментом является наличие метода с именем longRunningMethod, вызовы которого будут «перехвачены» созданным аспектом):
 
-************************************************************************************************************************
-public class ContainingLongRunningMethodClass {
-      public void longRunningMethod() {
-            try {
-                  int delay = (int) (Math.random() * 10);
-                  System.out.println("Delay time : " + delay);
-                  Thread.sleep(delay * 1000);
-            } catch (InterruptedException e) {
-                  e.printStackTrace();
-            }
-      }
-}
-************************************************************************************************************************
+```java
+  public class ContainingLongRunningMethodClass {
+        public void longRunningMethod() {
+              try {
+                    int delay = (int) (Math.random() * 10);
+                    System.out.println("Delay time : " + delay);
+                    Thread.sleep(delay * 1000);
+              } catch (InterruptedException e) {
+                    e.printStackTrace();
+              }
+        }
+  }
+```
 
 Если запустить данный пример:
 
-************************************************************************************************************************
-public class AspectjDemo {
-      public static void main(String[] args) {
-            ApplicationContext beanFactory =
-                  New ClassPathXmlApplicationContext("com/finecosoft/aop/aspectj/applicationContext.xml");
-            ContainingLongRunningMethodClass longRunner =
-                  (ContainingLongRunningMethodClass) beanFactory.getBean("longRunner");
-            longRunner.longRunningMethod();
-      }
-}
-************************************************************************************************************************
+```java
+  public class AspectjDemo {
+        public static void main(String[] args) {
+              ApplicationContext beanFactory =
+                    New ClassPathXmlApplicationContext("com/finecosoft/aop/aspectj/applicationContext.xml");
+              ContainingLongRunningMethodClass longRunner =
+                    (ContainingLongRunningMethodClass) beanFactory.getBean("longRunner");
+              longRunner.longRunningMethod();
+        }
+  }
+```
 
 На системной консоли будет выведен примерно следующий результат:
 
-************************************************************************************************************************
-Start executing longRunningMethod at Fri Oct 21 16:33:36 CEST 2010
-Delay time : 5
-End executing longRunningMethod at Fri Oct 21 16:33:41 CEST 2010
-************************************************************************************************************************
+```
+  Start executing longRunningMethod at Fri Oct 21 16:33:36 CEST 2010
+  Delay time : 5
+  End executing longRunningMethod at Fri Oct 21 16:33:41 CEST 2010
+```
 
 Как и ожидалось, присутствует информация времени вызова метода longRunningMethod и время окончания его работы.
 
@@ -668,8 +662,8 @@ ________________________________________________________________________________
                    | для создания аспектов, но при этом такой подход требует наибольших трудозатрат.
 ________________________________________________________________________________________________________________________
 
-________________________________________________________________________________________________________________________
-*** Использование внедрения (introduction) в Spring AOP ***
+---
+### Использование внедрения (introduction) в Spring AOP
 
 Как уже было сказано при определении основных понятий, определенных в аспектно-ориентированном программировании, под
 внедрением понимают возможность добавление новой функциональности к существующим объектам динамическим образом.
@@ -684,48 +678,48 @@ ________________________________________________________________________________
 
 Пример внедрения продемонстрируем на более простом примере. В системе существует следующий интерфейс:
 
-************************************************************************************************************************
-public interface ToBeExtendedService {
-      void someMethod();
-}
-************************************************************************************************************************
+```java
+  public interface ToBeExtendedService {
+        void someMethod();
+  }
+```
 
 И реализующий его класс:
 
-************************************************************************************************************************
-public class ToBeExtendedServiceImpl implements ToBeExtendedService {
-      public void someMethod() {
-            System.out.println("call of the method someMethod");
-      }
-}
-************************************************************************************************************************
+```java
+  public class ToBeExtendedServiceImpl implements ToBeExtendedService {
+        public void someMethod() {
+              System.out.println("call of the method someMethod");
+        }
+  }
+```
 
 Допустим, что необходимо посчитать, сколько раз в ходе работы программы был вызван метод someMethod у экземпляра класса,
 реализующего интерфейс ToBeExtendedService. Потребностям такого простейшего счетчика удовлетворяет состоящий из двух
 методов интерфейс:
 
-************************************************************************************************************************
-public interface MethodCallCounter {
-      void count();
-      int getCounter();
-}
-************************************************************************************************************************
+```java
+  public interface MethodCallCounter {
+        void count();
+        int getCounter();
+  }
+```
 
 Который может иметь следующую реализацию:
 
-************************************************************************************************************************
-public class MethodCallCounterImpl implements MethodCallCounter {
-      private int counter;
-
-      public void count() {
-            counter++;
-      }
-
-      public int getCounter() {
-            return counter;
-      }
-}
-************************************************************************************************************************
+```java
+  public class MethodCallCounterImpl implements MethodCallCounter {
+        private int counter;
+  
+        public void count() {
+              counter++;
+        }
+  
+        public int getCounter() {
+              return counter;
+        }
+  }
+```
 
 Следующим шагом является создание аспекта, который включает совет (advice), выполняющийся перед вызовом целевой функции
 (someMethod в нашем примере) и определение, управляемый компонент какого класса должен быть модифицирован путем включения
@@ -733,19 +727,19 @@ public class MethodCallCounterImpl implements MethodCallCounter {
 
 Пример такого аспекта приведен ниже:
 
-************************************************************************************************************************
-@Aspect
-public class MethodCallCounterAspect {
-      @DeclareParents(value = "com.finecosoft.aop.introduction.ToBeExtendedService+",
-                  defaultImpl=MethodCallCounterImpl.class)
-      public static MethodCallCounter mixin;
-      @Before(value="execution(* com.finecosoft.aop.introduction.ToBeExtendedService.someMethod(..))
-                                                        && this(methodCallCounter)", argNames="methodCallCounter")
-      public void countMethodCall(MethodCallCounter methodCallCounter) {
-            methodCallCounter.count();
-      }
-}
-************************************************************************************************************************
+```java
+  @Aspect
+  public class MethodCallCounterAspect {
+        @DeclareParents(value = "com.finecosoft.aop.introduction.ToBeExtendedService+",
+                    defaultImpl=MethodCallCounterImpl.class)
+        public static MethodCallCounter mixin;
+        @Before(value="execution(* com.finecosoft.aop.introduction.ToBeExtendedService.someMethod(..))
+                                                          && this(methodCallCounter)", argNames="methodCallCounter")
+        public void countMethodCall(MethodCallCounter methodCallCounter) {
+              methodCallCounter.count();
+        }
+  }
+```
 
 Отличительной особенностью этого аспекта от предыдущих примеров является использование аннотации @DeclareParents,
 которая определяет, что все классы, реализующий интерфейс ToBeExtendedService (определяется аргументом value), будут
@@ -764,49 +758,49 @@ com.finecosoft.aop.introduction.ToBeExtendedService, связывание анн
 Конфигурационный файл, который используется в данном примере, не использует ничего нового и отличается от предыдущего
 примера только названием компонентов и классов:
 
-************************************************************************************************************************
-<beans      xmlns="http://www.springframework.org/schema/beans"
-            xmlns:context="http://www.springframework.org/schema/context"
-            xmlns:aop="http://www.springframework.org/schema/aop"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="
-                  http://www.springframework.org/schema/beans
-                  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-                  http://www.springframework.org/schema/context
-                  http://www.springframework.org/schema/context/spring-context-3.0.xsd
-                  http://www.springframework.org/schema/aop
-                  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-
-      <bean class="com.finecosoft.aop.introduction.MethodCallCounterAspect"/>
-      <bean id="toBeExtendedService" class="com.finecosoft.aop.introduction.ToBeExtendedServiceImpl"/>
-      <aop:aspectj-autoproxy/>
-</beans>
-************************************************************************************************************************
+```xml
+  <beans      xmlns="http://www.springframework.org/schema/beans"
+              xmlns:context="http://www.springframework.org/schema/context"
+              xmlns:aop="http://www.springframework.org/schema/aop"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="
+                    http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/context
+                    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                    http://www.springframework.org/schema/aop
+                    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+  
+        <bean class="com.finecosoft.aop.introduction.MethodCallCounterAspect"/>
+        <bean id="toBeExtendedService" class="com.finecosoft.aop.introduction.ToBeExtendedServiceImpl"/>
+        <aop:aspectj-autoproxy/>
+  </beans>
+```
 
 Однако в данном случае Spring AOP самостоятельно модифицирует создаваемый управляемый компонент toBeExtendedService
 добавлением методов count и getCounter, поскольку к этому компоненту применяется аспект MethodCallCounterAspect.
 
 Пример приложения, которая демонстрирует пример использования внедрения в Spring AOP, выглядит следующим образом:
 
-************************************************************************************************************************
-public class IntroductionDemo {
-      public static void main(String[] args) {
-            ApplicationContext ctx =
-                  new ClassPathXmlApplicationContext("com/finecosoft/aop/introduction/applicationContext.xml");
-            ToBeExtendedService toBeExtendedService =
-                  (ToBeExtendedService) ctx.getBean("toBeExtendedService");
-            toBeExtendedService.someMethod();
-            toBeExtendedService.someMethod();
-            toBeExtendedService.someMethod();
-            printCallCounter(toBeExtendedService);
-      }
-
-      public static void printCallCounter(Object obj) {
-            MethodCallCounter counter = (MethodCallCounter) obj;
-            System.out.println("The method was called " + counter.getCounter() + " time(s)");
-      }
-}
-************************************************************************************************************************
+```java
+  public class IntroductionDemo {
+        public static void main(String[] args) {
+              ApplicationContext ctx =
+                    new ClassPathXmlApplicationContext("com/finecosoft/aop/introduction/applicationContext.xml");
+              ToBeExtendedService toBeExtendedService =
+                    (ToBeExtendedService) ctx.getBean("toBeExtendedService");
+              toBeExtendedService.someMethod();
+              toBeExtendedService.someMethod();
+              toBeExtendedService.someMethod();
+              printCallCounter(toBeExtendedService);
+        }
+  
+        public static void printCallCounter(Object obj) {
+              MethodCallCounter counter = (MethodCallCounter) obj;
+              System.out.println("The method was called " + counter.getCounter() + " time(s)");
+        }
+  }
+```
 
 Приведенный пример показывает, что несмотря на то, что компонент toBeExtendedService был инициализирован из класса
 ToBeExtendedServiceImpl, реализующим только интерфейс ToBeExtendedService, тем не менее он также может быть использован
@@ -815,9 +809,9 @@ ToBeExtendedServiceImpl, реализующим только интерфейс 
 Выполнение данного приложения приведет к следующему выводу на системной консоли, что подтверждает дополнение исходного
 кода класса ToBeExtendedServiceImpl реализацией интерфейса MethodCallCounter:
 
-************************************************************************************************************************
-call of the method someMethod
-call of the method someMethod
-call of the method someMethod
-The method was called 3 time(s)
-************************************************************************************************************************
+```
+  call of the method someMethod
+  call of the method someMethod
+  call of the method someMethod
+  The method was called 3 time(s)
+```
