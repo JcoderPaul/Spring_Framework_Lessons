@@ -150,19 +150,15 @@
 | Introduction    | IntroductionInterceptor   | Специальный тип advice-a, используя который возможно добавить новую функциональность к исходному классу.
 
 Подробное описание (см. ENG DOC):
-- MethodBeforeAdvice -
-   https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/MethodBeforeAdvice.html ;
-- AfterReturningAdvice -
-   https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/AfterReturningAdvice.html ;
-- MethodInterceptor -
-   https://aopalliance.sourceforge.net/doc/org/aopalliance/intercept/MethodInterceptor.html ;
-- IntroductionInterceptor -
-   https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/IntroductionInterceptor.html ;
+- [MethodBeforeAdvice](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/MethodBeforeAdvice.html);
+- [AfterReturningAdvice](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/AfterReturningAdvice.html);
+- [MethodInterceptor](https://aopalliance.sourceforge.net/doc/org/aopalliance/intercept/MethodInterceptor.html);
+- [IntroductionInterceptor](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/IntroductionInterceptor.html);
 
-________________________________________________________________________________________________________________________
-*** Использование Spring AOP программным образом ***
+---
+### Использование Spring AOP программным образом
 
-Использование ProxyFactory для создания целевого объекта - создание объекта-посредника программным образом будет
+**Использование ProxyFactory для создания целевого объекта** - создание объекта-посредника программным образом будет
 показано на примере создания аспекта, реализующего интерфейс AroundAdvice, который представляет собой реализацию
 простейшего профайлера, и его можно использовать для того, чтобы узнать, сколько времени выполняется код метода.
 
@@ -174,117 +170,112 @@ ________________________________________________________________________________
 Логика которого проста: метод «засыпает» на время от 0 до 10 секунд, в этот период каждый раз генерируется случайным
 образом. Исходный код класса выглядит следующим образом:
 
-************************************************************************************************************************
-public class ContainingLongRunningMethodClass {
-      public void longLoop() {
-            try {
-                  int delay = (int) (Math.random() * 10);
-                  System.out.println("Delay time : " + delay);
-                  Thread.sleep(delay * 1000);
-
-            } catch (InterruptedException e) {
-                  e.printStackTrace();
-            }
-      }
-}
-************************************************************************************************************************
+```java
+  public class ContainingLongRunningMethodClass {
+        public void longLoop() {
+              try {
+                    int delay = (int) (Math.random() * 10);
+                    System.out.println("Delay time : " + delay);
+                    Thread.sleep(delay * 1000);
+  
+              } catch (InterruptedException e) {
+                    e.printStackTrace();
+              }
+        }
+  }
+```
 
 Реализация совета (advice) состоит из выдачи на консоль информации о текущем времени, вызовом целевого метода, для
 которого определена точка соединения, и снова выдачи текущего времени. Исходный код совета имеет следующий вид:
 
-************************************************************************************************************************
-public class DisplayTimeIntercepter implements MethodInterceptor {
-      public Object invoke(MethodInvocation method) throws Throwable {
-                System.out.println("Time before method launch: " + new Date());
-                Object value = method.proceed();
-                System.out.println("Time after method launch: " + new Date());
-            return value;
+```java
+  public class DisplayTimeIntercepter implements MethodInterceptor {
+        public Object invoke(MethodInvocation method) throws Throwable {
+                  System.out.println("Time before method launch: " + new Date());
+                  Object value = method.proceed();
+                  System.out.println("Time after method launch: " + new Date());
+              return value;
+  
+        }
+  }
+```
 
-      }
-}
-************************************************************************************************************************
+**Остается продемонстрировать как создается аспект программным способом с помощью класса ProxyFactory:**
+- **Шаг 1.** Инициализируем экземпляр целевого (target) класса ContainingLongRunningMethodClass, длительность выполнения методов которого требуется узнать.
+- **Шаг 2.** Создаем экземпляр ProxyFactory, в который потом передается уже созданный ранее целевой объект.
+- **Шаг 3.** Передаем в ProxyFactory объект target
+- **Шаг 4.** Передаем в ProxyFactory экземпляр advice.
+- **Шаг 5.** Теперь можно получить объект-посредник proxy, который имеет тот же интерфейс, что и исходный целевой объект, однако вызовы методов будут «дополнены» выводом информации о времени начала и окончания их работы:
 
-Остается продемонстрировать как создается аспект программным способом с помощью класса ProxyFactory:
-- Шаг 1. - Инициализируем экземпляр целевого (target) класса ContainingLongRunningMethodClass, длительность выполнения
-           методов которого требуется узнать.
-- Шаг 2. - Создаем экземпляр ProxyFactory, в который потом передается уже созданный ранее целевой объект.
-- Шаг 3. - Передаем в ProxyFactory объект target
-- Шаг 4. - Передаем в ProxyFactory экземпляр advice.
-- Шаг 5. - Теперь можно получить объект-посредник proxy, который имеет тот же интерфейс, что и исходный целевой объект,
-           однако вызовы методов будут «дополнены» выводом информации о времени начала и окончания их работы:
-
-************************************************************************************************************************
-public class AroundAdviceProgrammedExample {
-
-      public static void main(String[] args) {
-            ContainingLongRunningMethodClass target =
-                  new ContainingLongRunningMethodClass();                    (1)
-            ProxyFactory pf = new ProxyFactory();                            (2)
-            pf.setTarget(target);                                            (3)
-            pf.addAdvice(new DisplayTimeIntercepter());                      (4)
-            ContainingLongRunningMethodClass proxy =
-                  (ContainingLongRunningMethodClass) pf.getProxy();          (5)
-
-            proxy.longLoop();
-      }
-}
-************************************************************************************************************************
+```java
+  public class AroundAdviceProgrammedExample {
+  
+        public static void main(String[] args) {
+              ContainingLongRunningMethodClass target =
+                    new ContainingLongRunningMethodClass();                    (1)
+              ProxyFactory pf = new ProxyFactory();                            (2)
+              pf.setTarget(target);                                            (3)
+              pf.addAdvice(new DisplayTimeIntercepter());                      (4)
+              ContainingLongRunningMethodClass proxy =
+                    (ContainingLongRunningMethodClass) pf.getProxy();          (5)
+  
+              proxy.longLoop();
+        }
+  }
+```
 
 В результате выполнения этой программы на консоли появится примерно следующее ссобщение:
 
-************************************************************************************************************************
-Time before method launch: Mon Oct 19 18:18:36 CEST 2010
-Delay time : 7
-Time after method launch: Mon Oct 19 18:18:43 CEST 2010
-************************************************************************************************************************
+```
+  Time before method launch: Mon Oct 19 18:18:36 CEST 2010
+  Delay time : 7
+  Time after method launch: Mon Oct 19 18:18:43 CEST 2010
+```
 
-________________________________________________________________________________________________________________________
-*** Использование Pointcut при создании целевого объекта ***
+---
+### Использование Pointcut при создании целевого объекта
 
 Создание объекта-посредника программным образом, который был продемонстрирован в предыдущей части, неудобен тем, что в
 результате сквозная функциональность совета (advice) будет применяться для вызова любого метода целевого объекта. Это
 не всегда является желательным, необходимо дополнить только какие-то определенные методы исходного объекта, или,
 выражаясь в терминах АОП, из всех возможных точек соединения (joinpoints) выбрать необходимый срез (pointcut).
 
-Для создания среза в Spring необходимо создать класс, реализующий интерфейс Pointcut -
-https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/Pointcut.html, в котором
-определены два метода:
+Для создания среза в Spring необходимо создать класс, реализующий интерфейс [Pointcut](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/Pointcut.html), 
+в котором определены два метода:
 
-************************************************************************************************************************
-public interface Pointcut {
-            ClassFilter getClassFilter();
-            MethodMather getMethodMatcher();
-}
-************************************************************************************************************************
+```java
+  public interface Pointcut {
+              ClassFilter getClassFilter();
+              MethodMather getMethodMatcher();
+  }
+```
 
-Метод getClassFilter возвращает класс, реализующий интерфейс ClassFilter -
-https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/ClassFilter.html, содержащий
-единственный метод:
+Метод getClassFilter возвращает класс, [реализующий интерфейс ClassFilter](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/ClassFilter.html), 
+содержащий единственный метод:
 
-************************************************************************************************************************
-public interface ClassFilter {
-            boolean matches(Class clazz);
-}
-************************************************************************************************************************
+```java
+  public interface ClassFilter {
+              boolean matches(Class clazz);
+  }
+```
 
 Метод matches возвращает истину (true), если в качестве параметра передан класс, для которого необходимо выполнить
 дополнительную функциональность и ложь (false) если нет.
 
-Класс, реализующий интерфейс MethodMather -
-https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/MethodMatcher.html, экземпляр
-которого возвращает метод getMethodMatcher, имеет несколько более сложный вид:
+Класс, реализующий [интерфейс MethodMather](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/MethodMatcher.html), 
+экземпляр которого возвращает метод getMethodMatcher, имеет несколько более сложный вид:
 
-************************************************************************************************************************
-public interface MethodMather {
-            boolean matches(Method m, Class targetClass);
-            boolean matches(Method m, Class targetClass, Object[] args);
-            boolean isRuntime();
-}
-************************************************************************************************************************
+```java
+  public interface MethodMather {
+              boolean matches(Method m, Class targetClass);
+              boolean matches(Method m, Class targetClass, Object[] args);
+              boolean isRuntime();
+  }
+```
 
-Spring поддерживает 2 типа MethodMather:
-- статический;
-- динамический;
+**Spring поддерживает 2 типа MethodMather:**
+- ***статический;***
+- ***динамический;***
 
 В зависимости от возвращаемого значения функции isRuntime окружение Spring считает, что MethodMather является
 динамическим (возвращается true), или статическим (false).
@@ -300,98 +291,82 @@ matches возвращаемое значение сохраняется во в
 применимость данной точка соединения (Pointcut) при каждом конкретном вызове (проверяя например значения аргументов
 метода), а не только на основании статической информации о классе и названии метода.
 
-Spring Framework включает несколько абстрактных классов, реализующих интерфейс Pointcut -
-https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/Pointcut.html, которые являются
-достаточными для большинства возможных ситуаций, и разработчики редко вынуждены создавать имплементацию этого интерфейса
+Spring Framework включает несколько абстрактных классов, реализующих [интерфейс Pointcut](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/Pointcut.html), 
+которые являются достаточными для большинства возможных ситуаций, и разработчики редко вынуждены создавать имплементацию этого интерфейса
 с нуля. В приведенной ниже таблице указаны некоторые, наиболее часто используемые из этих абстрактных классов (o.s.a.s.
 сокращение от org.springframework.aop.support):
 
-________________________________________________________________________________________________________________________
-Класс, реализующий Pointcut          | Описание
-________________________________________________________________________________________________________________________
-o.s.a.s.StaticMethodMatcherPointcut  | Используется для определения статических точек соединения, является наиболее
-                                     | часто используемым способом определения среза (Pointcut)
-________________________________________________________________________________________________________________________
-o.s.a.s.DynamicMethodMatcherPointcut | Применяется при создании динамических точек соединения, которые используют
-                                     | информацию об аргументах метода во время выполнения.
-________________________________________________________________________________________________________________________
-o.s.a.s.ComposablePointcut           | Используется, когда необходимо одновременно два или более точек соединения
-                                     | (Pointcut) используя операции union или intersection
-________________________________________________________________________________________________________________________
-o.s.a.s.JdkRegexpMethodPointcut      | Позволяет определять точка соединения (Pointcut) используя регулярные выражения
-                                     | JDK1.4
-________________________________________________________________________________________________________________________
-o.s.a.s.AnnotationMatchingPointcut   | Использует аннотации языка Java (annotation) при определении точек соединения
-________________________________________________________________________________________________________________________
-o.s.a.s.AspectJExpressionPointcut    | Применяется, когда для определения точек соединения используются язык выражений
-                                     | (expression language) языка AspectJ.
-________________________________________________________________________________________________________________________
+| Класс, реализующий Pointcut          | Описание                                                                                                                              |
+|--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| o.s.a.s.StaticMethodMatcherPointcut  | Используется для определения статических точек соединения, является наиболее часто используемым способом определения среза (Pointcut) |
+| o.s.a.s.DynamicMethodMatcherPointcut | Применяется при создании динамических точек соединения, которые используют информацию об аргументах метода во время выполнения.       |
+| o.s.a.s.ComposablePointcut           | Используется, когда необходимо одновременно два или более точек соединения (Pointcut) используя операции union или intersection       |
+| o.s.a.s.JdkRegexpMethodPointcut      | Позволяет определять точка соединения (Pointcut) используя регулярные выражения JDK1.4                                                |
+| o.s.a.s.AnnotationMatchingPointcut   | Использует аннотации языка Java (annotation) при определении точек соединения                                                         |
+| o.s.a.s.AspectJExpressionPointcut    | Применяется, когда для определения точек соединения используются язык выражений (expression language) языка AspectJ.                  |
 
 Для создания аспекта (напомним, что под аспектом – aspect - понимают комбинацию точка соединения и сквозной
-функциональности), необходимо создать экземпляр класса, реализующий интерфейс PointcutAdvisor -
-https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/PointcutAdvisor.html, однако
-также, как и в случае с интерфейсом Pointcut нет необходимости полностью брать на себя его реализацию с нуля, поскольку
-среда Spring предоставляет несколько готовых решений, в частности DefaultPointcutAdvisor -
-https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/support/DefaultPointcutAdvisor.html.
+функциональности), необходимо создать экземпляр класса, реализующий интерфейс [PointcutAdvisor](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/PointcutAdvisor.html), 
+однако также, как и в случае с интерфейсом Pointcut нет необходимости полностью брать на себя его реализацию с нуля, поскольку
+среда Spring предоставляет несколько готовых решений, в частности [DefaultPointcutAdvisor](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/support/DefaultPointcutAdvisor.html).
 
-Рассмотрим пример с использованием DynamicMethodMatcherPointcut  -
-https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/support/DynamicMethodMatcherPointcut.html
+Рассмотрим пример с использованием [DynamicMethodMatcherPointcut](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/aop/support/DynamicMethodMatcherPointcut.html)
 для создания динамической точки соединения для класса, исходный код которого выглядит следующим образом:
 
-************************************************************************************************************************
-public class ToBeDecoratedClass {
-      public void rundomSleep() {
-            try {
-                  int delay = (int) (Math.random() * 10);
-                  System.out.println("method rundomSleep, delay time : " + delay);
-                  Thread.sleep(delay * 1000);
-            } catch (InterruptedException e) {
-                  e.printStackTrace();
-            }
-      }
-
-      public void printInteger(int n) {
-            System.out.println("method printInteger, n=" + n);
-      }
-}
-************************************************************************************************************************
+```java
+  public class ToBeDecoratedClass {
+        public void rundomSleep() {
+              try {
+                    int delay = (int) (Math.random() * 10);
+                    System.out.println("method rundomSleep, delay time : " + delay);
+                    Thread.sleep(delay * 1000);
+              } catch (InterruptedException e) {
+                    e.printStackTrace();
+              }
+        }
+  
+        public void printInteger(int n) {
+              System.out.println("method printInteger, n=" + n);
+        }
+  }
+```
 
 Класс ToBeDecoratedClass содержит два метода, но мы хотим отслеживать вызов только одного из них, а именно printInteger,
 и только в случае, если значение аргумента n превышает 10. В этом случае реализация DynamicMethodMatcherPointcut может
 иметь следующий вид:
 
-************************************************************************************************************************
-public class DynamicPointcut extends DynamicMethodMatcherPointcut {
-
-      @Override
-      public boolean matches(Method method, Class<?> clazz) {
-            return method.getName().equals("printInteger");
-      }
-
-      @Override
-      public boolean matches(Method method, Class<?> clazz, Object[] args) {
-            if (args.length == 0)
-                  return false;
-            Object obj = args[0];
-            if (obj instanceof Integer) {
-                  return (Integer) obj > 10;
-            }
-            else
-                  return false;
-      }
-
-      @Override
-      public ClassFilter getClassFilter() {
-            return new ClassFilter() {
-
-                  @Override
-                  public boolean matches(Class<?> clazz) {
-                        return clazz == ToBeDecoratedClass.class;
-                  }
-            };
-      }
-}
-************************************************************************************************************************
+```java
+  public class DynamicPointcut extends DynamicMethodMatcherPointcut {
+  
+        @Override
+        public boolean matches(Method method, Class<?> clazz) {
+              return method.getName().equals("printInteger");
+        }
+  
+        @Override
+        public boolean matches(Method method, Class<?> clazz, Object[] args) {
+              if (args.length == 0)
+                    return false;
+              Object obj = args[0];
+              if (obj instanceof Integer) {
+                    return (Integer) obj > 10;
+              }
+              else
+                    return false;
+        }
+  
+        @Override
+        public ClassFilter getClassFilter() {
+              return new ClassFilter() {
+  
+                    @Override
+                    public boolean matches(Class<?> clazz) {
+                          return clazz == ToBeDecoratedClass.class;
+                    }
+              };
+        }
+  }
+```
 
 Первый метод matches(Method method, Class<?> clazz) проверяет, является ли исходный объект экземпляром класса
 ToBeDecoratedClass и вызываемый метод printInteger. Если проверка прошла успешно, то Spring использует второй метод
@@ -403,78 +378,78 @@ matches(Method method, Class<?> clazz, Object[] args) для того, чтоб�
 
 Ниже приведен исходный код класса, содержащего дополнительную функциональность:
 
-************************************************************************************************************************
-public class LogInterceptor implements MethodInterceptor {
-
-      public Object invoke(MethodInvocation invocation) throws Throwable {
-            System.out.println("Start executing " + invocation.getMethod().getName());
-            Object value = invocation.proceed();
-            System.out.println("End executing " + invocation.getMethod().getName());
-            return value;
-      }
-}
-************************************************************************************************************************
+```java
+  public class LogInterceptor implements MethodInterceptor {
+  
+        public Object invoke(MethodInvocation invocation) throws Throwable {
+              System.out.println("Start executing " + invocation.getMethod().getName());
+              Object value = invocation.proceed();
+              System.out.println("End executing " + invocation.getMethod().getName());
+              return value;
+        }
+  }
+```
 
 Для демонстрации возможности создания и использования динамического среза создан класс NotToBeDecoratedClass, интерфейс
 которого полностью идентичен интерфейсу ToBeDecoratedClass, но вызов его метода printInteger мы не хотим отслеживать.
 
-************************************************************************************************************************
-public class DynamicPointcutExample {
-
-      public static void main(String[] args) {
-            ToBeDecoratedClass toBeDecoratedClass = new ToBeDecoratedClass();
-            NotToBeDecoratedClass notToBeDecoratedClass = new NotToBeDecoratedClass();
-
-            ToBeDecoratedClass proxyDecoratedClass;
-            NotToBeDecoratedClass proxyNotToBeDecoratedClass;
-
-            Pointcut pointcut = new DynamicPointcut();
-            Advice advice = new LogInterceptor();
-            Advisor advisor = new DefaultPointcutAdvisor(pointcut, advice);
-
-            ProxyFactory proxyFactory = new ProxyFactory();
-            proxyFactory.addAdvisor(advisor);
-            proxyFactory.setTarget(toBeDecoratedClass);
-            proxyDecoratedClass = (ToBeDecoratedClass) proxyFactory.getProxy();
-            proxyFactory = new ProxyFactory();
-            proxyFactory.addAdvisor(advisor);
-            proxyFactory.setTarget(notToBeDecoratedClass);
-
-            proxyNotToBeDecoratedClass = (NotToBeDecoratedClass) proxyFactory.getProxy();
-            System.out.println("ToBeDecoratedClass, printInteger(5)");
-            proxyDecoratedClass.printInteger(5);
-            System.out.println("ToBeDecoratedClass, printInteger(25)");
-            proxyDecoratedClass.printInteger(25);
-            System.out.println("ToBeDecoratedClass, rundomSleep");
-            proxyDecoratedClass.rundomSleep();
-            System.out.println("NotToBeDecoratedClass, printInteger(5)");
-            proxyNotToBeDecoratedClass.printInteger(5);
-            System.out.println("NotToBeDecoratedClass, printInteger(25)");
-            proxyNotToBeDecoratedClass.printInteger(25);
-            System.out.println("NotToBeDecoratedClass, rundomSleep");
-            proxyNotToBeDecoratedClass.rundomSleep();
-      }
-}
-************************************************************************************************************************
+```java
+  public class DynamicPointcutExample {
+  
+        public static void main(String[] args) {
+              ToBeDecoratedClass toBeDecoratedClass = new ToBeDecoratedClass();
+              NotToBeDecoratedClass notToBeDecoratedClass = new NotToBeDecoratedClass();
+  
+              ToBeDecoratedClass proxyDecoratedClass;
+              NotToBeDecoratedClass proxyNotToBeDecoratedClass;
+  
+              Pointcut pointcut = new DynamicPointcut();
+              Advice advice = new LogInterceptor();
+              Advisor advisor = new DefaultPointcutAdvisor(pointcut, advice);
+  
+              ProxyFactory proxyFactory = new ProxyFactory();
+              proxyFactory.addAdvisor(advisor);
+              proxyFactory.setTarget(toBeDecoratedClass);
+              proxyDecoratedClass = (ToBeDecoratedClass) proxyFactory.getProxy();
+              proxyFactory = new ProxyFactory();
+              proxyFactory.addAdvisor(advisor);
+              proxyFactory.setTarget(notToBeDecoratedClass);
+  
+              proxyNotToBeDecoratedClass = (NotToBeDecoratedClass) proxyFactory.getProxy();
+              System.out.println("ToBeDecoratedClass, printInteger(5)");
+              proxyDecoratedClass.printInteger(5);
+              System.out.println("ToBeDecoratedClass, printInteger(25)");
+              proxyDecoratedClass.printInteger(25);
+              System.out.println("ToBeDecoratedClass, rundomSleep");
+              proxyDecoratedClass.rundomSleep();
+              System.out.println("NotToBeDecoratedClass, printInteger(5)");
+              proxyNotToBeDecoratedClass.printInteger(5);
+              System.out.println("NotToBeDecoratedClass, printInteger(25)");
+              proxyNotToBeDecoratedClass.printInteger(25);
+              System.out.println("NotToBeDecoratedClass, rundomSleep");
+              proxyNotToBeDecoratedClass.rundomSleep();
+        }
+  }
+```
 
 Если запустить программу, то на системной консоли будет выведена примерно следующая информация:
 
-************************************************************************************************************************
-ToBeDecoratedClass, printInteger(5)
-ToBeDecoratedClass, running method printInteger, n=5
-ToBeDecoratedClass, printInteger(25)
-Start executing printInteger at Mon Oct 13 18:47:31 CEST 2010
-ToBeDecoratedClass, running method printInteger, n=25
-End executing printInteger at Mon Oct 13 18:47:31 CEST 2010
-ToBeDecoratedClass, rundomSleep
-ToBeDecoratedClass, running  method rundomSleep, delay time : 0
-NotToBeDecoratedClass, printInteger(5)
-NotToBeDecoratedClass, running method printInteger, n=5
-NotToBeDecoratedClass, printInteger(25)
-NotToBeDecoratedClass, running method printInteger, n=25
-NotToBeDecoratedClass, rundomSleep
-NotToBeDecoratedClass, running method rundomSleep, delay time : 7
-************************************************************************************************************************
+```
+  ToBeDecoratedClass, printInteger(5)
+  ToBeDecoratedClass, running method printInteger, n=5
+  ToBeDecoratedClass, printInteger(25)
+  Start executing printInteger at Mon Oct 13 18:47:31 CEST 2010
+  ToBeDecoratedClass, running method printInteger, n=25
+  End executing printInteger at Mon Oct 13 18:47:31 CEST 2010
+  ToBeDecoratedClass, rundomSleep
+  ToBeDecoratedClass, running  method rundomSleep, delay time : 0
+  NotToBeDecoratedClass, printInteger(5)
+  NotToBeDecoratedClass, running method printInteger, n=5
+  NotToBeDecoratedClass, printInteger(25)
+  NotToBeDecoratedClass, running method printInteger, n=25
+  NotToBeDecoratedClass, rundomSleep
+  NotToBeDecoratedClass, running method rundomSleep, delay time : 7
+```
 
 Как и предполагалось, только вызов метода printInteger объекта класса ToBeDecoratedClass с параметром 25 был
 «перехвачен» для выполнения дополнительных действий, в данном случае информации о времени начала и окончания
@@ -486,8 +461,8 @@ Pointcut, создание и инициализация Advisor и некото
 производит все эти операции внутри себя, то есть создает экземпляр класса DefaultPointcutAdvisor и создает срез,
 который применяется ко всем методам исходного класса.
 
-________________________________________________________________________________________________________________________
-*** Использование АОП с помощью средств конфигурации платформы Spring ***
+---
+### Использование АОП с помощью средств конфигурации платформы Spring
 
 Примерам, которые были приведены до сих пор, присущи некоторые из тех недостатков, для устранения которых и создавалась
 платформа Spring. Перечислим некоторые из них:
@@ -516,21 +491,21 @@ IntelliJ IDEA или Springsource Toolsuite (STS) имеют встроенны�
 реализующий некоторую сквозную функциональность, является аспектом. Для этого перед определением этого класса помещается
 аннотацию @Aspect, как это показано на следующем примере:
 
-************************************************************************************************************************
-@Aspect
-public class AnnotatedLogInterceptor {
-
-      @Around("execution(* longRunningMethod(..)")
-      public Object invoke(MethodInvocation invocation) throws Throwable {
-            System.out.println("Start executing " + invocation.getMethod().getName() +
-                                                                             " at " + new Date());
-            Object value = invocation.proceed();
-            System.out.println("End executing " + invocation.getMethod().getName() +
-                                                                             " at " + new Date());
-            return value;
-      }
-}
-************************************************************************************************************************
+```java
+  @Aspect
+  public class AnnotatedLogInterceptor {
+  
+        @Around("execution(* longRunningMethod(..)")
+        public Object invoke(MethodInvocation invocation) throws Throwable {
+              System.out.println("Start executing " + invocation.getMethod().getName() +
+                                                                               " at " + new Date());
+              Object value = invocation.proceed();
+              System.out.println("End executing " + invocation.getMethod().getName() +
+                                                                               " at " + new Date());
+              return value;
+        }
+  }
+```
 
 Внутри аспекта существует метод invoke, который помечен аннотацией @Around с выражением для определения точек
 соединения «execution(* longRunningMethod(..))». Это объявление определяет, что метод invoke будет как бы «обворачивать»
@@ -538,65 +513,40 @@ public class AnnotatedLogInterceptor {
 
 Основные элементы языка выражений и его ключевые слова для определения точек среза представлены в следующей таблице:
 
-________________________________________________________________________________________________________________________
-Выражение @AspectJ | Описание
-________________________________________________________________________________________________________________________
-execution          | Определяет точки соединения на основании имени метода. Наиболее часто используемое выражение для
-                   | определения jointpoint. При использовании выражения execution возможно указывать пакет, имя класса,
-                   | название метода, видимость метода, тип возвращаемого объекта и тип аргументов.
-                   |
-                   | Например:
-                   | - execution(String com.package.subpackage.Classname.someMethod(..)) - определяет вызов метода
-                   | someMethod класса com.package.subpackage.Classname с любым количеством аргументов и возвращающий
-                   | строку ;
-                   | - execution(* com.package.subpackage.Classname.*(..)) – вызов любого метода класса
-                   | com.package.subpackage.Classname ;
-                   | execution(* someMethod(..)) – вызов метода с именем someMethod у любого класса ;
-________________________________________________________________________________________________________________________
-within             | Определяет возможные точки соединения только у объектов заданного типа или у классов, определенных
-                   | в заданном пакете и его подпакетах.
-                   |
-                   | Пример использования:
-                   | - within(com.package.subpackage.*) – определяет вызовы методов всех классов, определенных в пакете
-                   |                                      com.package.subpackage ;
-                   | - within(com.package.subpackage..*) – определяет вызовы методов всех классов, определенных в пакете
-                   |                                       com.package.subpackage и всех дочерних пакетах ;
-________________________________________________________________________________________________________________________
-this               | Определяет точки соединения для всех объектов, у которых объект посредника (AOP proxy) реализует
-                   | указанный в аннотации тип.
-                   |
-                   | Пример использования:
-                   | - this(com.package.InterfaceName) – определяет вызовы методов у объектов-посредников, реализующих
-                   |                                     интерфейс com.package.InterfaceName ;
-_______________________________________________________________________________________________________________________
-target             | Определяет точки соединения для всех объектов, у которых целевой объект (target) реализует
-                   | указанный в аннотации тип.
-                   |
-                   | Пример использования:
-                   | - target(com.package.InterfaceName) – определяет вызовы методов объектов, целевой класс которых
-                   |                                       реализует интерфейс com.package.InterfaceName ;
-________________________________________________________________________________________________________________________
-args               | Определяет точки соединения сравнением аргументов вызываемого метода с типами аргументов, указанных
-                   | в аннотации.
-                   |
-                   | Пример использования:
-                   | - args(String) – определяет методы, у которых определен один строковый аргумент;
-________________________________________________________________________________________________________________________
-bean               | Определяет точки соединения для управляемых компонентов (beans), имеющих определенный в аннотации
-                   | идентификатор или имя (атрибуты id или name компонента). При указании имени bean-a возможно
-                   | использовать групповой символ (wildcard).
-                   |
-                   | Пример использования:
-                   | - bean(„justABean“) – определяет точки соединения для управляемого компонента с именем
-                   |                       (идентификатором) justABean ;
-                   | - bean(„*Bean“) - определяет точки соединения для всех управляемых компонент с именем
-                   |                   (идентификатором) заканчивающимся на Bean ;
-________________________________________________________________________________________________________________________
-@annotation        | Задает точки соединения для методов, которые были «помечены» указанной аннотацией.
-                   |
-                   | Пример использования:
-                   | - @annotation(com.package.annotation.Annotation)
-________________________________________________________________________________________________________________________
+| Выражение @AspectJ | Описание |
+|--------------------|----------|
+| execution          | Определяет точки соединения на основании имени метода. Наиболее часто используемое выражение для определения jointpoint. При использовании выражения execution возможно указывать пакет, имя класса, название метода, видимость метода, тип возвращаемого объекта и тип аргументов.
+
+Например:
+- execution(String com.package.subpackage.Classname.someMethod(..)) - определяет вызов метода someMethod класса com.package.subpackage.Classname с любым количеством аргументов и возвращающий строку;
+- execution(* com.package.subpackage.Classname.*(..)) – вызов любого метода класса com.package.subpackage.Classname;
+- execution(* someMethod(..)) – вызов метода с именем someMethod у любого класса; |
+| within             | Определяет возможные точки соединения только у объектов заданного типа или у классов, определенных в заданном пакете и его подпакетах.
+                   
+Пример использования:
+- within(com.package.subpackage.*) – определяет вызовы методов всех классов, определенных в пакете com.package.subpackage;
+- within(com.package.subpackage..*) – определяет вызовы методов всех классов, определенных в пакете com.package.subpackage и всех дочерних пакетах; |
+| this               | Определяет точки соединения для всех объектов, у которых объект посредника (AOP proxy) реализует указанный в аннотации тип.
+
+Пример использования:
+- this(com.package.InterfaceName) – определяет вызовы методов у объектов-посредников, реализующих интерфейс com.package.InterfaceName; |
+| target             | Определяет точки соединения для всех объектов, у которых целевой объект (target) реализует указанный в аннотации тип.
+
+Пример использования:
+- target(com.package.InterfaceName) – определяет вызовы методов объектов, целевой класс которых реализует интерфейс com.package.InterfaceName; |
+| args               | Определяет точки соединения сравнением аргументов вызываемого метода с типами аргументов, указанных в аннотации.
+
+Пример использования:
+- args(String) – определяет методы, у которых определен один строковый аргумент; |
+| bean               | Определяет точки соединения для управляемых компонентов (beans), имеющих определенный в аннотации идентификатор или имя (атрибуты id или name компонента). При указании имени bean-a возможно использовать групповой символ (wildcard).
+
+Пример использования:
+- bean(„justABean“) – определяет точки соединения для управляемого компонента с именем (идентификатором) justABean;
+- bean(„*Bean“) - определяет точки соединения для всех управляемых компонент с именем (идентификатором) заканчивающимся на Bean; |
+| @annotation        | Задает точки соединения для методов, которые были «помечены» указанной аннотацией.
+
+Пример использования:
+- @annotation(com.package.annotation.Annotation) |
 
 Однако наличие у класса аннотации @Aspect не означает, что окружение автоматически обнаружит и инициализирует его. Для
 этого необходимо:
