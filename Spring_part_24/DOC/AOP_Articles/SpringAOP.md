@@ -27,17 +27,17 @@ schema-based xml стиль, функциональность аналогичн
 ![SeparatThroughAndBusinessLogic.png](../AOP_Articles/images/SeparatThroughAndBusinessLogic.png)
 
 ---
-### Основные понятия
+### Основные понятия:
 
 ---
-#### Join point
+#### Join point:
 
 **Join point — понятие в АОП, это точки наблюдения, присоединения к коду, где планируется введение функциональности** см.
 
 ![JoinPoint.png](../AOP_Articles/images/JoinPoint.png)
 
 ---
-#### Pointcut
+#### Pointcut:
 
 **Pointcut — срез, или запрос точек присоединения; это может быть одна и более точек.** Правила запросов точек очень
 разнообразные, на рисунке см. 
@@ -47,7 +47,7 @@ schema-based xml стиль, функциональность аналогичн
 Запрос по аннотации на методе и конкретный метод. Правила можно объединять знаками логики: 'AND' - &&, 'OR' - ||, 'NOT' - !
 
 ---
-#### Advice
+#### Advice:
 
 **Advice — набор инструкций выполняемых на точках среза (Pointcut)**. Инструкции можно выполнять по событию разных типов:
 - *Before — перед вызовом метода;*
@@ -62,7 +62,7 @@ schema-based xml стиль, функциональность аналогичн
 ![Advice.png](../AOP_Articles/images/Advice.png)
 
 ---
-#### Aspect
+#### Aspect:
 
 **Aspect — модуль в котором собраны описания Pointcut и Advice**, см. 
 
