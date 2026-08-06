@@ -173,7 +173,7 @@ JoinPoint это не обязательный параметр, который,
 
 Результат работы отображается в консоли см. 
 
-![DOC/AOP_Articles/images/AOPLogResult.png]
+![AOPLogResult.png](../AOP_Articles/images/AOPLogResult.png)
 
 Естественно правила Pointcut-ов могут быть различные:
 
