@@ -101,7 +101,7 @@ schema-based xml стиль, функциональность аналогичн
 
 Aspect с описанием Pointcut и Advice:
 
-	```java
+```java
 	@Aspect
 	@Component
 	public class MyAspect {
@@ -352,7 +352,7 @@ Advice для него:
 
 Pom файл:
 
-```java
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
