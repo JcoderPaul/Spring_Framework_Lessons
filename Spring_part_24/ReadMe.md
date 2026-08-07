@@ -1,6 +1,6 @@
 ### Spring Boot lessons part 24 - AOP в Spring.
 
-В [папке DOC sql-скрипты](../DOC) и др. полезные файлы.
+В [папке DOC sql-скрипты](../Spring_part_24/DOC) и др. полезные файлы.
 
 Док. (ссылки) для изучения:
 - [Aspect Oriented Programming with Spring](https://docs.spring.io/spring-framework/reference/core/aop.html) ;
