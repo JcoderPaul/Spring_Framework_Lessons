@@ -1,22 +1,24 @@
 ### Spring Boot lessons part 24 - AOP в Spring.
 
-В [папке DOC sql-скрипты](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_24/DOC) и др. полезные файлы.
+В [папке DOC sql-скрипты](../DOC) и др. полезные файлы.
 
 Док. (ссылки) для изучения:
 - [Aspect Oriented Programming with Spring](https://docs.spring.io/spring-framework/reference/core/aop.html) ;
 - [Spring AOP APIs](https://docs.spring.io/spring-framework/reference/core/aop-api.html) ;
 - [AspectJ Documentation and Resources](https://eclipse.dev/aspectj/doc/released/index.html) ;
 - [Intro to AspectJ (articles from https://www.baeldung.com/)](https://www.baeldung.com/aspectj) ;
-________________________________________________________________________________________________________________________
+
+---
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) ;
 - [Spring Framework 6.1.5 Documentation](https://spring.io/projects/spring-framework) ;
 - [Spring Framework 3.2.x Reference Documentation](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/index.html) ;
 - [Getting Started Guides](https://spring.io/guides) ;
 - [Developing with Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html) ;
 
-________________________________________________________________________________________________________________________
+---
 Для начала проведем предварительную подготовку (подгрузим зависимости в [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_24/build.gradle)):
 
+```
     /* 
        Плагин Spring Boot добавляет необходимые задачи в Gradle 
        и имеет обширную взаимосвязь с другими plugin-ами.
@@ -78,17 +80,18 @@ ________________________________________________________________________________
     testImplementation 'org.springframework.security:spring-security-test'
 
     testImplementation "org.testcontainers:postgresql:${versions.testcontainers}"
+```
 
-________________________________________________________________________________________________________________________
-#### AOP (Аспектно-ориентированное программирование)
+---
+### AOP (Аспектно-ориентированное программирование)
 
 **Основные понятия.**
 
-[Аспектно-ориентированное программирование (АОП)](https://en.wikipedia.org/wiki/Aspect-oriented_programming) — это 
+**[Аспектно-ориентированное программирование (АОП)](https://en.wikipedia.org/wiki/Aspect-oriented_programming)** — это 
 парадигма программирования являющейся дальнейшим развитием процедурного и объектно-ориентированного программирования 
 (ООП). Идея АОП заключается в выделении так называемой сквозной функциональности.
 
-[Сквозные задачи (Cross-cutting concerns, сквозная логика)](https://en.wikipedia.org/wiki/Cross-cutting_concern) - это 
+**[Сквозные задачи (Cross-cutting concerns, сквозная логика)](https://en.wikipedia.org/wiki/Cross-cutting_concern)** - это 
 части программы, которые зависят от многих других частей системы или должны влиять на них. Они составляют основу для 
 развития аспектов. Подобные сквозные задачи не вписываются в [объектно-ориентированное программирование](https://en.wikipedia.org/wiki/Object-oriented_programming) 
 или [процедурное программирование](https://en.wikipedia.org/wiki/Procedural_programming).
@@ -99,45 +102,46 @@ ________________________________________________________________________________
 код, решающий сквозную задачу, должен быть разбросан или дублирован в различных связанных местах, что приводит к потере 
 модульности.
 
-Аспектно-ориентированное программирование направлено на инкапсуляцию сквозных задач в [АСПЕКТЫ](https://en.wikipedia.org/wiki/Aspect_(computer_programming)) для сохранения модульности. 
+**Аспектно-ориентированное программирование направлено на инкапсуляцию сквозных задач в [АСПЕКТЫ](https://en.wikipedia.org/wiki/Aspect_(computer_programming)) для сохранения модульности.** 
 Это позволяет полностью изолировать и повторно использовать код, решающий сквозную задачу (сквозную логику). Если 
 проектирование основано на сквозных задачах, преимущества разработки программного обеспечения могут включать модульность 
 и упрощенное обслуживание.
 
-**Основные термины.**
+---
+#### Основные термины:
 
-- Aspect: некий код, который актуален для несколько классов. Управление транзакциями, или логирование процессов являются 
+- **Aspect: некий код, который актуален для несколько классов.** Управление транзакциями, или логирование процессов являются 
 хорошими примерами сквозных аспектов в корпоративных Java-приложениях. В Spring AOP аспекты реализуются с помощью 
 аннотации [@Aspect](https://eclipse.dev/aspectj/doc/latest/index.html) (стиль [@AspectJ](https://en.wikipedia.org/wiki/AspectJ)) 
 или XML-конфигурации для класса.
 
-- Join point (точка присоединения): точка во время выполнения программы, такая как выполнение метода или обработка 
-исключения. В Spring AOP точка соединения всегда представляет собой выполнение метода.
+- **Join point (точка присоединения): точка во время выполнения программы, такая как выполнение метода или обработка исключения.**
+В Spring AOP точка соединения всегда представляет собой выполнение метода.
 
-- Advice (совет): действие, предпринимаемое аспектом в определенной точке соединения. Advice можно разделить на те, 
-которые выполняются только "до" - "before" основной логики метода либо "после" - "after" либо "вокруг" - "around" 
-(т.е. сразу и до и после). Многие AOP-фреймворки, включая Spring, моделируют advice как перехватчик (interceptor), 
+- **Advice (совет): действие, предпринимаемое аспектом в определенной точке соединения на определенных условиях (до, после, до и после).** 
+Advice можно разделить на те, которые выполняются только "до" - "before" основной логики метода либо "после" - "after" либо
+"вокруг" - "around" (т.е. сразу и до и после). Многие AOP-фреймворки, включая Spring, моделируют advice как перехватчик (interceptor), 
 который поддерживает цепочку других перехватчиков вокруг точки соединения.
 
-- Pointcut (точка среза): предикат, который соответствует join point. Advice ассоциируется с выражением pointcut и 
-запускается в любой точке соединения, совпадающей с указателем (например, выполнение метода с определенным именем). 
-Концепция точек соединения (join point), сопоставляемых выражениями pointcut, является центральной в AOP, и Spring 
-по-умолчанию использует язык выражений AspectJ pointcut.
+- **Pointcut (точка среза): предикат, который соответствует join point (условия при котором срабатывает join point)**. Advice ассоциируется
+с выражением pointcut и запускается в любой точке соединения, совпадающей с указателем (например, выполнение метода с определенным именем). 
+Концепция точек соединения (join point), сопоставляемых выражениями pointcut, является центральной в AOP, и Spring по-умолчанию использует
+язык выражений AspectJ pointcut.
 
-- Introduction: объявление дополнительных методов или полей от имени типа. Spring AOP позволяет нам вводить новые 
+- **Introduction: объявление дополнительных методов или полей от имени типа.** Spring AOP позволяет нам вводить новые 
 интерфейсы (и соответствующую реализацию) в любой рекомендуемый объект. Например, мы можем использовать introduction, 
 чтобы заставить bean реализовать интерфейс IsModified, чтобы упростить кэширование.
 
-- Target object (целевой объект): объект, который советуется одним или несколькими аспектами. Также известен как 
+- **Target object (целевой объект): объект, который советуется одним или несколькими аспектами.** Также известен как 
 "advised object". Поскольку Spring AOP реализуется с помощью прокси во время выполнения, этот объект всегда является 
 проксированным объектом.
 
-- AOP proxy: объект, созданный AOP-фреймворком для реализации аспектов. В Spring Framework прокси AOP - это динамический 
+- **AOP proxy: объект, созданный AOP-фреймворком для реализации аспектов.** В Spring Framework прокси AOP - это динамический 
 прокси JDK или прокси CGLIB.
 
-- Weaving (вплетание, плетение): связывание аспектов с другими типами приложений или объектами для создания нужной 
-логики. Это может быть сделано во время компиляции (например, с помощью компилятора AspectJ), во время загрузки или во 
-время выполнения. Spring AOP, как и другие чисто Java AOP-фреймворки, выполняет weaving во время выполнения.
+- **Weaving (вплетание, плетение): связывание аспектов с другими типами приложений или объектами для создания нужной логики.**
+Это может быть сделано во время компиляции (например, с помощью компилятора AspectJ), во время загрузки или во время выполнения.
+Spring AOP, как и другие чисто Java AOP-фреймворки, выполняет weaving во время выполнения.
 
 Документация: 
 - [AspectJ Documentation and Resources](https://eclipse.dev/aspectj/doc/latest/index.html#documentation) ;
@@ -147,22 +151,20 @@ ________________________________________________________________________________
 - [Intro to AspectJ](https://www.baeldung.com/aspectj) ;
 - [Статьи по АОП](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_24/DOC/AOP_Articles) ;
 
-________________________________________________________________________________________________________________________
+---
 #### Lesson 118 - AOP - Pointcut (АОП - точка среза).
 
 Аспект (aspect) — под аспектом понимают комбинацию, состоящую из среза (pointcut) и реализующего сквозную
 функциональность совета (advice). Фактически это кусок кода, который будет внедряться в другой кусок кода
 при совпадении определенных условий.
 
-Создадим наш первый аспект [FirstAspect.java](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_24/src/main/java/spring/oldboy/aop/FirstAspect.java). 
+Создадим наш первый аспект [FirstAspect.java](../src/main/java/spring/oldboy/aop/FirstAspect.java). 
 
 Первая аннотация которой мы его помечаем это @Aspect. При включенной поддержке [@AspectJ](https://docs.spring.io/spring-framework/reference/core/aop/ataspectj.html) любой bean-компонент (в нашем 
-случае это вторая аннотация [@Component](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html), т.е. наш аспект должен быть bean-ом), определенный в контексте нашего приложения 
-с классом, который является аспектом [@AspectJ](https://docs.spring.io/spring-framework/reference/core/aop/ataspectj.html), автоматически обнаруживается [Spring](https://docs.spring.io/spring-framework/reference/index.html) и используется для настройки 
-[Spring AOP](https://docs.spring.io/spring-framework/reference/core/aop.html). 
+случае это вторая аннотация [@Component](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html), т.е. наш аспект должен быть bean-ом), определенный в контексте нашего приложения с классом, который является аспектом [@AspectJ](https://docs.spring.io/spring-framework/reference/core/aop/ataspectj.html), автоматически обнаруживается [Spring](https://docs.spring.io/spring-framework/reference/index.html) и используется для настройки [Spring AOP](https://docs.spring.io/spring-framework/reference/core/aop.html). 
 
 Аспекты (классы, помеченные [@Aspect](https://www.javadoc.io/doc/org.aspectj/aspectjrt/latest/org/aspectj/lang/annotation/Aspect.html)) могут иметь методы и поля, как и любой другой класс. Они также могут содержать 
-объявления pointcut (что мы и будем тут изучать), advice (совет) и introduction (введение), см. [DOC/AOP_Articles](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_24/DOC/AOP_Articles).
+объявления pointcut (что мы и будем тут изучать), advice (совет) и introduction (введение), см. [AOP_Articles](https://github.com/JcoderPaul/Spring_Framework_Lessons/tree/master/Spring_part_24/DOC/AOP_Articles).
 
 Создав класс помеченный как [@Aspect](https://www.javadoc.io/doc/org.aspectj/aspectjrt/latest/org/aspectj/lang/annotation/Aspect.html) мы создаем методы, которые уже будут точками среза [Pointcut](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/aop/Pointcut.html) -
 это базовая абстракция Spring-а. Pointcut состоит из [ClassFilter](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/aop/ClassFilter.html) и [MethodMatcher](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/aop/MethodMatcher.html). 
