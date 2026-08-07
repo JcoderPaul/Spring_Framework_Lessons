@@ -16,7 +16,7 @@
 - [Developing with Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html) ;
 
 ---
-Для начала проведем предварительную подготовку (подгрузим зависимости в [build.gradle](https://github.com/JcoderPaul/Spring_Framework_Lessons/blob/master/Spring_part_24/build.gradle)):
+Для начала проведем предварительную подготовку (подгрузим зависимости в [build.gradle](../Spring_part_24/build.gradle)):
 
 ```
     /* 
